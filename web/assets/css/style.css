@@ -276,6 +276,8 @@
     width: 10px;
 }
 
+.form-2 select,
+.form-2 input[type=number],
 .form-2 input[type=text],
 .form-2 input[type=password] {
     font-family: 'Lato', Calibri, Arial, sans-serif;
@@ -312,9 +314,9 @@
 .form-2 input[type=submit],
 .form-2 .log-twitter {
     /* Size and position */
-    width: 49%;
-    height: 38px;
-    float: left;
+    width: 15%;
+    height: 25px;
+    float: right;
     position: relative;
 
     /* Styles */
@@ -325,7 +327,7 @@
     /* Font styles */
     font-family: 'Lato', Calibri, Arial, sans-serif;
     font-size: 14px;
-    line-height: 38px; /* Same as height */
+    line-height: 25px; /* Same as height */
     text-align: center;
     font-weight: bold;
 }
