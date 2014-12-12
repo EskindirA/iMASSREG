@@ -18,7 +18,7 @@
     </head>
     <body>
         <div class="container" >
-            <section class="main">
+            <section class="main col-lg-1 col-offset-6 centered">
                 <form method = "POST" action="#" class="form-2" >
                     <div id="WoredaInfo">
                         <h1>SNNP Region, Gurage Zone, Meskan Woreda</h1>
