@@ -13,7 +13,7 @@
         <url-pattern>/Index</url-pattern>
     </servlet-mapping>
      <welcome-file-list>
-        <welcome-file>/Index</welcome-file>
+        <welcome-file>/redirect.jsp</welcome-file>
     </welcome-file-list>
     <error-page>
         <location>/public/error.html</location>
