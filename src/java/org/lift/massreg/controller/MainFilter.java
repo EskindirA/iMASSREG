@@ -1,7 +1,6 @@
 package org.lift.massreg.controller;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,14 +39,35 @@ public class MainFilter extends HttpServlet {
             action = Constants.ACTION_WELCOME;
         }
 
+        if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
+            request.getSession().invalidate();
+            response.sendRedirect(request.getContextPath());
+        }
+
         if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
-            if (CommonStorage.getCurrentUser().getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-                FirstEntry.welcomePage(request, response);
+            switch (CommonStorage.getCurrentUser(request).getRole()) {
+                case FIRST_ENTRY_OPERATOR:
+                    FirstEntry.welcomePage(request, response);
+                    break;
+                case SECOND_ENTRY_OPERATOR:
+                    SecondEntry.welcomePage(request, response);
+                    break;
+                case SUPERVISOR:
+                    Correction.welcomePage(request, response);
+                    break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_ERROR)) {
             ///TODO:Handle the error Case: 
+            //All.goBackToHome(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_FEO)) {
+            request.setAttribute("upi", request.getParameter("upi"));
+            FirstEntry.addParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_SEO)) {
+            request.setAttribute("upi", request.getParameter("upi"));
+            SecondEntry.addParcel(request, response);
+        } else {
+            All.goBackToHome(request, response);
         }
-        /// TODO: Set current page
         /// TODO: Set attribute values
     }
 
@@ -79,15 +99,4 @@ public class MainFilter extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

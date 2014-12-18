@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Parcel: Administrative UPI - 3485/3458/735/4398545
+                    Parcel: Administrative UPI - <%= request.getAttribute("upi").toString()%>
                 </div>
                 <div class="panel-body">
                     <div class="row">

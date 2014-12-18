@@ -1,3 +1,5 @@
+<%@page import="org.lift.massreg.util.CommonStorage"%>
+<%@page import="org.lift.massreg.util.Constants"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,6 +12,7 @@
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/sb-admin-2.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="<%=request.getContextPath()%>/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
@@ -51,7 +54,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/MASSREG/index.jsp">MASSREG v2.0 <img src="assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:140px;z-index:4;top:2px"></a>
+                    <a class="navbar-brand" href="/MASSREG/Index">MASSREG v2.0<img src="assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:120px;z-index:4;top:0px"></a>
                 </div> <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
@@ -117,16 +120,16 @@
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a> </li>
+                            <li><a href="#"><i class="fa fa-user fa-fw" title="see <%= CommonStorage.getCurrentUser(request).getFullName() %>'s profile"></i> User Profile</a> </li>
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> </li>
                             <li class="divider"></li>
-                            <li> <a href="index.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a> </li>
+                            <li> <a href="<%=request.getContextPath()%>/Index?action=<%= Constants.ACTION_LOGOUT%>"><i class="fa fa-sign-out fa-fw"></i> Logout</a> </li>
                         </ul> <!-- /.dropdown-user -->
                     </li> <!-- /.dropdown -->
                 </ul> <!-- /.navbar-top-links -->
             </nav>
             <div id="page-wrapper" >
-                <jsp:include page="private/forms/${requestScope.page}"  flush="false"/>
+                <jsp:include page="${requestScope.page}"  flush="true"/>
             </div> <!-- /#page-wrapper -->
         </div> <!-- /#wrapper -->
     </body>

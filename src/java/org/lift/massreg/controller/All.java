@@ -19,4 +19,17 @@ import org.lift.massreg.util.IOC;
  */
 public class All {
 
+    /**
+     * Handlers requests that were not recognized
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
+     */
+    protected static void goBackToHome(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_NOT_KNOWN));
+        rd.forward(request, response);
+    }
 }

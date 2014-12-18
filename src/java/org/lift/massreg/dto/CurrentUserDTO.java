@@ -15,6 +15,12 @@ public class CurrentUserDTO {
     private String username;
     private Timestamp loginTime;
     private String clientInfo;
+    private long userId;
+    private String firstName;
+    private String fathersName;
+    private String grandFathersName;
+    private String phoneNumber;
+
     private Constants.ROLE role;
 
     public String getUsername() {
@@ -49,4 +55,47 @@ public class CurrentUserDTO {
         this.role = role;
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getFathersName() {
+        return fathersName;
+    }
+
+    public void setFathersName(String fathersName) {
+        this.fathersName = fathersName;
+    }
+
+    public String getGrandFathersName() {
+        return grandFathersName;
+    }
+
+    public void setGrandFathersName(String grandFathersName) {
+        this.grandFathersName = grandFathersName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getFullName() {
+        return this.getFirstName() + " " + this.getFathersName() + " " + getGrandFathersName();
+    }
 }

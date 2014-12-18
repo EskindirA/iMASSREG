@@ -953,3 +953,8 @@
     left: 0;
     color: #fff;
 }
+
+.edit-btn{
+    width: 2em;
+    height: 1em;
+}
