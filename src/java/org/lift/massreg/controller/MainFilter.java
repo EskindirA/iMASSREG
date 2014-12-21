@@ -42,9 +42,10 @@ public class MainFilter extends HttpServlet {
         if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath());
-        }
-
-        if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_ERROR)) {
+            ///TODO:Handle the error Case: 
+            All.showError(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
             switch (CommonStorage.getCurrentUser(request).getRole()) {
                 case FIRST_ENTRY_OPERATOR:
                     FirstEntry.welcomePage(request, response);
@@ -56,22 +57,59 @@ public class MainFilter extends HttpServlet {
                     Correction.welcomePage(request, response);
                     break;
             }
-        } else if (action.equalsIgnoreCase(Constants.ACTION_ERROR)) {
-            ///TODO:Handle the error Case: 
-            //All.goBackToHome(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME_PART)) {
+            switch (CommonStorage.getCurrentUser(request).getRole()) {
+                case FIRST_ENTRY_OPERATOR:
+                    FirstEntry.welcomeFrom(request, response);
+                    break;
+                case SECOND_ENTRY_OPERATOR:
+                    SecondEntry.welcomeFrom(request, response);
+                    break;
+                case SUPERVISOR:
+                    Correction.welcomeFrom(request, response);
+                    break;
+            }
         } else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_FEO)) {
-            request.setAttribute("upi", request.getParameter("upi"));
+            getUPI(request);
             FirstEntry.addParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_SEO)) {
-            request.setAttribute("upi", request.getParameter("upi"));
+            getUPI(request);
             SecondEntry.addParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_FEO)) {
+            FirstEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_FEO)) {
+            getUPI(request);
+            FirstEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
+            FirstEntry.saveParcel(request, response);
         } else {
             All.goBackToHome(request, response);
         }
         /// TODO: Set attribute values
     }
 
+    private void getUPI(HttpServletRequest request) {
+        if (request.getParameter("upi") != null) {
+            request.setAttribute("upi", request.getParameter("upi").trim());
+            request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+        } else {
+            request.setAttribute("upi", request.getSession().getAttribute("upi"));
+        }
+        if (request.getParameter("parcelNo") != null) {
+            request.setAttribute("parcelNo", request.getParameter("parcelNo").trim());
+            request.getSession().setAttribute("parcelNo", request.getParameter("parcelNo").trim());
+        } else {
+            request.setAttribute("parcelNo", request.getSession().getAttribute("parcelNo"));
+        }
+        if (request.getParameter("kebele") != null) {
+            request.setAttribute("kebele", request.getParameter("kebele").trim());
+            request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
+        } else {
+            request.setAttribute("kebele", request.getSession().getAttribute("kebele"));
+        }
+    }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -99,4 +137,5 @@ public class MainFilter extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
 }

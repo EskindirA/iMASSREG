@@ -1,5 +1,7 @@
+<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.util.Option"%>
+<%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%@page import="org.lift.massreg.util.CommonStorage"%>
-<%@include file="../includes/checkDirectAccess.jsp" %>
 <%--Welcom Page: For the first entry operator--%>
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
@@ -13,81 +15,99 @@
                 <div class="panel-heading">
                     Find a parcel
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <form role="form" action="/MASSREG/index.jsp" method="POST">
-                                <input type="hidden" name="WoredaId" id="WoredaId" value="1/2/3/4"/>
+                <div class="panel-body" id="panelBody">
+                    <form role="form" action="#" method="POST" id="welcomeForm" name="welcomeForm">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="hidden" name="WoredaId" id="WoredaId" value="<%= CommonStorage.getCurrentWoredaId()%>" />
                                 <div class="form-group">
                                     <label>Kebele</label>
-                                    <select class = "form-control" id = "kebele" name = "kebele">
-                                        <option value = '1'>1</option>
-                                        <option value = '2'>2</option>
-                                        <option value = '3'>3</option>
-                                        <option value = '4'>4</option>
-                                        <option value = '5'>5</option>
-                                        <option value = '6'>6</option>
-                                        <option value = '7'>7</option>
+                                    <select class="form-control" id="kebele" name="kebele">
+                                        <%
+                                            Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
+                                            for (int i = 0; i < kebeles.length; i++) {
+                                                out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
+                                            }
+                                        %>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Parcel #</label>
-                                    <input class="form-control " placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" max="99999">
+                                    <input class="form-control " placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}"/>
                                 </div>
-                            </form>
-                        </div> <!-- /.col-lg-6 (nested) -->
-                        <div class="col-lg-6">
-                            <form role="form">
+                            </div> <!-- /.col-lg-6 (nested) -->
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Administrative UPI</label>
-                                    <input class="form-control " placeholder="" name = "upi" id = "upi" disabled required/>
+                                    <input class="form-control " placeholder="" name = "upi" id = "upi" disabled required value="${sessionScope.upi}"/>
                                 </div>
                                 <div class="row" style="margin-top: 3em">
                                     <button id = "addButton" class="btn btn-default col-lg-2 col-lg-offset-7">Add</button>
                                     <button id = "findButton" class="btn btn-default col-lg-2" style="margin-left: 1em" >Find</button>
                                 </div>
-                            </form>
-                        </div> <!-- /.col-lg-6 (nested) -->
-                    </div> <!-- /.row (nested) -->
+                            </div> <!-- /.col-lg-6 (nested) -->
+                        </div> <!-- /.row (nested) -->
+                    </form>
                 </div> <!-- /.panel-body -->
             </div> <!-- /.panel -->
         </div> <!-- /.col-lg-12 -->
     </div>
     <script type="text/javascript">
-        <%            String url;
+        <%
+            String addurl, findurl;
             if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-                url = request.getContextPath() + "/Index?action=" + Constants.ACTION_ADD_PARCEL_FEO;
+                addurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_ADD_PARCEL_FEO;
+                findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_FEO;
             } else {
-                url = request.getContextPath() + "/Index?action=" + Constants.ACTION_ADD_PARCEL_SEO;
+                addurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_ADD_PARCEL_SEO;
+                findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_SEO;
             }%>
         // change this to loadAddParcel and then it should intern call load forward
-
-        $(function() {
-            $("#addButton").click(function() {
-                if ($("#upi").val() === "") {
-                    alert("Administrative UPI is required ");
+        
+        function loadAdd() {
+            updateUPI();
+            {
+                if ($("#upi").val() === "" || $("#parcelNo").val() === "" || $("#kebele").val()==="") {
+                    showError("Kebele, Parcel Number and Administrative UPI are required fields");
                     return false;
                 }
-                //if(No validation error exists){
                 // Call to the service to get the add parcel form
                 $.ajax({
                     success: loadForward,
                     type: 'POST',
-                    data: {"upi": $("#upi").val()},
-                    url: '<%=url%>'
+                    data: {
+                        "upi": $("#upi").val(),
+                        "parcelNo": $("#parcelNo").val(),
+                        "kebele": $("#kebele").val()},
+                    url: '<%=addurl%>'
                 });
                 return false;
-            });
+            }
+        }
+        $(function() {
+            $("#kebele").val('${sessionScope.kebele}');
+            $("#addButton").click(loadAdd);
+            $("#parcel").click(updateUPI());
+            $("#welcomeForm").submit(loadAdd);
+            $("")
             $("#findButton").click(function() {
-                alert("Validate to find ");
-                //if(No validation error exists){
+                updateUPI();
+                if ($("#upi").val() === "" || $("#parcelNo").val() === "") {
+                    showError("Parcel Number and Administrative UPI are required fields");
+                    return false;
+                }
                 // Call to the service to get the view parcel form
                 $.ajax({
-                    // "<=request.getContextPath()>/Index",
-                    url: "<%=request.getContextPath()%>/private/forms/trytable.jsp",
-                    // change this to loadAddParcel and then it should intern call load forward
-                    success: loadForward
+                    success: loadForward,
+                    error: showajaxerror,
+                    type: 'POST',
+                    data: {
+                        "upi": $("#upi").val(),
+                        "parcelNo": $("#parcelNo").val(),
+                        "kebele": $("#kebele").val()},
+                    url: '<%=findurl%>'
                 });
+                return false;
                 // Else show error message
                 // }
                 // else  show validation error
@@ -95,6 +115,12 @@
                 return false;
             });
             $("#kebele").change(function() {
+                updateUPI();
+            });
+            $("#parcelNo").keypress(function() {
+                updateUPI();
+            });
+            $("#parcelNo").mouseup(function() {
                 updateUPI();
             });
             $("#parcelNo").keyup(function() {
@@ -106,7 +132,7 @@
             var parcelNo = "" + $("#parcelNo").val();
             var pad = "00000";
             var value = pad.substring(0, pad.length - parcelNo.length) + parcelNo;
-            $("#upi").val($("#WoredaId").val() + "/" + $("#kebele").val() + "/" + value);
+            $("#upi").val($("#kebele").val() + "/" + value);
         }
     </script>
 </div>

@@ -16,7 +16,7 @@ import org.lift.massreg.util.IOC;
 public class SecondEntry {
 
     /**
-     * Handlers request for getting a single parcel
+     * Handlers request for getting the welcome page
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -30,6 +30,17 @@ public class SecondEntry {
         rd.forward(request, response);
     }
 
+    /**
+     * Handlers request for getting the welcome from
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void welcomeFrom(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_SECOND_ENTRY_WELCOME));
+        rd.forward(request, response);
+    }
     /**
      * Handlers request for adding a parcel by the second entry
      *

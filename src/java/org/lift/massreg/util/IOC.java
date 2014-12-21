@@ -23,15 +23,16 @@ public class IOC {
         pages.put(Constants.INDEX_FIRST_ENTRY_WELCOME, "welcomedeo.jsp");
         pages.put(Constants.INDEX_SECOND_ENTRY_WELCOME, "welcomedeo.jsp");
         pages.put(Constants.INDEX_SUPERVISOR_WELCOME, "welcomesupervisor.jsp");
-        pages.put(Constants.INDEX_NOT_KNOWN, "notknownrequests.jsp");
+        pages.put(Constants.INDEX_MESSAGE, "message.jsp");
         pages.put(Constants.INDEX_ADD_PARCEL_FEO, "addParcelFEO.jsp");
         pages.put(Constants.INDEX_ADD_PARCEL_SEO, "addParcelSEO.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_FEO, "viewParcelFEO.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_SEO, "viewParcelSEO.jsp");
 
         titles.put(Constants.INDEX_ERROR, "Error");
         titles.put(Constants.INDEX_FIRST_ENTRY_WELCOME, "Welcome");
         titles.put(Constants.INDEX_SECOND_ENTRY_WELCOME, "Welcome");
         titles.put(Constants.INDEX_SUPERVISOR_WELCOME, "Welcome");
-        titles.put(Constants.INDEX_NOT_KNOWN, "Sorry, You'r request could not be recognized");
         titles.put(Constants.INDEX_ADD_PARCEL_FEO, "Add New Parcel");
         titles.put(Constants.INDEX_ADD_PARCEL_SEO, "Add New Parcel");
     }

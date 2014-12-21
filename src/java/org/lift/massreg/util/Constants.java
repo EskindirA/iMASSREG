@@ -9,18 +9,29 @@ package org.lift.massreg.util;
  */
 public interface Constants {
 
+    public static final String[] STATUS = {"active","removed","incomplete"};
     public static final String ACTION_WELCOME = "WELCOME";
-    public static final String ACTION_FIND_PARCEL = "FIND_PARCEL";
+    public static final String ACTION_WELCOME_PART = "WELCOME_PART";
+    public static final String ACTION_FIND_PARCEL_FEO = "FIND_PARCEL_FEO";
+    public static final String ACTION_FIND_PARCEL_SEO = "FIND_PARCEL_SEO";
     public static final String ACTION_ERROR = "ERROR";
     public static final String ACTION_LOGOUT = "LOGOUT";
     public static final String ACTION_ADD_PARCEL_FEO = "ACTION_ADD_PARCEL_FEO";
     public static final String ACTION_ADD_PARCEL_SEO = "ACTION_ADD_PARCEL_SEO";
-    // pages
+    public static final String ACTION_SAVE_PARCEL_FEO = "ACTION_SAVE_PARCEL_FEO";
+    public static final String ACTION_SAVE_PARCEL_SEO = "ACTION_SAVE_PARCEL_SEO";
+    public static final String ACTION_VIEW_PARCEL_FEO = "ACTION_VIEW_PARCEL_FEO";
+    public static final String ACTION_VIEW_PARCEL_SEO = "ACTION_VIEW_PARCEL_SEO";
+    public static final String ACTION_VIEW_HOLDER_FEO = "ACTION_VIEW_HOLDER_FEO";
+    public static final String ACTION_VIEW_HOLDER_SEO = "ACTION_VIEW_HOLDER_SEO";
+    public static final String ACTION_EDIT_PARCEL_FEO = "ACTION_EDIT_PARCEL_FEO";
+    public static final String ACTION_EDIT_PARCEL_SEO = "ACTION_EDIT_PARCEL_SEO";
+// pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_FIRST_ENTRY_WELCOME = 1;
     public static final int INDEX_SECOND_ENTRY_WELCOME = 2;
     public static final int INDEX_SUPERVISOR_WELCOME = 3;
-    public static final int INDEX_NOT_KNOWN = 4;
+    public static final int INDEX_MESSAGE = 4;
     public static final int INDEX_ADD_PARCEL_FEO = 5;
     public static final int INDEX_ADD_PARCEL_SEO = 6;
     public static final int INDEX_VIEW_PARCEL_FEO = 7;
@@ -30,7 +41,8 @@ public interface Constants {
 
         FIRST_ENTRY_OPERATOR,
         SECOND_ENTRY_OPERATOR,
-        SUPERVISOR
+        SUPERVISOR,
+        ADMINISTRATOR
     };
 
     public enum LEVEL {

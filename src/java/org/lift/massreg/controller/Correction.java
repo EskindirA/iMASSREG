@@ -29,4 +29,15 @@ public class Correction {
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
+    /**
+     * Handlers request for getting the welcome from
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void welcomeFrom(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_SUPERVISOR_WELCOME));
+        rd.forward(request, response);
+    }
 }

@@ -1,3 +1,4 @@
+<%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%@page import="org.lift.massreg.util.CommonStorage"%>
 <%@page import="org.lift.massreg.util.Constants"%>
 <!DOCTYPE html>
@@ -24,26 +25,65 @@
         <![endif]-->
         <script src="<%=request.getContextPath()%>/assets/js/jquery.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/jquery-ui.js"></script>
-
+        <script src="<%=request.getContextPath()%>/assets/js/miniNotification.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/bootstrap.min.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/plugins/metisMenu/metisMenu.min.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/plugins/dataTables/jquery.dataTables.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/plugins/dataTables/dataTables.bootstrap.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/sb-admin-2.js"></script>
         <script type="text/javascript">
+            function showMessage(msg) {
+                $('#notification-message').toggleClass(".notification-message");
+                $('#notification-message p').html(msg);
+                $('#notification-message ').miniNotification({closeButton: false,
+                    time: 3000,
+                    hideOnClick: true});
+            }
+            function showError(msg) {
+                $('#notification-error p').html(msg);
+                $('#notification-error').miniNotification({closeButton: false,
+                    time: 3000,
+                    hideOnClick: true});
+            }
+            function showWarning(msg) {
+                $('#notification-warning p').html(msg);
+                $('#notification-warning').miniNotification({closeButton: false,
+                    time: 3000,
+                    hideOnClick: true});
+            }
+            function showajaxerror(error) {
+                $('#notification-error').toggleClass(".notification-error");
+                $('#notification-error p').html("System Error: " + error);
+                $('#notification-error').miniNotification({closeButton: false,
+                    time: 3000,
+                    hideOnClick: true});
+            }
+
             function loadForward(result) {
-                $("#page-wrapper").hide('slide', {direction: 'left'}, 2000);
-                $("#page-wrapper").html(result);
-                $("#page-wrapper").show('slide', {direction: 'right'}, 2000);
+                $("#page-wrapper").hide('slide', {direction: 'left', complete: function() {
+                        $("#page-wrapper").html(result);
+                    }}, 2000);
+                $("#page-wrapper").show('slide', {direction: 'right'}, 1500);
+
             }
             function loadBackward(result) {
-                $("#page-wrapper").hide('slide', {direction: 'right'}, 2000);
-                $("#page-wrapper").html(result);
+                $("#page-wrapper").hide('slide', {direction: 'right', complete: function() {
+                        $("#page-wrapper").html(result);
+                    }}, 2000);
                 $("#page-wrapper").show('slide', {direction: 'left'}, 2000);
             }
         </script>
     </head>
     <body>
+        <div id="notification-error" class="notification">
+            <p></p>
+        </div>
+        <div id="notification-warning" class="notification">
+            <p></p>
+        </div>
+        <div id="notification-message" class="notification">
+            <p></p>
+        </div>
         <div id="wrapper">
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -54,10 +94,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/MASSREG/Index">MASSREG v2.0<img src="assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:120px;z-index:4;top:0px"></a>
+                    <a class="navbar-brand" href="/MASSREG/Index">
+                        <img src="assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:5px;z-index:4;top:0px"> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MASSREG v2.0 
+                        - <%= CommonStorage.getCurrentWoredaName()%> Woreda </a>
                 </div> <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
+                    <%-- <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
@@ -114,14 +157,18 @@
                                 </a>
                             </li>
                         </ul> <!-- /.dropdown-alerts -->
-                    </li> <!-- /.dropdown -->
+                    </li> <!-- /.dropdown --> --%>
+
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <%=CommonStorage.getCurrentUser(request).getNameWithRole()%>
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw" title="see <%= CommonStorage.getCurrentUser(request).getFullName() %>'s profile"></i> User Profile</a> </li>
+                            <li><a href="#"><i class="fa fa-user fa-fw" title="see <%= CommonStorage.getCurrentUser(request).getFullName()%>'s profile"></i> <span class="name">Edit Profile</span></a> </li>
+                                <% if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.ADMINISTRATOR) {%>
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> </li>
+                                <%}%>
                             <li class="divider"></li>
                             <li> <a href="<%=request.getContextPath()%>/Index?action=<%= Constants.ACTION_LOGOUT%>"><i class="fa fa-sign-out fa-fw"></i> Logout</a> </li>
                         </ul> <!-- /.dropdown-user -->
