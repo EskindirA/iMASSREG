@@ -232,6 +232,63 @@ public class FirstEntry {
     }
 
     /**
+     * Handlers request to save a dispute by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void saveDispute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (parcel != null) {
+            Dispute dispute = new Dispute();
+            try {
+                dispute.setRegisteredOn(Timestamp.from(Instant.now()));
+                dispute.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
+                dispute.setStage(CommonStorage.getFEStage());
+                dispute.setUpi(request.getSession().getAttribute("upi").toString());
+
+                dispute.setFirstName(request.getParameter("firstname"));
+                dispute.setFathersName(request.getParameter("fathersname"));
+                dispute.setGrandFathersName(request.getParameter("grandfathersname"));
+                dispute.setSex(request.getParameter("sex"));
+                dispute.setDisputeStatus(Byte.parseByte(request.getParameter("disputeStatus")));
+                dispute.setDisputeType(Byte.parseByte(request.getParameter("disputeType")));
+                if (dispute.validateForSave()) {
+                    dispute.save();
+                    viewDisputeList(request, response);
+                } else {
+                    // if the parcel fails to validate show error message
+                    request.getSession().setAttribute("title", "Validation Error");
+                    request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                    request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                    request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                    rd.forward(request, response);
+                }
+
+            } catch (NumberFormatException | ServletException | IOException ex) {
+                CommonStorage.getLogger().logError(ex.toString());
+                request.getSession().setAttribute("title", "Inrernal Error");
+                request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+                request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
      * Handlers request to save an individual holder by the first entry operator
      *
      * @param request request object passed from the main controller

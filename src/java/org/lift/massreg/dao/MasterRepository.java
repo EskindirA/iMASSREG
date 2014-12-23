@@ -92,6 +92,35 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean save(Dispute dispute) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO dispute(upi, stage, registeredby, registeredon,"
+                + "firstname, fathersname, grandfathersname, sex, disputetype, "
+                + "disputestatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, dispute.getUpi());
+            stmnt.setByte(2, dispute.getStage());
+            stmnt.setLong(3, dispute.getRegisteredBy());
+            stmnt.setTimestamp(4, dispute.getRegisteredOn());
+            stmnt.setString(5, dispute.getFirstName());
+            stmnt.setString(6, dispute.getFathersName());
+            stmnt.setString(7, dispute.getGrandFathersName());
+            stmnt.setString(8, dispute.getSex());
+            stmnt.setByte(9, dispute.getDisputeType());
+            stmnt.setByte(10, dispute.getDisputeStatus());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     public boolean save(OrganizationHolder holder) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();

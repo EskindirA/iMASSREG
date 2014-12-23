@@ -64,7 +64,7 @@ public class Dispute implements Entity {
         this.registeredByUser = registeredByUser;
     }
 
-    public Timestamp getRegisteredon() {
+    public Timestamp getRegisteredOn() {
         return registeredOn;
     }
 
@@ -163,6 +163,9 @@ public class Dispute implements Entity {
         }
     }
 
+    public boolean save() {
+        return MasterRepository.getInstance().save(this);
+    }
 
     @Override
     public boolean validateForSave() {

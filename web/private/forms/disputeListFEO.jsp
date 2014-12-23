@@ -45,8 +45,8 @@
                                         }
                                         out.println("<td>" + disputes.get(i).getFullName() + "</td>");
                                         out.println("<td>" + disputes.get(i).getSexText() + "</td>");
-                                        out.println("<td>" + disputes.get(i).getDisputeTypeText()+ "</td>");
-                                        out.println("<td>" + disputes.get(i).getDisputeStatusText()+ "</td>");
+                                        out.println("<td>" + disputes.get(i).getDisputeTypeText() + "</td>");
+                                        out.println("<td>" + disputes.get(i).getDisputeStatusText() + "</td>");
                                         out.println("<td>View/Edit/Delete</td>");
                                         out.println("</tr>");
                                     }
@@ -87,12 +87,8 @@
             <div class="modal-body">
                 <form>
                     <div class="panel-body">
-                        <form role="form" action="#" id="addParcelForm">
+                        <form role="form" action="#" id="addDisputeForm">
                             <div class="row">
-                                <div class="form-group">
-                                    <label>Holder Id</label>
-                                    <input class="form-control " type="number" id="holderId" name="holderId" />
-                                </div>
                                 <div class="form-group">
                                     <label>First Name</label>
                                     <input class="form-control " id="firstName" name="firstName" />
@@ -113,16 +109,23 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Date of Birth</label>
-                                    <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date'/>
+                                    <label>Dispute Type</label>
+                                    <select class="form-control" id="disputeType" name="disputeType" >
+                                        <%
+                                            Option[] disputeTypes = MasterRepository.getInstance().getAllDisputeTypes();
+                                            for (int i = 0; i < disputeTypes.length; i++) {
+                                                out.println("<option value = '" + disputeTypes[i].getKey() + "'>" + disputeTypes[i].getValue() + "</option>");
+                                            }
+                                        %>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Family Role</label>
-                                    <select class="form-control" id="familyRole" name="familyRole" >
+                                    <label>Dispute Status</label>
+                                    <select class="form-control" id="disputeStatus" name="disputeStatus" >
                                         <%
-                                            Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
-                                            for (int i = 0; i < familyRoleTypes.length; i++) {
-                                                out.println("<option value = '" + familyRoleTypes[i].getKey() + "'>" + familyRoleTypes[i].getValue() + "</option>");
+                                            Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
+                                            for (int i = 0; i < disputeStatusTypes.length; i++) {
+                                                out.println("<option value = '" + disputeStatusTypes[i].getKey() + "'>" + disputeStatusTypes[i].getValue() + "</option>");
                                             }
                                         %>
                                     </select>
@@ -142,21 +145,16 @@
     <%
         String saveurl;
         if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
+            saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_FEO;
         } else {
-            saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SEO;
+            saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_SEO;
         }
     %>
     function validate() {
         var returnValue = true;
-//$("#holderId").toggle("error=off");
 //$("#firstName").toggle("error=off");
 //$("#fathersName").toggle("error=off");
 //$("#grandFathersName").toggle("error=off");
-        if ($("#holderId").val().trim() === "") {
-            returnValue = false;
-//$("#holderId").toggle("error");
-        }
         if ($("#firstName").val().trim() === "") {
             returnValue = false;
 //$("#firstName").toggle("error");
@@ -176,41 +174,48 @@
         $.ajax({
             url: "<%=saveurl%>",
             data: {
-                "dateofbirth": $("#dateOfBirth").val(),
-                "familyrole": $("#familyRole").val(),
                 "firstname": $("#firstName").val(),
                 "fathersname": $("#fathersName").val(),
                 "grandfathersname": $("#grandFathersName").val(),
-                "holderId": $("#holderId").val(),
-                "sex": $("#sex").val()
+                "sex": $("#sex").val(),
+                "disputeType": $("#disputeType").val(),
+                "disputeStatus": $("#disputeStatus").val()
             },
             error: showajaxerror,
             success: loadForward
         });
     }
     $(document).ready(function() {
-        $('#dataTables-example').dataTable();
-        $("#saveHolderButton").click(function() {
-            if (!validate()) {// validate
-                showError("Please input appropriate values in the highlighted fields");
-                return false;
-            } else {
-                save();// save
-                $("#addModal").hide();// close modale
-            }
-            return false;
-        });
-        $("#backButton").click(function() {
-            bootbox.confirm("Are you sure you want to go back?", function(result) {
-                if (result) {
-                    $.ajax({
-                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
-                                                error: showajaxerror,
-                                                success: loadBackward
-                                            });
-                                        }
-                                    });
-                                    return false;
-                                });
+        $("#finishButton").click(function() {
+            $.ajax({
+                url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
+                                error: showajaxerror,
+                                success: loadForward
                             });
+                            return false;
+                        });
+                        $('#dataTables-example').dataTable();
+                        $("#saveHolderButton").click(function() {
+                            if (!validate()) {// validate
+                                showError("Please input appropriate values in the highlighted fields");
+                                return false;
+                            } else {
+                                save();// save
+                                $("#addModal").hide();// close modale
+                            }
+                            return false;
+                        });
+                        $("#backButton").click(function() {
+                            bootbox.confirm("Are you sure you want to go back?", function(result) {
+                                if (result) {
+                                    $.ajax({
+                                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
+                                                                error: showajaxerror,
+                                                                success: loadBackward
+                                                            });
+                                                        }
+                                                    });
+                                                    return false;
+                                                });
+                                            });
 </script>

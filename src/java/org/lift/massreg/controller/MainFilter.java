@@ -98,6 +98,9 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_FEO)) {
             getUPI(request);
             FirstEntry.viewDisputeList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_FEO)) {
+            getUPI(request);
+            FirstEntry.saveDispute(request, response);
         } else {
             All.goBackToHome(request, response);
         }

@@ -32,6 +32,9 @@ public interface Constants {
     public static final String ACTION_SAVE_HOLDER_SEO = "SAVE_HOLDER_SEO";
     public static final String ACTION_DISPUTE_LIST_FEO = "DISPUTE_LIST_FEO";
     public static final String ACTION_DISPUTE_LIST_SEO = "DISPUTE_LIST_SEO";
+    public static final String ACTION_SAVE_DISPUTE_FEO = "SAVE_DISPUTE_FEO";
+    public static final String ACTION_SAVE_DISPUTE_SEO = "SAVE_DISPUTE_SEO";
+    
      // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_FIRST_ENTRY_WELCOME = 1;
