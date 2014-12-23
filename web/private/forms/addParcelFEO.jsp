@@ -155,7 +155,7 @@
             return returnValue;
         }
         function save() {
-           $.ajax({
+            $.ajax({
                 url: "<%=saveurl%>",
                 data: {
                     "certificateNumber": $("#certificateNumber").val(),
@@ -174,7 +174,6 @@
                 error: showajaxerror,
                 success: loadForward
             });
-            showMessage("Saved form!");
         }
         $(function() {
             $("#addParcelForm select").each(function() {
@@ -190,15 +189,17 @@
                 return false;
             });
             $("#backButton").click(function() {
-                alert("are you sure you want to go back");
-                /// TODO: May need to display warning
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
-                                    error: showajaxerror,
-                                    success: loadBackward
+                bootbox.confirm("Are you sure you want to go back?", function(result) {
+                    if (result) {
+                        $.ajax({
+                            url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
+                                                    error: showajaxerror,
+                                                    success: loadBackward
+                                                });
+                                            }
+                                        });
+                                        return false;
+                                    });
                                 });
-                                return false;
-                            });
-                        });
     </script>
 </div>

@@ -1,17 +1,14 @@
 package org.lift.massreg.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import org.lift.massreg.dao.MasterRepository;
-import org.lift.massreg.entity.Parcel;
-import org.lift.massreg.util.CommonStorage;
-import org.lift.massreg.util.Constants;
-import org.lift.massreg.util.IOC;
+import org.lift.massreg.entity.*;
+import org.lift.massreg.util.*;
 
 /**
  *
@@ -58,12 +55,14 @@ public class FirstEntry {
      */
     protected static void addParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession().getAttribute("currentParcel") != null) {
-            request.setAttribute("currentParcel", request.getSession().getAttribute("currentParcel"));
-        }
-        if (MasterRepository.getInstance().parcelExists(request.getSession().getAttribute("upi").toString(), (byte) 1)) {
-            request.setAttribute("title", IOC.getTitle(Constants.INDEX_VIEW_PARCEL_FEO));
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PARCEL_FEO));
+        // Remove the currentParcel from request
+        request.setAttribute("currentParcel", null);
+        if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 1)) {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "The parcel you are trying to add already exists in the database, use find button to view the parcel details.");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } else {
             request.setAttribute("title", IOC.getTitle(Constants.INDEX_ADD_PARCEL_FEO));
@@ -82,9 +81,9 @@ public class FirstEntry {
     protected static void viewParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
-        request.getSession().setAttribute("currentParcel", parcel);
+        request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
-        if (request.getSession().getAttribute("currentParcel") != null) {
+        if (request.getAttribute("currentParcel") != null) {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PARCEL_FEO));
             rd.forward(request, response);
         } else {
@@ -95,7 +94,6 @@ public class FirstEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         }
-
     }
 
     /**
@@ -130,7 +128,7 @@ public class FirstEntry {
             p.setSoilFertility(Byte.parseByte(request.getParameter("soilFertility")));
             p.setStage(CommonStorage.getFEStage());
             p.setSurveyDate(request.getParameter("surveyDate"));
-            p.setHasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
+            p.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
             if (p.validateForSave()) {
                 p.saveParcelOnly();
                 request.getSession().setAttribute("currentParcel", p);
@@ -151,9 +149,14 @@ public class FirstEntry {
                 rd.forward(request, response);
             }
 
-        } catch (Exception ex) {
-            ///TODO: Forward to error
+        } catch (NumberFormatException | ServletException | IOException ex) {
             CommonStorage.getLogger().logError(ex.toString());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
         }
     }
 
@@ -166,12 +169,27 @@ public class FirstEntry {
      */
     protected static void individualHolderList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getSession().setAttribute("title", "Individual Holder List");
-        request.getSession().setAttribute("message", "Sorry, You'r request could not be recognized");
-        request.getSession().setAttribute("returnTitle", "Go back to view parcel page");
-        request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_PARCEL_FEO);
-        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_FEO));
         rd.forward(request, response);
+    }
+
+    /**
+     * Handlers request to view organization holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void viewOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") != null) {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_ORGANIZATION_HOLDERS_FEO));
+            rd.forward(request, response);
+        } else {
+            addOrganizationHolder(request, response);
+        }
     }
 
     /**
@@ -182,11 +200,181 @@ public class FirstEntry {
      */
     protected static void addOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getSession().setAttribute("title", "Add Organization Holder");
-        request.getSession().setAttribute("message", "Sorry, You'r request could not be recognized");
-        request.getSession().setAttribute("returnTitle", "Go back to view parcel page");
-        request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_PARCEL_FEO);
-        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_ADD_ORGANIZATION_HOLDERS_FEO));
+        rd.forward(request, response);
+    }
+
+    /**
+     * Handlers request to save a holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void saveHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (parcel != null) {
+            if (parcel.getHoldingText().equalsIgnoreCase("INDIVIDUAL")) {
+                saveIndividualHolder(request, response);
+            } else {
+                saveOrganizationHolder(request, response);
+            }
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request to save an individual holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void saveIndividualHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = (Parcel) request.getAttribute("currentParcel");
+        if (parcel != null) {
+            IndividualHolder ih = new IndividualHolder();
+            try {
+                ih.setRegisteredOn(Timestamp.from(Instant.now()));
+
+                ih.setDateOfBirth(request.getParameter("dateofbirth"));
+                ih.setFamilyRole(Byte.parseByte(request.getParameter("familyrole")));
+                ih.setFirstName(request.getParameter("firstname"));
+                ih.setFathersName(request.getParameter("fathersname"));
+                ih.setGrandFathersName(request.getParameter("grandfathersname"));
+                ih.setId(request.getParameter("holderId"));
+                ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
+                ih.setSex(request.getParameter("sex"));
+                ih.setStage(CommonStorage.getFEStage());
+                ih.setUpi(request.getSession().getAttribute("upi").toString());
+                ih.setStatus(Constants.STATUS[0]);
+
+                if (ih.validateForSave()) {
+                    ih.save();
+                    viewHolder(request, response);
+                } else {
+                    // if the parcel fails to validate show error message
+                    request.getSession().setAttribute("title", "Validation Error");
+                    request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                    request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                    request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                    rd.forward(request, response);
+                }
+
+            } catch (NumberFormatException | ServletException | IOException ex) {
+                CommonStorage.getLogger().logError(ex.toString());
+                request.getSession().setAttribute("title", "Inrernal Error");
+                request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+                request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+        }
+
+    }
+
+    /**
+     * Handlers request to save organization holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void saveOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = (Parcel) request.getAttribute("currentParcel");
+        if (parcel != null) {
+
+            OrganizationHolder oh = new OrganizationHolder();
+            try {
+                oh.setRegisteredon(Timestamp.from(Instant.now()));
+                oh.setName(request.getParameter("organizationName"));
+                oh.setOrganizationType(Byte.parseByte(request.getParameter("organizationType")));
+                oh.setRegisteredby(CommonStorage.getCurrentUser(request).getUserId());
+                oh.setStage(CommonStorage.getFEStage());
+                oh.setUpi(request.getSession().getAttribute("upi").toString());
+                oh.setStatus(Constants.STATUS[0]);
+
+                if (oh.validateForSave()) {
+                    oh.save();
+
+                    if (parcel.hasDispute()) {
+                        viewDisputeList(request, response);
+                    } else {
+                        welcomeFrom(request, response);
+                    }
+                } else {
+                    // if the parcel fails to validate show error message
+                    request.getSession().setAttribute("title", "Validation Error");
+                    request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                    request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                    request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                    rd.forward(request, response);
+                }
+
+            } catch (NumberFormatException | ServletException | IOException ex) {
+                CommonStorage.getLogger().logError(ex.toString());
+                request.getSession().setAttribute("title", "Inrernal Error");
+                request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+                request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+        }
+    }
+
+    /**
+     * Handlers request to view parcel holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void viewHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        parcel = (Parcel) request.getAttribute("currentParcel");
+        if (parcel != null) {
+            if (parcel.getHolding() == 1) {
+                individualHolderList(request, response);
+            } else if (parcel.getHolderCount() < 1) {
+                addOrganizationHolder(request, response);
+            } else {
+                viewOrganizationHolder(request, response);
+            }
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request to view parcel holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void viewDisputeList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DISPUTE_LIST_FEO));
         rd.forward(request, response);
     }
 }

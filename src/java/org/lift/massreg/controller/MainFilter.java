@@ -76,12 +76,28 @@ public class MainFilter extends HttpServlet {
             getUPI(request);
             SecondEntry.addParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_FEO)) {
+            getUPI(request);
             FirstEntry.viewParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_FEO)) {
             getUPI(request);
             FirstEntry.viewParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
             FirstEntry.saveParcel(request, response);
+        } 
+        else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
+            FirstEntry.saveParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.viewHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.saveHolder(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.saveHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_FEO)) {
+            getUPI(request);
+            FirstEntry.viewDisputeList(request, response);
         } else {
             All.goBackToHome(request, response);
         }

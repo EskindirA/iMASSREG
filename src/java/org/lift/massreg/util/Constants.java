@@ -9,24 +9,30 @@ package org.lift.massreg.util;
  */
 public interface Constants {
 
-    public static final String[] STATUS = {"active","removed","incomplete"};
+    public static final String[] STATUS = {"active", "removed", "incomplete"};
     public static final String ACTION_WELCOME = "WELCOME";
     public static final String ACTION_WELCOME_PART = "WELCOME_PART";
     public static final String ACTION_FIND_PARCEL_FEO = "FIND_PARCEL_FEO";
     public static final String ACTION_FIND_PARCEL_SEO = "FIND_PARCEL_SEO";
     public static final String ACTION_ERROR = "ERROR";
     public static final String ACTION_LOGOUT = "LOGOUT";
-    public static final String ACTION_ADD_PARCEL_FEO = "ACTION_ADD_PARCEL_FEO";
-    public static final String ACTION_ADD_PARCEL_SEO = "ACTION_ADD_PARCEL_SEO";
-    public static final String ACTION_SAVE_PARCEL_FEO = "ACTION_SAVE_PARCEL_FEO";
-    public static final String ACTION_SAVE_PARCEL_SEO = "ACTION_SAVE_PARCEL_SEO";
-    public static final String ACTION_VIEW_PARCEL_FEO = "ACTION_VIEW_PARCEL_FEO";
-    public static final String ACTION_VIEW_PARCEL_SEO = "ACTION_VIEW_PARCEL_SEO";
-    public static final String ACTION_VIEW_HOLDER_FEO = "ACTION_VIEW_HOLDER_FEO";
-    public static final String ACTION_VIEW_HOLDER_SEO = "ACTION_VIEW_HOLDER_SEO";
-    public static final String ACTION_EDIT_PARCEL_FEO = "ACTION_EDIT_PARCEL_FEO";
-    public static final String ACTION_EDIT_PARCEL_SEO = "ACTION_EDIT_PARCEL_SEO";
-// pages
+    public static final String ACTION_ADD_PARCEL_FEO = "ADD_PARCEL_FEO";
+    public static final String ACTION_ADD_PARCEL_SEO = "ADD_PARCEL_SEO";
+    public static final String ACTION_SAVE_PARCEL_FEO = "SAVE_PARCEL_FEO";
+    public static final String ACTION_SAVE_PARCEL_SEO = "SAVE_PARCEL_SEO";
+    public static final String ACTION_VIEW_PARCEL_FEO = "VIEW_PARCEL_FEO";
+    public static final String ACTION_VIEW_PARCEL_SEO = "VIEW_PARCEL_SEO";
+    public static final String ACTION_VIEW_HOLDER_FEO = "VIEW_HOLDER_FEO";
+    public static final String ACTION_VIEW_HOLDER_SEO = "VIEW_HOLDER_SEO";
+    public static final String ACTION_EDIT_PARCEL_FEO = "EDIT_PARCEL_FEO";
+    public static final String ACTION_EDIT_PARCEL_SEO = "EDIT_PARCEL_SEO";
+    public static final String ACTION_ADD_HOLDER_FEO = "ADD_HOLDER_FEO";
+    public static final String ACTION_ADD_HOLDER_SEO = "ADD_HOLDER_SEO";
+    public static final String ACTION_SAVE_HOLDER_FEO = "SAVE_HOLDER_FEO";
+    public static final String ACTION_SAVE_HOLDER_SEO = "SAVE_HOLDER_SEO";
+    public static final String ACTION_DISPUTE_LIST_FEO = "DISPUTE_LIST_FEO";
+    public static final String ACTION_DISPUTE_LIST_SEO = "DISPUTE_LIST_SEO";
+     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_FIRST_ENTRY_WELCOME = 1;
     public static final int INDEX_SECOND_ENTRY_WELCOME = 2;
@@ -36,7 +42,13 @@ public interface Constants {
     public static final int INDEX_ADD_PARCEL_SEO = 6;
     public static final int INDEX_VIEW_PARCEL_FEO = 7;
     public static final int INDEX_VIEW_PARCEL_SEO = 8;
-
+    public static final int INDEX_INDIVIDUAL_HOLDERS_LIST_FEO = 9;
+    public static final int INDEX_INDIVIDUAL_HOLDERS_LIST_SEO = 10;
+    public static final int INDEX_ADD_ORGANIZATION_HOLDERS_FEO = 11;
+    public static final int INDEX_ADD_ORGANIZATION_HOLDERS_SEO = 12;
+    public static final int INDEX_VIEW_ORGANIZATION_HOLDERS_FEO = 13;
+    public static final int INDEX_VIEW_ORGANIZATION_HOLDERS_SEO = 14;
+    public static final int INDEX_DISPUTE_LIST_FEO = 15;
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

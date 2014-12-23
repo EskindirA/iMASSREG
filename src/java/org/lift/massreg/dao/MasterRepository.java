@@ -30,7 +30,7 @@ public class MasterRepository {
         String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
                 + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
                 + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
-                + "surveyDate,mapSheetNo,status,encumbranceType) VALUES (?,?,?,"
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasdispute) VALUES (?,?,?,"
                 + "?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
@@ -51,6 +51,61 @@ public class MasterRepository {
             stmnt.setString(15, parcel.getMapSheetNo());
             stmnt.setString(16, parcel.getStatus());
             stmnt.setByte(17, parcel.getEncumbrance());
+            stmnt.setBoolean(18, parcel.hasDispute());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean save(IndividualHolder holder) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO individualholder( upi, stage, registeredby, "
+                + "registeredon, firstname, fathersname, grandfathersname, sex, "
+                + "dateofbirth, familyrole) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, holder.getUpi());
+            stmnt.setByte(2, holder.getStage());
+            stmnt.setLong(3, holder.getRegisteredBy());
+            stmnt.setTimestamp(4, holder.getRegisteredOn());
+            stmnt.setString(5, holder.getFirstName());
+            stmnt.setString(6, holder.getFathersName());
+            stmnt.setString(7, holder.getGrandFathersName());
+            stmnt.setString(8, holder.getSex());
+            stmnt.setDate(9, Date.valueOf(holder.getDateOfBirth()));
+            stmnt.setByte(10, holder.getFamilyRole());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean save(OrganizationHolder holder) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO organizationholder(upi, stage, organizationname, "
+                + "registeredby, registeredon, organizationtype) VALUES "
+                + "( ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, holder.getUpi());
+            stmnt.setByte(2, holder.getStage());
+            stmnt.setString(3, holder.getName());
+            stmnt.setLong(4, holder.getRegisteredby());
+            stmnt.setTimestamp(5, holder.getRegisteredon());
+            stmnt.setByte(6, holder.getOrganizationType());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -90,14 +145,20 @@ public class MasterRepository {
                 returnValue.setSurveyDate(rs.getDate("surveydate").toString());
                 returnValue.setUpi(rs.getString("upi"));
                 returnValue.setRegisteredOn(rs.getTimestamp("registeredon"));
-                returnValue.setOrganaizationHolder(getOrganaizationHolder(upi,stage));
-                returnValue.setIndividualHolders(getAllIndividualHolders(upi,stage));
-                returnValue.setDisputes(getAllDisputes(upi,stage));
+                returnValue.hasDispute(rs.getBoolean("hasdispute"));
+                if(returnValue.hasDispute()){
+                    returnValue.setDisputes(getAllDisputes(upi, stage));
+                }
+                if (returnValue.getHolding() == 1) {
+                    returnValue.setIndividualHolders(getAllIndividualHolders(upi, stage));
+                } else {
+                    returnValue.setOrganaizationHolder(getOrganaizationHolder(upi, stage));
+                }
             }
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
-        
+
         return returnValue;
     }
 
@@ -141,7 +202,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean parcelExists(String upi,byte stage ) {
+    public boolean parcelExists(String upi, byte stage) {
         boolean returnValue = false;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -236,11 +297,51 @@ public class MasterRepository {
     }
 
     /**
+     * @return an array of option objects representing the possible family role
+     * types
+     */
+    public Option[] getAllFamilyRoles() {
+        return getAllOptions("familyroletypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible organization
+     * types
+     */
+    public Option[] getAllOrganizationTypes() {
+        return getAllOptions("organizationtypes");
+    }
+
+    /**
      * @return an array of option objects representing the possible encumbrance
      * types
      */
     public Option[] getAllStages() {
         return getAllOptions("stages");
+    }
+
+    /**
+     * @return an array of option objects representing the possible dispute
+     * status types
+     */
+    public Option[] getAllDisputeStatusTypes() {
+        return getAllOptions("disputestatustypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible dispute
+     * types
+     */
+    public Option[] getAllDisputeTypes() {
+        return getAllOptions("disputetypes");
+    }
+
+    /**
+     * @return an array of option objects representing all possible family role
+     * types types
+     */
+    public Option[] getAllfamilyRoleTypes() {
+        return getAllOptions("familyroletypes");
     }
 
     /**
@@ -303,13 +404,88 @@ public class MasterRepository {
     }
 
     private OrganizationHolder getOrganaizationHolder(String upi, byte stage) {
-        return null;
+        OrganizationHolder returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM organizationholder WHERE upi=? and stage=?");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = new OrganizationHolder();
+                returnValue.setName(rs.getString("organizationname"));
+                returnValue.setUpi(rs.getString("upi"));
+                returnValue.setStage(rs.getByte("stage"));
+                returnValue.setRegisteredon(rs.getTimestamp("registeredon"));
+                returnValue.setRegisteredby(rs.getLong("registeredby"));
+                returnValue.setOrganizationType(rs.getByte("organizationtype"));
+                returnValue.setStatus(rs.getString("status"));
+
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
     }
-    private ArrayList<IndividualHolder> getAllIndividualHolders(String upi, byte stage) {
-        return null;
+
+    public ArrayList<IndividualHolder> getAllIndividualHolders(String upi, byte stage) {
+        ArrayList<IndividualHolder> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM individualholder WHERE upi=? and stage=?");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                IndividualHolder ih = new IndividualHolder();
+                Date d = rs.getDate("dateofbirth");
+                if (d != null) {
+                    ih.setDateOfBirth(d.toString());
+                }
+                ih.setFamilyRole(rs.getByte("familyrole"));
+                ih.setFirstName(rs.getString("firstname"));
+                ih.setFathersName(rs.getString("fathersname"));
+                ih.setGrandFathersName(rs.getString("grandfathersname"));
+                ih.setId(rs.getLong("id") + "");
+                ih.setRegisteredBy(rs.getLong("registeredby"));
+                ih.setRegisteredOn(rs.getTimestamp("registeredon"));
+                ih.setSex(rs.getString("sex"));
+                ih.setStage(rs.getByte("stage"));
+                ih.setUpi(rs.getString("upi"));
+                returnValue.add(ih);
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+
+        return returnValue;
     }
-    private ArrayList<Dispute> getAllDisputes(String upi, byte stage) {
-        return null;
+
+    public ArrayList<Dispute> getAllDisputes(String upi, byte stage) {
+        ArrayList<Dispute> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM dispute WHERE upi=? and stage=?");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                Dispute dispute = new Dispute();
+                dispute.setId(rs.getLong("id"));
+                dispute.setFirstName(rs.getString("firstname"));
+                dispute.setFathersName(rs.getString("fathersname"));
+                dispute.setGrandFathersName(rs.getString("grandfathersname"));
+                dispute.setRegisteredBy(rs.getLong("registeredby"));
+                dispute.setRegisteredOn(rs.getTimestamp("registeredon"));
+                dispute.setSex(rs.getString("sex"));
+                dispute.setStage(rs.getByte("stage"));
+                dispute.setUpi(rs.getString("upi"));
+                returnValue.add(dispute);
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
     }
 
 }

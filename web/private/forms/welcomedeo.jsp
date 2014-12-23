@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Parcel #</label>
-                                    <input class="form-control " placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}"/>
+                                    <input class="form-control " placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off"/>
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
@@ -63,11 +63,11 @@
                 findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_SEO;
             }%>
         // change this to loadAddParcel and then it should intern call load forward
-        
+
         function loadAdd() {
             updateUPI();
             {
-                if ($("#upi").val() === "" || $("#parcelNo").val() === "" || $("#kebele").val()==="") {
+                if ($("#upi").val() === "" || $("#parcelNo").val() === "" || $("#kebele").val() === "") {
                     showError("Kebele, Parcel Number and Administrative UPI are required fields");
                     return false;
                 }
@@ -85,11 +85,11 @@
             }
         }
         $(function() {
-            $("#kebele").val('${sessionScope.kebele}');
+            if ("${sessionScope.kebele}" !== "") {
+                $("#kebele").val('${sessionScope.kebele}');
+            }
             $("#addButton").click(loadAdd);
-            $("#parcel").click(updateUPI());
             $("#welcomeForm").submit(loadAdd);
-            $("")
             $("#findButton").click(function() {
                 updateUPI();
                 if ($("#upi").val() === "" || $("#parcelNo").val() === "") {

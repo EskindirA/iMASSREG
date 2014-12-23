@@ -3,6 +3,7 @@ package org.lift.massreg.entity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.CurrentUserDTO;
 import org.lift.massreg.util.Option;
 
 /**
@@ -297,6 +298,9 @@ public class Parcel implements Entity {
     }
 
     public ArrayList<IndividualHolder> getIndividualHolders() {
+        if(individualHolders == null){
+            individualHolders = MasterRepository.getInstance().getAllIndividualHolders(upi, stage);
+        }
         return individualHolders;
     }
 
@@ -309,6 +313,9 @@ public class Parcel implements Entity {
     }
 
     public ArrayList<Dispute> getDisputes() {
+        if(hasDispute && disputes == null ){
+            disputes = MasterRepository.getInstance().getAllDisputes(upi, stage);
+        }
         return disputes;
     }
 
@@ -329,13 +336,6 @@ public class Parcel implements Entity {
 
     public boolean saveParcelOnly() {
         return MasterRepository.getInstance().save(this);
-
-    }
-
-    public boolean saveParcelHolders() {
-        boolean returnValue = true;
-        ///TODO:MasterRepository.getInstance().save(hodlers);
-        return returnValue;
     }
 
     public boolean saveParcelDisputes() {
@@ -344,11 +344,11 @@ public class Parcel implements Entity {
         return returnValue;
     }
 
-    public boolean isHasDispute() {
+    public boolean hasDispute() {
         return hasDispute;
     }
 
-    public void setHasDispute(boolean hasDispute) {
+    public void hasDispute(boolean hasDispute) {
         this.hasDispute = hasDispute;
     }
 
@@ -374,4 +374,47 @@ public class Parcel implements Entity {
         this.disputes = disputes;
     }
 
+    public int getDisputeCount() {
+        int count = 0;
+        if (this.getDisputes() != null && hasDispute) {
+            count = disputes.size();
+        }
+        return count;
+    }
+
+    public int getHolderCount() {
+        int count = 0;
+        if (this.getHolding() == 1) {
+            if (individualHolders != null) {
+                count = individualHolders.size();
+            }
+        } else if (organaizationHolder != null) {
+            count = 1;
+        }
+        return count;
+    }
+
+    public boolean canEdit(CurrentUserDTO cudto) {
+        boolean returnValue = true;
+        boolean firstentry = MasterRepository.getInstance().parcelExists(upi, (byte) 1);
+        boolean secondentry = MasterRepository.getInstance().parcelExists(upi, (byte) 2);
+        boolean supervisor = MasterRepository.getInstance().parcelExists(upi, (byte) 3);
+
+        switch (cudto.getRole()) {
+            case FIRST_ENTRY_OPERATOR:
+                if (secondentry || supervisor) {
+                    returnValue = false;
+                }
+                break;
+            case SECOND_ENTRY_OPERATOR:
+                if (supervisor) {
+                    returnValue = false;
+                }
+                break;
+            case SUPERVISOR:
+                ///TODO
+                break;
+        }
+        return returnValue;
+    }
 }

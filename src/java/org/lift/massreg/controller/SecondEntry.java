@@ -1,10 +1,17 @@
 package org.lift.massreg.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static org.lift.massreg.controller.FirstEntry.viewHolder;
+import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.entity.IndividualHolder;
+import org.lift.massreg.entity.Parcel;
+import org.lift.massreg.util.CommonStorage;
 import org.lift.massreg.util.Constants;
 import org.lift.massreg.util.IOC;
 
@@ -41,6 +48,7 @@ public class SecondEntry {
         RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_SECOND_ENTRY_WELCOME));
         rd.forward(request, response);
     }
+
     /**
      * Handlers request for adding a parcel by the second entry
      *
@@ -109,13 +117,52 @@ public class SecondEntry {
     }
 
     /**
-     * Handlers request to save a holder for the current parcel
+     * Handlers request to save a holder by the first entry operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
      */
-    protected void saveHolder(HttpServletRequest request, HttpServletResponse response)
+    protected static void saveHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.getSession().setAttribute("title", "Error");
+        request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+        request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+        request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+        rd.forward(request, response);
+    }
+
+    /**
+     * Handlers request to save an individual holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void saveIndividualHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getSession().setAttribute("title", "Error");
+        request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+        request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+        request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+        rd.forward(request, response);
+
+    }
+
+    /**
+     * Handlers request to save organization holder by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void saveOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
     }
 
     /**

@@ -28,6 +28,12 @@ public class IOC {
         pages.put(Constants.INDEX_ADD_PARCEL_SEO, "addParcelSEO.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_FEO, "viewParcelFEO.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_SEO, "viewParcelSEO.jsp");
+        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_FEO, "individualHoldersListFEO.jsp");
+        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDERS_FEO, "addOrganizationHolderFEO.jsp");
+        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDERS_SEO, "addOrganizationHolderSEO.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDERS_FEO, "viewOrganizationHolderFEO.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDERS_SEO, "viewOrganizationHolderSEO.jsp");
+        pages.put(Constants.INDEX_DISPUTE_LIST_FEO, "disputeListFEO.jsp");
 
         titles.put(Constants.INDEX_ERROR, "Error");
         titles.put(Constants.INDEX_FIRST_ENTRY_WELCOME, "Welcome");

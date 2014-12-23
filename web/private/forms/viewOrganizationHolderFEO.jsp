@@ -1,0 +1,115 @@
+<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.util.CommonStorage"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.lift.massreg.entity.*"%>
+<%@page import="org.lift.massreg.dao.MasterRepository"%>
+<%@page import="org.lift.massreg.util.Option"%>
+<%
+    Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
+    boolean editable = cParcel.canEdit(CommonStorage.getCurrentUser(request));
+    OrganizationHolder holder = cParcel.getOrganaizationHolder();
+%>
+<div class="col-lg-5 col-lg-offset-4">
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <h2 class="page-header">&nbsp;&nbsp;&nbsp;Holder Details</h2>
+        </div>
+    </div> <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Parcel: Administrative UPI - ${sessionScope.upi}
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form role="form" action="#" id="viewHolderFrom" name="viewHolderFrom" method="action">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input class="form-control " id="organizationName" name="organizationName" placeholder="Name of the holding organization" value="<%=holder.getName()%>" disabled/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select class="form-control" id="organizationType" name="organizationType" value="<%=holder.getOrganizationType()%>" disabled>
+                                        <%
+                                            Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
+                                            for (int i = 0; i < organizationTypes.length; i++) {
+                                                out.println("<option value = '" + organizationTypes[i].getKey() + "'>" + organizationTypes[i].getValue() + "</option>");
+                                            }
+                                        %>
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <button type="submit" id = "backButton" class="btn btn-default col-lg-6" style="float:left">Back</button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <%
+                                            if (editable) {
+                                                out.println("<button type='submit' id = 'editHolderButton' name = 'editHolderButton' class='btn btn-default col-lg-4 col-lg-offset-2' >Edit</button>");
+                                            } else {
+                                                out.println("<span class='col-lg-2 col-lg-offset-2'></span>");
+                                            }
+                                            if (cParcel.hasDispute()) {
+                                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-5' style='float:right'>Next</button>");
+                                            } else {
+                                                out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-5' style='float:right'>Finish</button>");
+                                            }
+                                        %>
+                                    </div>
+                                    <!-- /.col-lg-6 (nested) -->
+                                </div>
+                                <!-- /.row (nested) -->
+                            </form>
+                        </div>
+                    </div>
+                </div>    <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $("#viewHolderFrom select").each(function() {
+            $(this).val($(this).attr("value"));
+        });
+        
+        $("#editHolderButton").click(function() {
+            bootbox.alert("Edit");
+        });
+        $("#backButton").click(function() {
+            bootbox.confirm("Are you sure you want to go back?", function(result) {
+                if (result) {
+                    $.ajax({
+                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
+                                                error: showajaxerror,
+                                                success: loadBackward
+                                            });
+                                        }
+                                    });
+                                    return false;
+                                });
+        $("#editHolderButton").click(function() {
+            bootbox.alert("Edit Holder");
+        });
+        $("#nextButton").click(function() {
+            $.ajax({
+                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_DISPUTE_LIST_FEO%>",
+                                                error: showajaxerror,
+                                                success: loadForward
+                                            });
+            return false;
+        });
+        $("#finishButton").click(function() {
+            $.ajax({
+                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
+                                                error: showajaxerror,
+                                                success: loadForward
+                                            });
+            return false;
+        });
+        });
+</script>

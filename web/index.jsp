@@ -10,12 +10,14 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>MASSREG - ${requestScope.title}</title>
+        
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/sb-admin-2.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
         <link href="<%=request.getContextPath()%>/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,32 +33,19 @@
         <script src="<%=request.getContextPath()%>/assets/js/plugins/dataTables/jquery.dataTables.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/plugins/dataTables/dataTables.bootstrap.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/sb-admin-2.js"></script>
+        <script src="<%=request.getContextPath()%>/assets/js/bootbox.js"></script>
         <script type="text/javascript">
             function showMessage(msg) {
-                $('#notification-message').toggleClass(".notification-message");
-                $('#notification-message p').html(msg);
-                $('#notification-message ').miniNotification({closeButton: false,
-                    time: 3000,
-                    hideOnClick: true});
+                bootbox.alert(msg);
             }
             function showError(msg) {
-                $('#notification-error p').html(msg);
-                $('#notification-error').miniNotification({closeButton: false,
-                    time: 3000,
-                    hideOnClick: true});
+                bootbox.alert(msg);
             }
             function showWarning(msg) {
-                $('#notification-warning p').html(msg);
-                $('#notification-warning').miniNotification({closeButton: false,
-                    time: 3000,
-                    hideOnClick: true});
+                bootbox.alert(msg);
             }
-            function showajaxerror(error) {
-                $('#notification-error').toggleClass(".notification-error");
-                $('#notification-error p').html("System Error: " + error);
-                $('#notification-error').miniNotification({closeButton: false,
-                    time: 3000,
-                    hideOnClick: true});
+            function showajaxerror() {
+                bootbox.alert("System Error");
             }
 
             function loadForward(result) {
