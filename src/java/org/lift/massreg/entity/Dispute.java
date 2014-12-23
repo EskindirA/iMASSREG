@@ -149,6 +149,7 @@ public class Dispute implements Entity {
     }
 
     private synchronized void fillInTextValues() {
+
         Option[] allDisputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
         for (Option disputeStatusType : allDisputeStatusTypes) {
             if (disputeStatusType.getKey().equalsIgnoreCase(disputeStatus + "")) {

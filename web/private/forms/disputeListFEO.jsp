@@ -1,9 +1,6 @@
-<%@page import="org.lift.massreg.entity.Dispute"%>
-<%@page import="org.lift.massreg.util.Option"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.ArrayList"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.*"%>
 <%@page import="org.lift.massreg.util.Constants"%>
 <%
@@ -209,7 +206,7 @@
                             bootbox.confirm("Are you sure you want to go back?", function(result) {
                                 if (result) {
                                     $.ajax({
-                                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
+                                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_HOLDER_FEO%>",
                                                                 error: showajaxerror,
                                                                 success: loadBackward
                                                             });

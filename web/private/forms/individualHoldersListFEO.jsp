@@ -1,11 +1,8 @@
-<%@page import="org.lift.massreg.util.Option"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.lift.massreg.util.CommonStorage"%>
-<%@page import="org.lift.massreg.entity.Parcel"%>
-<%@page import="org.lift.massreg.entity.IndividualHolder"%>
-<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.entity.*"%>
 <%
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));

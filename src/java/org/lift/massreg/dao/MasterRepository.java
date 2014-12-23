@@ -175,7 +175,7 @@ public class MasterRepository {
                 returnValue.setUpi(rs.getString("upi"));
                 returnValue.setRegisteredOn(rs.getTimestamp("registeredon"));
                 returnValue.hasDispute(rs.getBoolean("hasdispute"));
-                if(returnValue.hasDispute()){
+                if (returnValue.hasDispute()) {
                     returnValue.setDisputes(getAllDisputes(upi, stage));
                 }
                 if (returnValue.getHolding() == 1) {
@@ -509,6 +509,8 @@ public class MasterRepository {
                 dispute.setSex(rs.getString("sex"));
                 dispute.setStage(rs.getByte("stage"));
                 dispute.setUpi(rs.getString("upi"));
+                dispute.setDisputeStatus(rs.getByte("disputestatus"));
+                dispute.setDisputeType(rs.getByte("disputetype"));
                 returnValue.add(dispute);
             }
         } catch (Exception ex) {
