@@ -44,7 +44,18 @@
                                         out.println("<td>" + disputes.get(i).getSexText() + "</td>");
                                         out.println("<td>" + disputes.get(i).getDisputeTypeText() + "</td>");
                                         out.println("<td>" + disputes.get(i).getDisputeStatusText() + "</td>");
-                                        out.println("<td>View/Edit/Delete</td>");
+                                        out.println("<td>");
+                                        out.println("<a href = '#' class='viewButton' "
+                                                + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>View</a>");
+                                        if (editable) {
+                                            out.println("|");
+                                            out.println("<a href = '#' class='editButton' "
+                                                    + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>Edit</a>");
+                                            out.println("|");
+                                            out.println("<a href = '#' class='deleteButton' "
+                                                    + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>Delete</a>");
+                                        }
+                                        out.println("</td>");
                                         out.println("</tr>");
                                     }
                                 %>
@@ -138,13 +149,17 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <script type="text/javascript">
     <%
-        String saveurl;
+        String saveurl, viewurl, deleteurl, editurl;
         if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_FEO;
+            viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_FEO;
         } else {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_SEO;
+            viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_SEO;
         }
     %>
     function validate() {
@@ -166,6 +181,30 @@
         }
         showMessage("Validation:");
         return returnValue;
+    }
+    function loadViewDispute(result) {
+        $("#editModal").html("").hide();
+        $("#viewModal").html(result).modal();
+    }
+    function loadEditDispute(result) {
+        $("#viewModal").html("").hide();
+        $("#editModal").html(result);
+    }
+    function deleteDispute(regOn) {
+        bootbox.alert("Delete: " + regOn);
+    }
+    function editDispute(regOn) {
+        bootbox.alert("Edit: " + regOn);
+    }
+    function viewDispute(regOn) {
+        $.ajax({
+            url: "<%=viewurl%>",
+            data: {
+                "registeredOn": regOn
+            },
+            error: showajaxerror,
+            success: loadViewDispute
+        });
     }
     function save() {
         $.ajax({
@@ -191,7 +230,19 @@
                             });
                             return false;
                         });
-                        $('#dataTables-example').dataTable();
+                        $('#dataTables-example').dataTable({"bPaginate": false});
+                        $('.editButton').click(function() {
+                            editDispute($(this).attr("data-registeredOn"));
+                            return false;
+                        });
+                        $('.viewButton').click(function() {
+                            viewDispute($(this).attr("data-registeredOn"));
+                            return false;
+                        });
+                        $('.deleteButton').click(function() {
+                            deleteDispute($(this).attr("data-registeredOn"));
+                            return false;
+                        });
                         $("#saveHolderButton").click(function() {
                             if (!validate()) {// validate
                                 showError("Please input appropriate values in the highlighted fields");

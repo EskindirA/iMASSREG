@@ -3,11 +3,8 @@ package org.lift.massreg.controller;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.lift.massreg.util.CommonStorage;
-import org.lift.massreg.util.Constants;
+import javax.servlet.http.*;
+import org.lift.massreg.util.*;
 
 /**
  *
@@ -81,18 +78,23 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_FEO)) {
             getUPI(request);
             FirstEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_FEO)) {
+            getUPI(request);
+            FirstEntry.editParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
             FirstEntry.saveParcel(request, response);
-        } 
-        else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
+        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
             FirstEntry.saveParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_SEO)) {
+            request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            FirstEntry.updateParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.viewHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.saveHolder(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
             getUPI(request);
             SecondEntry.saveHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_FEO)) {
@@ -101,6 +103,15 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_FEO)) {
             getUPI(request);
             FirstEntry.saveDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_FEO)) {
+            getUPI(request);
+            FirstEntry.viewDispute(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.viewIndividualHolder(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.editIndividualHolder(request, response);
         } else {
             All.goBackToHome(request, response);
         }

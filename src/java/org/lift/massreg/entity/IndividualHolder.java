@@ -102,7 +102,7 @@ public class IndividualHolder implements Entity {
     }
 
     public String getSex() {
-        return sex;
+        return sex.toLowerCase();
     }
 
     public String getSexText() {

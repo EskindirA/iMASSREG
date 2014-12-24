@@ -51,15 +51,18 @@
             function loadForward(result) {
                 $("#page-wrapper").hide('slide', {direction: 'left', complete: function() {
                         $("#page-wrapper").html(result);
-                    }}, 2000);
-                $("#page-wrapper").show('slide', {direction: 'right'}, 1500);
+                    }}, 800);
+                $("#page-wrapper").show('slide', {direction: 'right'}, 800);
 
             }
             function loadBackward(result) {
                 $("#page-wrapper").hide('slide', {direction: 'right', complete: function() {
                         $("#page-wrapper").html(result);
-                    }}, 2000);
-                $("#page-wrapper").show('slide', {direction: 'left'}, 2000);
+                    }}, 800);
+                $("#page-wrapper").show('slide', {direction: 'left'}, 800);
+            }
+            function loadInPlace(result) {
+                $("#page-wrapper").html(result);
             }
         </script>
     </head>

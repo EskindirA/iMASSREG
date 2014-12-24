@@ -30,8 +30,8 @@ public class MasterRepository {
         String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
                 + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
                 + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
-                + "surveyDate,mapSheetNo,status,encumbranceType,hasdispute) VALUES (?,?,?,"
-                + "?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, parcel.getUpi());

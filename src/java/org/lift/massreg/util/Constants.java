@@ -34,8 +34,16 @@ public interface Constants {
     public static final String ACTION_DISPUTE_LIST_SEO = "DISPUTE_LIST_SEO";
     public static final String ACTION_SAVE_DISPUTE_FEO = "SAVE_DISPUTE_FEO";
     public static final String ACTION_SAVE_DISPUTE_SEO = "SAVE_DISPUTE_SEO";
-    
-     // pages
+    public static final String ACTION_UPDATE_PARCEL_FEO = "UPDATE_PARCEL_FEO";
+    public static final String ACTION_UPDATE_PARCEL_SEO = "UPDATE_PARCEL_SEO";
+    public static final String ACTION_VIEW_DISPUTE_FEO = "VIEW_DISPUTE_FEO";
+    public static final String ACTION_VIEW_DISPUTE_SEO = "VIEW_DISPUTE_SEO";
+    public static final String ACTION_VIEW_INDIVIDUAL_HOLDER_FEO = "VIEW_INDIVIDUAL_HOLDER_FEO";
+    public static final String ACTION_VIEW_INDIVIDUAL_HOLDER_SEO = "VIEW_INDIVIDUAL_HOLDER_SEO";
+    public static final String ACTION_EDIT_INDIVIDUAL_HOLDER_FEO = "EDIT_INDIVIDUAL_HOLDER_FEO";
+    public static final String ACTION_EDIT_INDIVIDUAL_HOLDER_SEO = "EDIT_INDIVIDUAL_HOLDER_SEO";
+
+    // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_FIRST_ENTRY_WELCOME = 1;
     public static final int INDEX_SECOND_ENTRY_WELCOME = 2;
@@ -52,6 +60,16 @@ public interface Constants {
     public static final int INDEX_VIEW_ORGANIZATION_HOLDERS_FEO = 13;
     public static final int INDEX_VIEW_ORGANIZATION_HOLDERS_SEO = 14;
     public static final int INDEX_DISPUTE_LIST_FEO = 15;
+    public static final int INDEX_DISPUTE_LIST_SEO = 16;
+    public static final int INDEX_EDIT_PARCEL_FEO = 17;
+    public static final int INDEX_EDIT_PARCEL_SEO = 18;
+    public static final int INDEX_VIEW_DISPUTE_FEO = 19;
+    public static final int INDEX_VIEW_DISPUTE_SEO = 20;
+    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_FEO = 21;
+    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_SEO = 22;
+    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_FEO = 23;
+    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_SEO = 24;
+
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

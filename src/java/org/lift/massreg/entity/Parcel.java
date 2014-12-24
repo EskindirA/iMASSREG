@@ -298,7 +298,7 @@ public class Parcel implements Entity {
     }
 
     public ArrayList<IndividualHolder> getIndividualHolders() {
-        if(individualHolders == null){
+        if (individualHolders == null) {
             individualHolders = MasterRepository.getInstance().getAllIndividualHolders(upi, stage);
         }
         return individualHolders;
@@ -313,7 +313,7 @@ public class Parcel implements Entity {
     }
 
     public ArrayList<Dispute> getDisputes() {
-        if(hasDispute && disputes == null ){
+        if (hasDispute && disputes == null) {
             disputes = MasterRepository.getInstance().getAllDisputes(upi, stage);
         }
         return disputes;
@@ -414,6 +414,34 @@ public class Parcel implements Entity {
             case SUPERVISOR:
                 ///TODO
                 break;
+        }
+        return returnValue;
+    }
+
+    public Dispute getDispute(byte stage, Timestamp registeredOn) {
+        Dispute returnValue = new Dispute();
+        if (stage == this.getStage()) {
+            ArrayList<Dispute> allDisputes = getDisputes();
+            for (int i = 0; i < allDisputes.size(); i++) {
+                if (allDisputes.get(i).getRegisteredOn().equals(registeredOn)) {
+                    returnValue = allDisputes.get(i);
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+    public IndividualHolder getIndividualHolder(String holderId,byte stage, Timestamp registeredOn) {
+        IndividualHolder returnValue = new IndividualHolder();
+        if (stage == this.getStage()) {
+            ArrayList<IndividualHolder> allIndividualHolders = getIndividualHolders();
+            for (int i = 0; i < allIndividualHolders.size(); i++) {
+                if (allIndividualHolders.get(i).getRegisteredOn().equals(registeredOn)
+                        && allIndividualHolders.get(i).getId().equalsIgnoreCase(holderId)) {
+                    returnValue = allIndividualHolders.get(i);
+                    break;
+                }
+            }
         }
         return returnValue;
     }

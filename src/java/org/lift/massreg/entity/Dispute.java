@@ -101,7 +101,7 @@ public class Dispute implements Entity {
     }
 
     public String getSex() {
-        return sex;
+        return sex.toLowerCase();
     }
 
     public String getSexText() {
