@@ -481,18 +481,19 @@ public class FirstEntry {
             }
         }
         // Delete all holders of the parcel, if any
-        if (parcel.getHolding() == 1) {
-             ArrayList<IndividualHolder> allHolders = parcel.getIndividualHolders();
+        ArrayList<IndividualHolder> allHolders = parcel.getIndividualHolders();
+        if (allHolders != null) {
             for (int i = 0; i < allHolders.size(); i++) {
                 allHolders.get(i).remove();
             }
-        }else{
+        }
+        if (parcel.getOrganaizationHolder() != null) {
             parcel.getOrganaizationHolder().remove();
         }
-        
+
         // Delete the parcel
         parcel.remove();
-        
+
         // remove the session and request attributes
         // do not remove the kebele since the operator is probably going to 
         // work on a parcel within the same kebele
@@ -501,7 +502,7 @@ public class FirstEntry {
         request.setAttribute("upi", null);
         request.setAttribute("parcelNo", null);
         request.setAttribute("currentParcel", null);
-        
+
         // Forward to the welcome page
         welcomeFrom(request, response);
     }
