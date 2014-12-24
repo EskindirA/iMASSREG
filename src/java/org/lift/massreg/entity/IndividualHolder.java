@@ -13,7 +13,6 @@ import org.lift.massreg.util.Option;
  */
 public class IndividualHolder implements Entity {
 
-    
     private String id;///TODO Change this;
     private String upi;
     private byte stage;
@@ -168,4 +167,11 @@ public class IndividualHolder implements Entity {
         return true;
     }
 
+    public boolean remove() {
+        return delete(id, registeredOn, upi, stage);
+    }
+    public static boolean delete(String holderId,Timestamp registeredOn, String upi, byte stage) {
+
+        return MasterRepository.getInstance().deleteIndividualHolder(holderId,registeredOn, upi, stage);
+    }
 }

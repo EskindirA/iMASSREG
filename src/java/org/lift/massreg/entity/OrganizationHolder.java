@@ -105,4 +105,11 @@ public class OrganizationHolder implements Entity {
         return true;
     }
 
+    public boolean remove() {
+        return delete(upi, stage);
+    }
+    public static boolean delete(String upi, byte stage) {
+
+        return MasterRepository.getInstance().deleteOrganizationHolder(upi, stage);
+    }
 }

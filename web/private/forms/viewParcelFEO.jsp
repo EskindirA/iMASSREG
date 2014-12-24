@@ -6,7 +6,6 @@
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
-    
 %>
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
@@ -129,7 +128,8 @@
                                 <div class="row">
                                     <%
                                         if (cParcel.canEdit(CommonStorage.getCurrentUser(request))) {
-                                            out.println("<input type='submit' id = 'editButton' name = 'editButton' class='btn btn-default col-lg-2 col-lg-offset-6' value='Edit' />");
+                                            out.println("<input type='submit' id = 'deleteButton' name = 'deleteButton' class='btn btn-danger col-lg-2 col-lg-offset-3' value='Delete' />");
+                                            out.println("<input type='submit' id = 'editButton' name = 'editButton' class='btn btn-default col-lg-2' style='margin-left:1em' value='Edit' />");
                                         } else {
                                             out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                         }
@@ -146,13 +146,15 @@
     </div>
     <script type="text/javascript">
         <%
-            String nexturl, editurl;
+            String nexturl, editurl, deleteurl;
             if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
                 nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
                 editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_FEO;
+                deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_FEO;
             } else {
                 nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
                 editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_SEO;
+                deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_SEO;
             }
         %>
         $(function() {
@@ -164,6 +166,18 @@
                     url: "<%=editurl%>",
                     error: showajaxerror,
                     success: loadInPlace
+                });
+                return false;
+            });
+            $("#deleteButton").click(function() {
+                bootbox.confirm("Are you sure you want delete this parcel ?", function(result) {
+                    if (result) {
+                        $.ajax({
+                            url: "<%=deleteurl%>",
+                            error: showajaxerror,
+                            success: loadBackward
+                        });
+                    }
                 });
                 return false;
             });

@@ -49,8 +49,8 @@
                                         out.println("<td>");
                                         out.println("<a href = '#' class = 'viewButton' "
                                                 + "data-registeredOn = '" + holders.get(i).getRegisteredOn() + "' "
-                                                + "data-holderId = '" + holders.get(i).getId()+ "'>View</a>");
-                                        
+                                                + "data-holderId = '" + holders.get(i).getId() + "'>View</a>");
+
                                         if (editable) {
                                             out.println("|");
                                             out.println("<a href = '#' class='editButton' data-holderId='"
@@ -60,7 +60,7 @@
                                             out.println("<a href = '#' class='deleteButton' data-holderId='"
                                                     + holders.get(i).getId() + "' data-registeredOn='"
                                                     + holders.get(i).getRegisteredOn() + "'>Delete</a>");
- 
+
                                         }
                                         out.println("</td>");
                                         out.println("</tr>");
@@ -159,18 +159,20 @@
 </div>
 <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
-                                    
+
 <script type="text/javascript">
     <%
-        String saveurl,viewurl,editurl;
+        String saveurl,viewurl,editurl,deleteurl;
         if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
             viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_FEO;
             editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_FEO;
+            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_FEO;
         } else {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SEO;
             viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SEO;
             editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SEO;
+            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO;
         }
     %>
     function validate() {
@@ -206,10 +208,19 @@
         $("#viewModal").html("").hide();
         $("#editModal").html(result);
     }
-    function deleteHolder(holderId,regOn) {
-        bootbox.alert("Delete: " + regOn);
+    function deleteHolder(holderId, regOn) {
+        bootbox.confirm("Are you sure you want delete thise holder ?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=deleteurl%>",
+                    data: {"registeredOn": regOn, "holderId": holderId},
+                    error: showajaxerror,
+                    success: loadInPlace
+                });
+            }
+        });
     }
-    function editHolder(holderId,regOn) {
+    function editHolder(holderId, regOn) {
         $.ajax({
             url: "<%=editurl%>",
             data: {
@@ -220,7 +231,7 @@
             success: loadViewHolder
         });
     }
-    function viewHolder(holderId,regOn) {
+    function viewHolder(holderId, regOn) {
         $.ajax({
             url: "<%=viewurl%>",
             data: {
@@ -231,7 +242,7 @@
             success: loadViewHolder
         });
     }
-    
+
     function save() {
         $.ajax({
             url: "<%=saveurl%>",
@@ -250,15 +261,15 @@
     $(document).ready(function() {
         $('#dataTables-example').dataTable({"bPaginate": false});
         $('.editButton').click(function() {
-            editHolder($(this).attr("data-holderId"),$(this).attr("data-registeredOn"));
+            editHolder($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
             return false;
         });
         $('.viewButton').click(function() {
-            viewHolder($(this).attr("data-holderId"),$(this).attr("data-registeredOn"));
+            viewHolder($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
             return false;
         });
         $('.deleteButton').click(function() {
-            deleteHolder($(this).attr("data-holderId"),$(this).attr("data-registeredOn"));
+            deleteHolder($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
             return false;
         });
         $("#saveHolderButton").click(function() {
@@ -279,7 +290,7 @@
                             });
                             return false;
                         });
-        $("#finishButton").click(function() {
+                        $("#finishButton").click(function() {
                             $.ajax({
                                 url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
                                                 error: showajaxerror,
@@ -287,8 +298,8 @@
                                             });
                                             return false;
                                         });
-        $("#backButton").click(function() {
-                    bootbox.confirm("Are you sure you want to go back?", function(result) {
+                                        $("#backButton").click(function() {
+                                            bootbox.confirm("Are you sure you want to go back?", function(result) {
                                                 if (result) {
                                                     $.ajax({
                                                         url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
@@ -299,5 +310,5 @@
                                                                     });
                                                                     return false;
                                                                 });
-    });
+                                                            });
 </script>

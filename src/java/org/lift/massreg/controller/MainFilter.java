@@ -83,7 +83,7 @@ public class MainFilter extends HttpServlet {
             FirstEntry.editParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
             FirstEntry.saveParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
             FirstEntry.saveParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_SEO)) {
             request.setAttribute("upi", request.getSession().getAttribute("upi"));
@@ -106,12 +106,21 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_FEO)) {
             getUPI(request);
             FirstEntry.viewDispute(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.viewIndividualHolder(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.editIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_FEO)) {
+            getUPI(request);
+            FirstEntry.deleteDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.deleteIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_FEO)) {
+            getUPI(request);
+            FirstEntry.deleteParcel(request, response);
         } else {
             All.goBackToHome(request, response);
         }

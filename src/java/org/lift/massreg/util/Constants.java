@@ -42,6 +42,12 @@ public interface Constants {
     public static final String ACTION_VIEW_INDIVIDUAL_HOLDER_SEO = "VIEW_INDIVIDUAL_HOLDER_SEO";
     public static final String ACTION_EDIT_INDIVIDUAL_HOLDER_FEO = "EDIT_INDIVIDUAL_HOLDER_FEO";
     public static final String ACTION_EDIT_INDIVIDUAL_HOLDER_SEO = "EDIT_INDIVIDUAL_HOLDER_SEO";
+    public static final String ACTION_DELETE_DISPUTE_FEO = "DELETE_DISPUTE_FEO";
+    public static final String ACTION_DELETE_DISPUTE_SEO = "DELETE_DISPUTE_SEO";
+    public static final String ACTION_DELETE_INDIVIDUAL_HOLDER_FEO = "DELETE_INDIVIDUAL_HOLDER_FEO";
+    public static final String ACTION_DELETE_INDIVIDUAL_HOLDER_SEO = "DELETE_INDIVIDUAL_HOLDER_SEO";
+    public static final String ACTION_DELETE_PARCEL_FEO = "DELETE_PARCEL_FEO";
+    public static final String ACTION_DELETE_PARCEL_SEO = "DELETE_PARCEL_SEO";    
 
     // pages
     public static final int INDEX_ERROR = 0;

@@ -174,4 +174,11 @@ public class Dispute implements Entity {
         return true;
     }
 
+    public boolean remove() {
+        return delete(registeredOn, upi, stage);
+    }
+
+    public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
+        return MasterRepository.getInstance().deleteDispute(registeredOn, upi, stage);
+    }
 }

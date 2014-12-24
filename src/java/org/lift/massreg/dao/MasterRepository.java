@@ -151,7 +151,7 @@ public class MasterRepository {
 
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE upi=? and stage=?");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE upi=? and stage=? and status='active'");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             ResultSet rs = stmnt.executeQuery();
@@ -235,7 +235,7 @@ public class MasterRepository {
         boolean returnValue = false;
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE upi=? and stage=?");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE upi=? and stage=? and status='active'");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             ResultSet rs = stmnt.executeQuery();
@@ -436,7 +436,7 @@ public class MasterRepository {
         OrganizationHolder returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM organizationholder WHERE upi=? and stage=?");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM organizationholder WHERE upi=? and stage=? and status='active'");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             ResultSet rs = stmnt.executeQuery();
@@ -461,7 +461,7 @@ public class MasterRepository {
         ArrayList<IndividualHolder> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM individualholder WHERE upi=? and stage=?");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM individualholder WHERE upi=? and stage=? and status='active'");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             ResultSet rs = stmnt.executeQuery();
@@ -494,7 +494,7 @@ public class MasterRepository {
         ArrayList<Dispute> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM dispute WHERE upi=? and stage=?");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM dispute WHERE upi=? and stage=? and status='active'");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             ResultSet rs = stmnt.executeQuery();
@@ -519,4 +519,67 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean deleteDispute(Timestamp registeredOn, String upi, byte stage) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE dispute SET status='deleted' WHERE upi=? and stage=? and registeredOn=?");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            stmnt.setTimestamp(3, registeredOn);
+            stmnt.executeUpdate();
+        } catch (Exception ex) {
+            returnValue = false;
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public boolean deleteIndividualHolder(String holderId, Timestamp registeredOn, String upi, byte stage) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE IndividualHolder SET status='deleted' WHERE upi=? and stage=? and registeredOn=? and id=?");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            stmnt.setTimestamp(3, registeredOn);
+            stmnt.setLong(4, Long.parseLong(holderId));
+            stmnt.executeUpdate();
+        } catch (Exception ex) {
+            returnValue = false;
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public boolean deleteOrganizationHolder(String upi, byte stage) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE OrganizationHolder SET status='deleted' WHERE upi=? and stage=? ");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            stmnt.executeUpdate();
+        } catch (Exception ex) {
+            returnValue = false;
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public boolean deleteParcel(Timestamp registeredOn, String upi, byte stage) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE Parcel SET status='deleted' WHERE upi=? and stage=? and registeredOn=? ");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            stmnt.setTimestamp(3, registeredOn);
+            stmnt.executeUpdate();
+        } catch (Exception ex) {
+            returnValue = false;
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
 }

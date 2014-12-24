@@ -157,9 +157,11 @@
         if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_FEO;
             viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_FEO;
+            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_DISPUTE_FEO;
         } else {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_SEO;
             viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_SEO;
+            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_DISPUTE_SEO;
         }
     %>
     function validate() {
@@ -191,7 +193,17 @@
         $("#editModal").html(result);
     }
     function deleteDispute(regOn) {
-        bootbox.alert("Delete: " + regOn);
+        bootbox.confirm("Are you sure you want delete thise dispute ?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=deleteurl%>",
+                    data: {"registeredOn": regOn },
+                    error: showajaxerror,
+                    success: loadInPlace
+                });
+            }
+        });
+
     }
     function editDispute(regOn) {
         bootbox.alert("Edit: " + regOn);

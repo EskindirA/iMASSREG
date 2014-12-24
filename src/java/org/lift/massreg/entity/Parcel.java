@@ -445,4 +445,12 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
+    
+    public boolean remove() {
+        return delete(registeredOn, upi, stage);
+    }
+
+    public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
+        return MasterRepository.getInstance().deleteParcel(registeredOn, upi, stage);
+    }
 }

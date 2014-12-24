@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.lift.massreg.dao.MasterRepository;
@@ -447,6 +448,106 @@ public class FirstEntry {
             request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request to delete a parcel by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void deleteParcel(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") == null) {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the parcel your are trying to delete dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+            return;
+        }
+        // Delete all disputes of the parcel, if any
+        if (parcel.hasDispute()) {
+            ArrayList<Dispute> allDisputes = parcel.getDisputes();
+            for (int i = 0; i < allDisputes.size(); i++) {
+                allDisputes.get(i).remove();
+            }
+        }
+        // Delete all holders of the parcel, if any
+        if (parcel.getHolding() == 1) {
+             ArrayList<IndividualHolder> allHolders = parcel.getIndividualHolders();
+            for (int i = 0; i < allHolders.size(); i++) {
+                allHolders.get(i).remove();
+            }
+        }else{
+            parcel.getOrganaizationHolder().remove();
+        }
+        
+        // Delete the parcel
+        parcel.remove();
+        
+        // remove the session and request attributes
+        // do not remove the kebele since the operator is probably going to 
+        // work on a parcel within the same kebele
+        request.getSession().setAttribute("upi", null);
+        request.getSession().setAttribute("parcelNo", null);
+        request.setAttribute("upi", null);
+        request.setAttribute("parcelNo", null);
+        request.setAttribute("currentParcel", null);
+        
+        // Forward to the welcome page
+        welcomeFrom(request, response);
+    }
+
+    /**
+     * Handlers request to delete a dispute by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (Dispute.delete(Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
+            Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+            request.setAttribute("currentParcel", parcel);
+            viewDisputeList(request, response);
+        } else {
+            // if the parcel fails to validate show error message
+            request.getSession().setAttribute("title", "Delete Error");
+            request.getSession().setAttribute("message", "Sorry, there was a problem deleting the dispute");
+            request.getSession().setAttribute("returnTitle", "Go back to dispute list");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_DISPUTE_LIST_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request to delete an individual holder by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (IndividualHolder.delete(request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
+            Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+            request.setAttribute("currentParcel", parcel);
+            individualHolderList(request, response);
+        } else {
+            // if the parcel fails to validate show error message
+            request.getSession().setAttribute("title", "Delete Error");
+            request.getSession().setAttribute("message", "Sorry, there was a problem deleteing the holder");
+            request.getSession().setAttribute("returnTitle", "Go back to dispute list");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         }
