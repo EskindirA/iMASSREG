@@ -106,49 +106,48 @@
                 <h4 class="modal-title">Register a holder</h4>
             </div>            <!-- /modal-header -->
             <div class="modal-body">
-                <form>
+                <form role="form" action="#" id="addHolderForm">
                     <div class="panel-body">
-                        <form role="form" action="#" id="addParcelForm">
-                            <div class="row">
-                                <div class="form-group">
-                                    <label>Holder Id</label>
-                                    <input class="form-control " type="number" id="holderId" name="holderId" />
-                                </div>
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input class="form-control " id="firstName" name="firstName" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Father's Name</label>
-                                    <input class="form-control " id="fathersName" name="fathersName" />
-                                </div> 
-                                <div class="form-group">
-                                    <label>Grandfather's Name</label>
-                                    <input class="form-control " id="grandFathersName" name="grandFathersName" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Sex</label>
-                                    <select class="form-control" id="sex" name="sex">
-                                        <option value = 'm'>Male</option>
-                                        <option value = 'f'>Female</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Date of Birth</label>
-                                    <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date'/>
-                                </div>
-                                <div class="form-group">
-                                    <label>Family Role</label>
-                                    <select class="form-control" id="familyRole" name="familyRole" >
-                                        <%
-                                            Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
-                                            for (int i = 0; i < familyRoleTypes.length; i++) {
-                                                out.println("<option value = '" + familyRoleTypes[i].getKey() + "'>" + familyRoleTypes[i].getValue() + "</option>");
-                                            }
-                                        %>
-                                    </select>
-                                </div>
-                            </div> <!-- /.row (nested) -->
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Holder Id</label>
+                                <input class="form-control " type="number" id="holderId" name="holderId" />
+                            </div>
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input class="form-control " id="firstName" name="firstName" />
+                            </div>
+                            <div class="form-group">
+                                <label>Father's Name</label>
+                                <input class="form-control " id="fathersName" name="fathersName" />
+                            </div> 
+                            <div class="form-group">
+                                <label>Grandfather's Name</label>
+                                <input class="form-control " id="grandFathersName" name="grandFathersName" />
+                            </div>
+                            <div class="form-group">
+                                <label>Sex</label>
+                                <select class="form-control" id="sex" name="sex">
+                                    <option value = 'm'>Male</option>
+                                    <option value = 'f'>Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date'/>
+                            </div>
+                            <div class="form-group">
+                                <label>Family Role</label>
+                                <select class="form-control" id="familyRole" name="familyRole" >
+                                    <%
+                                        Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
+                                        for (int i = 0; i < familyRoleTypes.length; i++) {
+                                            out.println("<option value = '" + familyRoleTypes[i].getKey() + "'>" + familyRoleTypes[i].getValue() + "</option>");
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                        </div> <!-- /.row (nested) -->
                     </div> <!-- /.panel-body -->
                 </form>
             </div>
@@ -177,25 +176,31 @@
             deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO;
         }
     %>
-    function validate() {
+    function closeModals() {
+        $("#editModal").html("");
+        $("#editModal").hide();
+        $("#viewModal").hide();
+        $("#viewModal").html("");
+    }
+    function validate(formId) {
         var returnValue = true;
 //$("#holderId").toggle("error=off");
 //$("#firstName").toggle("error=off");
 //$("#fathersName").toggle("error=off");
 //$("#grandFathersName").toggle("error=off");
-        if ($("#holderId").val().trim() === "") {
+        if ($("#" + formId + " #holderId").val().trim() === "") {
             returnValue = false;
 //$("#holderId").toggle("error");
         }
-        if ($("#firstName").val().trim() === "") {
+        if ($("#" + formId + " #firstName").val().trim() === "") {
             returnValue = false;
 //$("#firstName").toggle("error");
         }
-        if ($("#fathersName").val().trim() === "") {
+        if ($("#" + formId + " #fathersName").val().trim() === "") {
             returnValue = false;
 //$("#fathersName").toggle("error");
         }
-        if ($("#grandFathersName").val().trim() === "") {
+        if ($("#" + formId + " #grandFathersName").val().trim() === "") {
             returnValue = false;
 //$("#grandFathersName").toggle("error");
         }
@@ -248,13 +253,13 @@
     function save() {
         $.ajax({
             url: "<%=saveurl%>",
-            data: {"dateofbirth": $("#dateOfBirth").val(),
-                "familyrole": $("#familyRole").val(),
-                "firstname": $("#firstName").val(),
-                "fathersname": $("#fathersName").val(),
-                "grandfathersname": $("#grandFathersName").val(),
-                "holderId": $("#holderId").val(),
-                "sex": $("#sex").val()
+            data: {"dateofbirth": $("#addHolderForm #dateOfBirth").val(),
+                "familyrole": $("#addHolderForm #familyRole").val(),
+                "firstname": $("#addHolderForm #firstName").val(),
+                "fathersname": $("#addHolderForm #fathersName").val(),
+                "grandfathersname": $("#addHolderForm #grandFathersName").val(),
+                "holderId": $("#addHolderForm #holderId").val(),
+                "sex": $("#addHolderForm #sex").val()
             },
             error: showajaxerror,
             success: loadForward
@@ -275,7 +280,7 @@
             return false;
         });
         $("#saveHolderButton").click(function() {
-            if (!validate()) {// validate
+            if (!validate("addHolderForm")) {// validate
                 showError("Please input appropriate values in the highlighted fields");
                 return false;
             } else {

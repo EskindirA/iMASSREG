@@ -199,6 +199,134 @@ public class FirstEntry {
     }
 
     /**
+     * Handlers request for getting the edit dispute form by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void editDispute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", currentParcel);
+        // if the parcel does not exit in the database 
+        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 1)) {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "The dispute you are trying to edit does not exist in the database, use the add button to register it.");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        } else {
+            request.setAttribute("title", IOC.getTitle(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_DISPUTE_FEO));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request to update dispute information by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void updateDispute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", currentParcel);
+        // if the parcel does not exit in the database 
+        Dispute oldDispute = currentParcel.getDispute(currentParcel.getStage(), Timestamp.valueOf(request.getParameter("registeredOn")));
+        Dispute newDispute = new Dispute();
+        try {
+            newDispute.setRegisteredOn(Timestamp.from(Instant.now()));
+            newDispute.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
+            newDispute.setStage(CommonStorage.getFEStage());
+            newDispute.setUpi(oldDispute.getUpi());
+            newDispute.setFirstName(request.getParameter("firstname"));
+            newDispute.setFathersName(request.getParameter("fathersname"));
+            newDispute.setGrandFathersName(request.getParameter("grandfathersname"));
+            newDispute.setDisputeStatus(Byte.parseByte(request.getParameter("disputeStatus")));
+            newDispute.setSex(request.getParameter("sex"));
+            newDispute.setDisputeType(Byte.parseByte(request.getParameter("disputeType")));
+            if (newDispute.validateForUpdate()) {
+                //Dispute.getLogStatment(oldDispute,newDispute);
+                MasterRepository.getInstance().update(oldDispute, newDispute);
+                viewDisputeList(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request to update individual holder information by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void updateIndividualHolder(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", currentParcel);
+
+        IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
+                request.getParameter("oldHolderId"), currentParcel.getStage(), 
+                Timestamp.valueOf(request.getParameter("registeredOn")));
+        IndividualHolder newIndividualHolder = new IndividualHolder();
+        try {
+                newIndividualHolder.setDateOfBirth(request.getParameter("dateofbirth"));
+                newIndividualHolder.setFamilyRole(Byte.parseByte(request.getParameter("familyrole")));
+                newIndividualHolder.setFirstName(request.getParameter("firstname"));
+                newIndividualHolder.setFathersName(request.getParameter("fathersname"));
+                newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
+                newIndividualHolder.setId(request.getParameter("newHolderId"));
+                newIndividualHolder.setSex(request.getParameter("sex"));
+                newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
+                newIndividualHolder.setStatus(Constants.STATUS[0]);
+
+                if (newIndividualHolder.validateForUpdate()) {
+                    //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
+                    MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
+                    viewHolder(request, response);
+                } else {
+                    // if the parcel fails to validate show error message
+                    request.getSession().setAttribute("title", "Validation Error");
+                    request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                    request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                    request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                    rd.forward(request, response);
+                }
+
+            } catch (NumberFormatException | ServletException | IOException ex) {
+                CommonStorage.getLogger().logError(ex.toString());
+                request.getSession().setAttribute("title", "Inrernal Error");
+                request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+                request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+    }
+    /**
      * Handlers request to save parcel form by the first entry operator
      *
      * @param request request object passed from the main controller

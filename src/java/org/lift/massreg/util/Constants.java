@@ -48,7 +48,13 @@ public interface Constants {
     public static final String ACTION_DELETE_INDIVIDUAL_HOLDER_SEO = "DELETE_INDIVIDUAL_HOLDER_SEO";
     public static final String ACTION_DELETE_PARCEL_FEO = "DELETE_PARCEL_FEO";
     public static final String ACTION_DELETE_PARCEL_SEO = "DELETE_PARCEL_SEO";    
-
+    public static final String ACTION_EDIT_DISPUTE_FEO = "EDIT_DISPUTE_FEO";
+    public static final String ACTION_EDIT_DISPUTE_SEO = "EDIT_DISPUTE_SEO";
+    public static final String ACTION_UPDATE_DISPUTE_FEO = "UPDATE_DISPUTE_FEO";
+    public static final String ACTION_UPDATE_DISPUTE_SEO = "UPDATE_DISPUTE_SEO";
+    public static final String ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO = "UPDATE_INDIVIDUAL_HOLDER_FEO";
+    public static final String ACTION_UPDATE_INDIVIDUAL_HOLDER_SEO = "UPDATE_INDIVIDUAL_HOLDER_SEO";
+    
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_FIRST_ENTRY_WELCOME = 1;
@@ -75,7 +81,8 @@ public interface Constants {
     public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_SEO = 22;
     public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_FEO = 23;
     public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_SEO = 24;
-
+    public static final int INDEX_EDIT_DISPUTE_FEO = 25;
+    public static final int INDEX_EDIT_DISPUTE_SEO = 26;
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

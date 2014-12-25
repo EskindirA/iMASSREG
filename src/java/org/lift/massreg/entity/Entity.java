@@ -9,7 +9,6 @@ package org.lift.massreg.entity;
  */
 public interface Entity {
 
-    ///TODO: uncommont the following
     public boolean validateForSave();
-    //public boolean validateForUpdate();
+    public boolean validateForUpdate();
 }

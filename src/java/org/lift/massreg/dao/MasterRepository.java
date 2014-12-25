@@ -97,7 +97,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO dispute(upi, stage, registeredby, registeredon,"
                 + "firstname, fathersname, grandfathersname, sex, disputetype, "
-                + "disputestatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "disputestatus,status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, dispute.getUpi());
@@ -110,6 +110,7 @@ public class MasterRepository {
             stmnt.setString(8, dispute.getSex());
             stmnt.setByte(9, dispute.getDisputeType());
             stmnt.setByte(10, dispute.getDisputeStatus());
+            stmnt.setString(11, "active");
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -548,6 +549,66 @@ public class MasterRepository {
         } catch (Exception ex) {
             returnValue = false;
             CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public boolean update(Dispute oldDispute, Dispute newDispute) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE dispute SET firstname = ?,  fathersname = ?,"
+                + "grandfathersname = ?, sex=?, disputetype=?, disputestatus=?,"
+                + "status=? WHERE upi=? and stage = ? and registeredon = ?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newDispute.getFirstName());
+            stmnt.setString(2, newDispute.getFathersName());
+            stmnt.setString(3, newDispute.getGrandFathersName());
+            stmnt.setString(4, newDispute.getSex());
+            stmnt.setByte(5, newDispute.getDisputeType());
+            stmnt.setByte(6, newDispute.getDisputeStatus());
+            stmnt.setString(7, "active");
+            stmnt.setString(8, oldDispute.getUpi());
+            stmnt.setByte(9, oldDispute.getStage());
+            stmnt.setTimestamp(10, oldDispute.getRegisteredOn());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean update(IndividualHolder oldIndividualHolder,
+            IndividualHolder newIndividualHolder) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE individualholder SET firstname=?, "
+                + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=?, "
+                + "familyrole=? WHERE upi=? and stage = ? and registeredon = ?"
+                + "and id=?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newIndividualHolder.getFirstName());
+            stmnt.setString(2, newIndividualHolder.getFathersName());
+            stmnt.setString(3, newIndividualHolder.getGrandFathersName());
+            stmnt.setString(4, newIndividualHolder.getSex());
+            stmnt.setDate(5, Date.valueOf(newIndividualHolder.getDateOfBirth()));
+            stmnt.setByte(6, newIndividualHolder.getFamilyRole());
+            stmnt.setString(7, oldIndividualHolder.getUpi());
+            stmnt.setByte(8, oldIndividualHolder.getStage());
+            stmnt.setTimestamp(9, oldIndividualHolder.getRegisteredOn());
+            stmnt.setLong(10, Long.parseLong(oldIndividualHolder.getId()));
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
         }
         return returnValue;
     }

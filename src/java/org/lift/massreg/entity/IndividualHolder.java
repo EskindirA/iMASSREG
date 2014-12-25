@@ -174,4 +174,10 @@ public class IndividualHolder implements Entity {
 
         return MasterRepository.getInstance().deleteIndividualHolder(holderId,registeredOn, upi, stage);
     }
+
+    @Override
+    public boolean validateForUpdate() {
+        return true;
+    }
+    
 }

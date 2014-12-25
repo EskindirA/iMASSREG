@@ -1,6 +1,6 @@
 package org.lift.massreg.entity;
 
-import java.sql.Timestamp;
+import java.sql.*;
 import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.util.Option;
 
@@ -181,4 +181,9 @@ public class Dispute implements Entity {
     public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
         return MasterRepository.getInstance().deleteDispute(registeredOn, upi, stage);
     }
+
+    @Override
+    public boolean validateForUpdate() {
+        return true;
+    } 
 }

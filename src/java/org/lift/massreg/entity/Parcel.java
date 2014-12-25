@@ -453,4 +453,9 @@ public class Parcel implements Entity {
     public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
         return MasterRepository.getInstance().deleteParcel(registeredOn, upi, stage);
     }
+    
+    @Override
+    public boolean validateForUpdate() {
+        return true;
+    }
 }

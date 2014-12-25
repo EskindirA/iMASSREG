@@ -112,4 +112,9 @@ public class OrganizationHolder implements Entity {
 
         return MasterRepository.getInstance().deleteOrganizationHolder(upi, stage);
     }
+    
+    @Override
+    public boolean validateForUpdate() {
+        return true;
+    }
 }
