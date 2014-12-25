@@ -76,7 +76,11 @@
                                     out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                 }
                             %>
-                            <button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>
+                            <%
+                                if (currentParcel.getDisputeCount() >= 1) {
+                                    out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
+                                }
+                            %>
                         </div>                        
                     </div>
                 </div>
@@ -197,7 +201,7 @@
             if (result) {
                 $.ajax({
                     url: "<%=deleteurl%>",
-                    data: {"registeredOn": regOn },
+                    data: {"registeredOn": regOn},
                     error: showajaxerror,
                     success: loadInPlace
                 });

@@ -82,10 +82,12 @@
                                 } else {
                                     out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                 }
-                                if (currentParcel.hasDispute()) {
-                                    out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Next</button>");
-                                } else {
-                                    out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
+                                if (currentParcel.getHolderCount() >= 1) {
+                                    if (currentParcel.hasDispute()) {
+                                        out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Next</button>");
+                                    } else {
+                                        out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
+                                    }
                                 }
                             %>
                         </div>                        
@@ -162,7 +164,7 @@
 
 <script type="text/javascript">
     <%
-        String saveurl,viewurl,editurl,deleteurl;
+        String saveurl, viewurl, editurl, deleteurl;
         if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
             viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_FEO;
