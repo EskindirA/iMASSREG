@@ -83,14 +83,15 @@ public class MainFilter extends HttpServlet {
             FirstEntry.editParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
             FirstEntry.saveParcel(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
-            FirstEntry.saveParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_SEO)) {
             request.setAttribute("upi", request.getSession().getAttribute("upi"));
             FirstEntry.updateParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.viewHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.editOrganizationHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.saveHolder(request, response);
@@ -130,6 +131,9 @@ public class MainFilter extends HttpServlet {
         }  else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.updateOrganizationHolder(request, response);
         } else {
             All.goBackToHome(request, response);
         }

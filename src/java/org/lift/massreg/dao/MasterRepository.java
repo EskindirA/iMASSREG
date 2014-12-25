@@ -613,6 +613,32 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean update(OrganizationHolder oldOrganizationHolder,
+            OrganizationHolder newOrganizationHolder) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE organizationholder SET organizationname=?, "
+                + "organizationtype=? WHERE upi=? and stage = ? and "
+                + "registeredon = ?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newOrganizationHolder.getName());
+            stmnt.setByte(2, newOrganizationHolder.getOrganizationType());
+            stmnt.setString(3, oldOrganizationHolder.getUpi());
+            stmnt.setByte(4, oldOrganizationHolder.getStage());
+            stmnt.setTimestamp(5, oldOrganizationHolder.getRegisteredon());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    
     public boolean deleteOrganizationHolder(String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();

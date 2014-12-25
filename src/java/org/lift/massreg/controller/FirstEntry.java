@@ -275,7 +275,8 @@ public class FirstEntry {
     }
 
     /**
-     * Handlers request to update individual holder information by the first entry operator
+     * Handlers request to update individual holder information by the first
+     * entry operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -288,44 +289,92 @@ public class FirstEntry {
         request.setAttribute("currentParcel", currentParcel);
 
         IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
-                request.getParameter("oldHolderId"), currentParcel.getStage(), 
+                request.getParameter("oldHolderId"), currentParcel.getStage(),
                 Timestamp.valueOf(request.getParameter("registeredOn")));
         IndividualHolder newIndividualHolder = new IndividualHolder();
         try {
-                newIndividualHolder.setDateOfBirth(request.getParameter("dateofbirth"));
-                newIndividualHolder.setFamilyRole(Byte.parseByte(request.getParameter("familyrole")));
-                newIndividualHolder.setFirstName(request.getParameter("firstname"));
-                newIndividualHolder.setFathersName(request.getParameter("fathersname"));
-                newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
-                newIndividualHolder.setId(request.getParameter("newHolderId"));
-                newIndividualHolder.setSex(request.getParameter("sex"));
-                newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
-                newIndividualHolder.setStatus(Constants.STATUS[0]);
+            newIndividualHolder.setDateOfBirth(request.getParameter("dateofbirth"));
+            newIndividualHolder.setFamilyRole(Byte.parseByte(request.getParameter("familyrole")));
+            newIndividualHolder.setFirstName(request.getParameter("firstname"));
+            newIndividualHolder.setFathersName(request.getParameter("fathersname"));
+            newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
+            newIndividualHolder.setId(request.getParameter("newHolderId"));
+            newIndividualHolder.setSex(request.getParameter("sex"));
+            newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
+            newIndividualHolder.setStatus(Constants.STATUS[0]);
 
-                if (newIndividualHolder.validateForUpdate()) {
-                    //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
-                    MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
-                    viewHolder(request, response);
-                } else {
-                    // if the parcel fails to validate show error message
-                    request.getSession().setAttribute("title", "Validation Error");
-                    request.getSession().setAttribute("message", "Sorry, there was a validation error ");
-                    request.getSession().setAttribute("returnTitle", "Go back to holder list");
-                    request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
-                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
-                    rd.forward(request, response);
-                }
-
-            } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
-                request.getSession().setAttribute("title", "Inrernal Error");
-                request.getSession().setAttribute("message", "Sorry, some internal error has happend");
-                request.getSession().setAttribute("returnTitle", "Go back to Parcel");
-                request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+            if (newIndividualHolder.validateForUpdate()) {
+                //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
+                MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
+                viewHolder(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
                 RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
                 rd.forward(request, response);
             }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
     }
+
+    /**
+     * Handlers request to update organization holder information by the first
+     * entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void updateOrganizationHolder(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", currentParcel);
+
+        try {
+            OrganizationHolder oldOrganizationHolder = currentParcel.getOrganaizationHolder();
+            OrganizationHolder newOrganizationHolder = new OrganizationHolder();
+            newOrganizationHolder.setName(request.getParameter("organizationName"));
+            newOrganizationHolder.setOrganizationType(Byte.parseByte(request.getParameter("organizationType")));
+            newOrganizationHolder.setStage(CommonStorage.getFEStage());
+            newOrganizationHolder.setStatus(Constants.STATUS[0]);
+
+            if (newOrganizationHolder.validateForUpdate()) {
+                //OrganizationHolder.getLogStatment(oldOrganizationHolder,newOrganizationHolder);
+                MasterRepository.getInstance().update(oldOrganizationHolder, newOrganizationHolder);
+                viewOrganizationHolder(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
     /**
      * Handlers request to save parcel form by the first entry operator
      *
@@ -390,6 +439,30 @@ public class FirstEntry {
         }
     }
 
+    /**
+     * Handlers request to edit organization holder form by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void editOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") != null) {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_FEO));
+            rd.forward(request, response);
+        }else{
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+    
     /**
      * Handlers request to update parcel details by the first entry operator
      *

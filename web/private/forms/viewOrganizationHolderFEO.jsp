@@ -11,8 +11,8 @@
 %>
 <div class="col-lg-5 col-lg-offset-4">
     <div class="row">
-        <div class="col-lg-6 col-lg-offset-3">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;Holder Details</h2>
+        <div class="col-lg-7 col-lg-offset-3">
+            <h2 class="page-header">View Holder Details</h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
@@ -76,10 +76,6 @@
         $("#viewHolderFrom select").each(function() {
             $(this).val($(this).attr("value"));
         });
-        
-        $("#editHolderButton").click(function() {
-            bootbox.alert("Edit");
-        });
         $("#backButton").click(function() {
             bootbox.confirm("Are you sure you want to go back?", function(result) {
                 if (result) {
@@ -93,7 +89,12 @@
                                     return false;
                                 });
         $("#editHolderButton").click(function() {
-            bootbox.alert("Edit Holder");
+            $.ajax({
+                url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO%>",
+                error: showajaxerror,
+                success: loadInPlace
+            });
+            return false;
         });
         $("#nextButton").click(function() {
             $.ajax({
