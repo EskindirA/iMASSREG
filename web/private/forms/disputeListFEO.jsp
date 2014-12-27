@@ -156,37 +156,48 @@
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <script type="text/javascript">
     <%
-        String saveurl, viewurl, deleteurl, editurl;
+        String saveurl, viewurl, deleteurl, editurl, backurl,finishurl;
         if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_FEO;
             viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_FEO;
             deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_DISPUTE_FEO;
             editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_DISPUTE_FEO;
+            finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_DISPUTE_FEO;
+            if (currentParcel.getHolding() == 1) {
+                backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_FEO;
+            } else {
+                backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
+            }
         } else {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_SEO;
             viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_SEO;
             deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_DISPUTE_SEO;
             editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_DISPUTE_SEO;
+            finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_DISPUTE_SEO;
+            if (currentParcel.getHolding() == 1) {
+                backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SEO;
+            } else {
+                backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
+            }
         }
     %>
     function validate(formId) {
         var returnValue = true;
-//$("#firstName").toggle("error=off");
-//$("#fathersName").toggle("error=off");
-//$("#grandFathersName").toggle("error=off");
-        if ($("#"+formId+" #firstName").val().trim() === "") {
+        $("#" + formId + " #firstName").toggleClass("error-field",false);
+        $("#" + formId + " #fathersName").toggleClass("error-field",false);
+        $("#" + formId + " #grandFathersName").toggleClass("error-field",false);
+        if ($("#" + formId + " #firstName").val().trim() === "") {
             returnValue = false;
-//$("#firstName").toggle("error");
+            $("#" + formId + " #firstName").toggleClass("error-field",true);
         }
-        if ($("#"+formId+" #fathersName").val().trim() === "") {
+        if ($("#" + formId + " #fathersName").val().trim() === "") {
             returnValue = false;
-//$("#fathersName").toggle("error");
+            $("#" + formId + " #fathersName").toggleClass("error-field",true);
         }
-        if ($("#"+formId+" #grandFathersName").val().trim() === "") {
+        if ($("#" + formId + " #grandFathersName").val().trim() === "") {
             returnValue = false;
-//$("#grandFathersName").toggle("error");
+            $("#" + formId + " #grandFathersName").toggleClass("error-field",true);
         }
-        showMessage("Validation:");
         return returnValue;
     }
     function loadViewDispute(result) {
@@ -243,49 +254,46 @@
             success: loadForward
         });
     }
-    $(document).ready(function() {
-        $("#finishButton").click(function() {
+    $("#finishButton").click(function() {
             $.ajax({
-                url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
-                                error: showajaxerror,
-                                success: loadForward
-                            });
-                return false;
-            });
-        $('#dataTables-example').dataTable({"bPaginate": false});
-        $('.editButton').click(function() {
-            editDispute($(this).attr("data-registeredOn"));
+                url: "<%=finishurl%>",
+                    error: showajaxerror,
+                    success: loadForward
+                });
             return false;
         });
-        $('.viewButton').click(function() {
-            viewDispute($(this).attr("data-registeredOn"));
-            return false;
-        });
-        $('.deleteButton').click(function() {
-            deleteDispute($(this).attr("data-registeredOn"));
-            return false;
-        });
-        $("#saveHolderButton").click(function() {
-            if (!validate("addDisputeForm")) {// validate
-                showError("Please input appropriate values in the highlighted fields");
-                return false;
-            } else {
-                save();// save
-                $("#addModal").hide();// close modale
+    $('#dataTables-example').dataTable({"bPaginate": false});
+    $('.editButton').click(function() {
+        editDispute($(this).attr("data-registeredOn"));
+        return false;
+    });
+    $('.viewButton').click(function() {
+        viewDispute($(this).attr("data-registeredOn"));
+        return false;
+    });
+    $('.deleteButton').click(function() {
+        deleteDispute($(this).attr("data-registeredOn"));
+        return false;
+    });
+    $("#saveHolderButton").click(function() {
+        if (!validate("addDisputeForm")) {// validate
+            showError("Please input appropriate values in the highlighted fields");
+        } else {
+            save();// save
+            $("#addModal").hide();// close modale
+        }
+        return false;
+    });
+    $("#backButton").click(function() {
+        bootbox.confirm("Are you sure you want to go back?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=backurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
             }
-            return false;
         });
-        $("#backButton").click(function() {
-            bootbox.confirm("Are you sure you want to go back?", function(result) {
-                if (result) {
-                    $.ajax({
-                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_HOLDER_FEO%>",
-                                                error: showajaxerror,
-                                                success: loadBackward
-                                            });
-                                        }
-                                    });
-                                    return false;
-                                });
-        });
+        return false;
+    });
 </script>

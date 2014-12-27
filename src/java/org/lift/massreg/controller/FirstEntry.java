@@ -1,5 +1,6 @@
 package org.lift.massreg.controller;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -173,6 +174,31 @@ public class FirstEntry {
     }
 
     /**
+     * Handlers request for viewing a person with interest by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void viewPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") != null) {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_FEO));
+            rd.forward(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the holder your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
      * Handlers request for getting the edit individual holder form by the first
      * entry operator
      *
@@ -194,6 +220,31 @@ public class FirstEntry {
         } else {
             request.setAttribute("title", IOC.getTitle(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request for getting the edit person with form by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void editPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", currentParcel);
+        // if the parcel does not exit in the database 
+        if (currentParcel == null) {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "The person with interest you are trying to edit does not exist in the database, use the add button to register it.");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_PERSON_WITH_INTEREST_FEO));
             rd.forward(request, response);
         }
     }
@@ -269,6 +320,56 @@ public class FirstEntry {
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request to update person with interest information by the first
+     * entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void updatePersonWithInterest(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", currentParcel);
+
+        PersonWithInterest oldPersonWithInterest = currentParcel.getPersonWithInterest(
+                currentParcel.getStage(), Timestamp.valueOf(request.getParameter("registeredOn")));
+        PersonWithInterest newPersonWithInterest = new PersonWithInterest();
+        try {
+            newPersonWithInterest.setDateOfBirth(request.getParameter("dateofbirth"));
+            newPersonWithInterest.setFirstName(request.getParameter("firstname"));
+            newPersonWithInterest.setFathersName(request.getParameter("fathersname"));
+            newPersonWithInterest.setGrandFathersName(request.getParameter("grandfathersname"));
+            newPersonWithInterest.setSex(request.getParameter("sex"));
+            newPersonWithInterest.setUpi(request.getSession().getAttribute("upi").toString());
+            newPersonWithInterest.setStatus(Constants.STATUS[0]);
+            if (newPersonWithInterest.validateForUpdate()) {
+                //PersonWithInterest.getLogStatment(oldPersonWithInterest,newPersonWithInterest);
+                MasterRepository.getInstance().update(oldPersonWithInterest, newPersonWithInterest);
+                personsWithInterestList(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         }
@@ -440,7 +541,59 @@ public class FirstEntry {
     }
 
     /**
-     * Handlers request to edit organization holder form by the first entry operator
+     * Handlers request to edit organization holder form by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void finishOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") != null) {
+            parcel.complete();
+            welcomeFrom(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    
+    /**
+     * Handlers request to finish data entry by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void finishDispute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") != null) {
+            parcel.complete();
+            welcomeFrom(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    
+    /**
+     * Handlers request to edit organization holder form by the first entry
+     * operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -453,7 +606,7 @@ public class FirstEntry {
         if (request.getAttribute("currentParcel") != null) {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_FEO));
             rd.forward(request, response);
-        }else{
+        } else {
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
@@ -462,7 +615,7 @@ public class FirstEntry {
             rd.forward(request, response);
         }
     }
-    
+
     /**
      * Handlers request to update parcel details by the first entry operator
      *
@@ -471,20 +624,14 @@ public class FirstEntry {
      */
     protected static void updateParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        Parcel oldParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
         Parcel newParcel = new Parcel();
         try {
             newParcel.setStatus(Constants.STATUS[0]);
 
-            newParcel.setParcelId(Integer.parseInt(request.getSession().getAttribute("parcelNo").toString()));
-            newParcel.setUpi(request.getSession().getAttribute("upi").toString());
-            newParcel.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
-
             newParcel.setCertificateNumber(request.getParameter("certificateNumber"));
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
-
             newParcel.setMapSheetNo(request.getParameter("mapsheetNumber"));
-
             newParcel.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
             newParcel.setAcquisitionYear(Integer.parseInt(request.getParameter("acquisitionYear")));
             newParcel.setCurrentLandUse(Byte.parseByte(request.getParameter("currentLandUse")));
@@ -492,9 +639,36 @@ public class FirstEntry {
             newParcel.setHolding(Byte.parseByte(request.getParameter("holdingType")));
             newParcel.setOtherEvidence(Byte.parseByte(request.getParameter("otherEvidence")));
             newParcel.setSoilFertility(Byte.parseByte(request.getParameter("soilFertility")));
-            newParcel.setStage(CommonStorage.getFEStage());
             newParcel.setSurveyDate(request.getParameter("surveyDate"));
             newParcel.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
+            if (newParcel.validateForUpdate()) {
+                //Parcel.getLogStatment(oldParcel,newParcel);
+                MasterRepository.getInstance().update(oldParcel, newParcel);
+                if (newParcel.getHolding() == 1 && oldParcel.getHolding() != 1) {
+                    OrganizationHolder.delete(oldParcel.getUpi(), oldParcel.getStage());
+                }
+                if (newParcel.getHolding() != 1 && oldParcel.getHolding() == 1) {
+                    ArrayList<IndividualHolder> holders = oldParcel.getIndividualHolders();
+                    for (int i = 0; i < holders.size(); i++) {
+                        holders.get(i).remove();
+                    }
+                }
+                if (!newParcel.hasDispute() && oldParcel.hasDispute()) {
+                    ArrayList<Dispute> disputes = oldParcel.getDisputes();
+                    for (int i = 0; i < disputes.size(); i++) {
+                        disputes.get(i).remove();
+                    }
+                }
+                viewParcel(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_PARCEL_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
             /*if (newParcel.validateForUpdate()) {
              newParcel.saveParcelOnly();
              request.getSession().setAttribute("currentParcel", p);
@@ -537,6 +711,33 @@ public class FirstEntry {
             throws ServletException, IOException {
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_FEO));
         rd.forward(request, response);
+    }
+
+    /**
+     * Handlers request to view list of individual holders by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void personsWithInterestList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        parcel = (Parcel) request.getAttribute("currentParcel");
+        if (parcel != null) {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_FEO));
+            rd.forward(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+
     }
 
     /**
@@ -756,6 +957,28 @@ public class FirstEntry {
     }
 
     /**
+     * Handlers request to delete a person with interest by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (PersonWithInterest.delete(Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
+            personsWithInterestList(request, response);
+        } else {
+            // if the parcel fails to validate show error message
+            request.getSession().setAttribute("title", "Delete Error");
+            request.getSession().setAttribute("message", "Sorry, there was a problem deleteing the person with interest");
+            request.getSession().setAttribute("returnTitle", "Go back to dispute list");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
      * Handlers request to save an individual holder by the first entry operator
      *
      * @param request request object passed from the main controller
@@ -808,6 +1031,57 @@ public class FirstEntry {
     }
 
     /**
+     * Handlers request to save an person with interest by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void savePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        request.setAttribute("currentParcel", parcel);
+        if (parcel != null) {
+            PersonWithInterest pwi = new PersonWithInterest();
+            try {
+                pwi.setRegisteredOn(Timestamp.from(Instant.now()));
+                pwi.setDateOfBirth(request.getParameter("dateofbirth"));
+                pwi.setFirstName(request.getParameter("firstname"));
+                pwi.setFathersName(request.getParameter("fathersname"));
+                pwi.setGrandFathersName(request.getParameter("grandfathersname"));
+                pwi.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
+                pwi.setSex(request.getParameter("sex"));
+                pwi.setStage(CommonStorage.getFEStage());
+                pwi.setUpi(request.getSession().getAttribute("upi").toString());
+                pwi.setStatus(Constants.STATUS[0]);
+
+                if (pwi.validateForSave()) {
+                    pwi.save();
+                    personsWithInterestList(request, response);
+                } else {
+                    // if the parcel fails to validate show error message
+                    request.getSession().setAttribute("title", "Validation Error");
+                    request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                    request.getSession().setAttribute("returnTitle", "Go back to person with persons with interest list");
+                    request.getSession().setAttribute("returnAction", Constants.ACTION_PERSONS_WITH_INTEREST_LIST_FEO);
+                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                    rd.forward(request, response);
+                }
+
+            } catch (NumberFormatException | ServletException | IOException ex) {
+                CommonStorage.getLogger().logError(ex.toString());
+                request.getSession().setAttribute("title", "Inrernal Error");
+                request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+                request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+        }
+
+    }
+
+    /**
      * Handlers request to save organization holder by the first entry operator
      *
      * @param request request object passed from the main controller
@@ -834,7 +1108,7 @@ public class FirstEntry {
                     if (parcel.hasDispute()) {
                         viewDisputeList(request, response);
                     } else {
-                        welcomeFrom(request, response);
+                        finishOrganizationHolder(request, response);
                     }
                 } else {
                     // if the parcel fails to validate show error message

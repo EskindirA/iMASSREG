@@ -144,63 +144,61 @@
             </div> <!-- /.panel -->
         </div> <!-- /.col-lg-12 -->
     </div>
-    <script type="text/javascript">
-        <%
-            String nexturl, editurl, deleteurl;
-            if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-                nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
-                editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_FEO;
-                deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_FEO;
-            } else {
-                nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
-                editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_SEO;
-                deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_SEO;
-            }
-        %>
-        $(function() {
-            $("#addParcelForm select").each(function() {
-                $(this).val($(this).attr("value"));
-            });
-            $("#editButton").click(function() {
-                $.ajax({
-                    url: "<%=editurl%>",
-                    error: showajaxerror,
-                    success: loadInPlace
-                });
-                return false;
-            });
-            $("#deleteButton").click(function() {
-                bootbox.confirm("Are you sure you want delete this parcel ?", function(result) {
-                    if (result) {
-                        $.ajax({
-                            url: "<%=deleteurl%>",
-                            error: showajaxerror,
-                            success: loadBackward
-                        });
-                    }
-                });
-                return false;
-            });
-            $("#nextButton").click(function() {
-                $.ajax({
-                    url: "<%=nexturl%>",
-                    error: showajaxerror,
-                    success: loadForward
-                });
-                return false;
-            });
-            $("#backButton").click(function() {
-                bootbox.confirm("Are you sure you want to go back?", function(result) {
-                    if (result) {
-                        $.ajax({
-                            url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
-                                                    error: showajaxerror,
-                                                    success: loadBackward
-                                                });
-                                            }
-                                        });
-                                        return false;
-                                    });
-                                });
-    </script>
 </div>
+<script type="text/javascript">
+    <%
+        String nexturl, editurl, deleteurl;
+        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
+            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_FEO;
+            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_FEO;
+        } else {
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
+            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_SEO;
+            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_SEO;
+        }
+    %>
+    $("#addParcelForm select").each(function() {
+        $(this).val($(this).attr("value"));
+    });
+    $("#editButton").click(function() {
+        $.ajax({
+            url: "<%=editurl%>",
+            error: showajaxerror,
+            success: loadInPlace
+        });
+        return false;
+    });
+    $("#deleteButton").click(function() {
+        bootbox.confirm("Are you sure you want delete this parcel ?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=deleteurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
+            }
+        });
+        return false;
+    });
+    $("#nextButton").click(function() {
+        $.ajax({
+            url: "<%=nexturl%>",
+            error: showajaxerror,
+            success: loadForward
+        });
+        return false;
+    });
+    $("#backButton").click(function() {
+        bootbox.confirm("Are you sure you want to go back?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
+            }
+        });
+        return false;
+    });
+</script>

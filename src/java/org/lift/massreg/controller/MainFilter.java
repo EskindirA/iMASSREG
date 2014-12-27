@@ -83,15 +83,24 @@ public class MainFilter extends HttpServlet {
             FirstEntry.editParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
             FirstEntry.saveParcel(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_SEO)) {
-            request.setAttribute("upi", request.getSession().getAttribute("upi"));
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_FEO)) {
+            getUPI(request);
             FirstEntry.updateParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.viewHolder(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_FEO)) {
+            getUPI(request);
+            FirstEntry.personsWithInterestList(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.editOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_FEO)) {
+            getUPI(request);
+            FirstEntry.finishOrganizationHolder(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_FEO)) {
+            getUPI(request);
+            FirstEntry.finishDispute(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.saveHolder(request, response);
@@ -134,10 +143,24 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateOrganizationHolder(request, response);
-        } else {
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_FEO)) {
+            getUPI(request);
+            FirstEntry.savePersonWithInterest(request, response);
+        }   else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_FEO)) {
+            getUPI(request);
+            FirstEntry.deletePersonWithInterest(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_FEO)) {
+            getUPI(request);
+            FirstEntry.viewPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_FEO)) {
+            getUPI(request);
+            FirstEntry.editPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_FEO)) {
+            getUPI(request);
+            FirstEntry.updatePersonWithInterest(request, response);
+        }else {
             All.goBackToHome(request, response);
         }
-        /// TODO: Set attribute values
     }
 
     private void getUPI(HttpServletRequest request) {

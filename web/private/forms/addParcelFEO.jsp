@@ -182,9 +182,15 @@
             $("#addParcelForm").submit(function() {
                 if (validate()) {
                     if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
-                        alert("Are you sure both Certificate Number and Holding Number are absent");
+                        bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?",function(result){
+                            if(result){
+                                save();
+                            }
+                            
+                        });
+                    }else{
+                        update();
                     }
-                    save();
                 }
                 return false;
             });

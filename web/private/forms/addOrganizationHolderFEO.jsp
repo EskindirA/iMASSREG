@@ -67,11 +67,13 @@
 </div>
 <script type="text/javascript">
     <%
-        String saveurl;
+        String saveurl, backurl;
         if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
+            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
         } else {
             saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SEO;
+            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
         }
     %>
     function validate() {
@@ -95,27 +97,25 @@
             success: loadForward
         });
     }
-    $(function() {
-        $("#nextButton").click(function() {
-            if (!validate()) {// validate
-                showError("Please input appropriate values in the highlighted fields");
-                return false;
-            } else {
-                save();// save
-            }
+    $("#nextButton").click(function() {
+        if (!validate()) {// validate
+            showError("Please input appropriate values in the highlighted fields");
             return false;
+        } else {
+            save();// save
+        }
+        return false;
+    });
+    $("#backButton").click(function() {
+        bootbox.confirm("Are you sure you want to go back?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=backurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
+            }
         });
-        $("#backButton").click(function() {
-            bootbox.confirm("Are you sure you want to go back?", function(result) {
-                if (result) {
-                    $.ajax({
-                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
-                                                error: showajaxerror,
-                                                success: loadBackward
-                                            });
-                                        }
-                                    });
-                                    return false;
-                                });
-                            });
+        return false;
+    });
 </script>

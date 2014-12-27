@@ -1006,3 +1006,6 @@
 .modal-title{
     text-align: center;
 }
+.error-field{
+    border-color: red;
+}

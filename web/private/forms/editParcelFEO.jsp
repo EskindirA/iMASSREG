@@ -20,7 +20,7 @@
                     Parcel: Administrative UPI - ${requestScope.upi} [ <%=cParcel.getHolderCount()%> holder(s)]
                 </div>
                 <div class="panel-body">
-                    <form role="form" action="#" id="addParcelForm">
+                    <form role="form" action="#" id="editParcelForm" >
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -138,17 +138,53 @@
     </div>
     <script type="text/javascript">
         <%
-            String saveurl, cancelurl;
+            String updateurl, cancelurl;
             if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-                saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_FEO;
+                updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_FEO;
                 cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
             } else {
-                saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_SEO;
+                updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_SEO;
                 cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
             }
         %>
+        function validate() {
+            var returnValue = true;
+            //$("#mapsheetno").toggle("error=off");
+            //$("#surveyDate").toggle("error=off");
+            if ($("#mapsheetno").val() === "") {
+                returnValue = false;
+                //$("#mapsheetno").toggle("error");
+            }
+            if ($("#surveyDate").val() === "") {
+                returnValue = false;
+                //$("#surveyDate").toggle("error");
+            }
+            showMessage("Validation");
+            return returnValue;
+        }
+        function update() {
+            $.ajax({
+                url: "<%=updateurl%>",
+                data: {
+                    "certificateNumber": $("#certificateNumber").val(),
+                    "holdingNumber": $("#holdingNumber").val(),
+                    "otherEvidence": $("#otherEvidence").val(),
+                    "meansOfAcquisition": $("#meansOfAcquisition").val(),
+                    "acquisitionYear": $("#acquisitionYear").val(),
+                    "mapsheetNumber": $("#mapsheetno").val(),
+                    "currentLandUse": $("#currentLandUse").val(),
+                    "soilFertility": $("#soilFertility").val(),
+                    "holdingType": $("#holdingType").val(),
+                    "encumbrance": $("#encumbrance").val(),
+                    "surveyDate": $("#surveyDate").val(),
+                    "hasDispute": $("#hasDispute").val()
+                },
+                error: showajaxerror,
+                success: loadInPlace
+            });
+        }
         $(function() {
-            $("#addParcelForm select").each(function() {
+            $("#editParcelForm select").each(function() {
                 $(this).val($(this).attr("value"));
             });
             $("#cancelButton").click(function() {
@@ -159,12 +195,19 @@
                 });
                 return false;
             });
-            $("#saveButton").click(function() {
-                $.ajax({
-                    url: "<%=saveurl%>",
-                    error: showajaxerror,
-                    success: loadForward
-                });
+            $("#updateButton").click(function() {
+                if (validate()) {
+                    if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
+                        bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?", function(result) {
+                            if (result) {
+                                update();
+                            }
+
+                        });
+                    }else{
+                        update();
+                    }
+                }
                 return false;
             });
             $("#backButton").click(function() {
@@ -179,6 +222,6 @@
                                         });
                                         return false;
                                     });
-                                });
+        });
     </script>
 </div>

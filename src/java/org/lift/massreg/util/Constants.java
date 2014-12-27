@@ -58,8 +58,22 @@ public interface Constants {
     public static final String ACTION_UPDATE_ORGANIZATION_HOLDER_SEO = "UPDATE_ORGANIZATION_HOLDER_SEO";
     public static final String ACTION_EDIT_ORGANIZATION_HOLDER_FEO = "EDIT_ORGANIZATION_HOLDER_FEO";
     public static final String ACTION_EDIT_ORGANIZATION_HOLDER_SEO = "EDIT_ORGANIZATION_HOLDER_SEO";
-
-    
+    public static final String ACTION_FINISH_ORGANIZATION_HOLDER_FEO = "FINISH_ORGANIZATION_HOLDER_FEO";
+    public static final String ACTION_FINISH_ORGANIZATION_HOLDER_SEO = "FINISH_ORGANIZATION_HOLDER_SEO";
+    public static final String ACTION_PERSONS_WITH_INTEREST_LIST_FEO = "PERSONS_WITH_INTEREST_LIST_FEO";    
+    public static final String ACTION_PERSONS_WITH_INTEREST_LIST_SEO = "PERSONS_WITH_INTEREST_LIST_SEO";    
+    public static final String ACTION_SAVE_PERSON_WITH_INTEREST_FEO = "SAVE_PERSON_WITH_INTEREST_FEO";
+    public static final String ACTION_SAVE_PERSON_WITH_INTEREST_SEO = "SAVE_PERSON_WITH_INTEREST_SEO";
+    public static final String ACTION_DELETE_PERSON_WITH_INTEREST_FEO = "DELETE_PERSON_WITH_INTEREST_FEO";
+    public static final String ACTION_DELETE_PERSON_WITH_INTEREST_SEO = "DELETE_PERSON_WITH_INTEREST_SEO";
+    public static final String ACTION_VIEW_PERSON_WITH_INTEREST_FEO = "VIEW_PERSON_WITH_INTEREST_FEO";
+    public static final String ACTION_VIEW_PERSON_WITH_INTEREST_SEO = "VIEW_PERSON_WITH_INTEREST_SEO";
+    public static final String ACTION_EDIT_PERSON_WITH_INTEREST_FEO = "EDIT_PERSON_WITH_INTEREST_FEO";
+    public static final String ACTION_EDIT_PERSON_WITH_INTEREST_SEO = "EDIT_PERSON_WITH_INTEREST_SEO";
+    public static final String ACTION_UPDATE_PERSON_WITH_INTEREST_FEO = "UPDATE_PERSON_WITH_INTEREST_FEO";
+    public static final String ACTION_UPDATE_PERSON_WITH_INTEREST_SEO = "UPDATE_PERSON_WITH_INTEREST_SEO";
+    public static final String ACTION_FINISH_DISPUTE_FEO = "FINISH_DISPUTE_FEO";
+    public static final String ACTION_FINISH_DISPUTE_SEO = "FINISH_DISPUTE_SEO";
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_FIRST_ENTRY_WELCOME = 1;
@@ -89,6 +103,13 @@ public interface Constants {
     public static final int INDEX_EDIT_DISPUTE_FEO = 25;
     public static final int INDEX_EDIT_DISPUTE_SEO = 26;
     public static final int INDEX_EDIT_ORGANIZATION_HOLDER_FEO = 27;
+    public static final int INDEX_PERSONS_WITH_INTEREST_LIST_FEO = 28;
+    public static final int INDEX_PERSONS_WITH_INTEREST_LIST_SEO = 29;
+    public static final int INDEX_VIEW_PERSON_WITH_INTEREST_FEO = 30;
+    public static final int INDEX_VIEW_PERSON_WITH_INTEREST_SEO = 31;
+    public static final int INDEX_EDIT_PERSON_WITH_INTEREST_FEO = 32;
+    public static final int INDEX_EDIT_PERSON_WITH_INTEREST_SEO = 33;
+
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

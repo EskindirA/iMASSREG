@@ -1,7 +1,5 @@
-<%@page import="org.lift.massreg.util.Constants"%>
-<%@page import="org.lift.massreg.util.Option"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
 <%--Welcom Page: For the first entry operator--%>
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
@@ -31,9 +29,9 @@
                                         %>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group error" id="someId">
                                     <label>Parcel #</label>
-                                    <input class="form-control " placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off"/>
+                                    <input class="form-control" placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" />
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
@@ -62,8 +60,11 @@
                 addurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_ADD_PARCEL_SEO;
                 findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_SEO;
             }%>
-        // change this to loadAddParcel and then it should intern call load forward
-
+        
+        //TODO:Remove this
+        $("#someId").click(function() {
+            $("#parcelNo").toggleClass("error-field",true);
+        });
         function loadAdd() {
             updateUPI();
             {

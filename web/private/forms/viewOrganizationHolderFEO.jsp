@@ -72,45 +72,57 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function() {
-        $("#viewHolderFrom select").each(function() {
-            $(this).val($(this).attr("value"));
+    <%
+        String finishurl, editurl, backurl, nexturl;
+        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+            finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_ORGANIZATION_HOLDER_FEO;
+            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO;
+            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_FEO;
+        } else {
+            finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_ORGANIZATION_HOLDER_SEO;
+            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_ORGANIZATION_HOLDER_SEO;
+            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_SEO;
+        }
+    %>
+    $("#viewHolderFrom select").each(function() {
+        $(this).val($(this).attr("value"));
+    });
+    $("#backButton").click(function() {
+        bootbox.confirm("Are you sure you want to go back?", function(result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=backurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
+            }
         });
-        $("#backButton").click(function() {
-            bootbox.confirm("Are you sure you want to go back?", function(result) {
-                if (result) {
-                    $.ajax({
-                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
-                                                error: showajaxerror,
-                                                success: loadBackward
-                                            });
-                                        }
-                                    });
-                                    return false;
-                                });
-        $("#editHolderButton").click(function() {
-            $.ajax({
-                url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO%>",
-                error: showajaxerror,
-                success: loadInPlace
-            });
-            return false;
+        return false;
+    });
+    $("#editHolderButton").click(function() {
+        $.ajax({
+            url: "<%=editurl%>",
+            error: showajaxerror,
+            success: loadInPlace
         });
-        $("#nextButton").click(function() {
-            $.ajax({
-                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_DISPUTE_LIST_FEO%>",
-                                                error: showajaxerror,
-                                                success: loadForward
-                                            });
-            return false;
+        return false;
+    });
+    $("#nextButton").click(function() {
+        $.ajax({
+            url: "<%=nexturl%>",
+            error: showajaxerror,
+            success: loadForward
         });
-        $("#finishButton").click(function() {
-            $.ajax({
-                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
-                                                error: showajaxerror,
-                                                success: loadForward
-                                            });
-            return false;
+        return false;
+    });
+    $("#finishButton").click(function() {
+        $.ajax({
+            url: "<%=finishurl%>",
+            error: showajaxerror,
+            success: loadForward
         });
-        });
+        return false;
+    });
 </script>

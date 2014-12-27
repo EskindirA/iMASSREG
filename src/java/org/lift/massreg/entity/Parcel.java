@@ -44,6 +44,7 @@ public class Parcel implements Entity {
     private boolean hasDispute;
     private OrganizationHolder organaizationHolder;
     private ArrayList<IndividualHolder> individualHolders;
+    private ArrayList<PersonWithInterest> personsWithInterest;
     private ArrayList<Dispute> disputes;
 
     private synchronized void fillInTextValues() {
@@ -304,8 +305,19 @@ public class Parcel implements Entity {
         return individualHolders;
     }
 
+    public ArrayList<PersonWithInterest> getPersonsWithInterest() {
+        if (personsWithInterest == null) {
+            personsWithInterest = MasterRepository.getInstance().getAllPersonsWithInterest(upi, stage);
+        }
+        return personsWithInterest;
+    }
+
     public void addIndividualHolder(IndividualHolder individualHolder) {
         individualHolders.add(individualHolder);
+    }
+
+    public void addPersonWithInterest(PersonWithInterest personWithInterest) {
+        personsWithInterest.add(personWithInterest);
     }
 
     public void removeIndividualHolder(IndividualHolder individualHolder) {
@@ -313,8 +325,8 @@ public class Parcel implements Entity {
     }
 
     public ArrayList<Dispute> getDisputes() {
-        if (hasDispute && disputes == null) {
-            disputes = MasterRepository.getInstance().getAllDisputes(upi, stage);
+        if ((disputes == null) && (hasDispute)) {
+                disputes = MasterRepository.getInstance().getAllDisputes(upi, stage);
         }
         return disputes;
     }
@@ -368,6 +380,10 @@ public class Parcel implements Entity {
 
     public void setIndividualHolders(ArrayList<IndividualHolder> individualHolders) {
         this.individualHolders = individualHolders;
+    }
+
+    public void setPersonsWithInterest(ArrayList<PersonWithInterest> personWithInterest) {
+        this.personsWithInterest = personsWithInterest;
     }
 
     public void setDisputes(ArrayList<Dispute> disputes) {
@@ -431,7 +447,8 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
-    public IndividualHolder getIndividualHolder(String holderId,byte stage, Timestamp registeredOn) {
+
+    public IndividualHolder getIndividualHolder(String holderId, byte stage, Timestamp registeredOn) {
         IndividualHolder returnValue = new IndividualHolder();
         if (stage == this.getStage()) {
             ArrayList<IndividualHolder> allIndividualHolders = getIndividualHolders();
@@ -445,7 +462,21 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
-    
+
+    public PersonWithInterest getPersonWithInterest(byte stage, Timestamp registeredOn) {
+        PersonWithInterest returnValue = new PersonWithInterest();
+        if (stage == this.getStage()) {
+            ArrayList<PersonWithInterest> allPersonsWithInterest = getPersonsWithInterest();
+            for (int i = 0; i < allPersonsWithInterest.size(); i++) {
+                if (allPersonsWithInterest.get(i).getRegisteredOn().equals(registeredOn)) {
+                    returnValue = allPersonsWithInterest.get(i);
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+
     public boolean remove() {
         return delete(registeredOn, upi, stage);
     }
@@ -453,7 +484,11 @@ public class Parcel implements Entity {
     public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
         return MasterRepository.getInstance().deleteParcel(registeredOn, upi, stage);
     }
-    
+
+    public void complete() {
+        MasterRepository.getInstance().completeParcel(getUpi(), getStage(), getRegisteredOn());
+    }
+
     @Override
     public boolean validateForUpdate() {
         return true;
