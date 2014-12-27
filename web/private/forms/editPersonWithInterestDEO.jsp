@@ -6,6 +6,13 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     Timestamp registeredOn = Timestamp.valueOf(request.getParameter("registeredOn"));
     PersonWithInterest personWithInterest = currentParcel.getPersonWithInterest(currentParcel.getStage(), registeredOn);
+    
+    String updateurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_FEO;
+    } else {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_SEO;
+    }
 %>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -51,14 +58,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    <%
-        String updateurl;
-        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_FEO;
-        } else {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_SEO;
-        }
-    %>
     $("#updatePersonWithInterestButton").click(function() {
         if (!validate("editPersonWithInterestFrom")) {// validate
             showError("Please input appropriate values in the highlighted fields");
@@ -73,6 +72,7 @@
     });
     function update() {
         $.ajax({
+            post:'POST',
             url: "<%=updateurl%>",
             data: {
                 "dateofbirth": $("#editPersonWithInterestFrom #dateOfBirth").val(),

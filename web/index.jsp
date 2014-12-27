@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>MASSREG - ${requestScope.title}</title>
+        <title>MASSREG</title>
         
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">

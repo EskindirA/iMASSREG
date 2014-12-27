@@ -1,11 +1,18 @@
-<%--Tryout Page: Table--%>
 <%@page import="org.lift.massreg.entity.Parcel"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
-<%@page import="org.lift.massreg.util.Option"%>
-<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
+    String updateurl, cancelurl,backurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_FEO;
+        cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_WELCOME_PART;
+    } else {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_SEO;
+        cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_WELCOME_PART;
+    }
 %>
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
@@ -136,92 +143,83 @@
             </div> <!-- /.panel -->
         </div> <!-- /.col-lg-12 -->
     </div>
-    <script type="text/javascript">
-        <%
-            String updateurl, cancelurl;
-            if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-                updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_FEO;
-                cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
-            } else {
-                updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_SEO;
-                cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
-            }
-        %>
-        function validate() {
-            var returnValue = true;
-            //$("#mapsheetno").toggle("error=off");
-            //$("#surveyDate").toggle("error=off");
-            if ($("#mapsheetno").val() === "") {
-                returnValue = false;
-                //$("#mapsheetno").toggle("error");
-            }
-            if ($("#surveyDate").val() === "") {
-                returnValue = false;
-                //$("#surveyDate").toggle("error");
-            }
-            showMessage("Validation");
-            return returnValue;
+</div>
+<script type="text/javascript">
+    function validate() {
+        var returnValue = true;
+        $("#mapsheetno").toggleClass("error-field",false);
+        $("#surveyDate").toggleClass("error-field",false);
+        if ($("#mapsheetno").val() === "") {
+            returnValue = false;
+            $("#mapsheetno").toggleClass("error-field",true);
         }
-        function update() {
-            $.ajax({
-                url: "<%=updateurl%>",
-                data: {
-                    "certificateNumber": $("#certificateNumber").val(),
-                    "holdingNumber": $("#holdingNumber").val(),
-                    "otherEvidence": $("#otherEvidence").val(),
-                    "meansOfAcquisition": $("#meansOfAcquisition").val(),
-                    "acquisitionYear": $("#acquisitionYear").val(),
-                    "mapsheetNumber": $("#mapsheetno").val(),
-                    "currentLandUse": $("#currentLandUse").val(),
-                    "soilFertility": $("#soilFertility").val(),
-                    "holdingType": $("#holdingType").val(),
-                    "encumbrance": $("#encumbrance").val(),
-                    "surveyDate": $("#surveyDate").val(),
-                    "hasDispute": $("#hasDispute").val()
-                },
-                error: showajaxerror,
-                success: loadInPlace
-            });
+        if ($("#surveyDate").val() === "") {
+            returnValue = false;
+            $("#surveyDate").toggleClass("error-field",true);
         }
-        $(function() {
-            $("#editParcelForm select").each(function() {
-                $(this).val($(this).attr("value"));
-            });
-            $("#cancelButton").click(function() {
-                $.ajax({
-                    url: "<%=cancelurl%>",
-                    error: showajaxerror,
-                    success: loadInPlace
-                });
-                return false;
-            });
-            $("#updateButton").click(function() {
-                if (validate()) {
-                    if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
-                        bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?", function(result) {
-                            if (result) {
-                                update();
-                            }
-
-                        });
-                    }else{
+        return returnValue;
+    }
+    function update() {
+        $.ajax({
+            type:'POST',
+            url: "<%=updateurl%>",
+            data: {
+                "certificateNumber": $("#certificateNumber").val(),
+                "holdingNumber": $("#holdingNumber").val(),
+                "otherEvidence": $("#otherEvidence").val(),
+                "meansOfAcquisition": $("#meansOfAcquisition").val(),
+                "acquisitionYear": $("#acquisitionYear").val(),
+                "mapsheetNumber": $("#mapsheetno").val(),
+                "currentLandUse": $("#currentLandUse").val(),
+                "soilFertility": $("#soilFertility").val(),
+                "holdingType": $("#holdingType").val(),
+                "encumbrance": $("#encumbrance").val(),
+                "surveyDate": $("#surveyDate").val(),
+                "hasDispute": $("#hasDispute").val()
+            },
+            error: showajaxerror,
+            success: loadInPlace
+        });
+    }
+    $("#editParcelForm select").each(function() {
+        $(this).val($(this).attr("value"));
+    });
+    $("#cancelButton").click(function() {
+        $.ajax({
+            type:'POST',
+            url: "<%=cancelurl%>",
+            error: showajaxerror,
+            success: loadInPlace
+        });
+        return false;
+    });
+    $("#updateButton").click(function() {
+        if (validate()) {
+            if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
+                bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?", function(result) {
+                    if (result) {
                         update();
                     }
-                }
-                return false;
-            });
-            $("#backButton").click(function() {
-                bootbox.confirm("Are you sure you want to go back?", function(result) {
-                    if (result) {
-                        $.ajax({
-                            url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
-                                                    error: showajaxerror,
-                                                    success: loadBackward
-                                                });
-                                            }
-                                        });
-                                        return false;
-                                    });
+                });
+            }else{
+                update();
+            }
+        }else{
+            showError("Please fill in a correct value for the highlighted fields");
+        }
+        return false;
+    });
+    $("#backButton").click(function() {
+        bootbox.confirm("Are you sure you want to go back?", function(result) {
+            if (result) {
+                $.ajax({
+                    type:'POST',
+                    url: "<%=backurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
+            }
         });
-    </script>
-</div>
+        return false;
+    });
+</script>

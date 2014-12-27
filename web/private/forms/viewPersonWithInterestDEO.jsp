@@ -1,7 +1,6 @@
 <%@page import="java.sql.Timestamp"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@page import="org.lift.massreg.util.Option"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.*"%>
 <%
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");

@@ -1,10 +1,16 @@
-<%@page import="org.lift.massreg.util.CommonStorage"%>
-<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.Parcel"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@page import="org.lift.massreg.util.Option"%>
 <%
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
+    String saveurl, backurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
+    } else {
+        saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
+    }
 %>
 <div class="col-lg-5 col-lg-offset-4">
     <div class="row">
@@ -66,28 +72,18 @@
     </div>
 </div>
 <script type="text/javascript">
-    <%
-        String saveurl, backurl;
-        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
-            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
-        } else {
-            saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SEO;
-            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
-        }
-    %>
     function validate() {
         var returnValue = true;
-        //$("#organizationName").toggle("error=off");
+        $("#organizationName").toggleClass("error-field",false);
         if ($("#organizationName").val().trim() === "") {
             returnValue = false;
-            //$("#organizationName").toggle("error");
+            $("#organizationName").toggleClass("error-field",true);
         }
-        showMessage("Validation:");
         return returnValue;
     }
     function save() {
         $.ajax({
+            type:'POST',
             url: "<%=saveurl%>",
             data: {
                 "organizationName": $("#organizationName").val(),
@@ -100,7 +96,6 @@
     $("#nextButton").click(function() {
         if (!validate()) {// validate
             showError("Please input appropriate values in the highlighted fields");
-            return false;
         } else {
             save();// save
         }
@@ -110,6 +105,7 @@
         bootbox.confirm("Are you sure you want to go back?", function(result) {
             if (result) {
                 $.ajax({
+                    type:'POST',
                     url: "<%=backurl%>",
                     error: showajaxerror,
                     success: loadBackward

@@ -1,11 +1,21 @@
-<%--Tryout Page: Table--%>
 <%@page import="org.lift.massreg.entity.Parcel"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
-<%@page import="org.lift.massreg.util.Option"%>
-<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
+
+    String nexturl, editurl, deleteurl,backurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
+        editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_FEO;
+        deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_FEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_WELCOME_PART;
+    } else {
+        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
+        editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_SEO;
+        deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_SEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_WELCOME_PART;
+    }
 %>
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
@@ -146,18 +156,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    <%
-        String nexturl, editurl, deleteurl;
-        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
-            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_FEO;
-            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_FEO;
-        } else {
-            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
-            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_SEO;
-            deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_SEO;
-        }
-    %>
     $("#addParcelForm select").each(function() {
         $(this).val($(this).attr("value"));
     });
@@ -193,7 +191,7 @@
         bootbox.confirm("Are you sure you want to go back?", function(result) {
             if (result) {
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
+                    url: "<%=backurl%>",
                     error: showajaxerror,
                     success: loadBackward
                 });

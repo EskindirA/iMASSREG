@@ -7,6 +7,12 @@
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     Timestamp registeredOn = Timestamp.valueOf(request.getParameter("registeredOn"));
     Dispute dispute = currentParcel.getDispute(currentParcel.getStage(), registeredOn);
+    String updateurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_DISPUTE_FEO;
+    } else {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_DISPUTE_SEO;
+    }
 %>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -70,14 +76,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    <%
-        String updateurl;
-        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_DISPUTE_FEO;
-        } else {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_DISPUTE_SEO;
-        }
-    %>
 
     $("#editDisputeFrom select").each(function() {
         $(this).val($(this).attr("value"));

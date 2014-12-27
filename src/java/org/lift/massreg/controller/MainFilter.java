@@ -36,6 +36,7 @@ public class MainFilter extends HttpServlet {
             action = Constants.ACTION_WELCOME;
         }
 
+        // For all users
         if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath());
@@ -66,16 +67,14 @@ public class MainFilter extends HttpServlet {
                     Correction.welcomeFrom(request, response);
                     break;
             }
-        } else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_FEO)) {
+        } // For FEO 
+        else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_FEO)) {
             getUPI(request);
             FirstEntry.addParcel(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_SEO)) {
-            getUPI(request);
-            SecondEntry.addParcel(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_FEO)) {
             getUPI(request);
             FirstEntry.viewParcel(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_FEO)) {
             getUPI(request);
             FirstEntry.viewParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_FEO)) {
@@ -92,21 +91,18 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_FEO)) {
             getUPI(request);
             FirstEntry.personsWithInterestList(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.editOrganizationHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.finishOrganizationHolder(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_FEO)) {
             getUPI(request);
             FirstEntry.finishDispute(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.saveHolder(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
-            getUPI(request);
-            SecondEntry.saveHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_FEO)) {
             getUPI(request);
             FirstEntry.viewDisputeList(request, response);
@@ -131,25 +127,25 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_FEO)) {
             getUPI(request);
             FirstEntry.deleteParcel(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_FEO)) {
             getUPI(request);
             FirstEntry.editDispute(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_FEO)) {
             getUPI(request);
             FirstEntry.updateDispute(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateIndividualHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateOrganizationHolder(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_FEO)) {
             getUPI(request);
             FirstEntry.savePersonWithInterest(request, response);
-        }   else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_FEO)) {
             getUPI(request);
             FirstEntry.deletePersonWithInterest(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_FEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_FEO)) {
             getUPI(request);
             FirstEntry.viewPersonWithInterest(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_FEO)) {
@@ -158,7 +154,15 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_FEO)) {
             getUPI(request);
             FirstEntry.updatePersonWithInterest(request, response);
-        }else {
+        } // for SEO
+        else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_SEO)) {
+            getUPI(request);
+            SecondEntry.addParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.saveHolder(request, response);
+        } // for all unknown requests
+        else {
             All.goBackToHome(request, response);
         }
     }

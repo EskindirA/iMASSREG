@@ -1,8 +1,6 @@
 package org.lift.massreg.controller;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -30,8 +28,7 @@ public class FirstEntry {
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // setup request attributes
-        request.setAttribute("page", IOC.getPage(Constants.INDEX_FIRST_ENTRY_WELCOME));
-        request.setAttribute("title", IOC.getTitle(Constants.INDEX_FIRST_ENTRY_WELCOME));
+        request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_FEO));
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
@@ -44,7 +41,7 @@ public class FirstEntry {
      */
     protected static void welcomeFrom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_FIRST_ENTRY_WELCOME));
+        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_FEO));
         rd.forward(request, response);
     }
 
@@ -67,11 +64,9 @@ public class FirstEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } else {
-            request.setAttribute("title", IOC.getTitle(Constants.INDEX_ADD_PARCEL_FEO));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_ADD_PARCEL_FEO));
             rd.forward(request, response);
         }
-
     }
 
     /**
@@ -94,7 +89,7 @@ public class FirstEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } else {
-            request.setAttribute("title", IOC.getTitle(Constants.INDEX_EDIT_PARCEL_FEO));
+            request.setAttribute("page", IOC.getPage(Constants.INDEX_EDIT_PARCEL_FEO));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_PARCEL_FEO));
             rd.forward(request, response);
         }
@@ -218,7 +213,7 @@ public class FirstEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } else {
-            request.setAttribute("title", IOC.getTitle(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
+            request.setAttribute("page", IOC.getPage(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
             rd.forward(request, response);
         }
@@ -269,7 +264,7 @@ public class FirstEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } else {
-            request.setAttribute("title", IOC.getTitle(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
+            request.setAttribute("page", IOC.getPage(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_DISPUTE_FEO));
             rd.forward(request, response);
         }
@@ -752,7 +747,7 @@ public class FirstEntry {
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_ORGANIZATION_HOLDERS_FEO));
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_FEO));
             rd.forward(request, response);
         } else {
             addOrganizationHolder(request, response);
@@ -767,7 +762,7 @@ public class FirstEntry {
      */
     protected static void addOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_ADD_ORGANIZATION_HOLDERS_FEO));
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_ADD_ORGANIZATION_HOLDER_FEO));
         rd.forward(request, response);
     }
 

@@ -1,8 +1,13 @@
-<%--Tryout Page: Table--%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
-<%@page import="org.lift.massreg.util.Option"%>
-<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
+<%
+    String saveurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_PARCEL_FEO;
+    } else {
+        saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_PARCEL_SEO;
+    }
+%>
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 ">
@@ -129,83 +134,74 @@
             </div> <!-- /.panel -->
         </div> <!-- /.col-lg-12 -->
     </div>
-    <script type="text/javascript">
-        <%
-            String saveurl;
-            if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-                saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_PARCEL_FEO;
-            } else {
-                saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_PARCEL_SEO;
-            }
-        %>
-
-        function validate() {
-            var returnValue = true;
-            //$("#mapsheetno").toggle("error=off");
-            //$("#surveyDate").toggle("error=off");
-            if ($("#mapsheetno").val() === "") {
-                returnValue = false;
-                //$("#mapsheetno").toggle("error");
-            }
-            if ($("#surveyDate").val() === "") {
-                returnValue = false;
-                //$("#surveyDate").toggle("error");
-            }
-            showMessage("Validation");
-            return returnValue;
-        }
-        function save() {
-            $.ajax({
-                url: "<%=saveurl%>",
-                data: {
-                    "certificateNumber": $("#certificateNumber").val(),
-                    "holdingNumber": $("#holdingNumber").val(),
-                    "otherEvidence": $("#otherEvidence").val(),
-                    "meansOfAcquisition": $("#meansOfAcquisition").val(),
-                    "acquisitionYear": $("#acquisitionYear").val(),
-                    "mapsheetNumber": $("#mapsheetno").val(),
-                    "currentLandUse": $("#currentLandUse").val(),
-                    "soilFertility": $("#soilFertility").val(),
-                    "holdingType": $("#holdingType").val(),
-                    "encumbrance": $("#encumbrance").val(),
-                    "surveyDate": $("#surveyDate").val(),
-                    "hasDispute": $("#hasDispute").val()
-                },
-                error: showajaxerror,
-                success: loadForward
-            });
-        }
-        $(function() {
-            $("#addParcelForm select").each(function() {
-                $(this).val($(this).attr("value"));
-            });
-            $("#addParcelForm").submit(function() {
-                if (validate()) {
-                    if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
-                        bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?",function(result){
-                            if(result){
-                                save();
-                            }
-                            
-                        });
-                    }else{
-                        update();
-                    }
-                }
-                return false;
-            });
-            $("#backButton").click(function() {
-                bootbox.confirm("Are you sure you want to go back?", function(result) {
-                    if (result) {
-                        $.ajax({
-                            url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
-                                                    error: showajaxerror,
-                                                    success: loadBackward
-                                                });
-                                            }
-                                        });
-                                        return false;
-                                    });
-                                });
-    </script>
 </div>
+<script type="text/javascript">
+    function validate() {
+        var returnValue = true;
+        $("#mapsheetno").toggleClass("error-field",false);
+        $("#surveyDate").toggleClass("error-field",false);
+        if ($("#mapsheetno").val() === "") {
+            returnValue = false;
+            $("#mapsheetno").toggleClass("error-field",true);
+        }
+        if ($("#surveyDate").val() === "") {
+            returnValue = false;
+            $("#surveyDate").toggleClass("error-field",true);
+        }
+        return returnValue;
+    }
+    function save() {
+        $.ajax({
+            type: 'POST',
+            url: "<%=saveurl%>",
+            data: {
+                "certificateNumber": $("#certificateNumber").val(),
+                "holdingNumber": $("#holdingNumber").val(),
+                "otherEvidence": $("#otherEvidence").val(),
+                "meansOfAcquisition": $("#meansOfAcquisition").val(),
+                "acquisitionYear": $("#acquisitionYear").val(),
+                "mapsheetNumber": $("#mapsheetno").val(),
+                "currentLandUse": $("#currentLandUse").val(),
+                "soilFertility": $("#soilFertility").val(),
+                "holdingType": $("#holdingType").val(),
+                "encumbrance": $("#encumbrance").val(),
+                "surveyDate": $("#surveyDate").val(),
+                "hasDispute": $("#hasDispute").val()
+            },
+            error: showajaxerror,
+            success: loadForward
+        });
+    }
+    $("#addParcelForm select").each(function() {
+        $(this).val($(this).attr("value"));
+    });
+    $("#addParcelForm").submit(function() {
+        if (validate()) {
+            if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
+                bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?",function(result){
+                    if(result){
+                        save();
+                    }        
+                });
+            } else{
+                update();
+            }
+        }else{
+            showError("Please fill in a correct value for the highlighted fields");
+        }
+        return false;
+    });
+    $("#backButton").click(function() {
+        bootbox.confirm("Are you sure you want to go back?", function(result) {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME_PART%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
+            }
+        });
+        return false;
+    });
+</script>

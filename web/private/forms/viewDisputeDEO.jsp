@@ -75,7 +75,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    
     $("#viewDisputeFrom select").each(function() {
         $(this).val($(this).attr("value"));
     });

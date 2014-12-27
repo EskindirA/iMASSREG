@@ -6,6 +6,12 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     Timestamp registeredOn = Timestamp.valueOf(request.getParameter("registeredOn"));
     IndividualHolder holder = currentParcel.getIndividualHolder(request.getParameter("holderId"), currentParcel.getStage(), registeredOn);
+    String updateurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO;
+    } else {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_SEO;
+    }
 %>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -66,18 +72,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    <%
-        String updateurl;
-        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO;
-        } else {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_SEO;
-        }
-    %>
     $("#updateHolderButton").click(function() {
         if (!validate("editHolderFrom")) {// validate
             showError("Please input appropriate values in the highlighted fields");
-            return false;
         } else {
             update();// save
         }
@@ -92,6 +89,7 @@
     });
     function update() {
         $.ajax({
+            type:'POST',
             url: "<%=updateurl%>",
             data: {
                 "dateofbirth": $("#editHolderFrom #dateOfBirth").val(),
@@ -108,5 +106,4 @@
             success: loadForward
         });
     }
-
 </script>

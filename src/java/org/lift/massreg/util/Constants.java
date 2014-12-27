@@ -10,22 +10,23 @@ package org.lift.massreg.util;
 public interface Constants {
 
     public static final String[] STATUS = {"active", "removed", "incomplete"};
+    public static final String ACTION_ERROR = "ERROR";
+    public static final String ACTION_LOGOUT = "LOGOUT";
     public static final String ACTION_WELCOME = "WELCOME";
     public static final String ACTION_WELCOME_PART = "WELCOME_PART";
     public static final String ACTION_FIND_PARCEL_FEO = "FIND_PARCEL_FEO";
     public static final String ACTION_FIND_PARCEL_SEO = "FIND_PARCEL_SEO";
-    public static final String ACTION_ERROR = "ERROR";
-    public static final String ACTION_LOGOUT = "LOGOUT";
     public static final String ACTION_ADD_PARCEL_FEO = "ADD_PARCEL_FEO";
     public static final String ACTION_ADD_PARCEL_SEO = "ADD_PARCEL_SEO";
-    public static final String ACTION_SAVE_PARCEL_FEO = "SAVE_PARCEL_FEO";
-    public static final String ACTION_SAVE_PARCEL_SEO = "SAVE_PARCEL_SEO";
     public static final String ACTION_VIEW_PARCEL_FEO = "VIEW_PARCEL_FEO";
     public static final String ACTION_VIEW_PARCEL_SEO = "VIEW_PARCEL_SEO";
-    public static final String ACTION_VIEW_HOLDER_FEO = "VIEW_HOLDER_FEO";
-    public static final String ACTION_VIEW_HOLDER_SEO = "VIEW_HOLDER_SEO";
     public static final String ACTION_EDIT_PARCEL_FEO = "EDIT_PARCEL_FEO";
     public static final String ACTION_EDIT_PARCEL_SEO = "EDIT_PARCEL_SEO";
+    public static final String ACTION_SAVE_PARCEL_FEO = "SAVE_PARCEL_FEO";
+    public static final String ACTION_SAVE_PARCEL_SEO = "SAVE_PARCEL_SEO";
+    
+    public static final String ACTION_VIEW_HOLDER_FEO = "VIEW_HOLDER_FEO";
+    public static final String ACTION_VIEW_HOLDER_SEO = "VIEW_HOLDER_SEO";
     public static final String ACTION_ADD_HOLDER_FEO = "ADD_HOLDER_FEO";
     public static final String ACTION_ADD_HOLDER_SEO = "ADD_HOLDER_SEO";
     public static final String ACTION_SAVE_HOLDER_FEO = "SAVE_HOLDER_FEO";
@@ -76,39 +77,55 @@ public interface Constants {
     public static final String ACTION_FINISH_DISPUTE_SEO = "FINISH_DISPUTE_SEO";
     // pages
     public static final int INDEX_ERROR = 0;
-    public static final int INDEX_FIRST_ENTRY_WELCOME = 1;
-    public static final int INDEX_SECOND_ENTRY_WELCOME = 2;
-    public static final int INDEX_SUPERVISOR_WELCOME = 3;
+    public static final int INDEX_WELCOME_FEO = 1;
+    public static final int INDEX_WELCOME_SEO = 2;
+    public static final int INDEX_WELCOME_SUPERVISOR = 3;
     public static final int INDEX_MESSAGE = 4;
+    
     public static final int INDEX_ADD_PARCEL_FEO = 5;
     public static final int INDEX_ADD_PARCEL_SEO = 6;
+    
     public static final int INDEX_VIEW_PARCEL_FEO = 7;
     public static final int INDEX_VIEW_PARCEL_SEO = 8;
+    
     public static final int INDEX_INDIVIDUAL_HOLDERS_LIST_FEO = 9;
     public static final int INDEX_INDIVIDUAL_HOLDERS_LIST_SEO = 10;
-    public static final int INDEX_ADD_ORGANIZATION_HOLDERS_FEO = 11;
-    public static final int INDEX_ADD_ORGANIZATION_HOLDERS_SEO = 12;
-    public static final int INDEX_VIEW_ORGANIZATION_HOLDERS_FEO = 13;
-    public static final int INDEX_VIEW_ORGANIZATION_HOLDERS_SEO = 14;
-    public static final int INDEX_DISPUTE_LIST_FEO = 15;
-    public static final int INDEX_DISPUTE_LIST_SEO = 16;
-    public static final int INDEX_EDIT_PARCEL_FEO = 17;
-    public static final int INDEX_EDIT_PARCEL_SEO = 18;
-    public static final int INDEX_VIEW_DISPUTE_FEO = 19;
-    public static final int INDEX_VIEW_DISPUTE_SEO = 20;
-    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_FEO = 21;
-    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_SEO = 22;
-    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_FEO = 23;
-    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_SEO = 24;
-    public static final int INDEX_EDIT_DISPUTE_FEO = 25;
-    public static final int INDEX_EDIT_DISPUTE_SEO = 26;
-    public static final int INDEX_EDIT_ORGANIZATION_HOLDER_FEO = 27;
-    public static final int INDEX_PERSONS_WITH_INTEREST_LIST_FEO = 28;
-    public static final int INDEX_PERSONS_WITH_INTEREST_LIST_SEO = 29;
-    public static final int INDEX_VIEW_PERSON_WITH_INTEREST_FEO = 30;
-    public static final int INDEX_VIEW_PERSON_WITH_INTEREST_SEO = 31;
-    public static final int INDEX_EDIT_PERSON_WITH_INTEREST_FEO = 32;
-    public static final int INDEX_EDIT_PERSON_WITH_INTEREST_SEO = 33;
+    
+    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_SEO = 11;
+    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_FEO = 12;
+    
+    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_SEO = 13;
+    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_FEO = 14;
+   
+    public static final int INDEX_ADD_ORGANIZATION_HOLDER_FEO = 15;
+    public static final int INDEX_ADD_ORGANIZATION_HOLDER_SEO = 16;
+    
+    public static final int INDEX_VIEW_ORGANIZATION_HOLDER_FEO = 17;
+    public static final int INDEX_VIEW_ORGANIZATION_HOLDER_SEO = 18;
+    
+    public static final int INDEX_EDIT_ORGANIZATION_HOLDER_FEO = 19;
+    public static final int INDEX_EDIT_ORGANIZATION_HOLDER_SEO = 20;
+    
+    public static final int INDEX_DISPUTE_LIST_FEO = 21;
+    public static final int INDEX_DISPUTE_LIST_SEO = 22;
+    
+    public static final int INDEX_EDIT_PARCEL_FEO = 23;
+    public static final int INDEX_EDIT_PARCEL_SEO = 24;
+    
+    public static final int INDEX_VIEW_DISPUTE_FEO = 25;
+    public static final int INDEX_VIEW_DISPUTE_SEO = 26;
+    
+    public static final int INDEX_EDIT_DISPUTE_FEO = 27;
+    public static final int INDEX_EDIT_DISPUTE_SEO = 28;
+    
+    public static final int INDEX_PERSONS_WITH_INTEREST_LIST_FEO = 29;
+    public static final int INDEX_PERSONS_WITH_INTEREST_LIST_SEO = 30;
+    
+    public static final int INDEX_VIEW_PERSON_WITH_INTEREST_FEO = 31;
+    public static final int INDEX_VIEW_PERSON_WITH_INTEREST_SEO = 32;
+    
+    public static final int INDEX_EDIT_PERSON_WITH_INTEREST_FEO = 33;
+    public static final int INDEX_EDIT_PERSON_WITH_INTEREST_SEO = 34;
 
     public enum ROLE {
 

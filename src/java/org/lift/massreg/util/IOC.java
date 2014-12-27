@@ -13,52 +13,56 @@ import java.util.HashMap;
 public class IOC {
 
     private static final HashMap<Integer, String> pages;
-    private static final HashMap<Integer, String> titles;
-
+    
     static {
         pages = new HashMap<>();
-        titles = new HashMap<>();
-
-        pages.put(Constants.INDEX_ERROR, "error.jsp");
-        pages.put(Constants.INDEX_FIRST_ENTRY_WELCOME, "welcomedeo.jsp");
-        pages.put(Constants.INDEX_SECOND_ENTRY_WELCOME, "welcomedeo.jsp");
-        pages.put(Constants.INDEX_SUPERVISOR_WELCOME, "welcomesupervisor.jsp");
+    
         pages.put(Constants.INDEX_MESSAGE, "message.jsp");
-        pages.put(Constants.INDEX_ADD_PARCEL_FEO, "addParcelFEO.jsp");
-        pages.put(Constants.INDEX_ADD_PARCEL_SEO, "addParcelSEO.jsp");
-        pages.put(Constants.INDEX_VIEW_PARCEL_FEO, "viewParcelFEO.jsp");
-        pages.put(Constants.INDEX_VIEW_PARCEL_SEO, "viewParcelSEO.jsp");
-        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_FEO, "individualHoldersListFEO.jsp");
-        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDERS_FEO, "addOrganizationHolderFEO.jsp");
-        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDERS_SEO, "addOrganizationHolderSEO.jsp");
-        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDERS_FEO, "viewOrganizationHolderFEO.jsp");
-        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDERS_SEO, "viewOrganizationHolderSEO.jsp");
-        pages.put(Constants.INDEX_DISPUTE_LIST_FEO, "disputeListFEO.jsp");
-        pages.put(Constants.INDEX_EDIT_PARCEL_FEO, "editParcelFEO.jsp");
-        pages.put(Constants.INDEX_VIEW_DISPUTE_FEO, "viewDisputeFEO.jsp");
-        pages.put(Constants.INDEX_VIEW_INDIVIDUAL_HOLDER_FEO, "viewIndividualHolderFEO.jsp");
-        pages.put(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO, "editIndividualHolderFEO.jsp");
-        pages.put(Constants.INDEX_EDIT_DISPUTE_FEO, "editDisputeFEO.jsp");
-        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_FEO, "editOrganizationHolderFEO.jsp");
-        pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_FEO, "personWithInterestListFEO.jsp");
-        pages.put(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_FEO, "viewPersonWithInterestFEO.jsp");
-        pages.put(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_SEO, "viewPersonWithInterestSEO.jsp");
-        pages.put(Constants.INDEX_EDIT_PERSON_WITH_INTEREST_FEO, "editPersonWithInterestFEO.jsp");
-        pages.put(Constants.INDEX_EDIT_PERSON_WITH_INTEREST_SEO, "editPersonWithInterestSEO.jsp");
+        pages.put(Constants.INDEX_ERROR, "error.jsp");
         
-        titles.put(Constants.INDEX_ERROR, "Error");
-        titles.put(Constants.INDEX_FIRST_ENTRY_WELCOME, "Welcome");
-        titles.put(Constants.INDEX_SECOND_ENTRY_WELCOME, "Welcome");
-        titles.put(Constants.INDEX_SUPERVISOR_WELCOME, "Welcome");
-        titles.put(Constants.INDEX_ADD_PARCEL_FEO, "Add New Parcel");
-        titles.put(Constants.INDEX_ADD_PARCEL_SEO, "Add New Parcel");
+        pages.put(Constants.INDEX_WELCOME_FEO, "welcomeDEO.jsp");
+        pages.put(Constants.INDEX_WELCOME_SEO, "welcomeDEO.jsp");
+        pages.put(Constants.INDEX_WELCOME_SUPERVISOR, "welcomesupervisor.jsp");
+        
+        pages.put(Constants.INDEX_ADD_PARCEL_FEO, "addParcelDEO.jsp");
+        pages.put(Constants.INDEX_ADD_PARCEL_SEO, "addParcelDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_FEO, "viewParcelDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_SEO, "viewParcelDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_PARCEL_FEO, "editParcelDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_PARCEL_SEO, "editParcelDEO.jsp");
+        
+        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_FEO, "individualHoldersListDEO.jsp");
+        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_SEO, "individualHoldersListDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_INDIVIDUAL_HOLDER_FEO, "viewIndividualHolderDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_INDIVIDUAL_HOLDER_SEO, "viewIndividualHolderDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_FEO, "editIndividualHolderDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_SEO, "editIndividualHolderDEO.jsp");
+
+        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_FEO, "addOrganizationHolderDEO.jsp");
+        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_SEO, "addOrganizationHolderDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_FEO, "viewOrganizationHolderDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_SEO, "viewOrganizationHolderDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_FEO, "editOrganizationHolderDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SEO, "editOrganizationHolderDEO.jsp");
+        
+        pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_FEO, "personWithInterestListDEO.jsp");
+        pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_SEO, "personWithInterestListDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_FEO, "viewPersonWithInterestDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_SEO, "viewPersonWithInterestDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_PERSON_WITH_INTEREST_FEO, "editPersonWithInterestDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_PERSON_WITH_INTEREST_SEO, "editPersonWithInterestDEO.jsp");
+        
+        pages.put(Constants.INDEX_DISPUTE_LIST_FEO, "disputeListDEO.jsp");
+        pages.put(Constants.INDEX_DISPUTE_LIST_SEO, "disputeListDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_DISPUTE_FEO, "viewDisputeDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_DISPUTE_SEO, "viewDisputeDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_DISPUTE_FEO, "editDisputeDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_DISPUTE_SEO, "editDisputeDEO.jsp");
+        
+        
     }
 
     public static String getPage(int id) {
         return "/private/forms/" + pages.get(id);
-    }
-
-    public static String getTitle(int id) {
-        return titles.get(id);
     }
 }

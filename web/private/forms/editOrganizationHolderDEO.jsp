@@ -1,13 +1,21 @@
-<%@page import="org.lift.massreg.util.Constants"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@page import="org.lift.massreg.util.Option"%>
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = cParcel.canEdit(CommonStorage.getCurrentUser(request));
     OrganizationHolder holder = cParcel.getOrganaizationHolder();
+    String updateurl, cancelurl, backurl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO;
+        cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
+    } else {
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO;
+        cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
+    }
 %>
 <div class="col-lg-5 col-lg-offset-4">
     <div class="row">
@@ -63,28 +71,18 @@
     </div>
 </div>
 <script type="text/javascript">
-    <%
-        String updateurl,cancelurl;
-        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO;
-            cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
-        } else {
-            updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO;
-            cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
-        }
-    %>
-        function validate() {
+    function validate() {
         var returnValue = true;
-        //$("#organizationName").toggle("error=off");
+        $("#organizationName").toggleClass("error-field", false);
         if ($("#organizationName").val().trim() === "") {
             returnValue = false;
-            //$("#organizationName").toggle("error");
+            $("#organizationName").toggleClass("error-field", true);
         }
-        showMessage("Validation:");
         return returnValue;
     }
     function save() {
         $.ajax({
+            type: 'POST',
             url: "<%=updateurl%>",
             data: {
                 "organizationName": $("#organizationName").val(),
@@ -94,39 +92,37 @@
             success: loadForward
         });
     }
-    
-    $(function() {
-        $("#editHolderFrom select").each(function() {
-            $(this).val($(this).attr("value"));
+    $("#editHolderFrom select").each(function() {
+        $(this).val($(this).attr("value"));
+    });
+    $("#cancelButton").click(function() {
+        $.ajax({
+            type: 'POST',
+            url: "<%=cancelurl%>",
+            error: showajaxerror,
+            success: loadInPlace
         });
-        $("#cancelButton").click(function() {
-            $.ajax({
-                url: "<%=cancelurl%>",
-                error: showajaxerror,
-                success: loadInPlace
-            });
-            return false;
-        });
-        $("#backButton").click(function() {
-                            bootbox.confirm("Are you sure you want to go back?", function(result) {
-                                if (result) {
-                                    $.ajax({
-                                        url: "<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_VIEW_PARCEL_FEO%>",
-                                                                error: showajaxerror,
-                                                                success: loadBackward
-                                                            });
-                                                        }
-                                                    });
-                                                    return false;
-                                                });
-        $("#updateButton").click(function() {
-            if (!validate()) {// validate
-                showError("Please input appropriate values in the highlighted fields");
-                return false;
-            } else {
-                save();// save
+        return false;
+    });
+    $("#backButton").click(function() {
+        bootbox.confirm("Are you sure you want to go back?", function(result) {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: "<%=backurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
+                });
             }
-            return false;
         });
+        return false;
+    });
+    $("#updateButton").click(function() {
+        if (!validate()) {// validate
+            showError("Please input appropriate values in the highlighted fields");
+        } else {
+            save();// save
+        }
+        return false;
     });
 </script>

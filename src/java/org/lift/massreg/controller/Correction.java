@@ -1,12 +1,9 @@
 package org.lift.massreg.controller;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.lift.massreg.util.Constants;
-import org.lift.massreg.util.IOC;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.lift.massreg.util.*;
 
 /**
  * @author Yoseph Berhanu <yoseph@bayeth.com>
@@ -24,8 +21,7 @@ public class Correction {
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // setup request attributes
-        request.setAttribute("page", IOC.getPage(Constants.INDEX_SUPERVISOR_WELCOME));
-        request.setAttribute("title", IOC.getTitle(Constants.INDEX_SUPERVISOR_WELCOME));
+        request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_SUPERVISOR));
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
@@ -37,7 +33,7 @@ public class Correction {
      */
     protected static void welcomeFrom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_SUPERVISOR_WELCOME));
+        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SUPERVISOR));
         rd.forward(request, response);
     }
 }

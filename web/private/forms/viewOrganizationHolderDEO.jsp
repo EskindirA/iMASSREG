@@ -1,13 +1,23 @@
-<%@page import="org.lift.massreg.util.Constants"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.lift.massreg.entity.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@page import="org.lift.massreg.util.Option"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = cParcel.canEdit(CommonStorage.getCurrentUser(request));
     OrganizationHolder holder = cParcel.getOrganaizationHolder();
+    String finishurl, editurl, backurl, nexturl;
+    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
+        finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_ORGANIZATION_HOLDER_FEO;
+        editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
+        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_FEO;
+    } else {
+        finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_ORGANIZATION_HOLDER_SEO;
+        editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_ORGANIZATION_HOLDER_SEO;
+        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
+        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_SEO;
+    }
 %>
 <div class="col-lg-5 col-lg-offset-4">
     <div class="row">
@@ -72,20 +82,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    <%
-        String finishurl, editurl, backurl, nexturl;
-        if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-            finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_ORGANIZATION_HOLDER_FEO;
-            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_ORGANIZATION_HOLDER_FEO;
-            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
-            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_FEO;
-        } else {
-            finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_ORGANIZATION_HOLDER_SEO;
-            editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_ORGANIZATION_HOLDER_SEO;
-            backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
-            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_SEO;
-        }
-    %>
     $("#viewHolderFrom select").each(function() {
         $(this).val($(this).attr("value"));
     });
@@ -93,6 +89,7 @@
         bootbox.confirm("Are you sure you want to go back?", function(result) {
             if (result) {
                 $.ajax({
+                    type:'POST',
                     url: "<%=backurl%>",
                     error: showajaxerror,
                     success: loadBackward
@@ -103,6 +100,7 @@
     });
     $("#editHolderButton").click(function() {
         $.ajax({
+            type:'POST',
             url: "<%=editurl%>",
             error: showajaxerror,
             success: loadInPlace
@@ -111,6 +109,7 @@
     });
     $("#nextButton").click(function() {
         $.ajax({
+            type:'POST',
             url: "<%=nexturl%>",
             error: showajaxerror,
             success: loadForward
@@ -119,6 +118,7 @@
     });
     $("#finishButton").click(function() {
         $.ajax({
+            type:'POST',
             url: "<%=finishurl%>",
             error: showajaxerror,
             success: loadForward

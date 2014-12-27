@@ -31,8 +31,7 @@ public class SecondEntry {
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // setup request attributes
-        request.setAttribute("page", IOC.getPage(Constants.INDEX_SECOND_ENTRY_WELCOME));
-        request.setAttribute("title", IOC.getTitle(Constants.INDEX_SECOND_ENTRY_WELCOME));
+        request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_SEO));
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
@@ -45,7 +44,7 @@ public class SecondEntry {
      */
     protected static void welcomeFrom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_SECOND_ENTRY_WELCOME));
+        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SEO));
         rd.forward(request, response);
     }
 
@@ -58,8 +57,7 @@ public class SecondEntry {
     protected static void addParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // setup request attributes
-        request.setAttribute("page", IOC.getPage(Constants.INDEX_SECOND_ENTRY_WELCOME));
-        request.setAttribute("title", IOC.getTitle(Constants.INDEX_SECOND_ENTRY_WELCOME));
+        request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_SEO));
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
