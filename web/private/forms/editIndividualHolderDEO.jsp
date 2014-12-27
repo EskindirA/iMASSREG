@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="form-group">
                             <label>Holder Id</label>
-                            <input class="form-control " type="number" id="holderId" name="holderId" value="<%=holder.getId()%>" />
+                            <input class="form-control " type="text" id="holderId" name="holderId" value="<%=holder.getId()%>" />
                         </div>
                         <div class="form-group">
                             <label>First Name</label>

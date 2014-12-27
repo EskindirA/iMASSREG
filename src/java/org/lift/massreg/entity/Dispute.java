@@ -13,7 +13,6 @@ import org.lift.massreg.util.Option;
  */
 public class Dispute implements Entity {
 
-    private long id;
     private String upi;
     private byte stage;
     private long registeredBy;
@@ -28,14 +27,7 @@ public class Dispute implements Entity {
     private byte disputeStatus;
     private String disputeStatusText;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
+   
     public String getUpi() {
         return upi;
     }

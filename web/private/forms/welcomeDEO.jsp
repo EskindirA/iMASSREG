@@ -34,7 +34,11 @@
                                         <%
                                             Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
                                             for (int i = 0; i < kebeles.length; i++) {
-                                                out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
+                                                out.println("<option value = '" + 
+                                                        CommonStorage.getCurrentWoredaIdForUPI() 
+                                                        +"/"+kebeles[i].getKey() + "'>"
+                                                        + kebeles[i].getValue() 
+                                                        + "</option>");
                                             }
                                         %>
                                     </select>
@@ -66,7 +70,7 @@
         updateUPI();
         if ($("#upi").val() === "" || $("#parcelNo").val() === "" || $("#kebele").val() === "") {
             showError("Kebele, Parcel Number and Administrative UPI are required fields");
-        }else{// Call to the service to get the add parcel form
+        } else {// Call to the service to get the add parcel form
             $.ajax({
                 success: loadForward,
                 type: 'POST',
@@ -79,8 +83,8 @@
             });
         }
         return false;
-    }    
-    $(function(){
+    }
+    $(function() {
         if ("${sessionScope.kebele}" !== "") {
             $("#kebele").val('${sessionScope.kebele}');
         }
@@ -91,8 +95,8 @@
         updateUPI();
         if ($("#upi").val() === "" || $("#parcelNo").val() === "") {
             showError("Parcel Number and Administrative UPI are required fields");
-        } 
-        else{ // Call to the service to get the view parcel form
+        }
+        else { // Call to the service to get the view parcel form
             $.ajax({
                 success: loadForward,
                 error: showajaxerror,
@@ -125,4 +129,4 @@
         var value = pad.substring(0, pad.length - parcelNo.length) + parcelNo;
         $("#upi").val($("#kebele").val() + "/" + value);
     }
-    </script>
+</script>

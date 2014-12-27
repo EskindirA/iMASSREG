@@ -124,7 +124,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label>Holder Id</label>
-                                <input class="form-control " type="number" id="holderId" name="holderId" />
+                                <input class="form-control " type="text" id="holderId" name="holderId" />
                             </div>
                             <div class="form-group">
                                 <label>First Name</label>

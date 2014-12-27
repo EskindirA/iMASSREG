@@ -2,7 +2,7 @@
 <%@page import="org.lift.massreg.util.CommonStorage"%>
 <%@page import="org.lift.massreg.util.Constants"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="am">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

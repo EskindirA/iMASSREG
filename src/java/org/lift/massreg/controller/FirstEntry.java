@@ -509,7 +509,7 @@ public class FirstEntry {
                 request.setAttribute("currentParcel", p);
                 // Check the holding type of the current Parcel if it is 
                 // indvidual forwared to indvidual holders list
-                if (p.getHoldingText().equalsIgnoreCase("INDIVIDUAL")) {
+                if (p.getHolding() == 1) {
                     individualHolderList(request, response);
                 } else {
                     addOrganizationHolder(request, response);
@@ -560,7 +560,6 @@ public class FirstEntry {
         }
     }
 
-    
     /**
      * Handlers request to finish data entry by the first entry operator
      *
@@ -585,7 +584,6 @@ public class FirstEntry {
         }
     }
 
-    
     /**
      * Handlers request to edit organization holder form by the first entry
      * operator
@@ -664,26 +662,6 @@ public class FirstEntry {
                 RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
                 rd.forward(request, response);
             }
-            /*if (newParcel.validateForUpdate()) {
-             newParcel.saveParcelOnly();
-             request.getSession().setAttribute("currentParcel", p);
-             // Check the holding type of the current Parcel if it is 
-             // indvidual forwared to indvidual holders list
-             if (p.getHoldingText().equalsIgnoreCase("INDIVIDUAL")) {
-             individualHolderList(request, response);
-             } else {
-             addOrganizationHolder(request, response);
-             }
-             } else {
-             // if the parcel fails to validate show error message
-             request.getSession().setAttribute("title", "Validation Error");
-             request.getSession().setAttribute("message", "Sorry, there was a validation error ");
-             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
-             request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
-             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
-             rd.forward(request, response);
-             }
-             */
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             request.getSession().setAttribute("title", "Inrernal Error");
@@ -778,7 +756,7 @@ public class FirstEntry {
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (parcel != null) {
-            if (parcel.getHoldingText().equalsIgnoreCase("INDIVIDUAL")) {
+            if (parcel.getHolding() == 1) {
                 saveIndividualHolder(request, response);
             } else {
                 saveOrganizationHolder(request, response);

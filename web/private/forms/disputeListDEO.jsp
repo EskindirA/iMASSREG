@@ -102,6 +102,8 @@
                             <%
                                 if (currentParcel.getDisputeCount() >= 1) {
                                     out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
+                                }else{
+                                    out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em' disabled>Finish</button>");
                                 }
                             %>
                         </div>                        

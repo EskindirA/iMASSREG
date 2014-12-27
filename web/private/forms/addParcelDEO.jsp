@@ -175,7 +175,7 @@
     $("#addParcelForm select").each(function() {
         $(this).val($(this).attr("value"));
     });
-    $("#addParcelForm").submit(function() {
+    $("#submitButton").click(function() {
         if (validate()) {
             if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
                 bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?",function(result){
@@ -184,10 +184,14 @@
                     }        
                 });
             } else{
-                update();
+                alert("1");
+                save();
+                alert("2");
+                return false;
             }
         }else{
             showError("Please fill in a correct value for the highlighted fields");
+
         }
         return false;
     });

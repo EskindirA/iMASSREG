@@ -68,7 +68,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + "dateofbirth, familyrole, holderId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, holder.getUpi());
@@ -81,6 +81,7 @@ public class MasterRepository {
             stmnt.setString(8, holder.getSex());
             stmnt.setDate(9, Date.valueOf(holder.getDateOfBirth()));
             stmnt.setByte(10, holder.getFamilyRole());
+            stmnt.setString(11, holder.getId());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -278,150 +279,6 @@ public class MasterRepository {
     }
 
     /**
-     * @return an array of all the possible option from the table specified
-     * @param table name of the table to query from
-     */
-    private Option[] getAllOptions(String table) {
-        return getAllOptions(table, "code", "textvalue");
-    }
-
-    /**
-     * @return an array of all the possible option from the table specified
-     * @param table name of the table to query from
-     * @param key column to be used as key in the option objects
-     * @param value name of column to be used as value in the option objects
-     */
-    private Option[] getAllOptions(String table, String key, String value) {
-        ArrayList<Option> returnValue = new ArrayList<>();
-        Connection connection = CommonStorage.getConnection();
-        try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM " + table + " ORDER BY " + key);
-            ResultSet rs = stmnt.executeQuery();
-            while (rs.next()) {
-                returnValue.add(new Option(rs.getInt(key) + "", rs.getString(value)));
-            }
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue.toArray(new Option[0]);
-    }
-
-    /**
-     * @return an array of option objects representing the possible Other
-     * Evidence Types
-     */
-    public Option[] getAllOtherEvidenceTypes() {
-        return getAllOptions("otherevidencetypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible Current Land
-     * Use Types
-     */
-    public Option[] getAllCurrentLandUseTypes() {
-        return getAllOptions("landusetypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible Soil
-     * Fertility Types
-     */
-    public Option[] getAllSoilFertilityTypes() {
-        return getAllOptions("soilfertilitytypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible holding
-     * types
-     */
-    public Option[] getAllHoldingTypes() {
-        return getAllOptions("holdingtypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible means of
-     * acquisition types
-     */
-    public Option[] getAllMeansOfAcquisitionTypes() {
-        return getAllOptions("acquisitiontypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible encumbrance
-     * types
-     */
-    public Option[] getAllEncumbranceTypes() {
-        return getAllOptions("encumbrancetypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible family role
-     * types
-     */
-    public Option[] getAllFamilyRoles() {
-        return getAllOptions("familyroletypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible organization
-     * types
-     */
-    public Option[] getAllOrganizationTypes() {
-        return getAllOptions("organizationtypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible encumbrance
-     * types
-     */
-    public Option[] getAllStages() {
-        return getAllOptions("stages");
-    }
-
-    /**
-     * @return an array of option objects representing the possible dispute
-     * status types
-     */
-    public Option[] getAllDisputeStatusTypes() {
-        return getAllOptions("disputestatustypes");
-    }
-
-    /**
-     * @return an array of option objects representing the possible dispute
-     * types
-     */
-    public Option[] getAllDisputeTypes() {
-        return getAllOptions("disputetypes");
-    }
-
-    /**
-     * @return an array of option objects representing all possible family role
-     * types types
-     */
-    public Option[] getAllfamilyRoleTypes() {
-        return getAllOptions("familyroletypes");
-    }
-
-    /**
-     * @return a hash table of all the kebele values
-     */
-    public Option[] getAllKebeles() {
-        ArrayList<Option> returnValue = new ArrayList<>();
-        Connection connection = CommonStorage.getConnection();
-        try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM kebele WHERE woredacode=? ORDER BY kebelecode");
-            stmnt.setString(1, CommonStorage.getCurrentWoredaId());
-            ResultSet rs = stmnt.executeQuery();
-            while (rs.next()) {
-                returnValue.add(new Option(rs.getString("kebelecode") + "", rs.getString("name")));
-            }
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue.toArray(new Option[0]);
-    }
-
-    /**
      * Retrieves details of the user specified with the id
      *
      * @return an entity object representing a user
@@ -504,7 +361,7 @@ public class MasterRepository {
                 ih.setFirstName(rs.getString("firstname"));
                 ih.setFathersName(rs.getString("fathersname"));
                 ih.setGrandFathersName(rs.getString("grandfathersname"));
-                ih.setId(rs.getLong("id") + "");
+                ih.setId(rs.getString("holderId"));
                 ih.setRegisteredBy(rs.getLong("registeredby"));
                 ih.setRegisteredOn(rs.getTimestamp("registeredon"));
                 ih.setSex(rs.getString("sex"));
@@ -529,7 +386,6 @@ public class MasterRepository {
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 Dispute dispute = new Dispute();
-                dispute.setId(rs.getLong("id"));
                 dispute.setFirstName(rs.getString("firstname"));
                 dispute.setFathersName(rs.getString("fathersname"));
                 dispute.setGrandFathersName(rs.getString("grandfathersname"));
@@ -568,11 +424,11 @@ public class MasterRepository {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("UPDATE IndividualHolder SET status='deleted' WHERE upi=? and stage=? and registeredOn=? and id=?");
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE IndividualHolder SET status='deleted' WHERE upi=? and stage=? and registeredOn=? and holderId=?");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
-            stmnt.setLong(4, Long.parseLong(holderId));
+            stmnt.setString(4, holderId);
             stmnt.executeUpdate();
         } catch (Exception ex) {
             returnValue = false;
@@ -652,8 +508,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE individualholder SET firstname=?, "
                 + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=?, "
-                + "familyrole=? WHERE upi=? and stage = ? and registeredon = ?"
-                + "and id=?";
+                + "familyrole=?, holderId=? WHERE upi=? and stage = ? and registeredon = ?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, newIndividualHolder.getFirstName());
@@ -662,15 +517,16 @@ public class MasterRepository {
             stmnt.setString(4, newIndividualHolder.getSex());
             stmnt.setDate(5, Date.valueOf(newIndividualHolder.getDateOfBirth()));
             stmnt.setByte(6, newIndividualHolder.getFamilyRole());
-            stmnt.setString(7, oldIndividualHolder.getUpi());
-            stmnt.setByte(8, oldIndividualHolder.getStage());
-            stmnt.setTimestamp(9, oldIndividualHolder.getRegisteredOn());
-            stmnt.setLong(10, Long.parseLong(oldIndividualHolder.getId()));
+            stmnt.setString(7, newIndividualHolder.getId());
+            stmnt.setString(8, oldIndividualHolder.getUpi());
+            stmnt.setByte(9, oldIndividualHolder.getStage());
+            stmnt.setTimestamp(10, oldIndividualHolder.getRegisteredOn());
+            //stmnt.setString(11, oldIndividualHolder.getId());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
             }
-        } catch (Exception ex) {
+        } catch (SQLException | NumberFormatException ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
         }
@@ -823,4 +679,149 @@ public class MasterRepository {
         }
         return returnValue;
     }
+
+    /**
+     * @return an array of all the possible option from the table specified
+     * @param table name of the table to query from
+     */
+    private Option[] getAllOptions(String table) {
+        return getAllOptions(table, "code", CommonStorage.getCurrentLanguage());
+    }
+
+    /**
+     * @return an array of all the possible option from the table specified
+     * @param table name of the table to query from
+     * @param key column to be used as key in the option objects
+     * @param value name of column to be used as value in the option objects
+     */
+    private Option[] getAllOptions(String table, String key, String value) {
+        ArrayList<Option> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM " + table + " ORDER BY " + key);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                returnValue.add(new Option(rs.getInt(key) + "", rs.getString(value)));
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue.toArray(new Option[0]);
+    }
+
+    /**
+     * @return an array of option objects representing the possible Other
+     * Evidence Types
+     */
+    public Option[] getAllOtherEvidenceTypes() {
+        return getAllOptions("otherevidencetypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible Current Land
+     * Use Types
+     */
+    public Option[] getAllCurrentLandUseTypes() {
+        return getAllOptions("landusetypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible Soil
+     * Fertility Types
+     */
+    public Option[] getAllSoilFertilityTypes() {
+        return getAllOptions("soilfertilitytypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible holding
+     * types
+     */
+    public Option[] getAllHoldingTypes() {
+        return getAllOptions("holdingtypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible means of
+     * acquisition types
+     */
+    public Option[] getAllMeansOfAcquisitionTypes() {
+        return getAllOptions("acquisitiontypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible encumbrance
+     * types
+     */
+    public Option[] getAllEncumbranceTypes() {
+        return getAllOptions("encumbrancetypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible family role
+     * types
+     */
+    public Option[] getAllFamilyRoles() {
+        return getAllOptions("familyroletypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible organization
+     * types
+     */
+    public Option[] getAllOrganizationTypes() {
+        return getAllOptions("organizationtypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible encumbrance
+     * types
+     */
+    public Option[] getAllStages() {
+        return getAllOptions("stages");
+    }
+
+    /**
+     * @return an array of option objects representing the possible dispute
+     * status types
+     */
+    public Option[] getAllDisputeStatusTypes() {
+        return getAllOptions("disputestatustypes");
+    }
+
+    /**
+     * @return an array of option objects representing the possible dispute
+     * types
+     */
+    public Option[] getAllDisputeTypes() {
+        return getAllOptions("disputetypes");
+    }
+
+    /**
+     * @return an array of option objects representing all possible family role
+     * types types
+     */
+    public Option[] getAllfamilyRoleTypes() {
+        return getAllOptions("familyroletypes");
+    }
+
+    /**
+     * @return a hash table of all the kebele values
+     */
+    public Option[] getAllKebeles() {
+        ArrayList<Option> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM kebele WHERE woredacode=? ORDER BY code");
+            stmnt.setInt(1, CommonStorage.getCurrentWoredaId());
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                returnValue.add(new Option(rs.getInt("code") + "", rs.getString(CommonStorage.getCurrentLanguage())));
+            }
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue.toArray(new Option[0]);
+    }
+
 }
