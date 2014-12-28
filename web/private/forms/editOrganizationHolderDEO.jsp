@@ -12,7 +12,7 @@
         cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
     } else {
-        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO;
+        updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_SEO;
         cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
     }
@@ -53,8 +53,7 @@
                                         <button type="submit" id = "backButton" class="btn btn-default col-lg-6" style="float:left">Back</button>
                                     </div>
                                     <div class="col-lg-6">
-
-                                        <button type='submit' id = 'cancelButton' name = 'cancelButton' class='btn btn-default col-lg-4 col-lg-offset-2' >Cancel</button>;
+                                        <button type='submit' id = 'cancelButton' name = 'cancelButton' class='btn btn-default col-lg-4 col-lg-offset-2' >Cancel</button>
                                         <button type='submit' id = 'updateButton' name = 'updateButton' class='btn btn-default col-lg-5' style='float:right'>Save</button>
                                     </div>
                                     <!-- /.col-lg-6 (nested) -->

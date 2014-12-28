@@ -161,7 +161,91 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
             getUPI(request);
             SecondEntry.saveHolder(request, response);
-        } // for all unknown requests
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_SEO)) {
+            getUPI(request);
+            SecondEntry.saveParcel(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_SEO)) {
+            getUPI(request);
+            SecondEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_SEO)) {
+            getUPI(request);
+            SecondEntry.viewParcel(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_SEO)) {
+            getUPI(request);
+            SecondEntry.editParcel(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_SEO)) {
+            getUPI(request);
+            SecondEntry.updateParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_SEO)) {
+            getUPI(request);
+            SecondEntry.deleteParcel(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.saveHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.viewHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.editOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.updateOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.viewIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.editIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.updateIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.deleteIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SEO)) {
+            getUPI(request);
+            SecondEntry.personsWithInterestList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_SEO)) {
+            getUPI(request);
+            SecondEntry.savePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_SEO)) {
+            getUPI(request);
+            SecondEntry.viewPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_SEO)) {
+            getUPI(request);
+            SecondEntry.editPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_SEO)) {
+            getUPI(request);
+            SecondEntry.updatePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_SEO)) {
+            getUPI(request);
+            SecondEntry.deletePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_SEO)) {
+            getUPI(request);
+            SecondEntry.viewDisputeList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_SEO)) {
+            getUPI(request);
+            SecondEntry.saveDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_SEO)) {
+            getUPI(request);
+            SecondEntry.viewDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_SEO)) {
+            getUPI(request);
+            SecondEntry.editDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_SEO)) {
+            getUPI(request);
+            SecondEntry.updateDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_SEO)) {
+            getUPI(request);
+            SecondEntry.deleteDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_SEO)) {
+            getUPI(request);
+            SecondEntry.finishOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_SEO)) {
+            getUPI(request);
+            SecondEntry.finishDispute(request, response);
+        }// for all unknown requests
         else {
             All.goBackToHome(request, response);
         }

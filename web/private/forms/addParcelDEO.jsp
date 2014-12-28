@@ -184,9 +184,7 @@
                     }        
                 });
             } else{
-                alert("1");
                 save();
-                alert("2");
                 return false;
             }
         }else{

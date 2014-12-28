@@ -47,6 +47,9 @@ public class CommonStorage {
     public static byte getFEStage() {
         return 1;
     }
+    public static byte getSEStage() {
+        return 2;
+    }
 
     public static Logger getLogger() {
         return logger;

@@ -172,7 +172,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" id="saveHolderButton" class="btn btn-primary" value = "Add" />
+                <input type="submit" id="saveDisputeButton" class="btn btn-primary" value = "Add" />
             </div> 
         </div>
     </div>
@@ -226,7 +226,7 @@
             url: "<%=editurl%>",
             data: {"registeredOn": regOn},
             error: showajaxerror,
-            success: loadViewHolder
+            success: loadViewDispute
         });
     }
     function viewDispute(regOn) {
@@ -281,7 +281,7 @@
         deleteDispute($(this).attr("data-registeredOn"));
         return false;
     });
-    $("#saveHolderButton").click(function() {
+    $("#saveDisputeButton").click(function() {
         if (!validate("addDisputeForm")) {// validate
             showError("Please input appropriate values in the highlighted fields");
         } else {
