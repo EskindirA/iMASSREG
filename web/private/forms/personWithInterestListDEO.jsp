@@ -6,7 +6,7 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<PersonWithInterest> personsWithInterest = currentParcel.getPersonsWithInterest();
-    String saveurl, viewurl, editurl, deleteurl,backurl,nexturl;
+    String saveurl, viewurl, editurl, deleteurl,backurl,nexturl,finshurl;
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_PERSON_WITH_INTEREST_FEO;
         viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PERSON_WITH_INTEREST_FEO;
@@ -14,6 +14,7 @@
         deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PERSON_WITH_INTEREST_FEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
         nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_FEO;
+        finshurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_PERSON_WITH_INTEREST_FEO;
     } else {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_PERSON_WITH_INTEREST_SEO;
         viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PERSON_WITH_INTEREST_SEO;
@@ -21,6 +22,7 @@
         deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PERSON_WITH_INTEREST_SEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SEO;
         nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DISPUTE_LIST_SEO;
+        finshurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_PERSON_WITH_INTEREST_SEO;
     }
 %>
 <div class="col-lg-12">
@@ -280,6 +282,15 @@
                 });
             }
         });
+        return false;
+    });
+    $("#finishButton").click(function() {
+        $.ajax({
+            type:'POST',
+            url: "<%=finshurl%>",
+            error: showajaxerror,
+            success: loadForward
+                });
         return false;
     });
 </script>

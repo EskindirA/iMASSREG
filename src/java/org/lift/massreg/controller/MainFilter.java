@@ -154,7 +154,10 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_FEO)) {
             getUPI(request);
             FirstEntry.updatePersonWithInterest(request, response);
-        } // for SEO
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_FEO)) {
+            getUPI(request);
+            FirstEntry.finishPersonWithInterest(request, response);
+        }// for SEO
         else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_SEO)) {
             getUPI(request);
             SecondEntry.addParcel(request, response);
@@ -245,7 +248,10 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_SEO)) {
             getUPI(request);
             SecondEntry.finishDispute(request, response);
-        }// for all unknown requests
+        }else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_SEO)) {
+            getUPI(request);
+            SecondEntry.finishPersonWithInterest(request, response);
+        } // for all unknown requests
         else {
             All.goBackToHome(request, response);
         }
