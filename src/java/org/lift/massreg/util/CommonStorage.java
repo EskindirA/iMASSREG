@@ -22,7 +22,8 @@ public class CommonStorage {
         ///TODO: set woreda id from glassfish
         return returnValue;
     }
-    public static String getCurrentWoredaIdForUPI(){
+
+    public static String getCurrentWoredaIdForUPI() {
         String returnValue = "1/2/3/4";
         ///TODO: set woreda id from glassfish
         return returnValue;
@@ -47,6 +48,7 @@ public class CommonStorage {
     public static byte getFEStage() {
         return 1;
     }
+
     public static byte getSEStage() {
         return 2;
     }
@@ -55,16 +57,19 @@ public class CommonStorage {
         return logger;
     }
 
-    static {
-        try {
-            DataSource ds = (DataSource) new InitialContext().lookup("jdbc/newmassreg");
-            connection = ds.getConnection();
-        } catch (NamingException | SQLException ex) {
-            getLogger().logError(ex.toString());
-        }
-    }
-
     public synchronized static Connection getConnection() {
+        if (connection == null) {
+            synchronized (Connection.class) {
+                if (connection == null) {
+                    try {
+                        DataSource ds = (DataSource) new InitialContext().lookup("jdbc/newmassreg");
+                        connection = ds.getConnection();
+                    } catch (NamingException | SQLException ex) {
+                        getLogger().logError(ex.toString());
+                    }
+                }
+            }
+        }
         return connection;
     }
 }

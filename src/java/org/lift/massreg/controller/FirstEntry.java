@@ -342,6 +342,7 @@ public class FirstEntry {
             newPersonWithInterest.setDateOfBirth(request.getParameter("dateofbirth"));
             newPersonWithInterest.setFirstName(request.getParameter("firstname"));
             newPersonWithInterest.setFathersName(request.getParameter("fathersname"));
+            newPersonWithInterest.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newPersonWithInterest.setGrandFathersName(request.getParameter("grandfathersname"));
             newPersonWithInterest.setSex(request.getParameter("sex"));
             newPersonWithInterest.setUpi(request.getSession().getAttribute("upi").toString());
@@ -396,6 +397,7 @@ public class FirstEntry {
             newIndividualHolder.setFathersName(request.getParameter("fathersname"));
             newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
             newIndividualHolder.setId(request.getParameter("newHolderId"));
+            newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
             newIndividualHolder.setStatus(Constants.STATUS[0]);
@@ -888,6 +890,12 @@ public class FirstEntry {
                 allHolders.get(i).remove();
             }
         }
+        ArrayList<PersonWithInterest> allPWI = parcel.getPersonsWithInterest();
+        if (allPWI != null) {
+            for (int i = 0; i < allPWI.size(); i++) {
+                allPWI.get(i).remove();
+            }
+        }
         if (parcel.getOrganaizationHolder() != null) {
             parcel.getOrganaizationHolder().remove();
         }
@@ -999,6 +1007,7 @@ public class FirstEntry {
                 ih.setId(request.getParameter("holderId"));
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
+                ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
                 ih.setStage(CommonStorage.getFEStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());
                 ih.setStatus(Constants.STATUS[0]);
@@ -1101,6 +1110,7 @@ public class FirstEntry {
                 pwi.setGrandFathersName(request.getParameter("grandfathersname"));
                 pwi.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 pwi.setSex(request.getParameter("sex"));
+                pwi.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
                 pwi.setStage(CommonStorage.getFEStage());
                 pwi.setUpi(request.getSession().getAttribute("upi").toString());
                 pwi.setStatus(Constants.STATUS[0]);

@@ -148,6 +148,12 @@ public class SecondEntry {
             rd.forward(request, response);
             return;
         }
+        ArrayList<PersonWithInterest> allPWI = parcel.getPersonsWithInterest();
+        if (allPWI != null) {
+            for (int i = 0; i < allPWI.size(); i++) {
+                allPWI.get(i).remove();
+            }
+        }
         // Delete all disputes of the parcel, if any
         if (parcel.hasDispute()) {
             ArrayList<Dispute> allDisputes = parcel.getDisputes();
@@ -561,6 +567,7 @@ public class SecondEntry {
                 ih.setId(request.getParameter("holderId"));
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
+                ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("newHolderId")));
                 ih.setStage(CommonStorage.getSEStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());
                 ih.setStatus(Constants.STATUS[0]);
@@ -641,6 +648,8 @@ public class SecondEntry {
             newIndividualHolder.setFathersName(request.getParameter("fathersname"));
             newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
             newIndividualHolder.setId(request.getParameter("newHolderId"));
+            
+            newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
             newIndividualHolder.setStatus(Constants.STATUS[0]);
@@ -786,6 +795,7 @@ public class SecondEntry {
                 pwi.setGrandFathersName(request.getParameter("grandfathersname"));
                 pwi.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 pwi.setSex(request.getParameter("sex"));
+                pwi.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
                 pwi.setStage(CommonStorage.getSEStage());
                 pwi.setUpi(request.getSession().getAttribute("upi").toString());
                 pwi.setStatus(Constants.STATUS[0]);
@@ -889,6 +899,7 @@ public class SecondEntry {
             newPersonWithInterest.setFathersName(request.getParameter("fathersname"));
             newPersonWithInterest.setGrandFathersName(request.getParameter("grandfathersname"));
             newPersonWithInterest.setSex(request.getParameter("sex"));
+            newPersonWithInterest.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newPersonWithInterest.setUpi(request.getSession().getAttribute("upi").toString());
             newPersonWithInterest.setStatus(Constants.STATUS[0]);
             if (newPersonWithInterest.validateForUpdate()) {
@@ -1197,7 +1208,7 @@ public class SecondEntry {
             rd.forward(request, response);
         }
     }
-    
+
     /**
      * Handlers request to finish data entry by the second entry operator
      *
@@ -1230,6 +1241,7 @@ public class SecondEntry {
             rd.forward(request, response);
         }
     }
+
     /**
      * Handlers request try commit the current parcel to confirmed status
      *

@@ -61,6 +61,14 @@
                                 %>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Has Physical Impairment</label>
+                            <select class="form-control" id="physicalImpairment" name="physicalImpairment" value="<%=holder.hasPhysicalImpairment()%>" >
+                                <option value = 'false'>No</option>
+                                <option value = 'true'>Yes</option>
+                            </select>
+                        </div>
+               
                     </div> <!-- /.row (nested) -->
                 </div> <!-- /.panel-body -->
             </form>
@@ -99,6 +107,7 @@
                 "grandfathersname": $("#editHolderFrom #grandFathersName").val(),
                 "newHolderId": $("#editHolderFrom #holderId").val(),
                 "sex": $("#editHolderFrom #sex").val(),
+                "physicalImpairment": $("#editHolderFrom #physicalImpairment").val(),
                 "registeredOn": "<%=registeredOn%>",
                 "oldHolderId": "<%=holder.getId()%>"
             },

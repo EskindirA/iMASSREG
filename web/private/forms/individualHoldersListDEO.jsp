@@ -160,6 +160,13 @@
                                     %>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Has Physical Impairment</label>
+                                <select class="form-control" id="physicalImpairment" name="physicalImpairment"  >
+                                    <option value = 'false'>No</option>
+                                    <option value = 'true'>Yes</option>
+                                </select>
+                            </div>
                         </div> <!-- /.row (nested) -->
                     </div> <!-- /.panel-body -->
                 </form>
@@ -239,7 +246,7 @@
     }
     function viewHolder(holderId, regOn) {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=viewurl%>",
             data: {
                 "registeredOn": regOn,
@@ -255,7 +262,7 @@
     }
     function save() {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=saveurl%>",
             data: {
                 "dateofbirth": $("#addHolderForm #dateOfBirth").val(),
@@ -264,6 +271,7 @@
                 "fathersname": $("#addHolderForm #fathersName").val(),
                 "grandfathersname": $("#addHolderForm #grandFathersName").val(),
                 "holderId": $("#addHolderForm #holderId").val(),
+                "physicalImpairment": $("#addHolderForm #physicalImpairment").val(),
                 "sex": $("#addHolderForm #sex").val()
             },
             error: showajaxerror,
@@ -295,7 +303,7 @@
     $("#nextButton").click(function() {
         if (validateHolderList()) {
             $.ajax({
-                type:'POST',
+                type: 'POST',
                 url: "<%=nexturl%>",
                 error: showajaxerror,
                 success: loadForward

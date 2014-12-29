@@ -11,6 +11,7 @@ import org.lift.massreg.dao.MasterRepository;
  *
  */
 public class PersonWithInterest implements Entity {
+
     private String upi;
     private byte stage;
     private long registeredBy;
@@ -22,7 +23,8 @@ public class PersonWithInterest implements Entity {
     private String sex;
     private String dateOfBirth;
     private String status;
-
+    private boolean physicalImpairment;
+    
     public String getStatus() {
         return status;
     }
@@ -113,10 +115,18 @@ public class PersonWithInterest implements Entity {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public boolean hasPhysicalImpairment() {
+        return physicalImpairment;
+    }
+
+    public void hasPhysicalImpairment(boolean physicalImpairment) {
+        this.physicalImpairment = physicalImpairment;
+    }
 
     public String getFullName() {
         return getFirstName() + " " + getFathersName() + " " + getGrandFathersName();
     }
+
     public boolean save() {
         return MasterRepository.getInstance().save(this);
     }
@@ -129,6 +139,7 @@ public class PersonWithInterest implements Entity {
     public boolean remove() {
         return delete(registeredOn, upi, stage);
     }
+
     public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
         return MasterRepository.getInstance().deletePersonWithInterest(registeredOn, upi, stage);
     }
@@ -137,5 +148,5 @@ public class PersonWithInterest implements Entity {
     public boolean validateForUpdate() {
         return true;
     }
-    
+
 }

@@ -56,6 +56,13 @@
                                     %>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Has Physical Impairment</label>
+                                <select class="form-control" id="physicalImpairment" name="physicalImpairment"  value="<%=holder.hasPhysicalImpairment()%>" disabled >
+                                    <option value = 'false'>No</option>
+                                    <option value = 'true'>Yes</option>
+                                </select>
+                            </div>
                         </div> <!-- /.row (nested) -->
                 </div> <!-- /.panel-body -->
             </form>

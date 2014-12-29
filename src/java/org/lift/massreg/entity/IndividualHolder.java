@@ -13,7 +13,7 @@ import org.lift.massreg.util.Option;
  */
 public class IndividualHolder implements Entity {
 
-    private String id;///TODO Change this;
+    private String id;
     private String upi;
     private byte stage;
     private long registeredBy;
@@ -26,6 +26,7 @@ public class IndividualHolder implements Entity {
     private String dateOfBirth;
     private byte familyRole;
     private String familyRoleText;
+    private boolean physicalImpairment;
     private String status;
 
     public String getStatus() {
@@ -156,6 +157,14 @@ public class IndividualHolder implements Entity {
 
     public void setFamilyRoleText(String familyRoleText) {
         this.familyRoleText = familyRoleText;
+    }
+
+    public boolean hasPhysicalImpairment() {
+        return physicalImpairment;
+    }
+
+    public void hasPhysicalImpairment(boolean physicalImpairment) {
+        this.physicalImpairment = physicalImpairment;
     }
 
     public boolean save() {

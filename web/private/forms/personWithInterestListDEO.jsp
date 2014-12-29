@@ -140,6 +140,13 @@
                                 <label>Date of Birth</label>
                                 <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date'/>
                             </div>
+                            <div class="form-group">
+                                <label>Has Physical Impairment</label>
+                                <select class="form-control" id="physicalImpairment" name="physicalImpairment"  >
+                                    <option value = 'false'>No</option>
+                                    <option value = 'true'>Yes</option>
+                                </select>
+                            </div>
                         </div> <!-- /.row (nested) -->
                     </div> <!-- /.panel-body -->
                 </form>
@@ -231,6 +238,7 @@
                 "firstname": $("#addPersonWithInterestForm #firstName").val(),
                 "fathersname": $("#addPersonWithInterestForm #fathersName").val(),
                 "grandfathersname": $("#addPersonWithInterestForm #grandFathersName").val(),
+                "physicalImpairment": $("#addPersonWithInterestForm #physicalImpairment").val(),
                 "sex": $("#addPersonWithInterestForm #sex").val()
             },
             error: showajaxerror,

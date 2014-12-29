@@ -68,7 +68,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);";
+                + "dateofbirth, familyrole, holderId, physicalImpairment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, holder.getUpi());
@@ -82,6 +82,7 @@ public class MasterRepository {
             stmnt.setDate(9, Date.valueOf(holder.getDateOfBirth()));
             stmnt.setByte(10, holder.getFamilyRole());
             stmnt.setString(11, holder.getId());
+            stmnt.setBoolean(12, holder.hasPhysicalImpairment());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -98,7 +99,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO PersonWithInterest( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + "dateofbirth,physicalImpairment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, personWithInterest.getUpi());
@@ -110,6 +111,7 @@ public class MasterRepository {
             stmnt.setString(7, personWithInterest.getGrandFathersName());
             stmnt.setString(8, personWithInterest.getSex());
             stmnt.setDate(9, Date.valueOf(personWithInterest.getDateOfBirth()));
+            stmnt.setBoolean(10, personWithInterest.hasPhysicalImpairment());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -365,6 +367,7 @@ public class MasterRepository {
                 ih.setRegisteredBy(rs.getLong("registeredby"));
                 ih.setRegisteredOn(rs.getTimestamp("registeredon"));
                 ih.setSex(rs.getString("sex"));
+                ih.hasPhysicalImpairment(rs.getBoolean("physicalimpairment"));
                 ih.setStage(rs.getByte("stage"));
                 ih.setUpi(rs.getString("upi"));
                 returnValue.add(ih);
@@ -508,7 +511,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE individualholder SET firstname=?, "
                 + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=?, "
-                + "familyrole=?, holderId=? WHERE upi=? and stage = ? and registeredon = ?";
+                + "familyrole=?, holderId=?, physicalimpairment=? WHERE upi=? and stage = ? and registeredon = ?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, newIndividualHolder.getFirstName());
@@ -518,10 +521,10 @@ public class MasterRepository {
             stmnt.setDate(5, Date.valueOf(newIndividualHolder.getDateOfBirth()));
             stmnt.setByte(6, newIndividualHolder.getFamilyRole());
             stmnt.setString(7, newIndividualHolder.getId());
-            stmnt.setString(8, oldIndividualHolder.getUpi());
-            stmnt.setByte(9, oldIndividualHolder.getStage());
-            stmnt.setTimestamp(10, oldIndividualHolder.getRegisteredOn());
-            //stmnt.setString(11, oldIndividualHolder.getId());
+            stmnt.setBoolean(8, newIndividualHolder.hasPhysicalImpairment());
+            stmnt.setString(9, oldIndividualHolder.getUpi());
+            stmnt.setByte(10, oldIndividualHolder.getStage());
+            stmnt.setTimestamp(11, oldIndividualHolder.getRegisteredOn());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -538,8 +541,8 @@ public class MasterRepository {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE personwithinterest SET firstname=?, "
-                + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=? "
-                + "WHERE upi=? and stage = ? and registeredon = ?";
+                + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=?, "
+                + "physicalImpairment = ? WHERE upi=? and stage = ? and registeredon = ?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, newPersonWithInterest.getFirstName());
@@ -547,9 +550,10 @@ public class MasterRepository {
             stmnt.setString(3, newPersonWithInterest.getGrandFathersName());
             stmnt.setString(4, newPersonWithInterest.getSex());
             stmnt.setDate(5, Date.valueOf(newPersonWithInterest.getDateOfBirth()));
-            stmnt.setString(6, oldPersonWithInterest.getUpi());
-            stmnt.setByte(7, oldPersonWithInterest.getStage());
-            stmnt.setTimestamp(8, oldPersonWithInterest.getRegisteredOn());
+            stmnt.setBoolean(6, newPersonWithInterest.hasPhysicalImpairment());
+            stmnt.setString(7, oldPersonWithInterest.getUpi());
+            stmnt.setByte(8, oldPersonWithInterest.getStage());
+            stmnt.setTimestamp(9, oldPersonWithInterest.getRegisteredOn());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -653,6 +657,7 @@ public class MasterRepository {
                 personWithInterest.setRegisteredBy(rs.getLong("registeredby"));
                 personWithInterest.setRegisteredOn(rs.getTimestamp("registeredon"));
                 personWithInterest.setSex(rs.getString("sex"));
+                personWithInterest.hasPhysicalImpairment(rs.getBoolean("physicalImpairment"));
                 personWithInterest.setStage(rs.getByte("stage"));
                 personWithInterest.setUpi(rs.getString("upi"));
                 returnValue.add(personWithInterest);
