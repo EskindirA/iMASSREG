@@ -120,7 +120,10 @@ public class IndividualHolder implements Entity {
     }
 
     public String getDateOfBirth() {
-        return dateOfBirth;
+        if (dateOfBirth == null) {
+            dateOfBirth = "";
+        }
+        return dateOfBirth.trim();
     }
 
     public void setDateOfBirth(String dateOfBirth) {
@@ -179,14 +182,53 @@ public class IndividualHolder implements Entity {
     public boolean remove() {
         return delete(id, registeredOn, upi, stage);
     }
-    public static boolean delete(String holderId,Timestamp registeredOn, String upi, byte stage) {
 
-        return MasterRepository.getInstance().deleteIndividualHolder(holderId,registeredOn, upi, stage);
+    public static boolean delete(String holderId, Timestamp registeredOn, String upi, byte stage) {
+
+        return MasterRepository.getInstance().deleteIndividualHolder(holderId, registeredOn, upi, stage);
+    }
+
+    public boolean equalsIndividualHolder(IndividualHolder obj) {
+        boolean returnValue = true;
+        if (this.getFamilyRole() != obj.getFamilyRole()) {
+            returnValue = false;
+        }
+        if (this.hasPhysicalImpairment() != obj.hasPhysicalImpairment()) {
+            returnValue = false;
+        }
+        if (!this.getDateOfBirth().trim().equalsIgnoreCase(obj.getDateOfBirth().trim())) {
+            returnValue = false;
+        }
+        if (!this.getFathersName().trim().equalsIgnoreCase(obj.getFathersName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getFirstName().trim().equalsIgnoreCase(obj.getFirstName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getGrandFathersName().trim().equalsIgnoreCase(obj.getGrandFathersName().trim())) {
+            returnValue = false;
+        }
+        
+        if (!this.getId().trim().equalsIgnoreCase(obj.getId().trim())) {
+            returnValue = false;
+        }
+        if (!this.getSex().trim().equalsIgnoreCase(obj.getSex().trim())) {
+            returnValue = false;
+        }
+        return returnValue;
     }
 
     @Override
     public boolean validateForUpdate() {
         return true;
     }
-    
+
+    public boolean commit() {
+        return MasterRepository.getInstance().commit(this);
+    }
+
+    public boolean submitForCorrection() {
+        return MasterRepository.getInstance().submitForCorrection(this);
+    }
+
 }

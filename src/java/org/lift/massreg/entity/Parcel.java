@@ -2,8 +2,11 @@ package org.lift.massreg.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.dto.CurrentUserDTO;
+import org.lift.massreg.dto.ParcelDifference;
+import org.lift.massreg.util.CommonStorage;
 import org.lift.massreg.util.Option;
 
 /**
@@ -143,7 +146,10 @@ public class Parcel implements Entity {
     }
 
     public String getCertificateNumber() {
-        return certificateNumber;
+        if (certificateNumber == null) {
+            certificateNumber = "";
+        }
+        return certificateNumber.trim();
     }
 
     public void setCertificateNumber(String certificateNumber) {
@@ -151,7 +157,10 @@ public class Parcel implements Entity {
     }
 
     public String getHoldingNumber() {
-        return holdingNumber;
+        if (holdingNumber == null) {
+            holdingNumber = "";
+        }
+        return holdingNumber.trim();
     }
 
     public void setHoldingNumber(String holdingNumber) {
@@ -312,6 +321,14 @@ public class Parcel implements Entity {
         return personsWithInterest;
     }
 
+    public int getPersonsWithInterestCount() {
+        int returnValue = 0;
+        if (getPersonsWithInterest() != null) {
+            returnValue = getPersonsWithInterest().size();
+        }
+        return returnValue;
+    }
+
     public void addIndividualHolder(IndividualHolder individualHolder) {
         individualHolders.add(individualHolder);
     }
@@ -326,7 +343,7 @@ public class Parcel implements Entity {
 
     public ArrayList<Dispute> getDisputes() {
         if ((disputes == null) && (hasDispute)) {
-                disputes = MasterRepository.getInstance().getAllDisputes(upi, stage);
+            disputes = MasterRepository.getInstance().getAllDisputes(upi, stage);
         }
         return disputes;
     }
@@ -364,10 +381,6 @@ public class Parcel implements Entity {
         this.hasDispute = hasDispute;
     }
 
-    public OrganizationHolder getOrganaizationHolder() {
-        return organaizationHolder;
-    }
-
     public void setOrganaizationHolder(OrganizationHolder organaizationHolder) {
         this.organaizationHolder = organaizationHolder;
     }
@@ -382,7 +395,7 @@ public class Parcel implements Entity {
         this.individualHolders = individualHolders;
     }
 
-    public void setPersonsWithInterest(ArrayList<PersonWithInterest> personWithInterest) {
+    public void setPersonsWithInterest(ArrayList<PersonWithInterest> personsWithInterest) {
         this.personsWithInterest = personsWithInterest;
     }
 
@@ -412,23 +425,25 @@ public class Parcel implements Entity {
 
     public boolean canEdit(CurrentUserDTO cudto) {
         boolean returnValue = true;
-        boolean firstentry = MasterRepository.getInstance().parcelExists(upi, (byte) 1);
-        boolean secondentry = MasterRepository.getInstance().parcelExists(upi, (byte) 2);
-        boolean supervisor = MasterRepository.getInstance().parcelExists(upi, (byte) 3);
-
+        boolean firstentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getFEStage());
+        boolean secondentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getSEStage());
+        boolean supervisor = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getCorrectionStage());
+        boolean confirmed = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getCommitedStage());
         switch (cudto.getRole()) {
             case FIRST_ENTRY_OPERATOR:
-                if (secondentry || supervisor) {
+                if (secondentry || supervisor || confirmed) {
                     returnValue = false;
                 }
                 break;
             case SECOND_ENTRY_OPERATOR:
-                if (supervisor) {
+                if (supervisor || confirmed) {
                     returnValue = false;
                 }
                 break;
             case SUPERVISOR:
-                ///TODO
+                if (confirmed) {
+                    returnValue = false;
+                }
                 break;
         }
         return returnValue;
@@ -438,9 +453,9 @@ public class Parcel implements Entity {
         Dispute returnValue = new Dispute();
         if (stage == this.getStage()) {
             ArrayList<Dispute> allDisputes = getDisputes();
-            for (int i = 0; i < allDisputes.size(); i++) {
-                if (allDisputes.get(i).getRegisteredOn().equals(registeredOn)) {
-                    returnValue = allDisputes.get(i);
+            for (Dispute allDispute : allDisputes) {
+                if (allDispute.getRegisteredOn().equals(registeredOn)) {
+                    returnValue = allDispute;
                     break;
                 }
             }
@@ -452,10 +467,9 @@ public class Parcel implements Entity {
         IndividualHolder returnValue = new IndividualHolder();
         if (stage == this.getStage()) {
             ArrayList<IndividualHolder> allIndividualHolders = getIndividualHolders();
-            for (int i = 0; i < allIndividualHolders.size(); i++) {
-                if (allIndividualHolders.get(i).getRegisteredOn().equals(registeredOn)
-                        && allIndividualHolders.get(i).getId().equalsIgnoreCase(holderId)) {
-                    returnValue = allIndividualHolders.get(i);
+            for (IndividualHolder allIndividualHolder : allIndividualHolders) {
+                if (allIndividualHolder.getRegisteredOn().equals(registeredOn) && allIndividualHolder.getId().equalsIgnoreCase(holderId)) {
+                    returnValue = allIndividualHolder;
                     break;
                 }
             }
@@ -467,9 +481,9 @@ public class Parcel implements Entity {
         PersonWithInterest returnValue = new PersonWithInterest();
         if (stage == this.getStage()) {
             ArrayList<PersonWithInterest> allPersonsWithInterest = getPersonsWithInterest();
-            for (int i = 0; i < allPersonsWithInterest.size(); i++) {
-                if (allPersonsWithInterest.get(i).getRegisteredOn().equals(registeredOn)) {
-                    returnValue = allPersonsWithInterest.get(i);
+            for (PersonWithInterest allPersonsWithInterest1 : allPersonsWithInterest) {
+                if (allPersonsWithInterest1.getRegisteredOn().equals(registeredOn)) {
+                    returnValue = allPersonsWithInterest1;
                     break;
                 }
             }
@@ -481,16 +495,316 @@ public class Parcel implements Entity {
         return delete(registeredOn, upi, stage);
     }
 
-    public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
-        return MasterRepository.getInstance().deleteParcel(registeredOn, upi, stage);
-    }
-
     public void complete() {
         MasterRepository.getInstance().completeParcel(getUpi(), getStage(), getRegisteredOn());
+    }
+
+    public void commit() {
+        MasterRepository.getInstance().commit(this);
+        if (this.getHolding() == 1) {
+            for (IndividualHolder individualHolder : individualHolders) {
+                individualHolder.commit();
+            }
+            for (PersonWithInterest personsWithInterest1 : personsWithInterest) {
+                personsWithInterest1.commit();
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.commit();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.commit();
+            }
+        }
+    }
+
+    public void submitForCorrection() {
+        MasterRepository.getInstance().submitForCorrection(this);
+        if (this.getHolding() == 1) {
+            for (IndividualHolder individualHolder : individualHolders) {
+                individualHolder.submitForCorrection();
+            }
+            if (personsWithInterest != null) {
+                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                    personWithInterest.submitForCorrection();
+                }
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitForCorrection();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.submitForCorrection();
+            }
+        }
     }
 
     @Override
     public boolean validateForUpdate() {
         return true;
+    }
+
+    public boolean equalsParcel(Parcel obj) {
+        boolean returnValue = true;
+        if (this.acquisitionYear != obj.getAcquisitionYear()) {
+            returnValue = false;
+        }
+        if (!this.getCertificateNumber().trim().equalsIgnoreCase(obj.getCertificateNumber().trim())) {
+            returnValue = false;
+        }
+        if (!this.getHoldingNumber().trim().equalsIgnoreCase(obj.getHoldingNumber().trim())) {
+            returnValue = false;
+        }
+        if (this.currentLandUse != obj.getCurrentLandUse()) {
+            returnValue = false;
+        }
+        if (this.encumbrance != obj.getEncumbrance()) {
+            returnValue = false;
+        }
+        if (this.holding != obj.getHolding()) {
+            returnValue = false;
+        } else if (this.holding != 1) {
+            if (!this.organaizationHolder.equalsOrganizationHolder(obj.organaizationHolder)) {
+                returnValue = false;
+            }
+        }
+        if (!this.mapSheetNo.trim().equalsIgnoreCase(obj.getMapSheetNo().trim())) {
+            returnValue = false;
+        }
+        if (this.meansOfAcquisition != obj.getMeansOfAcquisition()) {
+            returnValue = false;
+        }
+        if (this.otherEvidence != obj.getOtherEvidence()) {
+            returnValue = false;
+        }
+        if (this.soilFertility != obj.getSoilFertility()) {
+            returnValue = false;
+        }
+        if (!this.surveyDate.trim().equalsIgnoreCase(obj.getSurveyDate().trim())) {
+            returnValue = false;
+        }
+        if (!this.upi.trim().equalsIgnoreCase(obj.getUpi().trim())) {
+            returnValue = false;
+        }
+        if (this.hasDispute != obj.hasDispute()) {
+            returnValue = false;
+        }
+        if (this.getDisputeCount() != obj.getDisputeCount()) {
+            returnValue = false;
+        }
+        if (this.getHolderCount() != obj.getHolderCount()) {
+            returnValue = false;
+        }
+        if (this.getPersonsWithInterestCount() != obj.getPersonsWithInterestCount()) {
+            returnValue = false;
+        }
+        // compare individual holders
+        if (this.getHolding() == 1 || obj.getHolding() == 1) {
+            if ((this.getIndividualHolders() != null) != (obj.getIndividualHolders() != null)) {
+                returnValue = false;
+            }
+            if (this.getIndividualHolders() != null && obj.getIndividualHolders() != null) {
+                for (int i = 0; i < this.getIndividualHolders().size(); i++) {
+                    boolean found = false;
+                    IndividualHolder firstHolder = this.getIndividualHolders().get(i);
+                    if (findSimilar(firstHolder, obj.getIndividualHolders())) {
+                        found = true;
+                    }
+                    if (!found) {
+                        returnValue = false;
+                        break;
+                    }
+                }
+            }
+        }
+        // comapre People with interest 
+        if ((this.getPersonsWithInterest() != null) != (obj.getPersonsWithInterest() != null)) {
+            returnValue = false;
+        }
+        if (this.getPersonsWithInterest() != null && obj.getPersonsWithInterest() != null) {
+            for (int i = 0; i < this.getPersonsWithInterest().size(); i++) {
+                boolean found = false;
+                PersonWithInterest firstPWI = this.getPersonsWithInterest().get(i);
+                if (findSimilar(firstPWI, obj.getPersonsWithInterest())) {
+                    found = true;
+                }
+                if (!found) {
+                    returnValue = false;
+                    break;
+                }
+            }
+        }
+        // compare disputes
+        if ((this.getDisputes() != null) != (obj.getDisputes() != null)) {
+            returnValue = false;
+        }
+        if (this.getDisputes() != null && obj.getDisputes() != null) {
+            for (int i = 0; i < this.getDisputes().size(); i++) {
+                boolean found = false;
+                Dispute firstDispute = this.getDisputes().get(i);
+                if (findSimilar(firstDispute, obj.getDisputes())) {
+                    found = true;
+                }
+                if (!found) {
+                    returnValue = false;
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
+        return MasterRepository.getInstance().deleteParcel(registeredOn, upi, stage);
+    }
+
+    public static ParcelDifference difference(Parcel firstParcel, Parcel secondParcel) {
+        ParcelDifference returnValue = new ParcelDifference();
+
+        if (firstParcel.getAcquisitionYear() != secondParcel.getAcquisitionYear()) {
+            returnValue.setAcquisitionYear(true);
+        }
+        if (!firstParcel.getCertificateNumber().trim().equalsIgnoreCase(secondParcel.getCertificateNumber().trim())) {
+            returnValue.setCertificateNumber(true);
+        }
+        if (!firstParcel.getHoldingNumber().trim().equalsIgnoreCase(secondParcel.getHoldingNumber().trim())) {
+            returnValue.setHoldingNumber(true);
+        }
+        if (firstParcel.getCurrentLandUse() != secondParcel.getCurrentLandUse()) {
+            returnValue.setCurrentLandUse(true);
+        }
+        if (firstParcel.getDisputeCount() != secondParcel.getDisputeCount()) {
+            returnValue.setDisputesCount(true);
+        }
+        if (firstParcel.getEncumbrance() != secondParcel.getEncumbrance()) {
+            returnValue.setEncumbrance(true);
+        }
+        if (firstParcel.getHolderCount() != secondParcel.getHolderCount()) {
+            returnValue.setHoldersCount(true);
+        }
+        if (firstParcel.getPersonsWithInterestCount() != secondParcel.getPersonsWithInterestCount()) {
+            returnValue.setPersonsWithInterestCount(true);
+        }
+        if (firstParcel.getHolding() != secondParcel.getHolding()) {
+            returnValue.setHolding(true);
+        }
+        if (!firstParcel.getMapSheetNo().trim().equalsIgnoreCase(secondParcel.getMapSheetNo().trim())) {
+            returnValue.setMapSheetNo(true);
+        }
+        if (firstParcel.getMeansOfAcquisition() != secondParcel.getMeansOfAcquisition()) {
+            returnValue.setMeansOfAcquisition(true);
+        }
+        if (firstParcel.getOtherEvidence() != secondParcel.getOtherEvidence()) {
+            returnValue.setOtherEvidence(true);
+        }
+        if (firstParcel.getSoilFertility() != secondParcel.getSoilFertility()) {
+            returnValue.setSoilFertility(true);
+        }
+        if (!firstParcel.getSurveyDate().trim().equalsIgnoreCase(secondParcel.getSurveyDate().trim())) {
+            returnValue.setSurveyDate(true);
+        }
+        if (firstParcel.hasDispute() != secondParcel.hasDispute()) {
+            returnValue.setHasDispute(true);
+        }
+
+        // compare Organization Holders
+        if (firstParcel.getOrganizationHolder() != null && secondParcel.getOrganizationHolder() != null) {
+            returnValue.setOrganizationHolderDifference(OrganizationHolder.difference(firstParcel.getOrganizationHolder(),
+                    secondParcel.getOrganizationHolder()));
+        }
+        // comapre Individual Holders
+        if (firstParcel.getHolding() == 1 || secondParcel.getHolding() == 1) {
+            if ((firstParcel.getIndividualHolders() != null) != (secondParcel.getIndividualHolders() != null)) {
+                returnValue.setHoldersCount(true);
+            }
+            if (firstParcel.getIndividualHolders() != null && secondParcel.getIndividualHolders() != null) {
+                for (int i = 0; i < firstParcel.getIndividualHolders().size(); i++) {
+                    boolean found = false;
+                    IndividualHolder firstHolder = firstParcel.getIndividualHolders().get(i);
+                    if (findSimilar(firstHolder, secondParcel.getIndividualHolders())) {
+                        found = true;
+                    }
+                    if (!found) {
+                        returnValue.setIndividualHolderDetails(true);
+                        break;
+                    }
+                }
+            }
+        }
+        // comapre People with interest 
+        if ((firstParcel.getPersonsWithInterest() != null) != (secondParcel.getPersonsWithInterest() != null)) {
+            returnValue.setPersonsWithInterestCount(true);
+        }
+        if (firstParcel.getPersonsWithInterest() != null && secondParcel.getPersonsWithInterest() != null) {
+            for (int i = 0; i < firstParcel.getPersonsWithInterest().size(); i++) {
+                boolean found = false;
+                PersonWithInterest firstPWI = firstParcel.getPersonsWithInterest().get(i);
+                if (findSimilar(firstPWI, secondParcel.getPersonsWithInterest())) {
+                    found = true;
+                }
+                if (!found) {
+                    returnValue.setPersonsWithInterestDetails(true);
+                    break;
+                }
+            }
+        }
+        // compare disputes
+        if ((firstParcel.getDisputes() != null) != (secondParcel.getDisputes() != null)) {
+            returnValue.setDisputesCount(true);
+        }
+        if (firstParcel.getDisputes() != null && secondParcel.getDisputes() != null) {
+            for (int i = 0; i < firstParcel.getDisputes().size(); i++) {
+                boolean found = false;
+                Dispute firstDispute = firstParcel.getDisputes().get(i);
+                if (findSimilar(firstDispute, secondParcel.getDisputes())) {
+                    found = true;
+                }
+                if (!found) {
+                    returnValue.setDisputesDetails(true);
+                    break;
+                }
+            }
+        }
+
+        return returnValue;
+    }
+
+    private static boolean findSimilar(IndividualHolder holder, ArrayList<IndividualHolder> holdersList) {
+        boolean returnValue = false;
+        if (holdersList.size() > 0) {
+            for (IndividualHolder holdersList1 : holdersList) {
+                if (holder.equalsIndividualHolder(holdersList1)) {
+                    returnValue = true;
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    private static boolean findSimilar(PersonWithInterest pwi, ArrayList<PersonWithInterest> pwiList) {
+        boolean returnValue = false;
+        if (pwiList.size() > 0) {
+            for (PersonWithInterest pwi1 : pwiList) {
+                if (pwi.equalsPersonsWithInterest(pwi1)) {
+                    returnValue = true;
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    private static boolean findSimilar(Dispute dispute, ArrayList<Dispute> disputeList) {
+        boolean returnValue = false;
+        if (disputeList.size() > 0) {
+            for (Dispute dispute1 : disputeList) {
+                if (dispute.equalsDispute(dispute1)) {
+                    returnValue = true;
+                    break;
+                }
+            }
+        }
+        return returnValue;
     }
 }

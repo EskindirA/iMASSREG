@@ -1,3 +1,4 @@
+<%@page import="org.lift.massreg.dto.OrganizationHolderDifference"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.*"%>
@@ -5,8 +6,18 @@
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = cParcel.canEdit(CommonStorage.getCurrentUser(request));
-    OrganizationHolder holder = cParcel.getOrganaizationHolder();
+    OrganizationHolder holder = cParcel.getOrganizationHolder();
     String updateurl, cancelurl, backurl;
+
+    OrganizationHolderDifference holderDifference = new OrganizationHolderDifference();
+    boolean reviewMode = false;
+    if (request.getSession().getAttribute("reviewMode") != null) {
+        reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+    }
+    if (reviewMode) {
+        holderDifference = (OrganizationHolderDifference) request.getAttribute("currentOrganizationHolderDifference");
+    }
+
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO;
         cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;
@@ -35,11 +46,15 @@
                             <form role="form" action="#" id="editHolderFrom" name="editHolderFrom" method="action">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input class="form-control " id="organizationName" name="organizationName" placeholder="Name of the holding organization" value="<%=holder.getName()%>" />
+                                    <input class="form-control <%= reviewMode &&
+                                            holderDifference.isName()
+                                            ?"discrepancy-field":""%>" id="organizationName" name="organizationName" placeholder="Name of the holding organization" value="<%=holder.getName()%>" />
                                 </div>
                                 <div class="form-group">
                                     <label>Type</label>
-                                    <select class="form-control" id="organizationType" name="organizationType" value="<%=holder.getOrganizationType()%>" >
+                                    <select class="form-control <%= reviewMode &&
+                                            holderDifference.isOrganizationType()
+                                            ?"discrepancy-field":""%>" id="organizationType" name="organizationType" value="<%=holder.getOrganizationType()%>" >
                                         <%
                                             Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
                                             for (int i = 0; i < organizationTypes.length; i++) {

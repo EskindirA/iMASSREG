@@ -52,6 +52,13 @@ public class CommonStorage {
     public static byte getSEStage() {
         return 2;
     }
+    
+    public static byte getCorrectionStage() {
+        return 3;
+    }
+    public static byte getCommitedStage() {
+        return 4;
+    }
 
     public static Logger getLogger() {
         return logger;

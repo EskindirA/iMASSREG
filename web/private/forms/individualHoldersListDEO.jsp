@@ -1,3 +1,5 @@
+<%@page import="org.lift.massreg.dto.ParcelDifference"%>
+<%@page import="org.lift.massreg.dto.IndividualHolderDifference"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
@@ -6,6 +8,16 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<IndividualHolder> holders = currentParcel.getIndividualHolders();
+    ParcelDifference parcelDifference = new ParcelDifference();
+    boolean reviewMode = false;
+    if (request.getSession().getAttribute("reviewMode") != null) {
+        reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+    }
+    if (reviewMode) {
+        parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
+    }
+
+    
     String saveurl, viewurl, editurl, deleteurl, backurl, nexturl;
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
@@ -34,6 +46,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
+                    <%=reviewMode && parcelDifference.isIndividualHolderDetails()
+                            ?"<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in holder details</span>":""%>
+                            
+                    <span style='float:right' class='<%= reviewMode &&
+                                            parcelDifference.isHoldersCount()
+                                            ?"discrepancy-field":""%>'>Holders Count:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">

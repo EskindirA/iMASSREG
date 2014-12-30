@@ -248,9 +248,15 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_SEO)) {
             getUPI(request);
             SecondEntry.finishDispute(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_SEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_SEO)) {
             getUPI(request);
             SecondEntry.finishPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SUBMIT_FOR_CORRECTION_SEO)) {
+            getUPI(request);
+            SecondEntry.submitForCorrection(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_START_REVIEW_SEO)) {
+            getUPI(request);
+            SecondEntry.startReview(request, response);
         } // for all unknown requests
         else {
             All.goBackToHome(request, response);

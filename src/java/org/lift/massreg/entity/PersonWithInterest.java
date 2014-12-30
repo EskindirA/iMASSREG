@@ -24,7 +24,7 @@ public class PersonWithInterest implements Entity {
     private String dateOfBirth;
     private String status;
     private boolean physicalImpairment;
-    
+
     public String getStatus() {
         return status;
     }
@@ -144,9 +144,40 @@ public class PersonWithInterest implements Entity {
         return MasterRepository.getInstance().deletePersonWithInterest(registeredOn, upi, stage);
     }
 
+    public boolean equalsPersonsWithInterest(PersonWithInterest obj) {
+        boolean returnValue = true;
+        if (!this.getDateOfBirth().trim().equalsIgnoreCase(obj.getDateOfBirth().trim())) {
+            returnValue = false;
+        }
+        if (this.hasPhysicalImpairment() != obj.hasPhysicalImpairment()) {
+            returnValue = false;
+        }
+        if (!this.getFathersName().trim().equalsIgnoreCase(obj.getFathersName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getFirstName().trim().equalsIgnoreCase(obj.getFirstName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getGrandFathersName().trim().equalsIgnoreCase(obj.getGrandFathersName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getSex().trim().equalsIgnoreCase(obj.getSex().trim())) {
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     @Override
     public boolean validateForUpdate() {
         return true;
+    }
+
+    public void commit() {
+        MasterRepository.getInstance().commit(this);
+    }
+
+    public boolean submitForCorrection() {
+        return MasterRepository.getInstance().submitForCorrection(this);
     }
 
 }

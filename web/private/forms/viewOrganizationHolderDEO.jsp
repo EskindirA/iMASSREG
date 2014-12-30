@@ -5,7 +5,7 @@
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = cParcel.canEdit(CommonStorage.getCurrentUser(request));
-    OrganizationHolder holder = cParcel.getOrganaizationHolder();
+    OrganizationHolder holder = cParcel.getOrganizationHolder();
     String finishurl, editurl, backurl, nexturl;
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_ORGANIZATION_HOLDER_FEO;

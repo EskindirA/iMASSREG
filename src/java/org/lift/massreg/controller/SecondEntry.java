@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import javax.servlet.http.*;
 import java.util.ArrayList;
 import java.io.IOException;
-import static org.lift.massreg.controller.FirstEntry.viewHolder;
 
 import org.lift.massreg.util.*;
 import org.lift.massreg.entity.*;
@@ -122,6 +121,14 @@ public class SecondEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } else {
+            boolean reviewMode = false;
+            if (request.getSession().getAttribute("reviewMode") != null) {
+                reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+            }
+            if (reviewMode) {
+                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+                request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, currentParcel));
+            }
             request.setAttribute("page", IOC.getPage(Constants.INDEX_EDIT_PARCEL_SEO));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_PARCEL_SEO));
             rd.forward(request, response);
@@ -168,8 +175,8 @@ public class SecondEntry {
                 allHolders.get(i).remove();
             }
         }
-        if (parcel.getOrganaizationHolder() != null) {
-            parcel.getOrganaizationHolder().remove();
+        if (parcel.getOrganizationHolder() != null) {
+            parcel.getOrganizationHolder().remove();
         }
 
         // Delete the parcel
@@ -361,6 +368,15 @@ public class SecondEntry {
      */
     protected static void individualHolderList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        boolean reviewMode = false;
+        if (request.getSession().getAttribute("reviewMode") != null) {
+            reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+        }
+        if (reviewMode) {
+            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+            Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+            request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, seoParcel));
+        }
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_SEO));
         rd.forward(request, response);
     }
@@ -486,6 +502,15 @@ public class SecondEntry {
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
+            boolean reviewMode = false;
+            if (request.getSession().getAttribute("reviewMode") != null) {
+                reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+            }
+            if (reviewMode) {
+                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+                request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), parcel.getOrganizationHolder()));
+            }
+
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SEO));
             rd.forward(request, response);
         } else {
@@ -513,7 +538,7 @@ public class SecondEntry {
         request.setAttribute("currentParcel", currentParcel);
 
         try {
-            OrganizationHolder oldOrganizationHolder = currentParcel.getOrganaizationHolder();
+            OrganizationHolder oldOrganizationHolder = currentParcel.getOrganizationHolder();
             OrganizationHolder newOrganizationHolder = new OrganizationHolder();
             newOrganizationHolder.setName(request.getParameter("organizationName"));
             newOrganizationHolder.setOrganizationType(Byte.parseByte(request.getParameter("organizationType")));
@@ -648,7 +673,7 @@ public class SecondEntry {
             newIndividualHolder.setFathersName(request.getParameter("fathersname"));
             newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
             newIndividualHolder.setId(request.getParameter("newHolderId"));
-            
+
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
@@ -762,6 +787,15 @@ public class SecondEntry {
         // if the parcel does exist in database
         parcel = (Parcel) request.getAttribute("currentParcel");
         if (parcel != null) {
+            boolean reviewMode = false;
+            if (request.getSession().getAttribute("reviewMode") != null) {
+                reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+            }
+            if (reviewMode) {
+                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+                request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, parcel));
+            }
+
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_SEO));
             rd.forward(request, response);
         } else {
@@ -958,6 +992,14 @@ public class SecondEntry {
     protected static void viewDisputeList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        boolean reviewMode = false;
+        if (request.getSession().getAttribute("reviewMode") != null) {
+            reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+        }
+        if (reviewMode) {
+            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+            request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, parcel));
+        }
         request.setAttribute("currentParcel", parcel);
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DISPUTE_LIST_SEO));
         rd.forward(request, response);
@@ -1156,16 +1198,7 @@ public class SecondEntry {
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
             parcel.complete();
-            ///TODO
-            // Check if there are discripanceis 
-            // If so send to the commit page
-            // Otherwith set the review mode to true and send back to view Parcel
-            request.getSession().setAttribute("title", "Commit Page");
-            request.getSession().setAttribute("message", "Sorry, This future is not implemented yet");
-            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
-            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
-            rd.forward(request, response);
+            commit(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
@@ -1189,16 +1222,7 @@ public class SecondEntry {
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
             parcel.complete();
-            ///TODO
-            // Check if there are discripanceis 
-            // If so send to the commit page
-            // Otherwith set the review mode to true and send back to view Parcel
-            request.getSession().setAttribute("title", "Commit Page");
-            request.getSession().setAttribute("message", "Sorry, This future is not implemented yet");
-            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
-            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
-            rd.forward(request, response);
+            commit(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
@@ -1222,16 +1246,7 @@ public class SecondEntry {
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
             parcel.complete();
-            ///TODO
-            // Check if there are discripanceis 
-            // If so send to the commit page
-            // Otherwith set the review mode to true and send back to view Parcel
-            request.getSession().setAttribute("title", "Commit Page");
-            request.getSession().setAttribute("message", "Sorry, This future is not implemented yet");
-            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
-            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
-            rd.forward(request, response);
+            commit(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
@@ -1250,6 +1265,31 @@ public class SecondEntry {
      */
     protected static void commit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.getSession().setAttribute("reviewMode", false);
+        Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+        Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        if (seoParcel.equalsParcel(feoParcel)) {
+            seoParcel.commit();
+            request.getSession().setAttribute("upi", null);
+            request.getSession().setAttribute("parcelNo", null);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SEO));
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DISCREPANCY_SEO));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * Handlers request try commit the current parcel to confirmed status
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void startReview(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getSession().setAttribute("reviewMode", true);
+        viewParcel(request, response);
     }
 
     /**
@@ -1258,7 +1298,14 @@ public class SecondEntry {
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
      */
-    protected static void sendForCorrection(HttpServletRequest request, HttpServletResponse response)
+    protected static void submitForCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        parcel.submitForCorrection();
+        request.getSession().setAttribute("reviewMode", false);
+        request.getSession().setAttribute("upi", null);
+        request.getSession().setAttribute("parcelNo", null);
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SEO));
+        rd.forward(request, response);
     }
 }

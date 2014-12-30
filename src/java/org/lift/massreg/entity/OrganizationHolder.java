@@ -2,6 +2,7 @@ package org.lift.massreg.entity;
 
 import java.sql.Timestamp;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.OrganizationHolderDifference;
 import org.lift.massreg.util.Option;
 
 /**
@@ -108,13 +109,40 @@ public class OrganizationHolder implements Entity {
     public boolean remove() {
         return delete(upi, stage);
     }
+
     public static boolean delete(String upi, byte stage) {
 
         return MasterRepository.getInstance().deleteOrganizationHolder(upi, stage);
     }
-    
+
     @Override
     public boolean validateForUpdate() {
         return true;
+    }
+
+    public boolean equalsOrganizationHolder(OrganizationHolder obj) {
+        ///TODO
+        return false;
+    }
+
+    void commit() {
+        MasterRepository.getInstance().commit(this);
+    }
+
+    public boolean submitForCorrection() {
+        return MasterRepository.getInstance().submitForCorrection(this);
+    }
+
+    public static OrganizationHolderDifference difference(OrganizationHolder firstHolder, OrganizationHolder secondHolder) {
+        OrganizationHolderDifference returnValue = new OrganizationHolderDifference();
+        if (firstHolder.getName() != null && secondHolder.getName() != null) {
+            if (!firstHolder.getName().trim().equalsIgnoreCase(secondHolder.getName().trim())) {
+                returnValue.setName(true);
+            }
+        }
+        if (firstHolder.getOrganizationType() != secondHolder.getOrganizationType()) {
+            returnValue.setOrganizationType(true);
+        }
+        return returnValue;
     }
 }

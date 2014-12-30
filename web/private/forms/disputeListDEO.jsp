@@ -1,3 +1,4 @@
+<%@page import="org.lift.massreg.dto.ParcelDifference"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.*"%>
@@ -6,6 +7,15 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<Dispute> disputes = currentParcel.getDisputes();
+    ParcelDifference parcelDifference = new ParcelDifference();
+    boolean reviewMode = false;
+    if (request.getSession().getAttribute("reviewMode") != null) {
+        reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+    }
+    if (reviewMode) {
+        parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
+    }
+
     String saveurl, viewurl, deleteurl, editurl, backurl,finishurl;
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_FEO;
@@ -42,6 +52,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
+                    <% if(reviewMode && parcelDifference.isDisputesDetails()){
+                        out.println("<span style='padding-left: 3em' class='discrepancy-field'>There is a discrepancy in dispute details</span>");
+                    }
+                    %>
+                            
+                    <span style='float:right' class='<%= reviewMode &&
+                                            parcelDifference.isDisputesCount()
+                                            ?"discrepancy-field":""%>'>Dispute Count:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">

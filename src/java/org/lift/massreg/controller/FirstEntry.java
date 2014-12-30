@@ -442,7 +442,7 @@ public class FirstEntry {
         request.setAttribute("currentParcel", currentParcel);
 
         try {
-            OrganizationHolder oldOrganizationHolder = currentParcel.getOrganaizationHolder();
+            OrganizationHolder oldOrganizationHolder = currentParcel.getOrganizationHolder();
             OrganizationHolder newOrganizationHolder = new OrganizationHolder();
             newOrganizationHolder.setName(request.getParameter("organizationName"));
             newOrganizationHolder.setOrganizationType(Byte.parseByte(request.getParameter("organizationType")));
@@ -896,8 +896,8 @@ public class FirstEntry {
                 allPWI.get(i).remove();
             }
         }
-        if (parcel.getOrganaizationHolder() != null) {
-            parcel.getOrganaizationHolder().remove();
+        if (parcel.getOrganizationHolder() != null) {
+            parcel.getOrganizationHolder().remove();
         }
 
         // Delete the parcel

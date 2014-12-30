@@ -27,7 +27,6 @@ public class Dispute implements Entity {
     private byte disputeStatus;
     private String disputeStatusText;
 
-   
     public String getUpi() {
         return upi;
     }
@@ -174,8 +173,39 @@ public class Dispute implements Entity {
         return MasterRepository.getInstance().deleteDispute(registeredOn, upi, stage);
     }
 
+    public boolean equalsDispute(Dispute obj) {
+        boolean returnValue = true;
+        if(this.getDisputeStatus()!=obj.getDisputeStatus()){
+            returnValue = false;
+        }
+        if(this.getDisputeType()!=obj.getDisputeType()){
+            returnValue = false;
+        }
+        if (!this.getFathersName().trim().equalsIgnoreCase(obj.getFathersName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getFirstName().trim().equalsIgnoreCase(obj.getFirstName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getGrandFathersName().trim().equalsIgnoreCase(obj.getGrandFathersName().trim())) {
+            returnValue = false;
+        }
+        if (!this.getSex().trim().equalsIgnoreCase(obj.getSex().trim())) {
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     @Override
     public boolean validateForUpdate() {
         return true;
-    } 
+    }
+
+    void commit() {
+        MasterRepository.getInstance().commit(this);
+    }
+
+    public boolean submitForCorrection() {
+        return MasterRepository.getInstance().submitForCorrection(this);
+    }
 }

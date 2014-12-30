@@ -58,7 +58,7 @@ public class IOC {
         pages.put(Constants.INDEX_VIEW_DISPUTE_SEO, "viewDisputeDEO.jsp");
         pages.put(Constants.INDEX_EDIT_DISPUTE_FEO, "editDisputeDEO.jsp");
         pages.put(Constants.INDEX_EDIT_DISPUTE_SEO, "editDisputeDEO.jsp");
-        
+        pages.put(Constants.INDEX_DISCREPANCY_SEO, "discrepancyDEO.jsp");
         
     }
 

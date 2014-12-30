@@ -1009,3 +1009,7 @@
 .error-field{
     border-color: red;
 }
+.discrepancy-field{
+    background-color: #FAAAAA;
+    border-color: #C40000;
+}
