@@ -1,7 +1,16 @@
-<%@include file="../includes/checkDirectAccess.jsp" %>
-<%--Welcom Page: For the first entry operator--%>
-<div class="col-lg-12">
+<%@page import="org.lift.massreg.util.*"%>
+<%@page import="org.lift.massreg.entity.Parcel"%>
+<%@page import="java.util.ArrayList"%>
+<%
+    ArrayList<Parcel> parcelsInCorrection = (ArrayList<Parcel>)request.getAttribute("parcelsInCorrection");
+    
+    String fixurl;
+    //if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.SUPERVISOR) {
+        fixurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIX_PARCEL_SUPERVISOR;
+    //}
 
+%>
+<div class="col-lg-12">
     <div class="row">
         <div class="col-lg-3 col-lg-offset-5 ">
             <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome</h2>
@@ -16,47 +25,33 @@
                         <table class="table table-striped table-bordered table-hover" id="dataTables" >
                             <thead>
                                 <tr>
-                                    <th>UPI</th>
-                                    <th>First Entry By</th>
-                                    <th>Second Entry By</th>
-                                    <th>Discrepancies in Dispute</th>
-                                    <th>Discrepancies in Holder</th>
+                                    <th>Administrative UPI</th>
+                                    <th>Certificate Number</th>
+                                    <th>Has Dispute</th>
+                                    <th>Means of Acquisition</th>
+                                    <th>Survey Date</th>
                                     <th>Fix</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd gradeA">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 5.5</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">Yes</td>
-                                    <td class="center">No</td>
-                                    <td><a data-upi=""><img src="<%=request.getContextPath()%>/assets/images/edit-btn.png" class="edit-btn"/></td>
-                                </tr>
-                                <tr class="even gradeA">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 6</td>
-                                    <td>Win 98+</td>
-                                    <td class="center">Yes</td>
-                                    <td class="center">Yes</td>
-                                    <td><a data-upi=""><img src="<%=request.getContextPath()%>/assets/images/edit-btn.png" class="edit-btn"/></td>
-                                </tr>
-                                <tr class="odd gradeA">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 7</td>
-                                    <td>Internet Explorer 7</td>
-                                    <td class="center">Yes</td>
-                                    <td class="center">No</td>
-                                    <td><a data-upi=""><img src="<%=request.getContextPath()%>/assets/images/edit-btn.png" class="edit-btn"/></td>
-                                </tr>
-                                <tr class="even gradeA">
-                                    <td>Trident</td>
-                                    <td>AOL browser (AOL desktop)</td>
-                                    <td>Win XP</td>
-                                    <td class="center">No</td>
-                                    <td class="center">Yes</td>
-                                    <td><a data-upi=""><img src="<%=request.getContextPath()%>/assets/images/edit-btn.png" class="edit-btn"/></td>
-                                </tr>
+                                <%
+                                    for (int i = 0; i < parcelsInCorrection.size(); i++) {
+                                        if (i % 2 == 0) {
+                                            out.println("<tr class='odd gradeA'>");
+                                        } else {
+                                            out.println("<tr class='even gradeA'>");
+                                        }
+                                        out.println("<td>" + parcelsInCorrection.get(i).getUpi()+ "</td>");
+                                        out.println("<td>" + parcelsInCorrection.get(i).getCertificateNumber()+ "</td>");
+                                        out.println("<td>" + parcelsInCorrection.get(i).hasDispute()+ "</td>");
+                                        out.println("<td>" + parcelsInCorrection.get(i).getMeansOfAcquisition()+ "</td>");
+                                        out.println("<td>" + parcelsInCorrection.get(i).getSurveyDate()+ "</td>");
+                                        out.println("<td><a href = '#' class='fixButton' data-upi='"
+                                                    + parcelsInCorrection.get(i).getUpi()+ "'>Fix</a></td>");
+                                        out.println("</tr>");
+                                    }
+                                %>
+
                             </tbody>
                         </table>
                     </div> <!-- /.table-responsive -->
@@ -66,14 +61,19 @@
     </div> <!-- /.row -->
 </div>
 <script>
-    $(document).ready(function() {
-        $('#dataTables').dataTable();
-        $("#backButton").click(function() {
-            $.ajax({
-                url: "<%=request.getContextPath()%>/Index?action=welcome",
-                success: loadBackward
-            });
-            return false;
+    function fixParcel(upi) {
+        $.ajax({
+            type:'POST',
+            url: "<%=fixurl%>",
+            data: {"upi": upi},
+            error: showajaxerror,
+            success: loadForward
         });
+    }
+
+    $('#dataTables').dataTable();
+    $('.fixButton').click(function() {
+        fixParcel($(this).attr("data-upi"));
+        return false;
     });
 </script>

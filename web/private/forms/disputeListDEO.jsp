@@ -53,13 +53,13 @@
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
                     <% if(reviewMode && parcelDifference.isDisputesDetails()){
-                        out.println("<span style='padding-left: 3em' class='discrepancy-field'>There is a discrepancy in dispute details</span>");
+                        out.println("<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in dispute details</span>");
                     }
                     %>
                             
                     <span style='float:right' class='<%= reviewMode &&
                                             parcelDifference.isDisputesCount()
-                                            ?"discrepancy-field":""%>'>Dispute Count:<%=currentParcel.getHolderCount()%></span>
+                                            ?"discrepancy-field":""%>'>Dispute Count:<%=currentParcel.getDisputeCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">

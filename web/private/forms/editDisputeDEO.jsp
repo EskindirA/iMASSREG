@@ -70,7 +70,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <input type='submit' id='saveDisputeButton' name='saveDisputeButton' class='btn btn-info' value = 'Save' />
+            <input type='submit' id='updateDisputeButton' name='saveDisputeButton' class='btn btn-info' value = 'Save' />
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div> 
     </div>
@@ -83,7 +83,7 @@
     $("#editDisputeButton").click(function() {
         editDispute("<%=request.getParameter("registeredOn")%>");
     });
-    $("#saveDisputeButton").click(function() {
+    $("#updateDisputeButton").click(function() {
         if (!validate("editDisputeFrom")) {// validate
             showError("Please input appropriate values in the highlighted fields");
             return false;

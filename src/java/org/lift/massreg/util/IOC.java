@@ -59,7 +59,7 @@ public class IOC {
         pages.put(Constants.INDEX_EDIT_DISPUTE_FEO, "editDisputeDEO.jsp");
         pages.put(Constants.INDEX_EDIT_DISPUTE_SEO, "editDisputeDEO.jsp");
         pages.put(Constants.INDEX_DISCREPANCY_SEO, "discrepancyDEO.jsp");
-        
+        pages.put(Constants.INDEX_INDEX_FIX_PARCEL_SUPERVISOR, "fixParcelSupervisor.jsp");
     }
 
     public static String getPage(int id) {

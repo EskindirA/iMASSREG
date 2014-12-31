@@ -7,8 +7,6 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<PersonWithInterest> personsWithInterest = currentParcel.getPersonsWithInterest();
-    String saveurl, viewurl, editurl, deleteurl,backurl,nexturl,finshurl;
-    
     ParcelDifference parcelDifference = new ParcelDifference();
     boolean reviewMode = false;
     if (request.getSession().getAttribute("reviewMode") != null) {
@@ -18,6 +16,7 @@
         parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
     }
 
+    String saveurl, viewurl, editurl, deleteurl,backurl,nexturl,finshurl;
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_PERSON_WITH_INTEREST_FEO;
         viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PERSON_WITH_INTEREST_FEO;

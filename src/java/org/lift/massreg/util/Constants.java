@@ -80,7 +80,9 @@ public interface Constants {
     public static final String ACTION_FINISH_DISPUTE_SEO = "FINISH_DISPUTE_SEO";
     public static final String ACTION_START_REVIEW_SEO = "START_REVIEW_SEO";
     public static final String ACTION_SUBMIT_FOR_CORRECTION_SEO = "SUBMIT_FOR_CORRECTION_SEO";
-
+    
+    public static final String ACTION_FIX_PARCEL_SUPERVISOR = "FIX_PARCEL_SUPERVISOR";
+    
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
@@ -133,7 +135,8 @@ public interface Constants {
     public static final int INDEX_EDIT_PERSON_WITH_INTEREST_FEO = 33;
     public static final int INDEX_EDIT_PERSON_WITH_INTEREST_SEO = 34;
     public static final int INDEX_DISCREPANCY_SEO = 35;
-
+    public static final int INDEX_INDEX_FIX_PARCEL_SUPERVISOR = 36;
+    
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

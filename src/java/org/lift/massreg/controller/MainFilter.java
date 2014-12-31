@@ -167,22 +167,22 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_SEO)) {
             getUPI(request);
             SecondEntry.saveParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_SEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_SEO)) {
             getUPI(request);
             SecondEntry.viewParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_SEO)) {
             getUPI(request);
             SecondEntry.viewParcel(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_SEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_SEO)) {
             getUPI(request);
             SecondEntry.editParcel(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_SEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_SEO)) {
             getUPI(request);
             SecondEntry.updateParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_SEO)) {
             getUPI(request);
             SecondEntry.deleteParcel(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_SEO)) {
             getUPI(request);
             SecondEntry.saveHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_SEO)) {
@@ -257,7 +257,16 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_START_REVIEW_SEO)) {
             getUPI(request);
             SecondEntry.startReview(request, response);
-        } // for all unknown requests
+        } // for supervisor
+        else if (action.equalsIgnoreCase(Constants.ACTION_FIX_PARCEL_SUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            Correction.fixParcel(request, response);
+        }// for all unknown requests
         else {
             All.goBackToHome(request, response);
         }
