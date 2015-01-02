@@ -8,32 +8,15 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<IndividualHolder> holders = currentParcel.getIndividualHolders();
-    ParcelDifference parcelDifference = new ParcelDifference();
-    boolean reviewMode = false;
-    if (request.getSession().getAttribute("reviewMode") != null) {
-        reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
-    }
-    if (reviewMode) {
-        parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
-    }
-
+    ParcelDifference parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
     
     String saveurl, viewurl, editurl, deleteurl, backurl, nexturl;
-    if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
-        saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
-        viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_FEO;
-        editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_FEO;
-        deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_FEO;
-        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
-        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_FEO;
-    } else {
-        saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SEO;
-        viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SEO;
-        editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SEO;
-        deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO;
-        backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
-        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SEO;
-    }
+    saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SUPERVISOR;
+    viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SUPERVISOR;
+    editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SUPERVISOR;
+    deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SUPERVISOR;
+    backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SUPERVISOR;
+    nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SUPERVISOR;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -46,11 +29,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
-                    <%=reviewMode && parcelDifference.isIndividualHolderDetails()
+                    <%= parcelDifference.isIndividualHolderDetails()
                             ?"<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in holder details</span>":""%>
                             
-                    <span style='float:right' class='<%= reviewMode &&
-                                            parcelDifference.isHoldersCount()
+                    <span style='float:right' class='<%= parcelDifference.isHoldersCount()
                                             ?"discrepancy-field":""%>'>Holders Count:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">

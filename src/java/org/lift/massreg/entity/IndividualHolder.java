@@ -208,7 +208,7 @@ public class IndividualHolder implements Entity {
         if (!this.getGrandFathersName().trim().equalsIgnoreCase(obj.getGrandFathersName().trim())) {
             returnValue = false;
         }
-        
+
         if (!this.getId().trim().equalsIgnoreCase(obj.getId().trim())) {
             returnValue = false;
         }

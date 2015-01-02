@@ -3,15 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/editParcelDEO.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/MainFilter.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/index.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/welcomeDEO.jsp</file>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/util/Constants.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/SecondEntry.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/addOrganizationHolderSupervisor.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/individualHoldersListSupervisor.jsp</file>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/welcomesupervisor.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/personWithInterestListDEO.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/MainFilter.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/util/IOC.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/individualHoldersListDEO.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/editDisputeSupervisor.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/viewOrganizationHolderSupervisor.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/disputeListSupervisor.jsp</file>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/Correction.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/dao/MasterRepository.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/fixParcelSupervisor.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/editOrganizationHolderSupervisor.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/SecondEntry.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/viewParcelSupervisor.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -6,7 +6,7 @@
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
     ParcelDifference parcelDifference = parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
     String nexturl, backurl;
-    nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_FEO;
+    nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PARCEL_SUPERVISOR;
     backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_WELCOME_PART;
 %>
 <div class="col-lg-8 col-lg-offset-2">
@@ -166,7 +166,7 @@
                                 <div class="form-group">
                                     <label>Survey Date </label>
                                     <%
-                                        if (parcelDifference.isMapSheetNo()) {
+                                        if (parcelDifference.isSurveyDate()) {
                                             out.println("<input class='form-control discrepancy-field ' type='date' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' />");
                                         } else {
                                             out.println("<input class='form-control ' type='date' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' disabled/>");
@@ -176,7 +176,7 @@
                                 <div class="form-group">
                                     <label>Has Dispute ?:</label>
                                     <%
-                                        if (parcelDifference.isEncumbrance()) {
+                                        if (parcelDifference.isHasDispute()) {
                                             out.println("<select class='form-control discrepancy-field ' id='hasDispute' name='hasDispute' value='" + currentParcel.hasDispute() + "' >");
                                         } else {
                                             out.println("<select class='form-control ' placeholder='Does Not Exist' id='hasDispute' name='hasDispute' value='" + currentParcel.hasDispute() + "' disabled >");
@@ -187,8 +187,7 @@
                                     </select>
                                 </div>
                                 <div class="row">
-                                    <input type='submit' id = 'cancelButton' name = 'cancelButton' class='btn btn-default col-lg-2 col-lg-offset-6' value='Cancel' />
-                                    <input type="submit" id = "updateButton" name = "saveButton" class="btn btn-default col-lg-3" style="margin-left: 1em" value="Save" />
+                                    <input type="submit" id = "saveButton" name = "saveButton" class="btn btn-default col-lg-3" style="float:right; margin-right: 1em" value="Save" />
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                         </div> <!-- /.row (nested) -->
@@ -216,7 +215,7 @@
     function update() {
         $.ajax({
             type: 'POST',
-            url: "< %=updateurl%>",
+            url: "<%=nexturl%>",
             data: {
                 "certificateNumber": $("#certificateNumber").val(),
                 "holdingNumber": $("#holdingNumber").val(),
@@ -238,16 +237,7 @@
     $("#editParcelForm select").each(function() {
         $(this).val($(this).attr("value"));
     });
-    $("#cancelButton").click(function() {
-        $.ajax({
-            type: 'POST',
-            url: "< %= cancelurl%>",
-            error: showajaxerror,
-            success: loadInPlace
-        });
-        return false;
-    });
-    $("#updateButton").click(function() {
+    $("#saveButton").click(function() {
         if (validate()) {
             if ($("#certificateNumber").val() === "" && $("#holdingNumber").val() === "") {
                 bootbox.confirm("Are you sure both Certificate Number and Holding Number are absent?", function(result) {

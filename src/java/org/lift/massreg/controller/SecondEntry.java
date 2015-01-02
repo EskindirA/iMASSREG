@@ -1117,7 +1117,7 @@ public class SecondEntry {
      * operator
      *
      * @param request request object passed from the main controller
-     * @param response resp onse object passed from the main controller
+     * @param response response object passed from the main controller
      */
     protected static void updateDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
