@@ -3,6 +3,9 @@ package org.lift.massreg.controller;
 import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.CurrentUserDTO;
+import org.lift.massreg.entity.User;
 import org.lift.massreg.util.*;
 
 /**
@@ -31,6 +34,7 @@ public class All {
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
         rd.forward(request, response);
     }
+
     /**
      * Handlers requests that were not recognized
      *
@@ -40,9 +44,46 @@ public class All {
      * @throws java.io.IOException
      */
     protected static void showError(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+        throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_ERROR));
         rd.forward(request, response);
-    }    
+    }
+
+    protected static void viewProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PROFILE));
+        rd.forward(request, response);
+    }
+
+    protected static void editProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_PROFILE));
+        rd.forward(request, response);
+    }
+
+    protected static void updateProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Only change password
+        String oldPassword = request.getParameter("oldPassword");
+        String password = request.getParameter("password");
+        CurrentUserDTO user = CommonStorage.getCurrentUser(request);
+        if(!MasterRepository.getInstance().checkPassword(user, oldPassword)){
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "The password you specified is not valid");
+            request.getSession().setAttribute("returnTitle", "Go back");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_EDIT_PROFILE);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);            
+        }else if (MasterRepository.getInstance().changePassword(user, password)) {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PROFILE));
+            rd.forward(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, Your request to change the password could not be completed");
+            request.getSession().setAttribute("returnTitle", "Go back to home page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
 }

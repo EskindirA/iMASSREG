@@ -57,6 +57,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -88,6 +89,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -117,6 +119,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -147,6 +150,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -172,6 +176,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -218,10 +223,11 @@ public class MasterRepository {
                     returnValue.setOrganaizationHolder(getOrganaizationHolder(upi, stage));
                 }
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
-
+        
         return returnValue;
     }
 
@@ -259,6 +265,7 @@ public class MasterRepository {
                         break;
                 }
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -276,6 +283,7 @@ public class MasterRepository {
             if (rs.next()) {
                 returnValue = true;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -316,6 +324,7 @@ public class MasterRepository {
                         break;
                 }
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -341,6 +350,7 @@ public class MasterRepository {
                 returnValue.setStatus(rs.getString("status"));
 
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -374,6 +384,7 @@ public class MasterRepository {
                 ih.setUpi(rs.getString("upi"));
                 returnValue.add(ih);
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -403,6 +414,7 @@ public class MasterRepository {
                 dispute.setDisputeType(rs.getByte("disputetype"));
                 returnValue.add(dispute);
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -418,6 +430,7 @@ public class MasterRepository {
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
             stmnt.executeUpdate();
+            connection.close();
         } catch (Exception ex) {
             returnValue = false;
             CommonStorage.getLogger().logError(ex.toString());
@@ -435,6 +448,7 @@ public class MasterRepository {
             stmnt.setTimestamp(3, registeredOn);
             stmnt.setString(4, holderId);
             stmnt.executeUpdate();
+            connection.close();
         } catch (Exception ex) {
             returnValue = false;
             CommonStorage.getLogger().logError(ex.toString());
@@ -464,6 +478,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -500,6 +515,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -531,6 +547,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (SQLException | NumberFormatException ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -560,6 +577,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -585,6 +603,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -600,6 +619,7 @@ public class MasterRepository {
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             stmnt.executeUpdate();
+            connection.close();
         } catch (Exception ex) {
             returnValue = false;
             CommonStorage.getLogger().logError(ex.toString());
@@ -616,6 +636,7 @@ public class MasterRepository {
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
             stmnt.executeUpdate();
+            connection.close();
         } catch (Exception ex) {
             returnValue = false;
             CommonStorage.getLogger().logError(ex.toString());
@@ -634,6 +655,7 @@ public class MasterRepository {
             stmnt.setByte(3, stage);
             stmnt.setTimestamp(4, registeredOn);
             int result = stmnt.executeUpdate();
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -664,6 +686,7 @@ public class MasterRepository {
                 personWithInterest.setUpi(rs.getString("upi"));
                 returnValue.add(personWithInterest);
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -679,6 +702,7 @@ public class MasterRepository {
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
             stmnt.executeUpdate();
+            connection.close();
         } catch (Exception ex) {
             returnValue = false;
             CommonStorage.getLogger().logError(ex.toString());
@@ -709,6 +733,7 @@ public class MasterRepository {
             while (rs.next()) {
                 returnValue.add(new Option(rs.getInt(key) + "", rs.getString(value)));
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -824,6 +849,7 @@ public class MasterRepository {
             while (rs.next()) {
                 returnValue.add(new Option(rs.getInt("code") + "", rs.getString(CommonStorage.getCurrentLanguage())));
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
@@ -862,6 +888,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -887,6 +914,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -918,6 +946,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -947,6 +976,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -977,6 +1007,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -1016,6 +1047,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -1041,6 +1073,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -1072,6 +1105,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -1101,6 +1135,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -1131,6 +1166,7 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
@@ -1175,8 +1211,49 @@ public class MasterRepository {
                 }
                 returnValue.add(parcel);
             }
+            connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public boolean changePassword(CurrentUserDTO user, String password) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE users SET password=(SELECT MD5(?)) WHERE userId=?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, password);
+            stmnt.setLong(2, user.getUserId());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean checkPassword(CurrentUserDTO user, String password) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "SELECT * FROM users WHERE password = (SELECT MD5(?)) and userId=?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, password);
+            stmnt.setLong(2, user.getUserId());
+            ResultSet result = stmnt.executeQuery();
+            if (!result.next()) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
         }
         return returnValue;
     }

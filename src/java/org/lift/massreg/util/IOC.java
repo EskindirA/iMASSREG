@@ -72,6 +72,9 @@ public class IOC {
         pages.put(Constants.INDEX_DISPUTE_LIST_SUPERVISOR, "disputeListSupervisor.jsp");        
         pages.put(Constants.INDEX_EDIT_DISPUTE_SUPERVISOR, "editDisputeSupervisor.jsp");
         pages.put(Constants.INDEX_VIEW_DISPUTE_SUPERVISOR, "viewDisputeSupervisor.jsp");
+
+        pages.put(Constants.INDEX_VIEW_PROFILE, "viewProfile.jsp");
+        pages.put(Constants.INDEX_EDIT_PROFILE, "editProfile.jsp");
     }
     
 

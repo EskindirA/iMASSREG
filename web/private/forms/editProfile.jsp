@@ -1,17 +1,111 @@
-<%-- 
-    Document   : editProfile
-    Created on : Dec 7, 2014, 11:26:03 PM
-    Author     : Yoseph
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<%@page import="org.lift.massreg.entity.*"%>
+<%@page import="org.lift.massreg.dao.MasterRepository"%>
+<%@page import="org.lift.massreg.util.*"%>
+<%
+    User currentUser = CommonStorage.getCurrentUser(request);
+    String updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PROFILE;
+    String viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PROFILE;
+%>
+<div class="col-lg-5 col-lg-offset-4">
+    <div class="row">
+        <div class="col-lg-7 col-lg-offset-3">
+            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp; Profile Details</h2>
+        </div>
+    </div> <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <%= currentUser.getFirstName() + " " + currentUser.getFathersName()%>' Profile
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form role="form"  id="editProfileFrom" name="editProfileFrom" >
+                                <div class="form-group">
+                                    <label>Old Password</label>
+                                    <input class="form-control " id="oldPassword" name="oldPassword" placeholder="Old password"  type="password"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>New Password: </label>
+                                    <input class="form-control " id="password" name="password" type="password" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Current Password: </label>
+                                    <input class="form-control " id="cPassword" name="cPassword" type="password" />
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type='submit' id = 'cancelEditButton' name = 'cancelEditButton' class='btn btn-default col-lg-2 col-lg-offset-7' >Cancel</button>
+                                    <button type='submit' id = 'updatePasswordButton' name = 'updatePasswordButton' class='btn btn-default col-lg-2' style='margin-left: .2em' >Update</button>
+                                </div>
+                                <!-- /.row (nested) -->
+                            </form>
+                        </div>
+                    </div>
+                </div>    <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+</div>
+<script type="text/javascript">
+    function validatePassword() {
+        var returnValue = true;
+        $("#oldPassword").toggleClass("error-field", false);
+        $("#password").toggleClass("error-field", false);
+        $("#cPassword").toggleClass("error-field", false);
+        if ($("#oldPassword").val().trim() === "") {
+            returnValue = false;
+            $("#oldPassword").toggleClass("error-field", true);
+        }
+        if ($("#password").val().trim() === "") {
+            returnValue = false;
+            $("#password").toggleClass("error-field", true);
+        }
+        if ($("#cPassword").val().trim() === "") {
+            $("#cPassword").toggleClass("error-field", true);
+            returnValue = false;
+        }
+        if ($("#cPassword").val().trim() !== $("#password").val().trim()) {
+            returnValue = false;
+            $("#cPassword").toggleClass("error-field", true);
+        }
+        
+        return returnValue;
+    }
+    function updatePassword() {
+        $.ajax({
+            type: 'POST',
+            url: "<%=updateurl%>",
+            data: {
+                oldPassword: $("#oldPassword").val(),
+                password: $("#password").val()
+            },
+            error: showajaxerror,
+            success: loadInPlace
+        });
+        return false;
+    }
+    $("#editProfileFrom select").each(function() {
+        $(this).val($(this).attr("value"));
+    });
+    $("#cancelEditButton").click(function() {
+        $.ajax({
+            type: 'POST',
+            url: "<%=viewurl%>",
+            error: showajaxerror,
+            success: loadInPlace
+        });
+        return false;
+    });
+    $("#updatePasswordButton").click(function() {
+        if (!validatePassword()) {// validate
+            showError("Please input appropriate values in the highlighted fields");
+            return false;
+        } else {
+            updatePassword();// save
+        }
+        return false;
+    });
+</script>

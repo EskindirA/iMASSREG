@@ -9,7 +9,7 @@ import org.lift.massreg.util.Constants;
  * @since 2.0
  *
  */
-public class User {
+public class User implements Entity {
 
     private String username;
     private long userId;
@@ -84,7 +84,7 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     private String getRoleShortText() {
         String returnValue = "(";
         switch (role) {
@@ -111,5 +111,15 @@ public class User {
 
     public String getNameWithRole() {
         return this.getFirstName() + " " + this.getFathersName() + getRoleShortText();
+    }
+
+    @Override
+    public boolean validateForSave() {
+            return true;
+    }
+
+    @Override
+    public boolean validateForUpdate() {
+        return true;
     }
 }

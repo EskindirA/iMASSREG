@@ -6,6 +6,7 @@ import javax.naming.*;
 import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.dto.*;
+import org.lift.massreg.entity.User;
 
 /**
  * @author Yoseph Berhanu <yoseph@bayeth.com>
@@ -40,9 +41,15 @@ public class CommonStorage {
         return returnValue;
     }
 
+    public static User getCurrentUserDetails(HttpServletRequest request) {
+        CurrentUserDTO userDTO = getCurrentUser(request);
+        User returnValue = MasterRepository.getInstance().getUser(userDTO.getUserId());
+        return returnValue;
+    }
+
     public static String getCurrentLanguage() {
         ///TODO
-        return "textValue";
+        return "amharic";
     }
 
     public static byte getFEStage() {
@@ -52,10 +59,11 @@ public class CommonStorage {
     public static byte getSEStage() {
         return 2;
     }
-    
+
     public static byte getCorrectionStage() {
         return 3;
     }
+
     public static byte getCommitedStage() {
         return 4;
     }
@@ -65,17 +73,21 @@ public class CommonStorage {
     }
 
     public synchronized static Connection getConnection() {
-        if (connection == null) {
-            synchronized (Connection.class) {
-                if (connection == null) {
-                    try {
-                        DataSource ds = (DataSource) new InitialContext().lookup("jdbc/newmassreg");
-                        connection = ds.getConnection();
-                    } catch (NamingException | SQLException ex) {
-                        getLogger().logError(ex.toString());
+        try {
+            if (connection == null || connection.isClosed()) {
+                synchronized (Connection.class) {
+                    if (connection == null || connection.isClosed()) {
+                        try {
+                            DataSource ds = (DataSource) new InitialContext().lookup("jdbc/newmassreg");
+                            connection = ds.getConnection();
+                        } catch (NamingException | SQLException ex) {
+                            getLogger().logError(ex.toString());
+                        }
                     }
                 }
             }
+        }catch(Exception e){
+            getLogger().logError(e.toString());
         }
         return connection;
     }

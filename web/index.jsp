@@ -1,6 +1,7 @@
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%@page import="org.lift.massreg.util.CommonStorage"%>
 <%@page import="org.lift.massreg.util.Constants"%>
+<%@page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="am">
     <head>
@@ -10,7 +11,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>MASSREG</title>
-        
+
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
@@ -157,7 +158,7 @@
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw" title="see <%= CommonStorage.getCurrentUser(request).getFullName()%>'s profile"></i> <span class="name">Edit Profile</span></a> </li>
+                            <li><a href="#" id="viewProfileButton"><i class="fa fa-user fa-fw" title="see <%= CommonStorage.getCurrentUser(request).getFullName()%>'s profile"></i> <span class="name">View Profile</span></a> </li>
                                 <% if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.ADMINISTRATOR) {%>
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> </li>
                                 <%}%>
@@ -172,4 +173,13 @@
             </div> <!-- /#page-wrapper -->
         </div> <!-- /#wrapper -->
     </body>
+    <script type="text/javascript">
+        $("#viewProfileButton").click(function() {
+            $.ajax({
+                url: "<%=request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PROFILE%>",
+                error: showajaxerror,
+                success: loadInPlace
+            });
+        });
+    </script>
 </html>

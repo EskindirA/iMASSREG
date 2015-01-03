@@ -112,6 +112,9 @@ public interface Constants {
     public static final String ACTION_FINISH_ORGANIZATION_HOLDER_SUPERVISOR = "FINISH_ORGANIZATION_HOLDER_SUPERVISOR";
     public static final String ACTION_UPDATE_ORGANIZATION_HOLDER_SUPERVISOR = "UPDATE_ORGANIZATION_HOLDER_SUPERVISOR";
     public static final String ACTION_FIND_PARCEL_SUPERVISOR = "FIND_PARCEL_SUPERVISOR";
+    public static final String ACTION_VIEW_PROFILE = "VIEW_PROFILE";
+    public static final String ACTION_EDIT_PROFILE = "EDIT_PROFILE";
+    public static final String ACTION_UPDATE_PROFILE = "UPDATE_PROFILE";
             
     // pages
     public static final int INDEX_ERROR = 0;
@@ -183,7 +186,8 @@ public interface Constants {
     public static final int INDEX_DISPUTE_LIST_SUPERVISOR = 47;
     public static final int INDEX_EDIT_DISPUTE_SUPERVISOR = 48;
     public static final int INDEX_VIEW_DISPUTE_SUPERVISOR = 49;
-
+    public static final int INDEX_VIEW_PROFILE = 50;
+    public static final int INDEX_EDIT_PROFILE = 51;
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,
