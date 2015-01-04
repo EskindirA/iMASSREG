@@ -21,7 +21,7 @@ public class IOC {
         
         pages.put(Constants.INDEX_WELCOME_FEO, "welcomeDEO.jsp");
         pages.put(Constants.INDEX_WELCOME_SEO, "welcomeDEO.jsp");
-        pages.put(Constants.INDEX_WELCOME_SUPERVISOR, "welcomesupervisor.jsp");
+        pages.put(Constants.INDEX_WELCOME_SUPERVISOR, "welcomeSupervisor.jsp");
         
         pages.put(Constants.INDEX_ADD_PARCEL_FEO, "addParcelDEO.jsp");
         pages.put(Constants.INDEX_ADD_PARCEL_SEO, "addParcelDEO.jsp");

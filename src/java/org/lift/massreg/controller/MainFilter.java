@@ -29,13 +29,11 @@ public class MainFilter extends HttpServlet {
             throws ServletException, IOException {
 
         String action;
-
         // Get Request Parameter 
         action = (String) request.getParameter("action");
         if (action == null || action.isEmpty()) {
             action = Constants.ACTION_WELCOME;
         }
-
         // For all users
         if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
             request.getSession().invalidate();

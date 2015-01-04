@@ -49,7 +49,7 @@ public class CommonStorage {
 
     public static String getCurrentLanguage() {
         ///TODO
-        return "amharic";
+        return "textValue";
     }
 
     public static byte getFEStage() {

@@ -52,7 +52,7 @@ public class Correction {
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
      */
-    protected static void findParceFrom(HttpServletRequest request, HttpServletResponse response)
+    protected static void findParceForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         ///TODO:
