@@ -115,7 +115,14 @@ public interface Constants {
     public static final String ACTION_VIEW_PROFILE = "VIEW_PROFILE";
     public static final String ACTION_EDIT_PROFILE = "EDIT_PROFILE";
     public static final String ACTION_UPDATE_PROFILE = "UPDATE_PROFILE";
-            
+
+    public static final String ACTION_SAVE_USER_ADMINISTRATOR = "SAVE_USER_ADMINISTRATOR";
+    public static final String ACTION_EDIT_USER_ADMINISTRATOR = "EDIT_USER_ADMINISTRATOR";
+    public static final String ACTION_VIEW_USER_ADMINISTRATOR = "VIEW_USER_ADMINISTRATOR";
+    public static final String ACTION_UPDATE_USER_ADMINISTRATOR = "UPDATE_USER_ADMINISTRATOR";
+    public static final String ACTION_DELETE_USER_ADMINISTRATOR = "DELETE_USER_ADMINISTRATOR";
+    public static final String ACTION_FIND_USER_ADMINISTRATOR = "FIND_USER_ADMINISTRATOR";
+    public static final String ACTION_UPDATE_SETTINGS_ADMINISTRATOR = "UPDATE_SETTINGS_ADMINISTRATOR";
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
@@ -188,6 +195,11 @@ public interface Constants {
     public static final int INDEX_VIEW_DISPUTE_SUPERVISOR = 49;
     public static final int INDEX_VIEW_PROFILE = 50;
     public static final int INDEX_EDIT_PROFILE = 51;
+    public static final int INDEX_WELCOME_ADMINISTRATOR = 52;
+    
+    public static final int INDEX_VIEW_USER_ADMINISTRATOR = 53;
+    public static final int INDEX_EDIT_USER_ADMINISTRATOR = 54;
+    public static final int INDEX_RELOAD = 55;
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

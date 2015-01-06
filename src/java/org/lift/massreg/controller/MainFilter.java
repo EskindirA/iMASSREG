@@ -52,6 +52,9 @@ public class MainFilter extends HttpServlet {
                 case SUPERVISOR:
                     Correction.welcomePage(request, response);
                     break;
+                case ADMINISTRATOR:
+                    Administrator.welcomePage(request, response);
+                    break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME_PART)) {
             switch (CommonStorage.getCurrentUser(request).getRole()) {
@@ -63,6 +66,9 @@ public class MainFilter extends HttpServlet {
                     break;
                 case SUPERVISOR:
                     Correction.welcomeFrom(request, response);
+                    break;
+                case ADMINISTRATOR:
+                    Administrator.welcomeForm(request, response);
                     break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PROFILE)) {
@@ -459,6 +465,21 @@ public class MainFilter extends HttpServlet {
                 request.setAttribute("upi", request.getSession().getAttribute("upi"));
             }
             Correction.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_SUPERVISOR)) {
+            getUPI(request);
+            Correction.finishDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_USER_ADMINISTRATOR)) {
+            Administrator.saveUser(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_USER_ADMINISTRATOR)) {
+            Administrator.viewUser(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_USER_ADMINISTRATOR)) {
+            Administrator.editUser(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_USER_ADMINISTRATOR)) {
+            Administrator.updateUser(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_USER_ADMINISTRATOR)) {
+            Administrator.deleteUser(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_SETTINGS_ADMINISTRATOR)) {
+            Administrator.updateSettings(request, response);
         } // for all unknown requests
         else {
             All.goBackToHome(request, response);

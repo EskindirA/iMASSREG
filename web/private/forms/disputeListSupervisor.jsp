@@ -8,12 +8,13 @@
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<Dispute> disputes = currentParcel.getDisputes();
     ParcelDifference parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
-    String saveurl, viewurl, deleteurl, editurl, backurl,finishurl;
+    String saveurl, viewurl, deleteurl, editurl, backurl, finishurl,welcomeurl;
     saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_SUPERVISOR;
     viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_SUPERVISOR;
     deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_DISPUTE_SUPERVISOR;
     editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_DISPUTE_SUPERVISOR;
     finishurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FINISH_DISPUTE_SUPERVISOR;
+    welcomeurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_WELCOME_PART;
     if (currentParcel.getHolding() == 1) {
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SUPERVISOR;
     } else {
@@ -31,13 +32,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
-                    <% if(parcelDifference.isDisputesDetails()){
-                        out.println("<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in dispute details</span>");
-                    }
+                    <% if (parcelDifference.isDisputesDetails()) {
+                            out.println("<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in dispute details</span>");
+                        }
                     %>
-                            
-                    <span style='float:right' class='<%= parcelDifference.isDisputesCount()
-                                            ?"discrepancy-field":""%>'>Dispute Count:<%=currentParcel.getDisputeCount()%></span>
+
+                          <span style='float:right' class='<%= parcelDifference.isDisputesCount() && currentParcel.canEdit(CommonStorage.getCurrentUser(request))
+                            ? "discrepancy-field" : ""%>'>Dispute Count:<%=currentParcel.getDisputeCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -96,9 +97,11 @@
                                 }
                             %>
                             <%
-                                if (currentParcel.getDisputeCount() >= 1) {
+                                if (currentParcel.getDisputeCount() >= 1 && currentParcel.canEdit(CommonStorage.getCurrentUser(request))) {
                                     out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
-                                }else{
+                                } else if (!currentParcel.canEdit(CommonStorage.getCurrentUser(request))) {
+                                    out.println("<button type='submit' id = 'goToWelcomeButton' name = 'goToWelcomeButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
+                                } else {
                                     out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em' disabled>Finish</button>");
                                 }
                             %>
@@ -178,20 +181,20 @@
 <script type="text/javascript">
     function validate(formId) {
         var returnValue = true;
-        $("#" + formId + " #firstName").toggleClass("error-field",false);
-        $("#" + formId + " #fathersName").toggleClass("error-field",false);
-        $("#" + formId + " #grandFathersName").toggleClass("error-field",false);
+        $("#" + formId + " #firstName").toggleClass("error-field", false);
+        $("#" + formId + " #fathersName").toggleClass("error-field", false);
+        $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
         if ($("#" + formId + " #firstName").val().trim() === "") {
             returnValue = false;
-            $("#" + formId + " #firstName").toggleClass("error-field",true);
+            $("#" + formId + " #firstName").toggleClass("error-field", true);
         }
         if ($("#" + formId + " #fathersName").val().trim() === "") {
             returnValue = false;
-            $("#" + formId + " #fathersName").toggleClass("error-field",true);
+            $("#" + formId + " #fathersName").toggleClass("error-field", true);
         }
         if ($("#" + formId + " #grandFathersName").val().trim() === "") {
             returnValue = false;
-            $("#" + formId + " #grandFathersName").toggleClass("error-field",true);
+            $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
         }
         return returnValue;
     }
@@ -207,7 +210,7 @@
         bootbox.confirm("Are you sure you want delete thise dispute ?", function(result) {
             if (result) {
                 $.ajax({
-                    type:'POST',
+                    type: 'POST',
                     url: "<%=deleteurl%>",
                     data: {"registeredOn": regOn},
                     error: showajaxerror,
@@ -218,7 +221,7 @@
     }
     function editDispute(regOn) {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=editurl%>",
             data: {"registeredOn": regOn},
             error: showajaxerror,
@@ -227,7 +230,7 @@
     }
     function viewDispute(regOn) {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=viewurl%>",
             data: {
                 "registeredOn": regOn
@@ -236,12 +239,12 @@
             success: loadViewDispute
         });
     }
-    function validateDisputeList(){
-        showMessage("validateDisputeList"); 
+    function validateDisputeList() {
+        showMessage("validateDisputeList");
     }
     function save() {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=saveurl%>",
             data: {
                 "firstname": $("#firstName").val(),
@@ -257,7 +260,7 @@
     }
     $("#finishButton").click(function() {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=finishurl%>",
             error: showajaxerror,
             success: loadForward
@@ -286,11 +289,19 @@
         }
         return false;
     });
+    $("#goToWelcomeButton").click(function() {
+        $.ajax({
+            type: 'POST',
+            url: "<%=welcomeurl%>",
+            error: showajaxerror,
+            success: loadForward
+        });
+    });
     $("#backButton").click(function() {
         bootbox.confirm("Are you sure you want to go back?", function(result) {
             if (result) {
                 $.ajax({
-                    type:'POST',
+                    type: 'POST',
                     url: "<%=backurl%>",
                     error: showajaxerror,
                     success: loadBackward

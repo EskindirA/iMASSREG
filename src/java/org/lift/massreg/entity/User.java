@@ -1,5 +1,6 @@
 package org.lift.massreg.entity;
 
+import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.util.Constants;
 
 /**
@@ -18,7 +19,7 @@ public class User implements Entity {
     private String grandFathersName;
     private String phoneNumber;
     private String status;
-
+    private String password;
     private Constants.ROLE role;
 
     public String getUsername() {
@@ -105,6 +106,14 @@ public class User implements Entity {
         return returnValue;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getFullName() {
         return this.getFirstName() + " " + this.getFathersName() + " " + getGrandFathersName();
     }
@@ -113,11 +122,37 @@ public class User implements Entity {
         return this.getFirstName() + " " + this.getFathersName() + getRoleShortText();
     }
 
-    @Override
-    public boolean validateForSave() {
-            return true;
+    public String getRoleText() {
+        String returnValue = "";
+        switch (getRole()) {
+            case FIRST_ENTRY_OPERATOR:
+                returnValue = "FEO";
+                break;
+            case SECOND_ENTRY_OPERATOR:
+                returnValue = "SEO";
+                break;
+            case SUPERVISOR:
+                returnValue = "SUPERVISOR";
+                break;
+            case ADMINISTRATOR:
+                returnValue = "ADMINISTRATOR";
+                break;
+        }
+        return returnValue;
     }
 
+    public boolean save() {
+        return MasterRepository.getInstance().save(this);
+    }
+
+    @Override
+    public boolean validateForSave() {
+        return true;
+    }
+
+    public static boolean delete(long userId) {
+        return MasterRepository.getInstance().deleteUser(userId);
+    }
     @Override
     public boolean validateForUpdate() {
         return true;

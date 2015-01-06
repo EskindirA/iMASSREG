@@ -158,6 +158,40 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean save(User user) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO users(username, password, firstname,"
+                + " fathersname, grandfathersname, phoneno, role) VALUES "
+                + "( ?, (SELECT MD5(?)), ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, user.getUsername());
+            stmnt.setString(2, user.getPassword());
+            stmnt.setString(3, user.getFirstName());
+            stmnt.setString(4, user.getFathersName());
+            stmnt.setString(5, user.getGrandFathersName());
+            stmnt.setString(6, user.getPhoneNumber());
+            stmnt.setString(7, user.getRoleText());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            query = "INSERT INTO groups(username, groupid) VALUES (?, 'user')";
+            stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, user.getUsername());
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     public boolean save(OrganizationHolder holder) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -227,7 +261,7 @@ public class MasterRepository {
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
-        
+
         return returnValue;
     }
 
@@ -262,6 +296,9 @@ public class MasterRepository {
                         break;
                     case "SUPERVISOR":
                         returnValue.setRole(Constants.ROLE.SUPERVISOR);
+                        break;
+                    case "ADMINISTRATOR":
+                        returnValue.setRole(Constants.ROLE.ADMINISTRATOR);
                         break;
                 }
             }
@@ -321,6 +358,9 @@ public class MasterRepository {
                         break;
                     case "SUPERVISOR":
                         returnValue.setRole(Constants.ROLE.SUPERVISOR);
+                        break;
+                    case "ADMINISTRATOR":
+                        returnValue.setRole(Constants.ROLE.ADMINISTRATOR);
                         break;
                 }
             }
@@ -611,6 +651,33 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean update(User oldUser, User newUser) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE users SET username =?, firstName=?, "
+                + "fathersName=?, grandfathersName=?, phoneno=?, role=? "
+                + "WHERE userid=? ";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newUser.getUsername());
+            stmnt.setString(2, newUser.getFirstName());
+            stmnt.setString(3, newUser.getFathersName());
+            stmnt.setString(4, newUser.getGrandFathersName());
+            stmnt.setString(5, newUser.getPhoneNumber());
+            stmnt.setString(6, newUser.getRoleText());
+            stmnt.setLong(7, oldUser.getUserId());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     public boolean deleteOrganizationHolder(String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -701,6 +768,21 @@ public class MasterRepository {
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
+            stmnt.executeUpdate();
+            connection.close();
+        } catch (Exception ex) {
+            returnValue = false;
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public boolean deleteUser(long userId) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE users SET status='deleted' WHERE userId=? ");
+            stmnt.setLong(1, userId);
             stmnt.executeUpdate();
             connection.close();
         } catch (Exception ex) {
@@ -844,7 +926,26 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         try {
             PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM kebele WHERE woredacode=? ORDER BY code");
-            stmnt.setInt(1, CommonStorage.getCurrentWoredaId());
+            stmnt.setLong(1, CommonStorage.getCurrentWoredaId());
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                returnValue.add(new Option(rs.getInt("code") + "", rs.getString(CommonStorage.getCurrentLanguage())));
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue.toArray(new Option[0]);
+    }
+
+    /**
+     * @return a hash table of all the woredas
+     */
+    public Option[] getAllWoredas() {
+        ArrayList<Option> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Woreda ORDER BY code");
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 returnValue.add(new Option(rs.getInt("code") + "", rs.getString(CommonStorage.getCurrentLanguage())));
@@ -1218,6 +1319,44 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Users WHERE status='active' ");
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setFathersName(rs.getString("fathersName"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setGrandFathersName(rs.getString("grandFathersName"));
+                user.setPhoneNumber(rs.getString("phoneno"));
+                user.setUserId(rs.getLong("userId"));
+                user.setUsername(rs.getString("username"));
+                String role = rs.getString("role");
+                switch (role) {
+                    case "FEO":
+                        user.setRole(Constants.ROLE.FIRST_ENTRY_OPERATOR);
+                        break;
+                    case "SEO":
+                        user.setRole(Constants.ROLE.SECOND_ENTRY_OPERATOR);
+                        break;
+                    case "SUPERVISOR":
+                        user.setRole(Constants.ROLE.SUPERVISOR);
+                        break;
+                    case "ADMINISTRATOR":
+                        user.setRole(Constants.ROLE.ADMINISTRATOR);
+                        break;
+                }
+                returnValue.add(user);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
     public boolean changePassword(CurrentUserDTO user, String password) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -1254,6 +1393,59 @@ public class MasterRepository {
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
             returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean userExists(String username) {
+        boolean returnValue = false;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Users WHERE username=? and status='active'");
+            stmnt.setString(1, username);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = true;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public String getWoredaName(long woredaId) {
+        String returnValue = "";
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT " + CommonStorage.getCurrentLanguage() + " as woredaName FROM WOREDA WHERE woreda.code = ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setLong(1, woredaId);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getString("woredaName");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public String getWoredaIdForUPI(long woredaId) {
+        String returnValue = "";
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT CONCAT(region.code, '/',  zone.code,'/', woreda.code) as woredacode, woreda.textValue FROM WOREDA,ZONE,REGION WHERE WOREDA.zonecode = zone.code and zone.regionCode=Region.code and woreda.code = ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setLong(1, woredaId);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getString("woredacode");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
         }
         return returnValue;
     }

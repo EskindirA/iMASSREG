@@ -1,6 +1,9 @@
 package org.lift.massreg.util;
 
+import java.io.*;
+import java.net.URL;
 import java.sql.*;
+import java.util.Properties;
 import javax.sql.*;
 import javax.naming.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,23 +20,81 @@ public class CommonStorage {
 
     private static Connection connection = null;
     private static Logger logger = new Logger();
+    private static String woredaName = null;
+    private static String woredaIDForUPI = null;
+    private static long woredaId = -1;
+    private static String language = null;
 
-    public static int getCurrentWoredaId() {
-        int returnValue = 4;
-        ///TODO: set woreda id from glassfish
-        return returnValue;
+    private static final String settingsFile = "settings.properties";
+
+    public static long getCurrentWoredaId() {
+        if (woredaId < 0) {
+            readSettings();
+        }
+        return woredaId;
     }
 
     public static String getCurrentWoredaIdForUPI() {
-        String returnValue = "1/2/3/4";
-        ///TODO: set woreda id from glassfish
-        return returnValue;
+        if (woredaIDForUPI == null) {
+            readSettings();
+        }
+        return woredaIDForUPI;
     }
 
     public static String getCurrentWoredaName() {
-        String returnValue = "Meskan";
-        ///TODO: set woreda Name from glassfish
-        return returnValue;
+        if (woredaName == null) {
+            readSettings();
+        }
+        return woredaName;
+    }
+
+    static {
+        readSettings();
+    }
+
+    private static void readSettings() {
+        Properties prop = new Properties();
+        try {
+            prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(settingsFile));
+            woredaId = Long.parseLong(prop.getProperty("woredaId"));
+            woredaName = prop.getProperty("woredaName");
+            woredaIDForUPI = prop.getProperty("woredaIDForUPI");
+            language = prop.getProperty("language");
+
+        } catch (Exception ex) {
+            getLogger().logError(ex.toString());
+        }
+    }
+
+    public static void setWoreda(long newWoredaId, String newWoredaName, String newWoredaIdForUPI) {
+        // Save to Properties (Woreda, langiage)
+        Properties prop = new Properties();
+        try {
+            prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(settingsFile));
+            prop.setProperty("woredaId", newWoredaId + "");
+            prop.setProperty("woredaName", newWoredaName);
+            prop.setProperty("woredaIDForUPI", newWoredaIdForUPI);
+            URL url = Thread.currentThread().getContextClassLoader().getResource(settingsFile);
+            prop.store(new FileOutputStream(new File(url.toURI())), null);
+            woredaId = newWoredaId;
+            woredaName = newWoredaName;
+            woredaIDForUPI = newWoredaIdForUPI;
+        } catch (Exception ex) {
+            getLogger().logError(ex.toString());
+        }
+    }
+
+    public static void setLanguage(String newLanguage) {
+        Properties prop = new Properties();
+        try {
+            prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(settingsFile));
+            prop.setProperty("language", newLanguage);
+            URL url = Thread.currentThread().getContextClassLoader().getResource(settingsFile);
+            prop.store(new FileOutputStream(new File(url.toURI())), null);
+            language = newLanguage;
+        } catch (Exception ex) {
+            getLogger().logError(ex.toString());
+        }
     }
 
     public static CurrentUserDTO getCurrentUser(HttpServletRequest request) {
@@ -48,8 +109,7 @@ public class CommonStorage {
     }
 
     public static String getCurrentLanguage() {
-        ///TODO
-        return "textValue";
+        return language;
     }
 
     public static byte getFEStage() {
@@ -86,7 +146,7 @@ public class CommonStorage {
                     }
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             getLogger().logError(e.toString());
         }
         return connection;

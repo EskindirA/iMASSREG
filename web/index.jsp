@@ -159,9 +159,6 @@
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li><a href="#" id="viewProfileButton"><i class="fa fa-user fa-fw" title="see <%= CommonStorage.getCurrentUser(request).getFullName()%>'s profile"></i> <span class="name">View Profile</span></a> </li>
-                                <% if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.ADMINISTRATOR) {%>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> </li>
-                                <%}%>
                             <li class="divider"></li>
                             <li> <a href="<%=request.getContextPath()%>/Index?action=<%= Constants.ACTION_LOGOUT%>"><i class="fa fa-sign-out fa-fw"></i> Logout</a> </li>
                         </ul> <!-- /.dropdown-user -->

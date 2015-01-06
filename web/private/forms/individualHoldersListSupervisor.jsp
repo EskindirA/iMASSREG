@@ -9,7 +9,7 @@
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<IndividualHolder> holders = currentParcel.getIndividualHolders();
     ParcelDifference parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
-    
+
     String saveurl, viewurl, editurl, deleteurl, backurl, nexturl;
     saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SUPERVISOR;
     viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SUPERVISOR;
@@ -29,11 +29,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
-                    <%= parcelDifference.isIndividualHolderDetails()
-                            ?"<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in holder details</span>":""%>
-                            
-                    <span style='float:right' class='<%= parcelDifference.isHoldersCount()
-                                            ?"discrepancy-field":""%>'>Holders Count:<%=currentParcel.getHolderCount()%></span>
+                    <%
+                        if (currentParcel.canEdit(CommonStorage.getCurrentUser(request))) {
+                            out.println(parcelDifference.isIndividualHolderDetails() ? "<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in holder details</span>" : "");
+                        }
+                    %>
+
+                          <span style='float:right' class='<%= parcelDifference.isHoldersCount()
+                            ? "discrepancy-field" : ""%>'>Holders Count:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">

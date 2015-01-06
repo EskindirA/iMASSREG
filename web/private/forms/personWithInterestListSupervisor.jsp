@@ -32,7 +32,7 @@
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
                     <% 
-                        if(parcelDifference.isPersonsWithInterestDetails()){
+                        if(parcelDifference.isPersonsWithInterestDetails()&& currentParcel.canEdit(CommonStorage.getCurrentUser(request))){
                         out.println("<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in persons with interest details</span>");
                     }
                     %>
@@ -228,7 +228,7 @@
         });
     }
     function validatePersonWithInterestList(){
-        showError("validatePersonWithInterestList");
+//        showError("validatePersonWithInterestList");
         return true;
     }
     function save() {

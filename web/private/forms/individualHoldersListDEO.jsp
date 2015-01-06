@@ -1,5 +1,4 @@
-<%@page import="org.lift.massreg.dto.ParcelDifference"%>
-<%@page import="org.lift.massreg.dto.IndividualHolderDifference"%>
+<%@page import="org.lift.massreg.dto.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
