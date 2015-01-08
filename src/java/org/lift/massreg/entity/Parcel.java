@@ -356,22 +356,10 @@ public class Parcel implements Entity {
         disputes.remove(dispute);
     }
 
-    public boolean saveAll() {
-        boolean returnValue = true;
-        ///TODO:saveParcelOnly()
-        ///TODO:saveParcelHolders()
-        return returnValue;
-    }
-
     public boolean saveParcelOnly() {
         return MasterRepository.getInstance().save(this);
     }
 
-    public boolean saveParcelDisputes() {
-        boolean returnValue = true;
-        ///TODO:
-        return returnValue;
-    }
 
     public boolean hasDispute() {
         return hasDispute;

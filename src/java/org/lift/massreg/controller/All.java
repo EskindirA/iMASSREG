@@ -35,20 +35,6 @@ public class All {
         rd.forward(request, response);
     }
 
-    /**
-     * Handlers requests that were not recognized
-     *
-     * @param request request object passed from the main controller
-     * @param response response object passed from the main controller
-     * @throws javax.servlet.ServletException
-     * @throws java.io.IOException
-     */
-    protected static void showError(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_ERROR));
-        rd.forward(request, response);
-    }
-
     protected static void viewProfile(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PROFILE));

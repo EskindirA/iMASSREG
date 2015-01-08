@@ -10,7 +10,6 @@ package org.lift.massreg.util;
 public interface Constants {
 
     public static final String[] STATUS = {"active", "removed", "incomplete"};
-    public static final String ACTION_ERROR = "ERROR";
     public static final String ACTION_LOGOUT = "LOGOUT";
     public static final String ACTION_WELCOME = "WELCOME";
     public static final String ACTION_WELCOME_PART = "WELCOME_PART";

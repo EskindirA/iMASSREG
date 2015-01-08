@@ -121,8 +121,16 @@ public class OrganizationHolder implements Entity {
     }
 
     public boolean equalsOrganizationHolder(OrganizationHolder obj) {
-        ///TODO
-        return false;
+        boolean returnValue = true;
+        if (this.getName() != null && obj.getName() != null) {
+            if (!this.getName().trim().equalsIgnoreCase(obj.getName().trim())) {
+                returnValue = false;
+            }
+        }
+        if (this.getOrganizationType() != obj.getOrganizationType()) {
+            returnValue = false;
+        }
+        return returnValue;
     }
 
     void commit() {

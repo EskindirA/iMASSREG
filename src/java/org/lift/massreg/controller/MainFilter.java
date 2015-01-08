@@ -38,9 +38,6 @@ public class MainFilter extends HttpServlet {
         if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath());
-        } else if (action.equalsIgnoreCase(Constants.ACTION_ERROR)) {
-            ///TODO:Handle the error Case: 
-            All.showError(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
             switch (CommonStorage.getCurrentUser(request).getRole()) {
                 case FIRST_ENTRY_OPERATOR:

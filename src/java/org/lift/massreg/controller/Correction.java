@@ -55,7 +55,6 @@ public class Correction {
     protected static void findParceForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ///TODO:
         ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCorrection();
         request.setAttribute("parcelsInCorrection", parcelsInCorrection);
         RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SUPERVISOR));
