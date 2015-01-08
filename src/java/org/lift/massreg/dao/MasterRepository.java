@@ -678,6 +678,26 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean updatePassword(User oldUser, String newPassword) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE users SET password=MD5(?) WHERE userid=? ";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newPassword);
+            stmnt.setLong(2, oldUser.getUserId());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     public boolean deleteOrganizationHolder(String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -782,6 +802,9 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         try {
             PreparedStatement stmnt = connection.prepareStatement("UPDATE users SET status='deleted' WHERE userId=? ");
+            stmnt.setLong(1, userId);
+            stmnt.executeUpdate();
+            stmnt = connection.prepareStatement("DELETE FROM Groups where username in (SELECT username FROM Users WHERE userid=?)");
             stmnt.setLong(1, userId);
             stmnt.executeUpdate();
             connection.close();
@@ -1323,7 +1346,7 @@ public class MasterRepository {
         ArrayList<User> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Users WHERE status='active' ");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Users WHERE status='active'  and username in (SELECT username FROM Groups)");
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 User user = new User();
@@ -1357,14 +1380,14 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean changePassword(CurrentUserDTO user, String password) {
+    public boolean changePassword(long userId, String password) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE users SET password=(SELECT MD5(?)) WHERE userId=?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, password);
-            stmnt.setLong(2, user.getUserId());
+            stmnt.setLong(2, userId);
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1380,7 +1403,7 @@ public class MasterRepository {
     public boolean checkPassword(CurrentUserDTO user, String password) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
-        String query = "SELECT * FROM users WHERE password = (SELECT MD5(?)) and userId=?";
+        String query = "SELECT * FROM users WHERE password = (SELECT MD5(?)) and userId=?  and username in (SELECT username FROM Groups)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, password);
@@ -1401,7 +1424,7 @@ public class MasterRepository {
         boolean returnValue = false;
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Users WHERE username=? and status='active'");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Users WHERE username=? and status='active' and username in (SELECT username FROM Groups)");
             stmnt.setString(1, username);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {

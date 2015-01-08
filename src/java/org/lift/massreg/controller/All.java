@@ -74,7 +74,7 @@ public class All {
             request.getSession().setAttribute("returnAction", Constants.ACTION_EDIT_PROFILE);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);            
-        }else if (MasterRepository.getInstance().changePassword(user, password)) {
+        }else if (MasterRepository.getInstance().changePassword(user.getUserId(), password)) {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PROFILE));
             rd.forward(request, response);
         } else {

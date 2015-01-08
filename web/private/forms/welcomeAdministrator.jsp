@@ -10,6 +10,7 @@
     String viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_USER_ADMINISTRATOR;
     String deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_USER_ADMINISTRATOR;
     String updateSettingsurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_SETTINGS_ADMINISTRATOR;
+    String updatepasswordurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PASSWORD_ADMINISTRATOR;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -63,6 +64,8 @@
                                                             + "data-userId='" + users.get(i).getUserId() + "'>Edit</a>");
                                                     out.print("|<a href = '#' class='deleteButton' "
                                                             + "data-userId='" + users.get(i).getUserId() + "'>Delete</a>");
+                                                    out.print("|<a href = '#' class='changePasswordButton' "
+                                                            + "data-userId='" + users.get(i).getUserId() + "'>Change Password</a>");
                                                     out.println("</td>");
                                                 }
                                             %>
@@ -177,6 +180,42 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="updatePasswordModal" tabindex="-1" aria-labelledby="updatePasswordModalLabe" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Update Password </h4>
+            </div>            <!-- /modal-header -->
+            <div class="modal-body">
+                <form role="form" action="#" id="updatePasswordForm">
+                    <input type="hidden" id="usrId" value=""/>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Old Password</label>
+                                <input class="form-control " id="oldPassword" name="oldPassword" type="password"/>
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input class="form-control " id="newPassword" name="newPassword" type="password"/>
+                            </div> 
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input class="form-control " id="cnewPassword" name="cnewPassword" type="password"/>
+                            </div>
+                        </div> <!-- /.row (nested) -->
+                    </div> <!-- /.panel-body -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <input type="submit" id="updatePasswordButton" class="btn btn-primary" value = "Update" />
+            </div> 
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 
@@ -227,6 +266,30 @@
         }
         return returnValue;
     }
+    function validateUpdatePassword(){
+        var returnValue = true;
+        $("#updatePasswordForm #oldPassword").toggleClass("error-field", false);
+        $("#updatePasswordForm #newPassword").toggleClass("error-field", false);
+        $("#updatePasswordForm #cnewPassword").toggleClass("error-field", false);
+        if ($("#updatePasswordForm #oldPassword").val().trim() === "") {
+            returnValue = false;
+            $("#updatePasswordForm #oldPassword").toggleClass("error-field", true);
+        }
+        if ($("#updatePasswordForm #newPassword").val().trim() === "") {
+            returnValue = false;
+            $("#updatePasswordForm #newPassword").toggleClass("error-field", true);
+        }
+        if ($("#updatePasswordForm #cnewPassword").val().trim() === "") {
+            returnValue = false;
+            $("#updatePasswordForm #cnewPassword").toggleClass("error-field", true);
+        }
+        if ($("#updatePasswordForm #cnewPassword").val().trim() !== $("#updatePasswordForm #newPassword").val().trim()) {
+            returnValue = false;
+            $("#updatePasswordForm #cnewPassword").toggleClass("error-field", true);
+        }
+        return returnValue;
+    }
+    
     function closeModals() {
         $("#editModal").hide();
         $("#editModal").html("");
@@ -267,6 +330,24 @@
     $("#settings select").each(function() {
         $(this).val($(this).attr("value"));
     });
+    $("#updatePasswordButton").click(function() {
+        if(!validateUpdatePassword()){
+            showError("Please input appropriate values in the highlighted fields");
+        }else {
+            $.ajax({
+            type: 'POST',
+            url: "<%=updatepasswordurl%>",
+            data: {
+                "oldPassword": $("#updatePasswordForm #oldPassword").val(),
+                "newPassword": $("#updatePasswordForm #newPassword").val(),
+                "userId": $("#updatePasswordForm #usrId").val()
+            },
+            error: showajaxerror,
+            success: loadForward
+        });
+        }
+        return false;
+    });
     $('#dataTables').dataTable();
     $('.editButton').click(function() {
         editUser($(this).attr("data-userId"));
@@ -274,6 +355,11 @@
     });
     $('.viewButton').click(function() {
         viewUser($(this).attr("data-userId"));
+        return false;
+    });
+    $('.changePasswordButton').click(function() {
+        $("#updatePasswordForm #usrId").val($(this).attr("data-userId"));
+        $("#updatePasswordModal").modal();
         return false;
     });
     $('.deleteButton').click(function() {
@@ -285,9 +371,9 @@
             if (result) {
                 $.ajax({
                     url: "<%=updateSettingsurl%>",
-                    data:{
-                        woreda:$("#settings #woreda").val(),
-                        language:$("#settings #language").val()
+                    data: {
+                        woreda: $("#settings #woreda").val(),
+                        language: $("#settings #language").val()
                     },
                     error: showajaxerror,
                     success: loadInPlace

@@ -480,6 +480,8 @@ public class MainFilter extends HttpServlet {
             Administrator.deleteUser(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_SETTINGS_ADMINISTRATOR)) {
             Administrator.updateSettings(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PASSWORD_ADMINISTRATOR)) {
+            Administrator.updatePassword(request, response);
         } // for all unknown requests
         else {
             All.goBackToHome(request, response);

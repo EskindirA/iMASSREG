@@ -123,6 +123,7 @@ public interface Constants {
     public static final String ACTION_DELETE_USER_ADMINISTRATOR = "DELETE_USER_ADMINISTRATOR";
     public static final String ACTION_FIND_USER_ADMINISTRATOR = "FIND_USER_ADMINISTRATOR";
     public static final String ACTION_UPDATE_SETTINGS_ADMINISTRATOR = "UPDATE_SETTINGS_ADMINISTRATOR";
+    public static final String ACTION_UPDATE_PASSWORD_ADMINISTRATOR = "UPDATE_PASSWORD_ADMINISTRATOR";
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;

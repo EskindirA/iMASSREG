@@ -45,7 +45,6 @@ public class Administrator {
         rd.forward(request, response);
     }
 
-    
     /**
      * Sends a reload order for the browser
      *
@@ -58,7 +57,6 @@ public class Administrator {
         rd.forward(request, response);
     }
 
-    
     /**
      * Handlers request to save a user by the administrator
      *
@@ -236,8 +234,42 @@ public class Administrator {
         String language = request.getParameter("language");
         long woreda = Long.parseLong(request.getParameter("woreda"));
         CommonStorage.setLanguage(language);
-        CommonStorage.setWoreda(woreda, MasterRepository.getInstance().getWoredaName(woreda),MasterRepository.getInstance().getWoredaIdForUPI(woreda));
+        CommonStorage.setWoreda(woreda, MasterRepository.getInstance().getWoredaName(woreda), MasterRepository.getInstance().getWoredaIdForUPI(woreda));
         reload(request, response);
+    }
+
+    /**
+     * Handlers request to update password by the administrator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void updatePassword(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
+        long userId = Long.parseLong(request.getParameter("userId"));
+        if (MasterRepository.getInstance().userExists(MasterRepository.getInstance().getUser(userId).getUsername())) {
+            if (MasterRepository.getInstance().checkPassword(MasterRepository.getInstance().getCurrentUserDTO(MasterRepository.getInstance().getUser(userId).getUsername()), oldPassword)) {
+                MasterRepository.getInstance().changePassword(userId, newPassword);
+                welcomeForm(request, response);
+            } else { // The password is incorrect
+                request.getSession().setAttribute("title", "Error");
+                request.getSession().setAttribute("message", "Sorry, the password you specified is incorrect");
+                request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+        } else { // User Does not exist
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the user your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
     }
 
     /**

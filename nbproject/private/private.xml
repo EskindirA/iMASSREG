@@ -4,24 +4,25 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/util/CommonStorage.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/Correction.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/SecondEntry.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/MainFilter.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/util/IOC.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/editDisputeDEO.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/individualHoldersListSupervisor.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/reload.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/util/Constants.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/disputeListSupervisor.jsp</file>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/index.jsp</file>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/viewDisputeDEO.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/util/IOC.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/individualHoldersListSupervisor.jsp</file>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/entity/User.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/welcomeAdministrator.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/editUser.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/dao/MasterRepository.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/viewUser.jsp</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/FirstEntry.java</file>
-            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/disputeListSupervisor.jsp</file>
             <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/Administrator.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/FirstEntry.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/MainFilter.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/SecondEntry.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/controller/Correction.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/viewUser.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/dao/MasterRepository.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/org/lift/massreg/util/Constants.java</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/editDisputeDEO.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/src/java/settings.properties</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/editUser.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/reload.jsp</file>
+            <file>file:/E:/Work/Projects/LIFT/New/MASSREG/web/private/forms/welcomeAdministrator.jsp</file>
         </group>
     </open-files>
 </project-private>
