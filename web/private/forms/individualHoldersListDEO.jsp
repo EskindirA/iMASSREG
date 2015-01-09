@@ -164,7 +164,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Date of Birth</label>
-                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date'/>
+                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text'/>
                             </div>
                             <div class="form-group">
                                 <label>Family Role</label>
@@ -198,6 +198,9 @@
 <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <script type="text/javascript">
+    var calendarAdd = $.calendars.instance("ethiopian","am"); 
+    $("#addHolderForm #dateOfBirth").calendarsPicker({calendar: calendarAdd});
+    
     function closeModals() {
         $("#editModal").hide();
         $("#editModal").html("");

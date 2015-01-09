@@ -167,9 +167,9 @@
                                     <label>Survey Date </label>
                                     <%
                                         if (parcelDifference.isSurveyDate()) {
-                                            out.println("<input class='form-control discrepancy-field ' type='date' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' />");
+                                            out.println("<input class='form-control discrepancy-field ' type='text' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' />");
                                         } else {
-                                            out.println("<input class='form-control ' type='date' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' disabled/>");
+                                            out.println("<input class='form-control ' type='text' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' disabled/>");
                                         }
                                     %>
                                 </div>
@@ -198,6 +198,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendar = $.calendars.instance("ethiopian","am"); 
+    $("#surveyDate").calendarsPicker({calendar: calendar});
     function validate() {
         var returnValue = true;
         $("#mapsheetno").toggleClass("error-field", false);

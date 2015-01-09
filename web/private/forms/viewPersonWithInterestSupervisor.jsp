@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Date of Birth</label>
-                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date' value="<%=personWithInterest.getDateOfBirth()%>" disabled/>
+                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=personWithInterest.getDateOfBirth()%>" disabled/>
                             </div>
                             <div class="form-group">
                                 <label>Has Physical Impairment</label>
@@ -63,6 +63,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendar = $.calendars.instance("ethiopian","am"); 
+    $("#surveyDate").calendarsPicker({calendar: calendar});
     $("#viewPersonWithInterestFrom select").each(function() {
         $(this).val($(this).attr("value"));
     });

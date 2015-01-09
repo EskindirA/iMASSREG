@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Date of Birth</label>
-                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date' value="<%=holder.getDateOfBirth()%>" disabled/>
+                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=holder.getDateOfBirth()%>" disabled/>
                             </div>
                             <div class="form-group">
                                 <label>Family Role</label>
@@ -78,6 +78,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendar = $.calendars.instance("ethiopian","am"); 
+    $("#dateOfBirth").calendarsPicker({calendar: calendar});
     $("#viewHolderFrom select").each(function() {
         $(this).val($(this).attr("value"));
     });

@@ -48,7 +48,7 @@
                         </div>
                         <div class="form-group">
                             <label>Date of Birth</label>
-                            <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date' value="<%=holder.getDateOfBirth()%>" />
+                            <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=holder.getDateOfBirth()%>" />
                         </div>
                         <div class="form-group">
                             <label>Family Role</label>
@@ -80,6 +80,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendarview = $.calendars.instance("ethiopian","am"); 
+    $("#editHolderFrom #dateOfBirth").calendarsPicker({calendar: calendarview});
     $("#updateHolderButton").click(function() {
         if (!validate("editHolderFrom")) {// validate
             showError("Please input appropriate values in the highlighted fields");

@@ -20,6 +20,9 @@
         <link href="<%=request.getContextPath()%>/assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
         <link href="<%=request.getContextPath()%>/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
+        <link href="<%=request.getContextPath()%>/assets/css/ethdate/jquery.calendars.picker.css" rel="stylesheet" type="text/css">
+
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -35,6 +38,16 @@
         <script src="<%=request.getContextPath()%>/assets/js/plugins/dataTables/dataTables.bootstrap.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/sb-admin-2.js"></script>
         <script src="<%=request.getContextPath()%>/assets/js/bootbox.js"></script>
+        
+        <script src="<%=request.getContextPath()%>/assets/js/ethdate/jquery.plugin.min.js"></script>
+        <script src="<%=request.getContextPath()%>/assets/js/ethdate/jquery.calendars.js"></script>
+        <script src="<%=request.getContextPath()%>/assets/js/ethdate/jquery.calendars.plus.min.js"></script>
+        <script src="<%=request.getContextPath()%>/assets/js/ethdate/jquery.calendars.picker.js"></script>
+        <script src="<%=request.getContextPath()%>/assets/js/ethdate/jquery.calendars.ethiopian.min.js"></script>
+        <script src="<%=request.getContextPath()%>/assets/js/ethdate/jquery.calendars.ethiopian-am.js"></script>
+        <script src="<%=request.getContextPath()%>/assets/js/ethdate/jquery.calendars.validation.min.js"></script>
+        
+        
         <script type="text/javascript">
             function showMessage(msg) {
                 bootbox.alert(msg);

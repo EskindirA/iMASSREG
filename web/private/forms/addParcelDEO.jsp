@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Orthograph map sheet No.</label>
-                                    <input class="form-control " placeholder="Enter Certificate # " id="mapsheetno" name="mapsheetno" required ="true" value="${sessionScope.currentParcel.mapSheetNo}"/>
+                                    <input class="form-control " placeholder="Enter orthograph map sheet number " id="mapsheetno" name="mapsheetno" required ="true" value="${sessionScope.currentParcel.mapSheetNo}"/>
                                 </div>
                                 <input type="submit" id = "backButton" class="btn btn-default col-lg-3 col-lg-offset-1" value="Back" />
                             </div> <!-- /.col-lg-6 (nested) -->
@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Survey Date </label>
-                                    <input class="form-control " placeholder="Select survey date" type="date" id="surveyDate" name="surveyDate" required value="${sessionScope.currentParcel.surveyDate}"/>
+                                    <input class="form-control " placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${sessionScope.currentParcel.surveyDate}"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Has Dispute ?:</label>
@@ -136,6 +136,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendar = $.calendars.instance("ethiopian","am"); 
+    $("#surveyDate").calendarsPicker({calendar: calendar});
     function validate() {
         var returnValue = true;
         $("#mapsheetno").toggleClass("error-field",false);

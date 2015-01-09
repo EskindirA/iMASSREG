@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group">
                             <label>Date of Birth</label>
-                            <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='date' value="<%=personWithInterest.getDateOfBirth()%>" />
+                            <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=personWithInterest.getDateOfBirth()%>" />
                         </div>
                         <div class="form-group">
                             <label>Has Physical Impairment</label>
@@ -65,6 +65,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendarEdit = $.calendars.instance("ethiopian","am"); 
+    $("#editPersonWithInterestFrom #dateOfBirth").calendarsPicker({calendar: calendarEdit});
     $("#updatePersonWithInterestButton").click(function() {
         if (!validate("editPersonWithInterestFrom")) {// validate
             showError("Please input appropriate values in the highlighted fields");

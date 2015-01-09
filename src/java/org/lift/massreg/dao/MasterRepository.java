@@ -48,7 +48,7 @@ public class MasterRepository {
             stmnt.setByte(11, parcel.getHolding());
             stmnt.setByte(12, parcel.getMeansOfAcquisition());
             stmnt.setInt(13, parcel.getAcquisitionYear());
-            stmnt.setDate(14, Date.valueOf(parcel.getSurveyDate()));
+            stmnt.setString(14, parcel.getSurveyDate());
             stmnt.setString(15, parcel.getMapSheetNo());
             stmnt.setString(16, parcel.getStatus());
             stmnt.setByte(17, parcel.getEncumbrance());
@@ -81,7 +81,7 @@ public class MasterRepository {
             stmnt.setString(6, holder.getFathersName());
             stmnt.setString(7, holder.getGrandFathersName());
             stmnt.setString(8, holder.getSex());
-            stmnt.setDate(9, Date.valueOf(holder.getDateOfBirth()));
+            stmnt.setString(9, holder.getDateOfBirth());
             stmnt.setByte(10, holder.getFamilyRole());
             stmnt.setString(11, holder.getId());
             stmnt.setBoolean(12, holder.hasPhysicalImpairment());
@@ -113,7 +113,7 @@ public class MasterRepository {
             stmnt.setString(6, personWithInterest.getFathersName());
             stmnt.setString(7, personWithInterest.getGrandFathersName());
             stmnt.setString(8, personWithInterest.getSex());
-            stmnt.setDate(9, Date.valueOf(personWithInterest.getDateOfBirth()));
+            stmnt.setString(9, personWithInterest.getDateOfBirth());
             stmnt.setBoolean(10, personWithInterest.hasPhysicalImpairment());
             int result = stmnt.executeUpdate();
             if (result < 1) {
@@ -243,7 +243,7 @@ public class MasterRepository {
                 returnValue.setSoilFertility(rs.getByte("soilfertilitytype"));
                 returnValue.setStage(rs.getByte("stage"));
                 returnValue.setStatus(rs.getString("status"));
-                returnValue.setSurveyDate(rs.getDate("surveydate").toString());
+                returnValue.setSurveyDate(rs.getString("surveydate"));
                 returnValue.setUpi(rs.getString("upi"));
                 returnValue.setRegisteredOn(rs.getTimestamp("registeredon"));
                 returnValue.hasDispute(rs.getBoolean("hasdispute"));
@@ -407,10 +407,7 @@ public class MasterRepository {
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 IndividualHolder ih = new IndividualHolder();
-                Date d = rs.getDate("dateofbirth");
-                if (d != null) {
-                    ih.setDateOfBirth(d.toString());
-                }
+                ih.setDateOfBirth(rs.getString("dateofbirth"));
                 ih.setFamilyRole(rs.getByte("familyrole"));
                 ih.setFirstName(rs.getString("firstname"));
                 ih.setFathersName(rs.getString("fathersname"));
@@ -544,7 +541,7 @@ public class MasterRepository {
             stmnt.setByte(6, newParcel.getHolding());
             stmnt.setByte(7, newParcel.getMeansOfAcquisition());
             stmnt.setInt(8, newParcel.getAcquisitionYear());
-            stmnt.setDate(9, Date.valueOf(newParcel.getSurveyDate()));
+            stmnt.setString(9, newParcel.getSurveyDate());
             stmnt.setString(10, newParcel.getMapSheetNo());
             stmnt.setByte(11, newParcel.getEncumbrance());
             stmnt.setBoolean(12, newParcel.hasDispute());
@@ -576,7 +573,7 @@ public class MasterRepository {
             stmnt.setString(2, newIndividualHolder.getFathersName());
             stmnt.setString(3, newIndividualHolder.getGrandFathersName());
             stmnt.setString(4, newIndividualHolder.getSex());
-            stmnt.setDate(5, Date.valueOf(newIndividualHolder.getDateOfBirth()));
+            stmnt.setString(5, newIndividualHolder.getDateOfBirth());
             stmnt.setByte(6, newIndividualHolder.getFamilyRole());
             stmnt.setString(7, newIndividualHolder.getId());
             stmnt.setBoolean(8, newIndividualHolder.hasPhysicalImpairment());
@@ -608,7 +605,7 @@ public class MasterRepository {
             stmnt.setString(2, newPersonWithInterest.getFathersName());
             stmnt.setString(3, newPersonWithInterest.getGrandFathersName());
             stmnt.setString(4, newPersonWithInterest.getSex());
-            stmnt.setDate(5, Date.valueOf(newPersonWithInterest.getDateOfBirth()));
+            stmnt.setString(5, newPersonWithInterest.getDateOfBirth());
             stmnt.setBoolean(6, newPersonWithInterest.hasPhysicalImpairment());
             stmnt.setString(7, oldPersonWithInterest.getUpi());
             stmnt.setByte(8, oldPersonWithInterest.getStage());
@@ -758,10 +755,7 @@ public class MasterRepository {
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 PersonWithInterest personWithInterest = new PersonWithInterest();
-                Date d = rs.getDate("dateofbirth");
-                if (d != null) {
-                    personWithInterest.setDateOfBirth(d.toString());
-                }
+                personWithInterest.setDateOfBirth(rs.getString("dateofbirth"));
                 personWithInterest.setFirstName(rs.getString("firstname"));
                 personWithInterest.setFathersName(rs.getString("fathersname"));
                 personWithInterest.setGrandFathersName(rs.getString("grandfathersname"));
@@ -1003,7 +997,7 @@ public class MasterRepository {
             stmnt.setByte(11, parcel.getHolding());
             stmnt.setByte(12, parcel.getMeansOfAcquisition());
             stmnt.setInt(13, parcel.getAcquisitionYear());
-            stmnt.setDate(14, Date.valueOf(parcel.getSurveyDate()));
+            stmnt.setString(14, parcel.getSurveyDate());
             stmnt.setString(15, parcel.getMapSheetNo());
             stmnt.setString(16, parcel.getStatus());
             stmnt.setByte(17, parcel.getEncumbrance());
@@ -1062,7 +1056,7 @@ public class MasterRepository {
             stmnt.setString(6, individualHolder.getFathersName());
             stmnt.setString(7, individualHolder.getGrandFathersName());
             stmnt.setString(8, individualHolder.getSex());
-            stmnt.setDate(9, Date.valueOf(individualHolder.getDateOfBirth()));
+            stmnt.setString(9, individualHolder.getDateOfBirth());
             stmnt.setByte(10, individualHolder.getFamilyRole());
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
@@ -1094,7 +1088,7 @@ public class MasterRepository {
             stmnt.setString(6, personWithInterest.getFathersName());
             stmnt.setString(7, personWithInterest.getGrandFathersName());
             stmnt.setString(8, personWithInterest.getSex());
-            stmnt.setDate(9, Date.valueOf(personWithInterest.getDateOfBirth()));
+            stmnt.setString(9, personWithInterest.getDateOfBirth());
             stmnt.setBoolean(10, personWithInterest.hasPhysicalImpairment());
             int result = stmnt.executeUpdate();
             if (result < 1) {
@@ -1162,7 +1156,7 @@ public class MasterRepository {
             stmnt.setByte(11, parcel.getHolding());
             stmnt.setByte(12, parcel.getMeansOfAcquisition());
             stmnt.setInt(13, parcel.getAcquisitionYear());
-            stmnt.setDate(14, Date.valueOf(parcel.getSurveyDate()));
+            stmnt.setString(14, parcel.getSurveyDate());
             stmnt.setString(15, parcel.getMapSheetNo());
             stmnt.setString(16, parcel.getStatus());
             stmnt.setByte(17, parcel.getEncumbrance());
@@ -1221,7 +1215,7 @@ public class MasterRepository {
             stmnt.setString(6, individualHolder.getFathersName());
             stmnt.setString(7, individualHolder.getGrandFathersName());
             stmnt.setString(8, individualHolder.getSex());
-            stmnt.setDate(9, Date.valueOf(individualHolder.getDateOfBirth()));
+            stmnt.setString(9, individualHolder.getDateOfBirth());
             stmnt.setByte(10, individualHolder.getFamilyRole());
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
@@ -1253,7 +1247,7 @@ public class MasterRepository {
             stmnt.setString(6, personWithInterest.getFathersName());
             stmnt.setString(7, personWithInterest.getGrandFathersName());
             stmnt.setString(8, personWithInterest.getSex());
-            stmnt.setDate(9, Date.valueOf(personWithInterest.getDateOfBirth()));
+            stmnt.setString(9, personWithInterest.getDateOfBirth());
             stmnt.setBoolean(10, personWithInterest.hasPhysicalImpairment());
             int result = stmnt.executeUpdate();
             if (result < 1) {
@@ -1320,7 +1314,7 @@ public class MasterRepository {
                 parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
                 parcel.setStage(rs.getByte("stage"));
                 parcel.setStatus(rs.getString("status"));
-                parcel.setSurveyDate(rs.getDate("surveydate").toString());
+                parcel.setSurveyDate(rs.getString("surveydate"));
                 parcel.setUpi(rs.getString("upi"));
                 parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
                 parcel.hasDispute(rs.getBoolean("hasdispute"));

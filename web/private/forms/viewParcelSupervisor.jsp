@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Survey Date </label>
-                                    <input class="form-control " placeholder="Select survey date" type="date" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" disabled/>
+                                    <input class="form-control " placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" disabled/>
                                 </div>
                                 <div class="form-group">
                                     <label>Has Dispute ?:</label>
@@ -149,6 +149,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendar = $.calendars.instance("ethiopian","am"); 
+    $("#surveyDate").calendarsPicker({calendar: calendar});
     $("#addParcelForm select").each(function() {
         $(this).val($(this).attr("value"));
     });

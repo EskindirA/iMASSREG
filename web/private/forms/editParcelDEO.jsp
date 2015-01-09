@@ -155,7 +155,7 @@
                                     <label>Survey Date </label>
                                     <input class="form-control  <%= reviewMode &&
                                             parcelDifference.isSurveyDate()
-                                            ?"discrepancy-field":""%>" placeholder="Select survey date" type="date" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" />
+                                            ?"discrepancy-field":""%>" placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" />
                                 </div>
                                 <div class="form-group">
                                     <label>Has Dispute ?:</label>
@@ -179,6 +179,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var calendar = $.calendars.instance("ethiopian","am"); 
+    $("#surveyDate").calendarsPicker({calendar: calendar});
     function validate() {
         var returnValue = true;
         $("#mapsheetno").toggleClass("error-field", false);
