@@ -122,7 +122,9 @@ public class PersonWithInterest implements Entity {
     public void hasPhysicalImpairment(boolean physicalImpairment) {
         this.physicalImpairment = physicalImpairment;
     }
-
+    public String hasPhysicalImpairmentText(){
+        return hasPhysicalImpairment() ? "Yes" : "No";
+    }
     public String getFullName() {
         return getFirstName() + " " + getFathersName() + " " + getGrandFathersName();
     }

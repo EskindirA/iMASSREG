@@ -46,7 +46,7 @@
                             <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=holder.getDateOfBirth()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Family Role</label>
+                            <label>Family Relationship/Status</label>
                             <select class="form-control" id="familyRole" name="familyRole" value="<%=holder.getFamilyRole()%>" >
                                 <%
                                     Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
@@ -83,8 +83,9 @@
             showError("Please input appropriate values in the highlighted fields");
         } else {
             update();// save
+            closeModals();
         }
-        closeModals();
+        
         return false;
     });
     $("#editHolderFrom select").each(function() {

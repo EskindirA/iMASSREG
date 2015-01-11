@@ -166,6 +166,9 @@ public class IndividualHolder implements Entity {
         return physicalImpairment;
     }
 
+    public String hasPhysicalImpairmentText() {
+        return hasPhysicalImpairment() ? "Yes" : "No";
+    }
     public void hasPhysicalImpairment(boolean physicalImpairment) {
         this.physicalImpairment = physicalImpairment;
     }

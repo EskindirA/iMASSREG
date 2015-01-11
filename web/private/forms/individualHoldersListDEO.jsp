@@ -61,7 +61,8 @@
                                     <th>Name</th>
                                     <th>Sex</th>
                                     <th>Date of Birth</th>
-                                    <th>Family Role</th>
+                                    <th>Family Relationship/Status</th>
+                                    <th>Has Physical Impairment</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -78,6 +79,7 @@
                                         out.println("<td>" + holders.get(i).getSexText() + "</td>");
                                         out.println("<td>" + holders.get(i).getDateOfBirth() + "</td>");
                                         out.println("<td>" + holders.get(i).getFamilyRoleText() + "</td>");
+                                        out.println("<td>" + holders.get(i).hasPhysicalImpairmentText()+ "</td>");
                                         out.println("<td>");
                                         out.println("<a href = '#' class = 'viewButton' "
                                                 + "data-registeredOn = '" + holders.get(i).getRegisteredOn() + "' "
