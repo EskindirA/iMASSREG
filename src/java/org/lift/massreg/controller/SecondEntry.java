@@ -1268,7 +1268,11 @@ public class SecondEntry {
         request.getSession().setAttribute("reviewMode", false);
         Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
         Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
-        if (seoParcel.equalsParcel(feoParcel)) {
+        
+        if(!seoParcel.canEdit(CommonStorage.getCurrentUser(request))){
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SEO));
+            rd.forward(request, response);
+        }else if (seoParcel.equalsParcel(feoParcel)) {
             seoParcel.commit();
             request.getSession().setAttribute("upi", null);
             request.getSession().setAttribute("parcelNo", null);
