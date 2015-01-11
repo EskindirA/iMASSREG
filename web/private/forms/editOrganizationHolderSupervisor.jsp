@@ -1,3 +1,4 @@
+<%@page import="org.lift.massreg.dto.ParcelDifference"%>
 <%@page import="org.lift.massreg.dto.OrganizationHolderDifference"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.lift.massreg.util.*"%>
@@ -5,6 +6,8 @@
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%
     Parcel cParcel = (Parcel) request.getAttribute("currentParcel");
+    ParcelDifference parcelDifference = parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
+
     boolean editable = cParcel.canEdit(CommonStorage.getCurrentUser(request));
     OrganizationHolder holder = cParcel.getOrganizationHolder();
     String updateurl, cancelurl, backurl;
@@ -32,22 +35,28 @@
                             <form role="form" action="#" id="editHolderFrom" name="editHolderFrom" method="action">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input class="form-control <%= reviewMode &&
-                                            holderDifference.isName()
-                                            ?"discrepancy-field":""%>" id="organizationName" name="organizationName" placeholder="Name of the holding organization" value="<%=holder.getName()%>" />
+                                    <%
+                                        if (holderDifference.isName()) {
+                                            out.println("<input class='form-control discrepancy-field ' placeholder='Name of the holding organization' id='organizationName' name='organizationName' value='" + holder.getName() + "' />");
+                                        } else {
+                                            out.println("<input class='form-control ' placeholder='Name of the holding organization' id='organizationName' name='organizationName' value='" + holder.getName()+ "' disabled/>");
+                                        }
+                                    %>
                                 </div>
                                 <div class="form-group">
                                     <label>Type</label>
-                                    <select class="form-control <%= reviewMode &&
-                                            holderDifference.isOrganizationType()
-                                            ?"discrepancy-field":""%>" id="organizationType" name="organizationType" value="<%=holder.getOrganizationType()%>" >
-                                        <%
-                                            Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
-                                            for (int i = 0; i < organizationTypes.length; i++) {
-                                                out.println("<option value = '" + organizationTypes[i].getKey() + "'>" + organizationTypes[i].getValue() + "</option>");
-                                            }
-                                        %>
-                                    </select>
+                                    <%
+                                        if (holderDifference.isOrganizationType()) {
+                                            out.println("<select class='form-control discrepancy-field ' id='organizationType' name='organizationType' value='" + holder.getOrganizationType() + "' >");
+                                        } else {
+                                            out.println("<select class='form-control ' id='organizationType' name='organizationType' value='" + holder.getOrganizationType() + "' disabled >");
+                                        }
+                                        Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
+                                        for (int i = 0; i < organizationTypes.length; i++) {
+                                            out.println("<option value = '" + organizationTypes[i].getKey() + "'>" + organizationTypes[i].getValue() + "</option>");
+                                        }
+                                        out.println("</select>");
+                                    %>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">

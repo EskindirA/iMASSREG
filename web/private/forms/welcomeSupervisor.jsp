@@ -51,7 +51,7 @@
                                                     }
                                                     out.println("<td>" + parcelsInCorrection.get(i).getUpi() + "</td>");
                                                     out.println("<td>" + parcelsInCorrection.get(i).getCertificateNumber() + "</td>");
-                                                    out.println("<td>" + parcelsInCorrection.get(i).hasDispute() + "</td>");
+                                                    out.println("<td>" + parcelsInCorrection.get(i).hasDisputeText() + "</td>");
                                                     out.println("<td>" + parcelsInCorrection.get(i).getMeansOfAcquisition() + "</td>");
                                                     out.println("<td>" + parcelsInCorrection.get(i).getSurveyDate() + "</td>");
 

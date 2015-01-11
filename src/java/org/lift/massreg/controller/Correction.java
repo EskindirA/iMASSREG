@@ -554,8 +554,7 @@ public class Correction {
         currentParcel.commit();
         request.getSession().setAttribute("upi", null);
         request.getSession().setAttribute("parcelNo", null);
-        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SUPERVISOR));
-        rd.forward(request, response);
+        welcomeFrom(request, response);
     }
 
     /**
@@ -997,7 +996,7 @@ public class Correction {
             Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
             Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
             request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), seoParcel.getOrganizationHolder()));
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SEO));
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SUPERVISOR));
             rd.forward(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");

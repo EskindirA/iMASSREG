@@ -22,7 +22,7 @@ public class IOC {
         pages.put(Constants.INDEX_WELCOME_FEO, "welcomeDEO.jsp");
         pages.put(Constants.INDEX_WELCOME_SEO, "welcomeDEO.jsp");
         pages.put(Constants.INDEX_WELCOME_SUPERVISOR, "welcomeSupervisor.jsp");
-
+        
         pages.put(Constants.INDEX_ADD_PARCEL_FEO, "addParcelDEO.jsp");
         pages.put(Constants.INDEX_ADD_PARCEL_SEO, "addParcelDEO.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_FEO, "viewParcelDEO.jsp");
@@ -41,8 +41,10 @@ public class IOC {
         pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_SEO, "addOrganizationHolderDEO.jsp");
         pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_FEO, "viewOrganizationHolderDEO.jsp");
         pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_SEO, "viewOrganizationHolderDEO.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_SUPERVISOR, "viewOrganizationHolderSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_FEO, "editOrganizationHolderDEO.jsp");
         pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SEO, "editOrganizationHolderDEO.jsp");
+        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SUPERVISOR, "editOrganizationHolderSupervisor.jsp");
 
         pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_FEO, "personWithInterestListDEO.jsp");
         pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_SEO, "personWithInterestListDEO.jsp");

@@ -360,9 +360,12 @@ public class Parcel implements Entity {
         return MasterRepository.getInstance().save(this);
     }
 
-
     public boolean hasDispute() {
         return hasDispute;
+    }
+
+    public String hasDisputeText() {
+        return hasDispute ? "Yes" : "No";
     }
 
     public void hasDispute(boolean hasDispute) {
