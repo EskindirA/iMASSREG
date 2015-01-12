@@ -193,10 +193,6 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                                <label>Old Password</label>
-                                <input class="form-control " id="oldPassword" name="oldPassword" type="password"/>
-                            </div>
-                            <div class="form-group">
                                 <label>New Password</label>
                                 <input class="form-control " id="newPassword" name="newPassword" type="password"/>
                             </div> 
@@ -268,13 +264,8 @@
     }
     function validateUpdatePassword(){
         var returnValue = true;
-        $("#updatePasswordForm #oldPassword").toggleClass("error-field", false);
         $("#updatePasswordForm #newPassword").toggleClass("error-field", false);
         $("#updatePasswordForm #cnewPassword").toggleClass("error-field", false);
-        if ($("#updatePasswordForm #oldPassword").val().trim() === "") {
-            returnValue = false;
-            $("#updatePasswordForm #oldPassword").toggleClass("error-field", true);
-        }
         if ($("#updatePasswordForm #newPassword").val().trim() === "") {
             returnValue = false;
             $("#updatePasswordForm #newPassword").toggleClass("error-field", true);
@@ -338,7 +329,6 @@
             type: 'POST',
             url: "<%=updatepasswordurl%>",
             data: {
-                "oldPassword": $("#updatePasswordForm #oldPassword").val(),
                 "newPassword": $("#updatePasswordForm #newPassword").val(),
                 "userId": $("#updatePasswordForm #usrId").val()
             },
