@@ -4,6 +4,7 @@
 <%
     User currentUser = CommonStorage.getCurrentUser(request);
     String editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PROFILE;
+    String homeurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_WELCOME_PART;
 %>
 <div class="col-lg-5 col-lg-offset-4">
     <div class="row">
@@ -31,6 +32,7 @@
                                 </div>
                                 <div class="row">
                                     <button type='submit' id = 'editProfileButton' name = 'editProfileButton' class='btn btn-default col-lg-4' style='float: right;margin-right: 1em'>Change Password</button>
+                                    <button type='submit' id = 'goToHomeButton' name = 'goToHomeButton' class='btn btn-default col-lg-2' style='float: right;margin-right: 1em'>Home</button>
                                 </div>
                                 <!-- /.row (nested) -->
                             </form>
@@ -46,6 +48,15 @@
 <script type="text/javascript">
     $("#viewProfileFrom select").each(function() {
         $(this).val($(this).attr("value"));
+    });
+    $("#goToHomeButton").click(function() {
+        $.ajax({
+            type: 'POST',
+            url: "<%=homeurl%>",
+            error: showajaxerror,
+            success: loadBackward
+        });
+        return false;
     });
     $("#editProfileButton").click(function() {
         $.ajax({
