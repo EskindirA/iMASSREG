@@ -342,7 +342,6 @@ public class FirstEntry {
             newPersonWithInterest.setDateOfBirth(request.getParameter("dateofbirth"));
             newPersonWithInterest.setFirstName(request.getParameter("firstname"));
             newPersonWithInterest.setFathersName(request.getParameter("fathersname"));
-            newPersonWithInterest.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newPersonWithInterest.setGrandFathersName(request.getParameter("grandfathersname"));
             newPersonWithInterest.setSex(request.getParameter("sex"));
             newPersonWithInterest.setUpi(request.getSession().getAttribute("upi").toString());
@@ -1110,7 +1109,6 @@ public class FirstEntry {
                 pwi.setGrandFathersName(request.getParameter("grandfathersname"));
                 pwi.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 pwi.setSex(request.getParameter("sex"));
-                pwi.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
                 pwi.setStage(CommonStorage.getFEStage());
                 pwi.setUpi(request.getSession().getAttribute("upi").toString());
                 pwi.setStatus(Constants.STATUS[0]);

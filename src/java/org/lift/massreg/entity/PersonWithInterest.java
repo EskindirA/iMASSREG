@@ -15,7 +15,6 @@ public class PersonWithInterest implements Entity {
     private String upi;
     private byte stage;
     private long registeredBy;
-    private User registeredByUser;
     private Timestamp registeredOn;
     private String firstName;
     private String fathersName;
@@ -23,8 +22,7 @@ public class PersonWithInterest implements Entity {
     private String sex;
     private String dateOfBirth;
     private String status;
-    private boolean physicalImpairment;
-
+   
     public String getStatus() {
         return status;
     }
@@ -114,17 +112,7 @@ public class PersonWithInterest implements Entity {
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-
-    public boolean hasPhysicalImpairment() {
-        return physicalImpairment;
-    }
-
-    public void hasPhysicalImpairment(boolean physicalImpairment) {
-        this.physicalImpairment = physicalImpairment;
-    }
-    public String hasPhysicalImpairmentText(){
-        return hasPhysicalImpairment() ? "Yes" : "No";
-    }
+   
     public String getFullName() {
         return getFirstName() + " " + getFathersName() + " " + getGrandFathersName();
     }
@@ -149,9 +137,6 @@ public class PersonWithInterest implements Entity {
     public boolean equalsPersonsWithInterest(PersonWithInterest obj) {
         boolean returnValue = true;
         if (!this.getDateOfBirth().trim().equalsIgnoreCase(obj.getDateOfBirth().trim())) {
-            returnValue = false;
-        }
-        if (this.hasPhysicalImpairment() != obj.hasPhysicalImpairment()) {
             returnValue = false;
         }
         if (!this.getFathersName().trim().equalsIgnoreCase(obj.getFathersName().trim())) {

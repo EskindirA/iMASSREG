@@ -577,7 +577,6 @@ public class Correction {
                 pwi.setGrandFathersName(request.getParameter("grandfathersname"));
                 pwi.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 pwi.setSex(request.getParameter("sex"));
-                pwi.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
                 pwi.setStage(CommonStorage.getCorrectionStage());
                 pwi.setUpi(request.getSession().getAttribute("upi").toString());
                 pwi.setStatus(Constants.STATUS[0]);
@@ -679,7 +678,6 @@ public class Correction {
             newPersonWithInterest.setFathersName(request.getParameter("fathersname"));
             newPersonWithInterest.setGrandFathersName(request.getParameter("grandfathersname"));
             newPersonWithInterest.setSex(request.getParameter("sex"));
-            newPersonWithInterest.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newPersonWithInterest.setUpi(request.getSession().getAttribute("upi").toString());
             newPersonWithInterest.setStatus(Constants.STATUS[0]);
             if (newPersonWithInterest.validateForUpdate()) {

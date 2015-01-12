@@ -41,13 +41,6 @@
                                 <label>Date of Birth</label>
                                 <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=personWithInterest.getDateOfBirth()%>" disabled/>
                             </div>
-                            <div class="form-group">
-                                <label>Has Physical Impairment</label>
-                                <select class="form-control" id="physicalImpairment" name="physicalImpairment"  value="<%=personWithInterest.hasPhysicalImpairment()%>" disabled >
-                                    <option value = 'false'>No</option>
-                                    <option value = 'true'>Yes</option>
-                                </select>
-                            </div>
                         </div> <!-- /.row (nested) -->
                 </div> <!-- /.panel-body -->
             </form>

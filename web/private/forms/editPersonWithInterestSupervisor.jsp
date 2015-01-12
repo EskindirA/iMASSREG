@@ -42,13 +42,6 @@
                             <label>Date of Birth</label>
                             <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=personWithInterest.getDateOfBirth()%>" />
                         </div>
-                        <div class="form-group">
-                            <label>Has Physical Impairment</label>
-                            <select class="form-control" id="physicalImpairment" name="physicalImpairment" value="<%=personWithInterest.hasPhysicalImpairment()%>" >
-                                <option value = 'false'>No</option>
-                                <option value = 'true'>Yes</option>
-                            </select>
-                        </div>
                     </div> <!-- /.row (nested) -->
                 </div> <!-- /.panel-body -->
             </form>
@@ -84,7 +77,6 @@
                 "fathersname": $("#editPersonWithInterestFrom #fathersName").val(),
                 "grandfathersname": $("#editPersonWithInterestFrom #grandFathersName").val(),
                 "sex": $("#editPersonWithInterestFrom #sex").val(),
-                "physicalImpairment": $("#editPersonWithInterestFrom #physicalImpairment").val(),
                 "registeredOn": "<%=registeredOn%>"
             },
             error: showajaxerror,

@@ -47,7 +47,6 @@
                                     <th>Name</th>
                                     <th>Sex</th>
                                     <th>Date of Birth</th>
-                                    <th>Has Physical Impairment</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -62,7 +61,6 @@
                                         out.println("<td>" + personsWithInterest.get(i).getFullName() + "</td>");
                                         out.println("<td>" + personsWithInterest.get(i).getSexText() + "</td>");
                                         out.println("<td>" + personsWithInterest.get(i).getDateOfBirth() + "</td>");
-                                        out.println("<td>" + personsWithInterest.get(i).hasPhysicalImpairmentText()+ "</td>");
                                         out.println("<td>");
                                         out.println("<a href = '#' class = 'viewButton' "
                                                 + "data-registeredOn = '" + personsWithInterest.get(i).getRegisteredOn() + "' >View</a>");
@@ -143,13 +141,6 @@
                             <div class="form-group">
                                 <label>Date of Birth</label>
                                 <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text'/>
-                            </div>
-                            <div class="form-group">
-                                <label>Has Physical Impairment</label>
-                                <select class="form-control" id="physicalImpairment" name="physicalImpairment"  >
-                                    <option value = 'false'>No</option>
-                                    <option value = 'true'>Yes</option>
-                                </select>
                             </div>
                         </div> <!-- /.row (nested) -->
                     </div> <!-- /.panel-body -->
