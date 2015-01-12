@@ -27,7 +27,7 @@ public class MainFilter extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.setCharacterEncoding("UTF-8");
         String action;
         // Get Request Parameter 
         action = (String) request.getParameter("action");
