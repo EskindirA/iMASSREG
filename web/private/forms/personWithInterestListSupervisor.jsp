@@ -140,7 +140,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Date of Birth</label>
-                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text'/>
+                                <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' readonly style="background: #FFF !important"/>
                             </div>
                         </div> <!-- /.row (nested) -->
                     </div> <!-- /.panel-body -->

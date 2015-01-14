@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group">
                             <label>Date of Birth</label>
-                            <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=personWithInterest.getDateOfBirth()%>" />
+                            <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=personWithInterest.getDateOfBirth()%>" readonly style="background: #FFF !important"/>
                         </div>
                     </div> <!-- /.row (nested) -->
                 </div> <!-- /.panel-body -->

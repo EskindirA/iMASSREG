@@ -43,11 +43,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Certificate Number</label>
-                                    <input class="form-control " placeholder="Leave empty if certificate number does not exist" id="certificateNumber" name="certificateNumber" value="${sessionScope.currentParcel.certificateNumber}"/>
+                                    <input class="form-control " placeholder="Leave empty if certificate number does not exist" id="certificateNumber" name="certificateNumber" value="${sessionScope.currentParcel.certificateNumber}" autocomplete="off"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Holding Number</label>
-                                    <input class="form-control " placeholder="Leave empty if holding number does not exist" id="holdingNumber" name="holdingNumber" value="${sessionScope.currentParcel.holdingNumber}"/>
+                                    <input class="form-control " placeholder="Leave empty if holding number does not exist" id="holdingNumber" name="holdingNumber" value="${sessionScope.currentParcel.holdingNumber}" autocomplete="off"/>
                                 </div>                                
                                 <div class="form-group">
                                     <label>Other Evidence</label>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Survey Date </label>
-                                    <input class="form-control " placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${sessionScope.currentParcel.surveyDate}"/>
+                                    <input class="form-control " placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${sessionScope.currentParcel.surveyDate}" autocomplete="off" readonly style="background: #FFF !important"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Has Dispute ?:</label>
@@ -153,6 +153,7 @@
     $("#surveyDate").calendarsPicker({calendar: calendar});
     function validate() {
         var returnValue = true;
+        //var dateReg = "/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/";
         $("#mapsheetno").toggleClass("error-field",false);
         $("#surveyDate").toggleClass("error-field",false);
         if ($("#mapsheetno").val() === "") {
@@ -163,6 +164,11 @@
             returnValue = false;
             $("#surveyDate").toggleClass("error-field",true);
         }
+        //if (!$("#surveyDate").val().match(dateReg)) {
+        //    returnValue = false;
+        //    $("#surveyDate").toggleClass("error-field",true);
+        //}
+        
         return returnValue;
     }
     function save() {

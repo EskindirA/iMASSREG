@@ -170,7 +170,7 @@
                                     <label>Survey Date </label>
                                            <input class="form-control  <%= reviewMode
                                             && parcelDifference.isSurveyDate()
-                                                    ? "discrepancy-field" : ""%>" placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" />
+                                                    ? "discrepancy-field" : ""%>" placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}"  readonly style="background: #FFF !important"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Has Dispute ?:</label>

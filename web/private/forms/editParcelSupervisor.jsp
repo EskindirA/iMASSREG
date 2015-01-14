@@ -184,9 +184,9 @@
                                     <label>Survey Date </label>
                                     <%
                                         if (parcelDifference.isSurveyDate()) {
-                                            out.println("<input class='form-control discrepancy-field ' type='text' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' />");
+                                            out.println("<input class='form-control discrepancy-field ' type='text' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "'  readonly style='background: #FFF !important' />");
                                         } else {
-                                            out.println("<input class='form-control ' type='text' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' disabled/>");
+                                            out.println("<input class='form-control ' type='text' id='surveyDate' name='surveyDate' required value='" + currentParcel.getSurveyDate() + "' disabled />");
                                         }
                                     %>
                                 </div>
