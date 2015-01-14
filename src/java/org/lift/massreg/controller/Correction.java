@@ -177,7 +177,7 @@ public class Correction {
             rd.forward(request, response);
         }
         Parcel correctionParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
-        
+
         // if the parcel does exit in the database 
         if (currentParcel != null) {
             Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
@@ -516,7 +516,7 @@ public class Correction {
         }
     }
 
-        /**
+    /**
      * Handlers request to finish data entry by the supervisor
      *
      * @param request request object passed from the main controller
@@ -540,7 +540,6 @@ public class Correction {
         }
     }
 
-    
     /**
      * Handlers request try commit the current parcel to confirmed status
      *
@@ -992,8 +991,11 @@ public class Correction {
         request.setAttribute("currentParcel", parcel);
         if (request.getAttribute("currentParcel") != null) {
             Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
+
             Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
-            request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), seoParcel.getOrganizationHolder()));
+            if (feoParcel.getHolding() != 1 && seoParcel.getHolding() != 1) {
+                request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), seoParcel.getOrganizationHolder()));
+            }
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SUPERVISOR));
             rd.forward(request, response);
         } else {

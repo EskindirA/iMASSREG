@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label>Name</label>
                                     <%
-                                        if (holderDifference.isName()) {
+                                        if (holderDifference!=null && holderDifference.isName()) {
                                             out.println("<input class='form-control discrepancy-field ' placeholder='Name of the holding organization' id='organizationName' name='organizationName' value='" + holder.getName() + "' />");
                                         } else {
                                             out.println("<input class='form-control ' placeholder='Name of the holding organization' id='organizationName' name='organizationName' value='" + holder.getName()+ "' disabled/>");
@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                     <label>Type</label>
                                     <%
-                                        if (holderDifference.isOrganizationType()) {
+                                        if (holderDifference!=null && holderDifference.isOrganizationType()) {
                                             out.println("<select class='form-control discrepancy-field ' id='organizationType' name='organizationType' value='" + holder.getOrganizationType() + "' >");
                                         } else {
                                             out.println("<select class='form-control ' id='organizationType' name='organizationType' value='" + holder.getOrganizationType() + "' disabled >");
