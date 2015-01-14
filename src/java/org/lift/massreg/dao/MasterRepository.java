@@ -31,8 +31,8 @@ public class MasterRepository {
         String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
                 + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
                 + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
-                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute) VALUES (?,?,?,"
-                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?)";
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute, teamNo) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?, ?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, parcel.getUpi());
@@ -53,6 +53,7 @@ public class MasterRepository {
             stmnt.setString(16, parcel.getStatus());
             stmnt.setByte(17, parcel.getEncumbrance());
             stmnt.setBoolean(18, parcel.hasDispute());
+            stmnt.setByte(19, parcel.getTeamNo());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -246,6 +247,7 @@ public class MasterRepository {
                 returnValue.setUpi(rs.getString("upi"));
                 returnValue.setRegisteredOn(rs.getTimestamp("registeredon"));
                 returnValue.hasDispute(rs.getBoolean("hasdispute"));
+                returnValue.setTeamNo(rs.getByte("teamNo"));
                 if (returnValue.hasDispute()) {
                     returnValue.setDisputes(getAllDisputes(upi, stage));
                 }
@@ -528,7 +530,7 @@ public class MasterRepository {
         String query = "UPDATE parcel SET certificateno=?, holdingno=?,"
                 + "otherevidence=?, landusetype=?, soilfertilitytype=?, "
                 + "holdingtype=?, acquisitiontype=?, acquisitionyear=?, "
-                + "surveydate=?, mapsheetno=?, encumbrancetype=?, hasdispute=?"
+                + "surveydate=?, mapsheetno=?, encumbrancetype=?, hasdispute=?, teamNo=?"
                 + "WHERE upi=? and stage = ? and registeredon = ?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
@@ -544,9 +546,10 @@ public class MasterRepository {
             stmnt.setString(10, newParcel.getMapSheetNo());
             stmnt.setByte(11, newParcel.getEncumbrance());
             stmnt.setBoolean(12, newParcel.hasDispute());
-            stmnt.setString(13, oldParcel.getUpi());
-            stmnt.setByte(14, oldParcel.getStage());
-            stmnt.setTimestamp(15, oldParcel.getRegisteredOn());
+            stmnt.setByte(13, newParcel.getTeamNo());
+            stmnt.setString(14, oldParcel.getUpi());
+            stmnt.setByte(15, oldParcel.getStage());
+            stmnt.setTimestamp(16, oldParcel.getRegisteredOn());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -977,8 +980,8 @@ public class MasterRepository {
         String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
                 + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
                 + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
-                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute) VALUES (?,?,?,"
-                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?)";
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute, teamNo) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?, ?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, parcel.getUpi());
@@ -999,6 +1002,7 @@ public class MasterRepository {
             stmnt.setString(16, parcel.getStatus());
             stmnt.setByte(17, parcel.getEncumbrance());
             stmnt.setBoolean(18, parcel.hasDispute());
+            stmnt.setByte(19, parcel.getTeamNo());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1135,8 +1139,8 @@ public class MasterRepository {
         String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
                 + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
                 + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
-                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute) VALUES (?,?,?,"
-                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?)";
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute,teamNo) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, parcel.getUpi());
@@ -1157,6 +1161,7 @@ public class MasterRepository {
             stmnt.setString(16, parcel.getStatus());
             stmnt.setByte(17, parcel.getEncumbrance());
             stmnt.setBoolean(18, parcel.hasDispute());
+            stmnt.setByte(19, parcel.getTeamNo());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1313,6 +1318,7 @@ public class MasterRepository {
                 parcel.setUpi(rs.getString("upi"));
                 parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
                 parcel.hasDispute(rs.getBoolean("hasdispute"));
+                parcel.setTeamNo(rs.getByte("teamNo"));
                 if (parcel.hasDispute()) {
                     parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
                 }

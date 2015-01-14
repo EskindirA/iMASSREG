@@ -33,9 +33,22 @@
                     <form role="form" action="#" id="addParcelForm">
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="form-group">
+                                <div class="row">
+                                    <div class="form-group col-lg-4">
+                                        <label>Team</label>
+                                        <select class="form-control" name = "teamNo" id = "teamNo" value="${requestScope.currentParcel.teamNo}" disabled>
+                                            <%
+                                                int[] teamNumbers = CommonStorage.getTeamNumbers();
+                                                for (int i = 0; i < teamNumbers.length; i++) {
+                                                    out.println("<option value='" + teamNumbers[i] + "'>Team " + teamNumbers[i] + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                <div class="form-group col-lg-8">
                                     <label>Certificate Number</label>
                                     <input class="form-control " placeholder="Does Not Exist" id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" disabled/>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Holding Number</label>

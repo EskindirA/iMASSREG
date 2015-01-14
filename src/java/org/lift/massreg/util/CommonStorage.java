@@ -97,6 +97,11 @@ public class CommonStorage {
         }
     }
 
+    public static int[] getTeamNumbers() {
+        int[] returnValue = {1, 2, 3};
+        return returnValue;
+    }
+
     public static CurrentUserDTO getCurrentUser(HttpServletRequest request) {
         CurrentUserDTO returnValue = MasterRepository.getInstance().getCurrentUserDTO(request.getRemoteUser());
         return returnValue;

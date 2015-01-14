@@ -25,15 +25,32 @@
                     <form role="form" action="#" id="editParcelForm" >
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Certificate Number</label>
-                                    <%
-                                        if (parcelDifference.isCertificateNumber()) {
-                                            out.println("<input class='form-control discrepancy-field ' placeholder='Does Not Exist' id='certificateNumber' name='certificateNumber' value='" + currentParcel.getCertificateNumber() + "' />");
-                                        } else {
-                                            out.println("<input class='form-control ' placeholder='Does Not Exist' id='certificateNumber' name='certificateNumber' value='" + currentParcel.getCertificateNumber() + "' disabled/>");
-                                        }
-                                    %>
+                                <div class="row">
+                                    <div class="form-group col-lg-4">
+                                        <label>Team</label>
+                                        <%
+                                            if (parcelDifference.isTeamNo()) {
+                                                out.println("<select class='form-control discrepancy-field ' placeholder='Does Not Exist' id='teamNo' name='teamNo' value='" + currentParcel.getTeamNo() + "' />");
+                                            } else {
+                                                out.println("<input class='form-control ' placeholder='Does Not Exist' id='teamNo' name='teamNo' value='" + currentParcel.getTeamNo() + "' disabled/>");
+                                            }
+                                            int[] teamNumbers = CommonStorage.getTeamNumbers();
+                                            for (int i = 0; i < teamNumbers.length; i++) {
+                                                out.println("<option value='" + teamNumbers[i] + "'>Team " + teamNumbers[i] + "</option>");
+                                            }
+                                            out.println("</select>");
+                                        %>
+                                    </div>
+                                    <div class="form-group col-lg-8">
+                                        <label>Certificate Number</label>
+                                        <%
+                                            if (parcelDifference.isCertificateNumber()) {
+                                                out.println("<input class='form-control discrepancy-field ' placeholder='Does Not Exist' id='certificateNumber' name='certificateNumber' value='" + currentParcel.getCertificateNumber() + "' />");
+                                            } else {
+                                                out.println("<input class='form-control ' placeholder='Does Not Exist' id='certificateNumber' name='certificateNumber' value='" + currentParcel.getCertificateNumber() + "' disabled/>");
+                                            }
+                                        %>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Holding Number</label>
@@ -198,7 +215,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var calendar = $.calendars.instance("ethiopian","am"); 
+    var calendar = $.calendars.instance("ethiopian", "am");
     $("#surveyDate").calendarsPicker({calendar: calendar});
     function validate() {
         var returnValue = true;
@@ -230,6 +247,7 @@
                 "holdingType": $("#holdingType").val(),
                 "encumbrance": $("#encumbrance").val(),
                 "surveyDate": $("#surveyDate").val(),
+                "teamNo": $("#teamNo").val(),
                 "hasDispute": $("#hasDispute").val()
             },
             error: showajaxerror,

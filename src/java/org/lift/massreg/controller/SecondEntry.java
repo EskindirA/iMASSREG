@@ -236,6 +236,9 @@ public class SecondEntry {
             p.setParcelId(Integer.parseInt(request.getSession().getAttribute("parcelNo").toString()));
             p.setUpi(request.getSession().getAttribute("upi").toString());
             p.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
+            p.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
+
+            request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
 
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
@@ -253,7 +256,7 @@ public class SecondEntry {
             p.setSurveyDate(request.getParameter("surveyDate"));
             p.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
             if (p.validateForSave()) {
-                p.saveParcelOnly();
+                p.save();
                 request.setAttribute("currentParcel", p);
                 // Check the holding type of the current Parcel if it is 
                 // indvidual forwared to indvidual holders list
@@ -298,6 +301,8 @@ public class SecondEntry {
 
             newParcel.setCertificateNumber(request.getParameter("certificateNumber"));
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
+            newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
+            request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
             newParcel.setMapSheetNo(request.getParameter("mapsheetNumber"));
             newParcel.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
             newParcel.setAcquisitionYear(Integer.parseInt(request.getParameter("acquisitionYear")));
@@ -1266,11 +1271,11 @@ public class SecondEntry {
         request.getSession().setAttribute("reviewMode", false);
         Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
         Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
-        
-        if(!seoParcel.canEdit(CommonStorage.getCurrentUser(request))){
+
+        if (!seoParcel.canEdit(CommonStorage.getCurrentUser(request))) {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SEO));
             rd.forward(request, response);
-        }else if (seoParcel.equalsParcel(feoParcel)) {
+        } else if (seoParcel.equalsParcel(feoParcel)) {
             seoParcel.commit();
             request.getSession().setAttribute("upi", null);
             request.getSession().setAttribute("parcelNo", null);

@@ -23,6 +23,7 @@ public class Parcel implements Entity {
     private String stageText;
     private long registeredBy;
     private User registeredByUser;
+    private byte teamNo;
     private Timestamp registeredOn;
     private double area;
     private int parcelId;
@@ -215,6 +216,14 @@ public class Parcel implements Entity {
         this.acquisitionYear = acquisitionYear;
     }
 
+    public byte getTeamNo() {
+        return teamNo;
+    }
+
+    public void setTeamNo(byte teamNo) {
+        this.teamNo = teamNo;
+    }
+
     public String getSurveyDate() {
         return surveyDate;
     }
@@ -356,7 +365,7 @@ public class Parcel implements Entity {
         disputes.remove(dispute);
     }
 
-    public boolean saveParcelOnly() {
+    public boolean save() {
         return MasterRepository.getInstance().save(this);
     }
 
@@ -548,6 +557,8 @@ public class Parcel implements Entity {
         }
         if (this.currentLandUse != obj.getCurrentLandUse()) {
             returnValue = false;
+        }if (this.teamNo != obj.getTeamNo()) {
+            returnValue = false;
         }
         if (this.encumbrance != obj.getEncumbrance()) {
             returnValue = false;
@@ -663,6 +674,9 @@ public class Parcel implements Entity {
         }
         if (firstParcel.getCurrentLandUse() != secondParcel.getCurrentLandUse()) {
             returnValue.setCurrentLandUse(true);
+        }
+        if (firstParcel.getTeamNo()!= secondParcel.getTeamNo()) {
+            returnValue.setTeamNo(true);
         }
         if (firstParcel.getDisputeCount() != secondParcel.getDisputeCount()) {
             returnValue.setDisputesCount(true);

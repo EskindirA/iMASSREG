@@ -491,6 +491,10 @@ public class FirstEntry {
             p.setUpi(request.getSession().getAttribute("upi").toString());
             p.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
 
+            p.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
+
+            request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
+
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
 
@@ -507,7 +511,7 @@ public class FirstEntry {
             p.setSurveyDate(request.getParameter("surveyDate"));
             p.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
             if (p.validateForSave()) {
-                p.saveParcelOnly();
+                p.save();
                 request.setAttribute("currentParcel", p);
                 // Check the holding type of the current Parcel if it is 
                 // indvidual forwared to indvidual holders list
@@ -648,9 +652,11 @@ public class FirstEntry {
         Parcel newParcel = new Parcel();
         try {
             newParcel.setStatus(Constants.STATUS[0]);
-
             newParcel.setCertificateNumber(request.getParameter("certificateNumber"));
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
+            newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
+            request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
+
             newParcel.setMapSheetNo(request.getParameter("mapsheetNumber"));
             newParcel.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
             newParcel.setAcquisitionYear(Integer.parseInt(request.getParameter("acquisitionYear")));

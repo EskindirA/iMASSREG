@@ -14,6 +14,7 @@ public class ParcelDifference {
     private boolean holdingNumber;
     private boolean otherEvidence;
     private boolean currentLandUse;
+    private boolean teamNo;
     private boolean soilFertility;
     private boolean holding;
     private boolean meansOfAcquisition;
@@ -166,6 +167,14 @@ public class ParcelDifference {
 
     public boolean isDisputesCount() {
         return disputesCount;
+    }
+
+    public boolean isTeamNo() {
+        return teamNo;
+    }
+
+    public void setTeamNo(boolean teamNo) {
+        this.teamNo = teamNo;
     }
 
     public void setDisputesCount(boolean disputesCount) {

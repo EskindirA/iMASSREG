@@ -24,6 +24,23 @@
                     <form role="form" action="#" id="addParcelForm">
                         <div class="row">
                             <div class="col-lg-6">
+                                <div class="row">
+                                <div class="form-group col-lg-4">
+                                    <label>Team</label>
+                                    <select class="form-control " name = "teamNo" id = "teamNo" value="${sessionScope.teamNo}">
+                                        <%
+                                            int[] teamNumbers = CommonStorage.getTeamNumbers();
+                                            for(int i=0; i < teamNumbers.length;i++){
+                                                out.println("<option value='"+teamNumbers[i]+"'>Team "+teamNumbers[i]+"</option>");
+                                            }
+                                        %>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-8">
+                                    <label>Orthograph map sheet No.</label>
+                                    <input class="form-control " placeholder="Enter orthograph map sheet number " id="mapsheetno" name="mapsheetno" required ="true" value="${sessionScope.currentParcel.mapSheetNo}" autocomplete="off"/>
+                                </div>
+                                </div>
                                 <div class="form-group">
                                     <label>Certificate Number</label>
                                     <input class="form-control " placeholder="Leave empty if certificate number does not exist" id="certificateNumber" name="certificateNumber" value="${sessionScope.currentParcel.certificateNumber}"/>
@@ -63,10 +80,6 @@
                                             }
                                         %>
                                     </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Orthograph map sheet No.</label>
-                                    <input class="form-control " placeholder="Enter orthograph map sheet number " id="mapsheetno" name="mapsheetno" required ="true" value="${sessionScope.currentParcel.mapSheetNo}"/>
                                 </div>
                                 <input type="submit" id = "backButton" class="btn btn-default col-lg-3 col-lg-offset-1" value="Back" />
                             </div> <!-- /.col-lg-6 (nested) -->
@@ -168,6 +181,7 @@
                 "holdingType": $("#holdingType").val(),
                 "encumbrance": $("#encumbrance").val(),
                 "surveyDate": $("#surveyDate").val(),
+                "teamNo": $("#teamNo").val(),
                 "hasDispute": $("#hasDispute").val()
             },
             error: showajaxerror,
