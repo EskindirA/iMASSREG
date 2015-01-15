@@ -599,7 +599,7 @@ public class MasterRepository {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE personwithinterest SET firstname=?, "
-                + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=?, "
+                + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=? "
                 + "WHERE upi=? and stage = ? and registeredon = ?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
