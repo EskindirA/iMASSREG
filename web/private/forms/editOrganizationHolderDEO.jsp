@@ -9,15 +9,18 @@
     OrganizationHolder holder = cParcel.getOrganizationHolder();
     String updateurl, cancelurl, backurl;
 
-    OrganizationHolderDifference holderDifference = new OrganizationHolderDifference();
-    boolean reviewMode = false;
+    OrganizationHolderDifference holderDifference = new OrganizationHolderDifference();;
+    boolean reviewMode = false,ignoreReviewMode = false;
     if (request.getSession().getAttribute("reviewMode") != null) {
         reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+        ignoreReviewMode = Boolean.parseBoolean(request.getSession().getAttribute("ignoreReviewMode").toString());
     }
-    if (reviewMode) {
+    if (reviewMode && !ignoreReviewMode) {
         holderDifference = (OrganizationHolderDifference) request.getAttribute("currentOrganizationHolderDifference");
     }
-
+    if(ignoreReviewMode){
+         holderDifference = new OrganizationHolderDifference();
+    }
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO;
         cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_FEO;

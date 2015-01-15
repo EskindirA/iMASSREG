@@ -15,7 +15,7 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-3 col-lg-offset-5 ">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome</h2>
+            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=CommonStorage.getText("admin.welcome")%></h2>
         </div>
     </div>
     <div class="bs-example">
@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading">MASSREG Users</div>
+                            <div class="panel-heading">iMASSREG Users</div>
                             <div class="panel-body" >
                                 <div>
                                     <table class="table table-striped table-bordered table-hover" id="dataTables" >

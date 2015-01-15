@@ -25,6 +25,8 @@ public class CommonStorage {
     private static long woredaId = -1;
     private static String language = null;
 
+    private static Properties languageBundle = new Properties();
+    private static String languageFile = "en_us.properties";
     private static final String settingsFile = "settings.properties";
 
     public static long getCurrentWoredaId() {
@@ -32,6 +34,10 @@ public class CommonStorage {
             readSettings();
         }
         return woredaId;
+    }
+
+    static {
+        readSettings();
     }
 
     public static String getCurrentWoredaIdForUPI() {
@@ -52,6 +58,28 @@ public class CommonStorage {
         readSettings();
     }
 
+    private static void loadTextValues() {
+        try {
+            switch (getCurrentLanguage()) {
+                case "tigrigna":
+                    languageFile = "ti_et.properties";
+                    break;
+                case "oromiffa":
+                    languageFile = "om_et.properties";
+                    break;
+                case "amharic":
+                    languageFile = "am_et.properties";
+                    break;
+                default:
+                    languageFile = "en_us.properties";
+                    break;
+            }
+            languageBundle.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(languageFile));
+        } catch (Exception ex) {
+            getLogger().logError(ex.toString());
+        }
+    }
+
     private static void readSettings() {
         Properties prop = new Properties();
         try {
@@ -60,10 +88,14 @@ public class CommonStorage {
             woredaName = prop.getProperty("woredaName");
             woredaIDForUPI = prop.getProperty("woredaIDForUPI");
             language = prop.getProperty("language");
-
+            loadTextValues();
         } catch (Exception ex) {
             getLogger().logError(ex.toString());
         }
+    }
+
+    public static String getText(String key) {
+        return languageBundle.getProperty(key);
     }
 
     public static void setWoreda(long newWoredaId, String newWoredaName, String newWoredaIdForUPI) {
@@ -92,6 +124,7 @@ public class CommonStorage {
             URL url = Thread.currentThread().getContextClassLoader().getResource(settingsFile);
             prop.store(new FileOutputStream(new File(url.toURI())), null);
             language = newLanguage;
+            loadTextValues();
         } catch (Exception ex) {
             getLogger().logError(ex.toString());
         }

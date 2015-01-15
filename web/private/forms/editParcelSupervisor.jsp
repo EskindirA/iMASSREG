@@ -30,9 +30,9 @@
                                         <label>Team</label>
                                         <%
                                             if (parcelDifference.isTeamNo()) {
-                                                out.println("<select class='form-control discrepancy-field ' placeholder='Does Not Exist' id='teamNo' name='teamNo' value='" + currentParcel.getTeamNo() + "' />");
+                                                out.println("<select class='form-control discrepancy-field ' placeholder='Does Not Exist' id='teamNo' name='teamNo' value='" + currentParcel.getTeamNo() + "' >");
                                             } else {
-                                                out.println("<input class='form-control ' placeholder='Does Not Exist' id='teamNo' name='teamNo' value='" + currentParcel.getTeamNo() + "' disabled/>");
+                                                out.println("<input class='form-control ' placeholder='Does Not Exist' id='teamNo' name='teamNo' value='" + currentParcel.getTeamNo() + "' disabled>");
                                             }
                                             int[] teamNumbers = CommonStorage.getTeamNumbers();
                                             for (int i = 0; i < teamNumbers.length; i++) {

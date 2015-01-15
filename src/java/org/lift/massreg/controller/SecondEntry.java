@@ -511,9 +511,14 @@ public class SecondEntry {
             if (request.getSession().getAttribute("reviewMode") != null) {
                 reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
             }
-            if (reviewMode) {
+            if (reviewMode ) {
                 Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
-                request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), parcel.getOrganizationHolder()));
+                if(feoParcel.getHolding()>1 && parcel.getHolding()>1){
+                    request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), parcel.getOrganizationHolder()));
+                    request.getSession().setAttribute("ignoreReviewMode",false);
+                }else{
+                    request.getSession().setAttribute("ignoreReviewMode",true);
+                }
             }
 
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SEO));
