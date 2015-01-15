@@ -113,6 +113,7 @@ public class Correction {
             newParcel.setSoilFertility(Byte.parseByte(request.getParameter("soilFertility")));
             newParcel.setSurveyDate(request.getParameter("surveyDate"));
             newParcel.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
+            newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             if (newParcel.validateForUpdate()) {
                 //Parcel.getLogStatment(oldParcel,newParcel);
                 MasterRepository.getInstance().update(oldParcel, newParcel);
