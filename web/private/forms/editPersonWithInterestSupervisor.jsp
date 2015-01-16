@@ -60,8 +60,8 @@
             showError("Please input appropriate values in the highlighted fields");
         } else {
             update();// save
+            closeModals();
         }
-        closeModals();
         return false;
     });
     $("#editPersonWithInterestFrom select").each(function() {
