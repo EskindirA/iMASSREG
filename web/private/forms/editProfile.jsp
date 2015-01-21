@@ -23,7 +23,7 @@
                         <div class="col-lg-12">
                             <form role="form"  id="editProfileFrom" name="editProfileFrom" >
                                 <div class="form-group">
-                                    <label>Old Password</label>
+                                    <label>Current Password</label>
                                     <input class="form-control " id="oldPassword" name="oldPassword" placeholder="Old password"  type="password"/>
                                 </div>
                                 <div class="form-group">
@@ -31,7 +31,7 @@
                                     <input class="form-control " id="password" name="password" type="password" />
                                 </div>
                                 <div class="form-group">
-                                    <label>Current Password: </label>
+                                    <label>Confirm Password: </label>
                                     <input class="form-control " id="cPassword" name="cPassword" type="password" />
                                 </div>
                                 <div class="col-lg-12">

@@ -994,8 +994,11 @@ public class Correction {
             Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
 
             Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
-            if (feoParcel.getHolding() != 1 && seoParcel.getHolding() != 1) {
+            if (feoParcel.getHolding() > 1 && seoParcel.getHolding() > 1) {
                 request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), seoParcel.getOrganizationHolder()));
+                request.getSession().setAttribute("ignoreReviewMode",false);
+            }else{
+                request.getSession().setAttribute("ignoreReviewMode",true);
             }
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SUPERVISOR));
             rd.forward(request, response);

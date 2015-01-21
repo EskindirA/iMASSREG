@@ -12,6 +12,9 @@
     OrganizationHolder holder = cParcel.getOrganizationHolder();
     String updateurl, cancelurl, backurl;
     OrganizationHolderDifference holderDifference = (OrganizationHolderDifference) request.getAttribute("currentOrganizationHolderDifference");
+    if (holderDifference == null) {
+        holderDifference = new OrganizationHolderDifference();
+    }
     updateurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_SUPERVISOR;
     cancelurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SUPERVISOR;
     backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SUPERVISOR;
@@ -35,18 +38,17 @@
                             <form role="form" action="#" id="editHolderFrom" name="editHolderFrom" method="action">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <%
-                                        if (holderDifference!=null && holderDifference.isName()) {
+                                    <%                                        if (holderDifference != null && holderDifference.isName()) {
                                             out.println("<input class='form-control discrepancy-field ' placeholder='Name of the holding organization' id='organizationName' name='organizationName' value='" + holder.getName() + "' />");
                                         } else {
-                                            out.println("<input class='form-control ' placeholder='Name of the holding organization' id='organizationName' name='organizationName' value='" + holder.getName()+ "' disabled/>");
+                                            out.println("<input class='form-control ' placeholder='Name of the holding organization' id='organizationName' name='organizationName' value='" + holder.getName() + "' disabled/>");
                                         }
                                     %>
                                 </div>
                                 <div class="form-group">
                                     <label>Type</label>
                                     <%
-                                        if (holderDifference!=null && holderDifference.isOrganizationType()) {
+                                        if (holderDifference != null && holderDifference.isOrganizationType()) {
                                             out.println("<select class='form-control discrepancy-field ' id='organizationType' name='organizationType' value='" + holder.getOrganizationType() + "' >");
                                         } else {
                                             out.println("<select class='form-control ' id='organizationType' name='organizationType' value='" + holder.getOrganizationType() + "' disabled >");
