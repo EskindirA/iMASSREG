@@ -168,7 +168,9 @@
     });
     $("#findParcel #findParcelButton").click(function() {
         updateUPI();
-        if ($("#findParcel #upi").val() === "" || $("#findParcel #parcelNo").val() === "") {
+        if ($("#kebele").val() === "" ) {
+            showError("Please select a kebele");
+        }else if ($("#findParcel #upi").val() === "" || $("#findParcel #parcelNo").val() === "") {
             showError("Parcel Number and Administrative UPI are required fields");
         }
         else { // Call to the service to get the view parcel form

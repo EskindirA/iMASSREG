@@ -34,9 +34,7 @@
                                         <%
                                             Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
                                             for (int i = 0; i < kebeles.length; i++) {
-                                                out.println("<option value = '" + 
-                                                        CommonStorage.getCurrentWoredaIdForUPI() 
-                                                        +"/"+kebeles[i].getKey() + "'>"
+                                                out.println("<option value = '" + kebeles[i].getKey() + "'>"
                                                         + kebeles[i].getValue() 
                                                         + "</option>");
                                             }
@@ -68,7 +66,9 @@
 <script type="text/javascript">
     function loadAdd() {
         updateUPI();
-        if ($("#upi").val() === "" || $("#parcelNo").val() === "" || $("#kebele").val() === "") {
+        if ($("#kebele").val() === "" ) {
+            showError("Please select a kebele");
+        }else if ($("#upi").val() === "" || $("#parcelNo").val() === "" || $("#kebele").val() === "") {
             showError("Kebele, Parcel Number and Administrative UPI are required fields");
         } else {// Call to the service to get the add parcel form
             $.ajax({
@@ -93,7 +93,9 @@
     $("#welcomeForm").submit(loadAdd);
     $("#findButton").click(function() {
         updateUPI();
-        if ($("#upi").val() === "" || $("#parcelNo").val() === "") {
+        if ($("#kebele").val() === "" ) {
+            showError("Please select a kebele");
+        }else if ($("#upi").val() === "" || $("#parcelNo").val() === "") {
             showError("Parcel Number and Administrative UPI are required fields");
         }
         else { // Call to the service to get the view parcel form

@@ -1454,7 +1454,7 @@ public class MasterRepository {
         String returnValue = "";
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT CONCAT(region.code, '/',  zone.code,'/', woreda.code) as woredacode, woreda.textValue FROM WOREDA,ZONE,REGION WHERE WOREDA.zonecode = zone.code and zone.regionCode=Region.code and woreda.code = ?";
+            String query = "SELECT woreda.code as woredacode, woreda.textValue FROM WOREDA WHERE woreda.code = ?";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setLong(1, woredaId);
             ResultSet rs = stmnt.executeQuery();
