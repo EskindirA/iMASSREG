@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="row">
-                                <div class="form-group col-lg-4">
+                                <div class="form-group col-lg-5">
                                     <label>Team</label>
                                     <select class="form-control " name = "teamNo" id = "teamNo" value="${sessionScope.teamNo}">
                                         <%
@@ -36,7 +36,7 @@
                                         %>
                                     </select>
                                 </div>
-                                <div class="form-group col-lg-8">
+                                <div class="form-group col-lg-7">
                                     <label>Orthograph map sheet No.</label>
                                     <input class="form-control " placeholder="Enter orthograph map sheet number " id="mapsheetno" name="mapsheetno" required ="true" value="${sessionScope.currentParcel.mapSheetNo}" autocomplete="off"/>
                                 </div>

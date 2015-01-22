@@ -244,7 +244,7 @@
         });
     }
     function validatePersonWithInterestList(){
-        showError("validatePersonWithInterestList");
+        //showError("validatePersonWithInterestList");
         return true;
     }
     function save() {

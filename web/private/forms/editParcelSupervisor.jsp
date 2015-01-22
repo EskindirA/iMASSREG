@@ -26,7 +26,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="row">
-                                    <div class="form-group col-lg-4">
+                                    <div class="form-group col-lg-5">
                                         <label>Team</label>
                                         <%
                                             if (parcelDifference.isTeamNo()) {
@@ -41,7 +41,7 @@
                                             out.println("</select>");
                                         %>
                                     </div>
-                                    <div class="form-group col-lg-8">
+                                    <div class="form-group col-lg-7">
                                         <label>Certificate Number</label>
                                         <%
                                             if (parcelDifference.isCertificateNumber()) {
