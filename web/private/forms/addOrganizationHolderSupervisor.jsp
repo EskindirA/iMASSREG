@@ -70,9 +70,14 @@
     function validate() {
         var returnValue = true;
         $("#organizationName").toggleClass("error-field",false);
+        $("#organizationType").toggleClass("error-field",false);
         if ($("#organizationName").val().trim() === "") {
             returnValue = false;
             $("#organizationName").toggleClass("error-field",true);
+        }
+        if ($("#organizationType").val().trim() === "") {
+            returnValue = false;
+            $("#organizationType").toggleClass("error-field",true);
         }
         return returnValue;
     }

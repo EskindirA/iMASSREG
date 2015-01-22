@@ -155,7 +155,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Dispute Status</label>
+                                <label>Dispute is/being handled by</label>
                                 <select class="form-control" id="disputeStatus" name="disputeStatus" >
                                     <%
                                         Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
@@ -184,6 +184,9 @@
         $("#" + formId + " #firstName").toggleClass("error-field", false);
         $("#" + formId + " #fathersName").toggleClass("error-field", false);
         $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
+        $("#" + formId + " #sex").toggleClass("error-field", false);
+        $("#" + formId + " #disputeType").toggleClass("error-field", false);
+        $("#" + formId + " #disputeStatus").toggleClass("error-field", false);
         if ($("#" + formId + " #firstName").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #firstName").toggleClass("error-field", true);
@@ -195,6 +198,18 @@
         if ($("#" + formId + " #grandFathersName").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #sex").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #sex").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #disputeType").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #disputeType").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #disputeStatus").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #disputeStatus").toggleClass("error-field", true);
         }
         return returnValue;
     }

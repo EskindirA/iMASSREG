@@ -201,6 +201,9 @@
         $("#" + formId + " #firstName").toggleClass("error-field", false);
         $("#" + formId + " #fathersName").toggleClass("error-field", false);
         $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
+        $("#" + formId + " #sex").toggleClass("error-field", false);
+        $("#" + formId + " #familyRole").toggleClass("error-field", false);
+        $("#" + formId + " #physicalImpairment").toggleClass("error-field", false);
         if ($("#" + formId + " #holderId").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #holderId").toggleClass("error-field", true);
@@ -216,6 +219,18 @@
         if ($("#" + formId + " #grandFathersName").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #sex").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #sex").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #familyRole").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #familyRole").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #physicalImpairment").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #physicalImpairment").toggleClass("error-field", true);
         }
         return returnValue;
     }

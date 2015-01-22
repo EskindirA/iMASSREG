@@ -185,6 +185,7 @@
         $("#" + formId + " #firstName").toggleClass("error-field",false);
         $("#" + formId + " #fathersName").toggleClass("error-field",false);
         $("#" + formId + " #grandFathersName").toggleClass("error-field",false);
+        $("#" + formId + " #sex").toggleClass("error-field",false);
         if ($("#" + formId + " #firstName").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #firstName").toggleClass("error-field",true);
@@ -196,6 +197,10 @@
         if ($("#" + formId + " #grandFathersName").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #grandFathersName").toggleClass("error-field",true);
+        }
+        if ($("#" + formId + " #sex").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #sex").toggleClass("error-field",true);
         }
         return returnValue;
     }

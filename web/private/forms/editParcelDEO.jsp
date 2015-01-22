@@ -198,15 +198,55 @@
     $("#surveyDate").calendarsPicker({calendar: calendar});
     function validate() {
         var returnValue = true;
-        $("#mapsheetno").toggleClass("error-field", false);
-        $("#surveyDate").toggleClass("error-field", false);
+$("#mapsheetno").toggleClass("error-field",false);
+        $("#surveyDate").toggleClass("error-field",false);
+        $("#otherEvidence").toggleClass("error-field",false);
+        $("#meansOfAcquisition").toggleClass("error-field",false);
+        $("#acquisitionYear").toggleClass("error-field",false);
+        $("#currentLandUse").toggleClass("error-field",false);
+        $("#soilFertility").toggleClass("error-field",false);
+        $("#holdingType").toggleClass("error-field",false);
+        $("#Encumbrance").toggleClass("error-field",false);
+        $("#hasDispute").toggleClass("error-field",false);
         if ($("#mapsheetno").val() === "") {
             returnValue = false;
-            $("#mapsheetno").toggleClass("error-field", true);
+            $("#mapsheetno").toggleClass("error-field",true);
         }
         if ($("#surveyDate").val() === "") {
             returnValue = false;
-            $("#surveyDate").toggleClass("error-field", true);
+            $("#surveyDate").toggleClass("error-field",true);
+        }
+        if ($("#otherEvidence").val() === "") {
+            returnValue = false;
+            $("#otherEvidence").toggleClass("error-field",true);
+        }
+        if ($("#meansOfAcquisition").val() === "") {
+            returnValue = false;
+            $("#meansOfAcquisition").toggleClass("error-field",true);
+        }
+        if ($("#acquisitionYear").val() === "") {
+            returnValue = false;
+            $("#acquisitionYear").toggleClass("error-field",true);
+        }
+        if ($("#currentLandUse").val() === "") {
+            returnValue = false;
+            $("#currentLandUse").toggleClass("error-field",true);
+        }
+        if ($("#soilFertility").val() === "") {
+            returnValue = false;
+            $("#soilFertility").toggleClass("error-field",true);
+        }
+        if ($("#holdingType").val() === "") {
+            returnValue = false;
+            $("#holdingType").toggleClass("error-field",true);
+        }
+        if ($("#Encumbrance").val() === "") {
+            returnValue = false;
+            $("#Encumbrance").toggleClass("error-field",true);
+        }
+        if ($("#hasDispute").val() === "") {
+            returnValue = false;
+            $("#hasDispute").toggleClass("error-field",true);
         }
         return returnValue;
     }

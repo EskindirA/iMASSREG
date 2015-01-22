@@ -55,7 +55,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Dispute Status</label>
+                            <label>Dispute is/being handled by</label>
                             <select class="form-control" id="disputeStatus" name="disputeStatus" value="<%=dispute.getDisputeStatus()%>" >
                                 <%
                                     Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
