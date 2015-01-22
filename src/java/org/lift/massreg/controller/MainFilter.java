@@ -465,7 +465,11 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_SUPERVISOR)) {
             getUPI(request);
             Correction.finishDispute(request, response);
-        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_USER_ADMINISTRATOR)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_SUPERVISOR)) {
+            getUPI(request);
+            Correction.finishPersonWithInterest(request, response);
+        } 
+        else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_USER_ADMINISTRATOR)) {
             Administrator.saveUser(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_USER_ADMINISTRATOR)) {
             Administrator.viewUser(request, response);

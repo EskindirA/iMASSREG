@@ -11,7 +11,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>MASSREG</title>
-
+        <link href="<%=request.getContextPath()%>/assets/images/imassreg.png" rel="icon" type="image/png"  >
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
@@ -101,7 +101,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/MASSREG/Index">
-                        <img src="assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:5px;z-index:4;top:0px"> 
+                        <img src="<%=request.getContextPath()%>/assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:5px;z-index:4;top:0px"> 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MASSREG v2.0 
                         - <%= CommonStorage.getCurrentWoredaName()%> Woreda </a>
                 </div> <!-- /.navbar-header -->
