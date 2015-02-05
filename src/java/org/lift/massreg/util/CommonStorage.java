@@ -3,6 +3,8 @@ package org.lift.massreg.util;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Properties;
 import javax.sql.*;
 import javax.naming.*;
@@ -28,6 +30,11 @@ public class CommonStorage {
     private static Properties languageBundle = new Properties();
     private static String languageFile = "en_us.properties";
     private static final String settingsFile = "settings.properties";
+
+    private static String GISDBHost = null;
+    private static String GISDBName = null;
+    private static String GISDBUserName = null;
+    private static String GISDBPassword = null;
 
     public static long getCurrentWoredaId() {
         if (woredaId < 0) {
@@ -92,10 +99,29 @@ public class CommonStorage {
         } catch (Exception ex) {
             getLogger().logError(ex.toString());
         }
+        try {
+            InitialContext ctx = new InitialContext();
+            GISDBHost = (String) ctx.lookup("resource/GISDBHost");
+            GISDBName = (String) ctx.lookup("resource/GISDBName");;
+            GISDBUserName = (String) ctx.lookup("resource/GISDBUserName");;
+            GISDBPassword = (String) ctx.lookup("resource/GISDBPassword");;
+        } catch (NamingException ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
     }
 
     public static String getText(String key) {
         return languageBundle.getProperty(key);
+    }
+
+    public static String getLastReportDate() {
+        String returnValue = "";
+        ///TODO
+        return returnValue;
+    }
+
+    public static String getCurrentDate() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(java.util.Date.from(Instant.now()));
     }
 
     public static void setWoreda(long newWoredaId, String newWoredaName, String newWoredaIdForUPI) {
@@ -148,6 +174,34 @@ public class CommonStorage {
 
     public static String getCurrentLanguage() {
         return language;
+    }
+
+    public static String getGISDBName() {
+        if (GISDBName == null) {
+            readSettings();
+        }
+        return GISDBName;
+    }
+
+    public static String getGISDBHost() {
+        if (GISDBHost == null) {
+            readSettings();
+        }
+        return GISDBHost;
+    }
+
+    public static String getGISDBUserName() {
+        if (GISDBUserName == null) {
+            readSettings();
+        }
+        return GISDBUserName;
+    }
+
+    public static String getGISDBPassword() {
+        if (GISDBPassword == null) {
+            readSettings();
+        }
+        return GISDBPassword;
     }
 
     public static byte getFEStage() {

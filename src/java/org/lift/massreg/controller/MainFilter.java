@@ -483,6 +483,12 @@ public class MainFilter extends HttpServlet {
             Administrator.updateSettings(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PASSWORD_ADMINISTRATOR)) {
             Administrator.updatePassword(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PERIODICAL_REPORT_ADMINISTRATOR)) {
+            Administrator.periodicalReport(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR)) {
+            Administrator.kebeleReport(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {
+            Administrator.exportReport(request, response);
         } // for all unknown requests
         else {
             All.goBackToHome(request, response);

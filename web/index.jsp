@@ -18,7 +18,8 @@
         <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/sb-admin-2.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+        
+        <link href="<%=request.getContextPath()%>/assets/css/bootstrap-select.css" rel="stylesheet" type="text/css">
         <link href="<%=request.getContextPath()%>/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="<%=request.getContextPath()%>/assets/css/ethdate/jquery.calendars.picker.css" rel="stylesheet" type="text/css">
 

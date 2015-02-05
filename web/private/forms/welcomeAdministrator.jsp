@@ -11,6 +11,8 @@
     String deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_USER_ADMINISTRATOR;
     String updateSettingsurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_SETTINGS_ADMINISTRATOR;
     String updatepasswordurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PASSWORD_ADMINISTRATOR;
+    String periodicalReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERIODICAL_REPORT_ADMINISTRATOR;
+    String kebeleReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -22,6 +24,7 @@
         <ul class="nav nav-tabs" style="margin-bottom: 15px;">
             <li class="active"><a href="#users" data-toggle="tab">Users</a></li>
             <li><a href="#settings" data-toggle="tab">Settings</a></li>
+            <li><a href="#report" data-toggle="tab" id="reportLink">Report</a></li>
             <!--li class="disabled"><a>Disabled</a></li-->
         </ul>
         <div id="myTabContent" class="tab-content">
@@ -95,9 +98,14 @@
                                             <label>Woreda</label>
                                             <select class="form-control" id="woreda" name="woreda" value="<%= CommonStorage.getCurrentWoredaId()%>">
                                                 <%
-                                                    Option[] woredas = MasterRepository.getInstance().getAllWoredas();
-                                                    for (int i = 0; i < woredas.length; i++) {
-                                                        out.println("<option value = '" + woredas[i].getKey() + "'>" + woredas[i].getValue() + "</option>");
+                                                    Option[] regions = MasterRepository.getInstance().getAllRegions();
+                                                    for (int i = 0; i < regions.length; i++) {
+                                                        out.println("<optgroup label='" + regions[i].getValue() + "'>");
+                                                        Option[] woredas = MasterRepository.getInstance().getAllWoredas(Integer.parseInt(regions[i].getKey()));
+                                                        for (int j = 0; j < woredas.length; j++) {
+                                                            out.println("<option value = '" + woredas[j].getKey() + "'>" + woredas[j].getValue() + "</option>");
+                                                        }
+                                                        out.println("</optgroup>");
                                                     }
                                                 %>
                                             </select>
@@ -118,6 +126,64 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="tab-pane fade" id="report">
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-1">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                Periodical Report
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="periodicalReportForm" name="periodicalReportForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label>From</label>
+                                            <input type="date" class="form-control" id="fromDate" name="fromDate" value="<%=CommonStorage.getLastReportDate()%>"/>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label>To</label>
+                                            <input type="date" class="form-control" id="toDate" name="toDate" value="<%=CommonStorage.getCurrentDate()%>" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'periodicalReportButton' name = 'periodicalReportButton' class='btn btn-primary form-control' style="width:8em; float:right">Generate</button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-lg-offset-1">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                Kebele Report
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="kebeleReportForm" name="kebeleReportForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label>Keble</label>
+                                        <select class="form-control" id="kebele" name="kebele">
+                                            <%
+                                                Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>"
+                                                            + kebeles[i].getValue()
+                                                            + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'kebeleReportButton' name = 'kebeleReportButton' class='btn btn-primary form-control' style="width:8em; float:right">Generate</button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+                <div id="reportDetail"></div>
             </div>
         </div>
     </div>
@@ -262,7 +328,7 @@
         }
         return returnValue;
     }
-    function validateUpdatePassword(){
+    function validateUpdatePassword() {
         var returnValue = true;
         $("#updatePasswordForm #newPassword").toggleClass("error-field", false);
         $("#updatePasswordForm #cnewPassword").toggleClass("error-field", false);
@@ -280,7 +346,30 @@
         }
         return returnValue;
     }
-    
+    function validateGenerateReport() {
+        var returnValue = true;
+        $("#report #fromDate").toggleClass("error-field", false);
+        $("#report #toDate").toggleClass("error-field", false);
+        if ($("#report #fromDate").val().trim() === "") {
+            returnValue = false;
+            $("#report #fromDate").toggleClass("error-field", true);
+        }
+        if ($("#report #toDate").val().trim() === "") {
+            returnValue = false;
+            $("#report #toDate").toggleClass("error-field", true);
+        }
+        if (returnValue) {
+            var fromDate = new Date($("#report #fromDate").val());
+            var toDate = new Date($("#report #toDate").val());
+            if (toDate < fromDate) {
+                returnValue = false;
+                $("#report #toDate").toggleClass("error-field", true);
+                $("#report #fromDate").toggleClass("error-field", true);
+            }
+        }
+        return returnValue;
+    }
+
     function closeModals() {
         $("#editModal").hide();
         $("#editModal").html("");
@@ -322,19 +411,19 @@
         $(this).val($(this).attr("value"));
     });
     $("#updatePasswordButton").click(function() {
-        if(!validateUpdatePassword()){
+        if (!validateUpdatePassword()) {
             showError("Please input appropriate values in the highlighted fields");
-        }else {
+        } else {
             $.ajax({
-            type: 'POST',
-            url: "<%=updatepasswordurl%>",
-            data: {
-                "newPassword": $("#updatePasswordForm #newPassword").val(),
-                "userId": $("#updatePasswordForm #usrId").val()
-            },
-            error: showajaxerror,
-            success: loadForward
-        });
+                type: 'POST',
+                url: "<%=updatepasswordurl%>",
+                data: {
+                    "newPassword": $("#updatePasswordForm #newPassword").val(),
+                    "userId": $("#updatePasswordForm #usrId").val()
+                },
+                error: showajaxerror,
+                success: loadForward
+            });
         }
         return false;
     });
@@ -397,5 +486,45 @@
             $("#addModal").hide(); // close modale
         }
         return false;
+    });
+    $("#periodicalReportButton").click(function() {
+        if (!validateGenerateReport()) {
+            showError("Please input appropriate values in the highlighted fields");
+        } else {
+            $.ajax({
+                url: "<%=periodicalReporturl%>",
+                data: {
+                    fromDate: $("#report #fromDate").val(),
+                    toDate: $("#report #toDate").val()
+                },
+                error: showajaxerror,
+                success: function(data) {
+                    $("#reportDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
+
+    $("#kebeleReportButton").click(function() {
+        if ($("#kebeleReportForm #kebele").val().trim()==="" ){
+            showError("Please select a kebele  to generate a report");
+        } else {
+            $.ajax({
+                url: "<%=kebeleReporturl%>",
+                data: {
+                    kebele: $("#kebeleReportForm #kebele").val()
+                },
+                error: showajaxerror,
+                success: function(data) {
+                    $("#reportDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
+    
+$("#reportLink").click(function() {
+        $("#reportDetail").html("");
     });
 </script>

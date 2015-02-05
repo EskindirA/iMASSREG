@@ -123,6 +123,9 @@ public interface Constants {
     public static final String ACTION_FIND_USER_ADMINISTRATOR = "FIND_USER_ADMINISTRATOR";
     public static final String ACTION_UPDATE_SETTINGS_ADMINISTRATOR = "UPDATE_SETTINGS_ADMINISTRATOR";
     public static final String ACTION_UPDATE_PASSWORD_ADMINISTRATOR = "UPDATE_PASSWORD_ADMINISTRATOR";
+    public static final String ACTION_KEBELE_REPORT_ADMINISTRATOR = "KEBELE_REPORT_ADMINISTRATOR";
+    public static final String ACTION_PERIODICAL_REPORT_ADMINISTRATOR = "PERIODICAL_REPORT_ADMINISTRATOR";
+    public static final String ACTION_EXPORT_REPORT_ADMINISTRATOR = "EXPORT_REPORT_ADMINISTRATOR";
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
@@ -200,6 +203,8 @@ public interface Constants {
     public static final int INDEX_VIEW_USER_ADMINISTRATOR = 53;
     public static final int INDEX_EDIT_USER_ADMINISTRATOR = 54;
     public static final int INDEX_RELOAD = 55;
+    public static final int INDEX_PERIODICAL_REPORT = 56;
+    public static final int INDEX_KEBELE_REPORT = 57;
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

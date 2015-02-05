@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sun-web-app PUBLIC "-//Sun Microsystems, Inc.//DTD GlassFish Application Server 3.0 Servlet 3.0//EN" "http://www.sun.com/software/appserver/dtds/sun-web-app_3_0-0.dtd">
 <sun-web-app error-url="">
+    
     <security-role-mapping>
         <role-name>user</role-name>
         <group-name>user</group-name>
@@ -11,5 +12,24 @@
             <description>Keep a copy of the generated servlet class' java code.</description>
         </property>
     </jsp-config>
+    <resource-ref>
+        <res-ref-name>resource/GISDBHost</res-ref-name>
+        <jndi-name>resource/GISDBHost</jndi-name>
+    </resource-ref>
+    <resource-ref>
+        <res-ref-name>resource/GISDBName</res-ref-name>
+        <jndi-name>resource/GISDBName</jndi-name>
+    </resource-ref>
+    <resource-ref>
+        <res-ref-name>resource/GISDBUserName</res-ref-name>
+        <jndi-name>resource/GISDBUserName</jndi-name>
+    </resource-ref>
+    <resource-ref>
+        <res-ref-name>resource/GISDBPassword</res-ref-name>
+        <jndi-name>resource/GISDBPassword</jndi-name>
+    </resource-ref>
+    <resource-ref>
+        <res-ref-name>resource/GISDBName</res-ref-name>
+        <jndi-name>resource/GISDBName</jndi-name>
+    </resource-ref>
 </sun-web-app>
-
