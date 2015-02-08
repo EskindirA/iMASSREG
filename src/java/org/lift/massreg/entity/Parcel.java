@@ -3,7 +3,9 @@ package org.lift.massreg.entity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.Change;
 import org.lift.massreg.dto.CurrentUserDTO;
 import org.lift.massreg.dto.ParcelDifference;
 import org.lift.massreg.util.CommonStorage;
@@ -491,8 +493,8 @@ public class Parcel implements Entity {
         return returnValue;
     }
 
-    public boolean remove() {
-        return delete(registeredOn, upi, stage);
+    public boolean remove(HttpServletRequest request) {
+        return delete(request, registeredOn, upi, stage);
     }
 
     public void complete() {
@@ -557,7 +559,8 @@ public class Parcel implements Entity {
         }
         if (this.currentLandUse != obj.getCurrentLandUse()) {
             returnValue = false;
-        }if (this.teamNo != obj.getTeamNo()) {
+        }
+        if (this.teamNo != obj.getTeamNo()) {
             returnValue = false;
         }
         if (this.encumbrance != obj.getEncumbrance()) {
@@ -656,8 +659,8 @@ public class Parcel implements Entity {
         return returnValue;
     }
 
-    public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
-        return MasterRepository.getInstance().deleteParcel(registeredOn, upi, stage);
+    public static boolean delete(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
+        return MasterRepository.getInstance().deleteParcel(request, registeredOn, upi, stage);
     }
 
     public static ParcelDifference difference(Parcel firstParcel, Parcel secondParcel) {
@@ -675,7 +678,7 @@ public class Parcel implements Entity {
         if (firstParcel.getCurrentLandUse() != secondParcel.getCurrentLandUse()) {
             returnValue.setCurrentLandUse(true);
         }
-        if (firstParcel.getTeamNo()!= secondParcel.getTeamNo()) {
+        if (firstParcel.getTeamNo() != secondParcel.getTeamNo()) {
             returnValue.setTeamNo(true);
         }
         if (firstParcel.getDisputeCount() != secondParcel.getDisputeCount()) {
@@ -809,6 +812,50 @@ public class Parcel implements Entity {
                     break;
                 }
             }
+        }
+        return returnValue;
+    }
+
+    public ArrayList<Change> getDifferenceForChangeLog(Parcel newParcel) {
+        ArrayList<Change> returnValue = new ArrayList<>();
+        if (this.getOtherEvidence() != newParcel.getOtherEvidence()) {
+            returnValue.add(new Change("otherevidence", this.getOtherEvidence() + "", newParcel.getOtherEvidence() + ""));
+        }
+        if (this.getTeamNo() != newParcel.getTeamNo()) {
+            returnValue.add(new Change("teamno", this.getTeamNo() + "", newParcel.getTeamNo() + ""));
+        }
+        if (!this.getCertificateNumber().equalsIgnoreCase(newParcel.getCertificateNumber())) {
+            returnValue.add(new Change("certificateno", this.getCertificateNumber() + "", newParcel.getCertificateNumber() + ""));
+        }
+        if (this.getCurrentLandUse() != newParcel.getCurrentLandUse()) {
+            returnValue.add(new Change("landusetype", this.getCurrentLandUse() + "", newParcel.getCurrentLandUse() + ""));
+        }
+        if (!this.getHoldingNumber().equalsIgnoreCase(newParcel.getHoldingNumber())) {
+            returnValue.add(new Change("holdingno", this.getHoldingNumber(), newParcel.getHoldingNumber()));
+        }
+        if (this.getSoilFertility() != newParcel.getSoilFertility()) {
+            returnValue.add(new Change("soilfertilitytype", this.getSoilFertility() + "", newParcel.getSoilFertility() + ""));
+        }
+        if (this.getHolding() != newParcel.getHolding()) {
+            returnValue.add(new Change("holdingtype", this.getHolding() + "", newParcel.getHolding() + ""));
+        }
+        if (this.getMeansOfAcquisition() != newParcel.getMeansOfAcquisition()) {
+            returnValue.add(new Change("acquisitiontype", this.getMeansOfAcquisition() + "", newParcel.getMeansOfAcquisition() + ""));
+        }
+        if (this.getAcquisitionYear() != newParcel.getAcquisitionYear()) {
+            returnValue.add(new Change("acquisitionyear", this.getAcquisitionYear() + "", newParcel.getAcquisitionYear() + ""));
+        }
+        if (!this.getSurveyDate().equalsIgnoreCase(newParcel.getSurveyDate())) {
+            returnValue.add(new Change("surveydate", this.getSurveyDate(), newParcel.getSurveyDate()));
+        }
+        if (!this.getMapSheetNo().equalsIgnoreCase(newParcel.getMapSheetNo())) {
+            returnValue.add(new Change("mapsheetno", this.getMapSheetNo(), newParcel.getMapSheetNo()));
+        }
+        if (this.getEncumbrance() != newParcel.getEncumbrance()) {
+            returnValue.add(new Change("encumbrancetype", this.getEncumbrance() + "", newParcel.getEncumbrance() + ""));
+        }
+        if (this.hasDispute() != newParcel.hasDispute()) {
+            returnValue.add(new Change("hasdispute", this.hasDispute() + "", newParcel.hasDispute() + ""));
         }
         return returnValue;
     }

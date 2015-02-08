@@ -3,6 +3,7 @@ package org.lift.massreg.dao;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dto.*;
 import org.lift.massreg.entity.*;
 import org.lift.massreg.util.*;
@@ -58,6 +59,15 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, parcel.getRegisteredBy());
+            stmnt.setString(3, "Parcel");
+            stmnt.setString(4, "NEW");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
             connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
@@ -90,6 +100,15 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, holder.getRegisteredBy());
+            stmnt.setString(3, "IndividualHolder");
+            stmnt.setString(4, "NEW");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
             connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
@@ -116,6 +135,15 @@ public class MasterRepository {
             stmnt.setString(8, personWithInterest.getSex());
             stmnt.setString(9, personWithInterest.getDateOfBirth());
             int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, personWithInterest.getRegisteredBy());
+            stmnt.setString(3, "PersonWithInterest");
+            stmnt.setString(4, "NEW");
+            result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
             }
@@ -150,6 +178,15 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, dispute.getRegisteredBy());
+            stmnt.setString(3, "Dispute");
+            stmnt.setString(4, "NEW");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
             connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
@@ -158,7 +195,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean save(User user) {
+    public boolean save(HttpServletRequest request, User user) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO users(username, password, firstname,"
@@ -180,6 +217,15 @@ public class MasterRepository {
             query = "INSERT INTO groups(username, groupid) VALUES (?, 'user')";
             stmnt = connection.prepareStatement(query);
             stmnt.setString(1, user.getUsername());
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "User");
+            stmnt.setString(4, "NEW");
             result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -207,6 +253,15 @@ public class MasterRepository {
             stmnt.setTimestamp(5, holder.getRegisteredon());
             stmnt.setByte(6, holder.getOrganizationType());
             int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, holder.getRegisteredby());
+            stmnt.setString(3, "OrganizationHolder");
+            stmnt.setString(4, "NEW");
+            result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
             }
@@ -459,7 +514,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean deleteDispute(Timestamp registeredOn, String upi, byte stage) {
+    public boolean deleteDispute(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -467,7 +522,19 @@ public class MasterRepository {
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
-            stmnt.executeUpdate();
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "Dispute");
+            stmnt.setString(4, "DELETE");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
@@ -476,7 +543,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean deleteIndividualHolder(String holderId, Timestamp registeredOn, String upi, byte stage) {
+    public boolean deleteIndividualHolder(HttpServletRequest request, String holderId, Timestamp registeredOn, String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -485,7 +552,19 @@ public class MasterRepository {
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
             stmnt.setString(4, holderId);
-            stmnt.executeUpdate();
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "IndividualHolder");
+            stmnt.setString(4, "DELETE");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
@@ -515,6 +594,25 @@ public class MasterRepository {
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
+            }
+            ArrayList<Change> changes = oldDispute.getDifferenceForChangeLog(newDispute);
+            for (Change change : changes) {
+                query = "INSERT INTO changelog(upi, activitydate, userid, "
+                        + "tablename, fieldname, fieldoldvalue, fieldnewvalue, "
+                        + "actiontype) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, oldDispute.getUpi());
+                stmnt.setTimestamp(2, Timestamp.from(Instant.now()));
+                stmnt.setLong(3, newDispute.getRegisteredBy());
+                stmnt.setString(4, "Dispute");
+                stmnt.setString(5, change.getField());
+                stmnt.setString(6, change.getOldValue());
+                stmnt.setString(7, change.getNewValue());
+                stmnt.setString(8, "UPDATE");
+                result = stmnt.executeUpdate();
+                if (result < 1) {
+                    returnValue = false;
+                }
             }
             connection.close();
         } catch (Exception ex) {
@@ -554,6 +652,26 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            ArrayList<Change> changes = oldParcel.getDifferenceForChangeLog(newParcel);
+            for (Change change : changes) {
+                query = "INSERT INTO changelog(upi, activitydate, userid, "
+                        + "tablename, fieldname, fieldoldvalue, fieldnewvalue, "
+                        + "actiontype) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, oldParcel.getUpi());
+                stmnt.setTimestamp(2, Timestamp.from(Instant.now()));
+                stmnt.setLong(3, newParcel.getRegisteredBy());
+                stmnt.setString(4, "Parcel");
+                stmnt.setString(5, change.getField());
+                stmnt.setString(6, change.getOldValue());
+                stmnt.setString(7, change.getNewValue());
+                stmnt.setString(8, "UPDATE");
+                result = stmnt.executeUpdate();
+                if (result < 1) {
+                    returnValue = false;
+                }
+            }
+
             connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
@@ -586,6 +704,25 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            ArrayList<Change> changes = oldIndividualHolder.getDifferenceForChangeLog(newIndividualHolder);
+            for (Change change : changes) {
+                query = "INSERT INTO changelog(upi, activitydate, userid, "
+                        + "tablename, fieldname, fieldoldvalue, fieldnewvalue, "
+                        + "actiontype) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, oldIndividualHolder.getUpi());
+                stmnt.setTimestamp(2, Timestamp.from(Instant.now()));
+                stmnt.setLong(3, newIndividualHolder.getRegisteredBy());
+                stmnt.setString(4, "IndividualHolder");
+                stmnt.setString(5, change.getField());
+                stmnt.setString(6, change.getOldValue());
+                stmnt.setString(7, change.getNewValue());
+                stmnt.setString(8, "UPDATE");
+                result = stmnt.executeUpdate();
+                if (result < 1) {
+                    returnValue = false;
+                }
+            }
             connection.close();
         } catch (SQLException | NumberFormatException ex) {
             CommonStorage.getLogger().logError(ex.toString());
@@ -615,6 +752,25 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
+            ArrayList<Change> changes = oldPersonWithInterest.getDifferenceForChangeLog(newPersonWithInterest);
+            for (Change change : changes) {
+                query = "INSERT INTO changelog(upi, activitydate, userid, "
+                        + "tablename, fieldname, fieldoldvalue, fieldnewvalue, "
+                        + "actiontype) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, oldPersonWithInterest.getUpi());
+                stmnt.setTimestamp(2, Timestamp.from(Instant.now()));
+                stmnt.setLong(3, newPersonWithInterest.getRegisteredBy());
+                stmnt.setString(4, "PersonWithInterest");
+                stmnt.setString(5, change.getField());
+                stmnt.setString(6, change.getOldValue());
+                stmnt.setString(7, change.getNewValue());
+                stmnt.setString(8, "UPDATE");
+                result = stmnt.executeUpdate();
+                if (result < 1) {
+                    returnValue = false;
+                }
+            }
             connection.close();
         } catch (Exception ex) {
             CommonStorage.getLogger().logError(ex.toString());
@@ -640,6 +796,25 @@ public class MasterRepository {
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
+            }
+            ArrayList<Change> changes = oldOrganizationHolder.getDifferenceForChangeLog(newOrganizationHolder);
+            for (Change change : changes) {
+                query = "INSERT INTO changelog(upi, activitydate, userid, "
+                        + "tablename, fieldname, fieldoldvalue, fieldnewvalue, "
+                        + "actiontype) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, oldOrganizationHolder.getUpi());
+                stmnt.setTimestamp(2, Timestamp.from(Instant.now()));
+                stmnt.setLong(3, newOrganizationHolder.getRegisteredby());
+                stmnt.setString(4, "OrganizationHolder");
+                stmnt.setString(5, change.getField());
+                stmnt.setString(6, change.getOldValue());
+                stmnt.setString(7, change.getNewValue());
+                stmnt.setString(8, "UPDATE");
+                result = stmnt.executeUpdate();
+                if (result < 1) {
+                    returnValue = false;
+                }
             }
             connection.close();
         } catch (Exception ex) {
@@ -696,7 +871,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean deleteOrganizationHolder(String upi, byte stage) {
+    public boolean deleteOrganizationHolder(HttpServletRequest request,String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -704,6 +879,20 @@ public class MasterRepository {
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             stmnt.executeUpdate();
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "OrganizationHolder");
+            stmnt.setString(4, "DELETE");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
@@ -712,7 +901,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean deleteParcel(Timestamp registeredOn, String upi, byte stage) {
+    public boolean deleteParcel(HttpServletRequest request,Timestamp registeredOn, String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -721,6 +910,19 @@ public class MasterRepository {
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
             stmnt.executeUpdate();
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "Parcel");
+            stmnt.setString(4, "DELETE");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
@@ -774,7 +976,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean deletePersonWithInterest(Timestamp registeredOn, String upi, byte stage) {
+    public boolean deletePersonWithInterest(HttpServletRequest request,Timestamp registeredOn, String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -782,7 +984,20 @@ public class MasterRepository {
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             stmnt.setTimestamp(3, registeredOn);
-            stmnt.executeUpdate();
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "PersonWithInterest");
+            stmnt.setString(4, "DELETE");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
@@ -791,14 +1006,26 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean deleteUser(long userId) {
+    public boolean deleteUser(HttpServletRequest request, long userId) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
             PreparedStatement stmnt = connection.prepareStatement("UPDATE users SET username=? , status='deleted' WHERE userId=? ");
             stmnt.setString(1, Instant.now().getEpochSecond() + getUser(userId).getUsername());
             stmnt.setLong(2, userId);
-            stmnt.executeUpdate();
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "User");
+            stmnt.setString(4, "DELETE");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
@@ -1968,9 +2195,9 @@ public class MasterRepository {
         return returnValue;
     }
 
-    
     /**
      * Gets the total number of demarcated parcels from the GIS database
+     *
      * @return the total number of demarcated parcels
      * @param kebele : kebele to report on
      */
@@ -1978,9 +2205,9 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT P2.c FROM dblink(" + getDBLinkString() + 
-                    ",'SELECT count (gid) as c FROM " + getKebeleTable(kebele) +
-                    "') as P2(c bigint)";
+            String query = "SELECT P2.c FROM dblink(" + getDBLinkString()
+                    + ",'SELECT count (gid) as c FROM " + getKebeleTable(kebele)
+                    + "') as P2(c bigint)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {

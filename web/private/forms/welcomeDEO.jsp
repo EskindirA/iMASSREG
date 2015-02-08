@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="form-group error" id="someId">
                                     <label>Parcel #</label>
-                                    <input class="form-control" placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" />
+                                    <input class="form-control" placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="text" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" />
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
@@ -65,6 +65,10 @@
 </div>
 <script type="text/javascript">
     function loadAdd() {
+        if(isNaN(parseFloat($("#parcelNo").val())) || !isFinite($("#parcelNo").val())){
+            showError("Parcel number should be composed of digits only");
+            return;
+        }
         updateUPI();
         if ($("#kebele").val() === "" ) {
             showError("Please select a kebele");
@@ -92,6 +96,10 @@
     $("#addButton").click(loadAdd);
     $("#welcomeForm").submit(loadAdd);
     $("#findButton").click(function() {
+        if(isNaN(parseFloat($("#parcelNo").val())) || !isFinite($("#parcelNo").val())){
+            showError("Parcel number should be composed of digits only");
+            return;
+        }
         updateUPI();
         if ($("#kebele").val() === "" ) {
             showError("Please select a kebele");

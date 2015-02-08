@@ -1,7 +1,10 @@
 package org.lift.massreg.entity;
 
 import java.sql.*;
+import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.Change;
 import org.lift.massreg.util.Option;
 
 /**
@@ -165,20 +168,20 @@ public class Dispute implements Entity {
         return true;
     }
 
-    public boolean remove() {
-        return delete(registeredOn, upi, stage);
+    public boolean remove(HttpServletRequest request) {
+        return delete(request, registeredOn, upi, stage);
     }
 
-    public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
-        return MasterRepository.getInstance().deleteDispute(registeredOn, upi, stage);
+    public static boolean delete(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
+        return MasterRepository.getInstance().deleteDispute(request, registeredOn, upi, stage);
     }
 
     public boolean equalsDispute(Dispute obj) {
         boolean returnValue = true;
-        if(this.getDisputeStatus()!=obj.getDisputeStatus()){
+        if (this.getDisputeStatus() != obj.getDisputeStatus()) {
             returnValue = false;
         }
-        if(this.getDisputeType()!=obj.getDisputeType()){
+        if (this.getDisputeType() != obj.getDisputeType()) {
             returnValue = false;
         }
         if (!this.getFathersName().trim().equalsIgnoreCase(obj.getFathersName().trim())) {
@@ -208,4 +211,28 @@ public class Dispute implements Entity {
     public boolean submitForCorrection() {
         return MasterRepository.getInstance().submitForCorrection(this);
     }
+
+    public ArrayList<Change> getDifferenceForChangeLog(Dispute newDispute) {
+        ArrayList<Change> returnValue = new ArrayList<>();
+        if (this.getDisputeStatus() != newDispute.getDisputeStatus()) {
+            returnValue.add(new Change("disputestatus", this.getDisputeStatus() + "", newDispute.getDisputeStatus() + ""));
+        }
+        if (this.getDisputeType() != newDispute.getDisputeType()) {
+            returnValue.add(new Change("disputetype", this.getDisputeType() + "", newDispute.getDisputeType() + ""));
+        }
+        if (!this.getFirstName().equalsIgnoreCase(newDispute.getFirstName())) {
+            returnValue.add(new Change("firstname", this.getFirstName() + "", newDispute.getFirstName() + ""));
+        }
+        if (!this.getFathersName().equalsIgnoreCase(newDispute.getFathersName())) {
+            returnValue.add(new Change("fathersname", this.getFirstName() + "", newDispute.getFathersName() + ""));
+        }
+        if (!this.getGrandFathersName().equalsIgnoreCase(newDispute.getGrandFathersName())) {
+            returnValue.add(new Change("grandfathersname", this.getGrandFathersName() + "", newDispute.getGrandFathersName() + ""));
+        }
+        if (!this.getSex().equalsIgnoreCase(newDispute.getSex())) {
+            returnValue.add(new Change("sex", this.getSex() + "", newDispute.getSex() + ""));
+        }
+        return returnValue;
+    }
+
 }

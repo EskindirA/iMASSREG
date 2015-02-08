@@ -118,18 +118,18 @@ public class Correction {
                 //Parcel.getLogStatment(oldParcel,newParcel);
                 MasterRepository.getInstance().update(oldParcel, newParcel);
                 if (newParcel.getHolding() == 1 && oldParcel.getHolding() != 1) {
-                    OrganizationHolder.delete(oldParcel.getUpi(), oldParcel.getStage());
+                    OrganizationHolder.delete(request,oldParcel.getUpi(), oldParcel.getStage());
                 }
                 if (newParcel.getHolding() != 1 && oldParcel.getHolding() == 1) {
                     ArrayList<IndividualHolder> holders = oldParcel.getIndividualHolders();
                     for (IndividualHolder holder : holders) {
-                        holder.remove();
+                        holder.remove(request);
                     }
                 }
                 if (!newParcel.hasDispute() && oldParcel.hasDispute()) {
                     ArrayList<Dispute> disputes = oldParcel.getDisputes();
                     for (Dispute dispute : disputes) {
-                        dispute.remove();
+                        dispute.remove(request);
                     }
                 }
                 viewHolder(request, response);
@@ -737,7 +737,7 @@ public class Correction {
      */
     protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (PersonWithInterest.delete(Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
+        if (PersonWithInterest.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
             personsWithInterestList(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -758,7 +758,7 @@ public class Correction {
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (IndividualHolder.delete(request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
+        if (IndividualHolder.delete(request,request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
             request.setAttribute("currentParcel", parcel);
             individualHolderList(request, response);
@@ -953,7 +953,7 @@ public class Correction {
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (Dispute.delete(Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
+        if (Dispute.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
             request.setAttribute("currentParcel", parcel);
             viewDisputeList(request, response);
@@ -1106,29 +1106,29 @@ public class Correction {
         ArrayList<PersonWithInterest> allPWI = parcel.getPersonsWithInterest();
         if (allPWI != null) {
             for (int i = 0; i < allPWI.size(); i++) {
-                allPWI.get(i).remove();
+                allPWI.get(i).remove(request);
             }
         }
         // Delete all disputes of the parcel, if any
         if (parcel.hasDispute()) {
             ArrayList<Dispute> allDisputes = parcel.getDisputes();
             for (int i = 0; i < allDisputes.size(); i++) {
-                allDisputes.get(i).remove();
+                allDisputes.get(i).remove(request);
             }
         }
         // Delete all holders of the parcel, if any
         ArrayList<IndividualHolder> allHolders = parcel.getIndividualHolders();
         if (allHolders != null) {
             for (int i = 0; i < allHolders.size(); i++) {
-                allHolders.get(i).remove();
+                allHolders.get(i).remove(request);
             }
         }
         if (parcel.getOrganizationHolder() != null) {
-            parcel.getOrganizationHolder().remove();
+            parcel.getOrganizationHolder().remove(request);
         }
 
         // Delete the parcel
-        parcel.remove();
+        parcel.remove(request);
 
         // remove the session and request attributes
         // do not remove the kebele since the operator is probably going to 

@@ -1,7 +1,10 @@
 package org.lift.massreg.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.Change;
 
 /**
  *
@@ -126,12 +129,12 @@ public class PersonWithInterest implements Entity {
         return true;
     }
 
-    public boolean remove() {
-        return delete(registeredOn, upi, stage);
+    public boolean remove(HttpServletRequest request) {
+        return delete(request,registeredOn, upi, stage);
     }
 
-    public static boolean delete(Timestamp registeredOn, String upi, byte stage) {
-        return MasterRepository.getInstance().deletePersonWithInterest(registeredOn, upi, stage);
+    public static boolean delete(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
+        return MasterRepository.getInstance().deletePersonWithInterest(request,registeredOn, upi, stage);
     }
 
     public boolean equalsPersonsWithInterest(PersonWithInterest obj) {
@@ -167,4 +170,24 @@ public class PersonWithInterest implements Entity {
         return MasterRepository.getInstance().submitForCorrection(this);
     }
 
+    public ArrayList<Change> getDifferenceForChangeLog(PersonWithInterest newPersonWithInterest) {
+        ArrayList<Change> returnValue = new ArrayList<>();
+
+        if (!this.getFirstName().equalsIgnoreCase(newPersonWithInterest.getFirstName())) {
+            returnValue.add(new Change("firstname", this.getFirstName() + "", newPersonWithInterest.getFirstName() + ""));
+        }
+        if (!this.getFathersName().equalsIgnoreCase(newPersonWithInterest.getFathersName())) {
+            returnValue.add(new Change("fathersname", this.getFirstName() + "", newPersonWithInterest.getFathersName() + ""));
+        }
+        if (!this.getGrandFathersName().equalsIgnoreCase(newPersonWithInterest.getGrandFathersName())) {
+            returnValue.add(new Change("grandfathersname", this.getGrandFathersName() + "", newPersonWithInterest.getGrandFathersName() + ""));
+        }
+        if (!this.getSex().equalsIgnoreCase(newPersonWithInterest.getSex())) {
+            returnValue.add(new Change("sex", this.getSex() + "", newPersonWithInterest.getSex() + ""));
+        }
+        if (!this.getDateOfBirth().equalsIgnoreCase(newPersonWithInterest.getDateOfBirth())) {
+            returnValue.add(new Change("dateofbirth", this.getDateOfBirth() + "", newPersonWithInterest.getDateOfBirth() + ""));
+        }
+        return returnValue;
+    }
 }

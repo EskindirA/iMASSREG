@@ -96,7 +96,7 @@ public class Administrator {
                 }
 
                 if (user.validateForSave()) {
-                    user.save();
+                    user.save(request);
                     welcomeForm(request, response);
                 } else {
                     request.getSession().setAttribute("title", "Validation Error");
@@ -275,7 +275,7 @@ public class Administrator {
      */
     protected static void deleteUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (User.delete(Long.parseLong(request.getParameter("userId")))) {
+        if (User.delete(request,Long.parseLong(request.getParameter("userId")))) {
             welcomeForm(request, response);
         } else {
             // if the parcel fails to validate show error message

@@ -1,7 +1,11 @@
 package org.lift.massreg.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.Change;
 import org.lift.massreg.dto.OrganizationHolderDifference;
 import org.lift.massreg.util.Option;
 
@@ -106,13 +110,13 @@ public class OrganizationHolder implements Entity {
         return true;
     }
 
-    public boolean remove() {
-        return delete(upi, stage);
+    public boolean remove(HttpServletRequest request) {
+        return delete(request,upi, stage);
     }
 
-    public static boolean delete(String upi, byte stage) {
+    public static boolean delete(HttpServletRequest request,String upi, byte stage) {
 
-        return MasterRepository.getInstance().deleteOrganizationHolder(upi, stage);
+        return MasterRepository.getInstance().deleteOrganizationHolder(request, upi, stage);
     }
 
     @Override
@@ -150,6 +154,18 @@ public class OrganizationHolder implements Entity {
         }
         if (firstHolder.getOrganizationType() != secondHolder.getOrganizationType()) {
             returnValue.setOrganizationType(true);
+        }
+        return returnValue;
+    }
+
+    public ArrayList<Change> getDifferenceForChangeLog(OrganizationHolder newOrganizationHolder) {
+        ArrayList<Change> returnValue = new ArrayList<>();
+
+        if (!this.getName().equalsIgnoreCase(newOrganizationHolder.getName())) {
+            returnValue.add(new Change("organizationname", this.getName() + "", newOrganizationHolder.getName() + ""));
+        }
+        if (this.getOrganizationType() != newOrganizationHolder.getOrganizationType()) {
+            returnValue.add(new Change("organizationtype", this.getOrganizationType() + "", newOrganizationHolder.getOrganizationType() + ""));
         }
         return returnValue;
     }

@@ -158,29 +158,29 @@ public class SecondEntry {
         ArrayList<PersonWithInterest> allPWI = parcel.getPersonsWithInterest();
         if (allPWI != null) {
             for (int i = 0; i < allPWI.size(); i++) {
-                allPWI.get(i).remove();
+                allPWI.get(i).remove(request);
             }
         }
         // Delete all disputes of the parcel, if any
         if (parcel.hasDispute()) {
             ArrayList<Dispute> allDisputes = parcel.getDisputes();
             for (int i = 0; i < allDisputes.size(); i++) {
-                allDisputes.get(i).remove();
+                allDisputes.get(i).remove(request);
             }
         }
         // Delete all holders of the parcel, if any
         ArrayList<IndividualHolder> allHolders = parcel.getIndividualHolders();
         if (allHolders != null) {
             for (int i = 0; i < allHolders.size(); i++) {
-                allHolders.get(i).remove();
+                allHolders.get(i).remove(request);
             }
         }
         if (parcel.getOrganizationHolder() != null) {
-            parcel.getOrganizationHolder().remove();
+            parcel.getOrganizationHolder().remove(request);
         }
 
         // Delete the parcel
-        parcel.remove();
+        parcel.remove(request);
 
         // remove the session and request attributes
         // do not remove the kebele since the operator is probably going to 
@@ -317,18 +317,18 @@ public class SecondEntry {
                 //Parcel.getLogStatment(oldParcel,newParcel);
                 MasterRepository.getInstance().update(oldParcel, newParcel);
                 if (newParcel.getHolding() == 1 && oldParcel.getHolding() != 1) {
-                    OrganizationHolder.delete(oldParcel.getUpi(), oldParcel.getStage());
+                    OrganizationHolder.delete(request,oldParcel.getUpi(), oldParcel.getStage());
                 }
                 if (newParcel.getHolding() != 1 && oldParcel.getHolding() == 1) {
                     ArrayList<IndividualHolder> holders = oldParcel.getIndividualHolders();
                     for (int i = 0; i < holders.size(); i++) {
-                        holders.get(i).remove();
+                        holders.get(i).remove(request);
                     }
                 }
                 if (!newParcel.hasDispute() && oldParcel.hasDispute()) {
                     ArrayList<Dispute> disputes = oldParcel.getDisputes();
                     for (int i = 0; i < disputes.size(); i++) {
-                        disputes.get(i).remove();
+                        disputes.get(i).remove(request);
                     }
                 }
                 viewParcel(request, response);
@@ -723,7 +723,7 @@ public class SecondEntry {
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (IndividualHolder.delete(request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
+        if (IndividualHolder.delete(request,request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
             request.setAttribute("currentParcel", parcel);
             individualHolderList(request, response);
@@ -978,7 +978,7 @@ public class SecondEntry {
      */
     protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (PersonWithInterest.delete(Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
+        if (PersonWithInterest.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
             personsWithInterestList(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -1178,7 +1178,7 @@ public class SecondEntry {
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (Dispute.delete(Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
+        if (Dispute.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
             request.setAttribute("currentParcel", parcel);
             viewDisputeList(request, response);

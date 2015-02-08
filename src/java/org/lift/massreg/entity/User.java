@@ -1,5 +1,6 @@
 package org.lift.massreg.entity;
 
+import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.util.Constants;
 
@@ -141,8 +142,8 @@ public class User implements Entity {
         return returnValue;
     }
 
-    public boolean save() {
-        return MasterRepository.getInstance().save(this);
+    public boolean save(HttpServletRequest request) {
+        return MasterRepository.getInstance().save(request,this);
     }
 
     @Override
@@ -150,8 +151,8 @@ public class User implements Entity {
         return true;
     }
 
-    public static boolean delete(long userId) {
-        return MasterRepository.getInstance().deleteUser(userId);
+    public static boolean delete(HttpServletRequest request,long userId) {
+        return MasterRepository.getInstance().deleteUser(request,userId);
     }
     @Override
     public boolean validateForUpdate() {

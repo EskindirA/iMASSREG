@@ -1,7 +1,10 @@
 package org.lift.massreg.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.Change;
 import org.lift.massreg.util.Option;
 
 /**
@@ -169,6 +172,7 @@ public class IndividualHolder implements Entity {
     public String hasPhysicalImpairmentText() {
         return hasPhysicalImpairment() ? "Yes" : "No";
     }
+
     public void hasPhysicalImpairment(boolean physicalImpairment) {
         this.physicalImpairment = physicalImpairment;
     }
@@ -182,13 +186,13 @@ public class IndividualHolder implements Entity {
         return true;
     }
 
-    public boolean remove() {
-        return delete(id, registeredOn, upi, stage);
+    public boolean remove(HttpServletRequest request) {
+        return delete(request,id, registeredOn, upi, stage);
     }
 
-    public static boolean delete(String holderId, Timestamp registeredOn, String upi, byte stage) {
+    public static boolean delete(HttpServletRequest request,String holderId, Timestamp registeredOn, String upi, byte stage) {
 
-        return MasterRepository.getInstance().deleteIndividualHolder(holderId, registeredOn, upi, stage);
+        return MasterRepository.getInstance().deleteIndividualHolder(request,holderId, registeredOn, upi, stage);
     }
 
     public boolean equalsIndividualHolder(IndividualHolder obj) {
@@ -232,6 +236,36 @@ public class IndividualHolder implements Entity {
 
     public boolean submitForCorrection() {
         return MasterRepository.getInstance().submitForCorrection(this);
+    }
+
+    public ArrayList<Change> getDifferenceForChangeLog(IndividualHolder newIndividualHolder) {
+        ArrayList<Change> returnValue = new ArrayList<>();
+
+        if (!this.getId().equalsIgnoreCase(newIndividualHolder.getId())) {
+            returnValue.add(new Change("holderid", this.getId() + "", newIndividualHolder.getId() + ""));
+        }
+        if (!this.getFirstName().equalsIgnoreCase(newIndividualHolder.getFirstName())) {
+            returnValue.add(new Change("firstname", this.getFirstName() + "", newIndividualHolder.getFirstName() + ""));
+        }
+        if (!this.getFathersName().equalsIgnoreCase(newIndividualHolder.getFathersName())) {
+            returnValue.add(new Change("fathersname", this.getFirstName() + "", newIndividualHolder.getFathersName() + ""));
+        }
+        if (!this.getGrandFathersName().equalsIgnoreCase(newIndividualHolder.getGrandFathersName())) {
+            returnValue.add(new Change("grandfathersname", this.getGrandFathersName() + "", newIndividualHolder.getGrandFathersName() + ""));
+        }
+        if (!this.getSex().equalsIgnoreCase(newIndividualHolder.getSex())) {
+            returnValue.add(new Change("sex", this.getSex() + "", newIndividualHolder.getSex() + ""));
+        }
+        if (!this.getDateOfBirth().equalsIgnoreCase(newIndividualHolder.getDateOfBirth())) {
+            returnValue.add(new Change("dateofbirth", this.getDateOfBirth() + "", newIndividualHolder.getDateOfBirth() + ""));
+        }
+        if (this.getFamilyRole() != newIndividualHolder.getFamilyRole()) {
+            returnValue.add(new Change("familyrole", this.getFamilyRole() + "", newIndividualHolder.getFamilyRole() + ""));
+        }
+        if (this.hasPhysicalImpairment() != newIndividualHolder.hasPhysicalImpairment()) {
+            returnValue.add(new Change("physicalimpairment", this.hasPhysicalImpairment() + "", newIndividualHolder.hasPhysicalImpairment() + ""));
+        }
+        return returnValue;
     }
 
 }
