@@ -23,7 +23,7 @@
                         Set<String> titles = report.stringPropertyNames();
 
                         for (String title : titles) {
-                            if(title.equalsIgnoreCase("kebele") || title.equalsIgnoreCase("woreda_name") || title.equalsIgnoreCase("woreda_id") ){
+                            if(title.equalsIgnoreCase("kebele") || title.equalsIgnoreCase("Woreda name") || title.equalsIgnoreCase("Woreda id") || title.equalsIgnoreCase("Report generated on")){
                                 continue;
                             }
                             out.println("<tr>");

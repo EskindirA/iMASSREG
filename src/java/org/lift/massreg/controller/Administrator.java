@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Properties;
-import java.util.Set;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.lift.massreg.dao.MasterRepository;
@@ -275,7 +274,7 @@ public class Administrator {
      */
     protected static void deleteUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (User.delete(request,Long.parseLong(request.getParameter("userId")))) {
+        if (User.delete(request, Long.parseLong(request.getParameter("userId")))) {
             welcomeForm(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -346,21 +345,20 @@ public class Administrator {
         for (Option kebele : kebeles) {
             int result = MasterRepository.getInstance().getCountOfCommittedParcels(fromDate, toDate, kebele.getKey());
             if (result > 0) {
-                report.setProperty("Total number of parcels entered into iMASSREG:" + kebele.getValue(), result + "");
-                report.setProperty("Total number of non committed parcels:" + kebele.getValue(), MasterRepository.getInstance().getCountOfNonCommittedParcels(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of parcels under dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfParcelsWithDispute(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of unique individual holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfUniqueHolders(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of female holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfFemaleHolders(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of male holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfMaleHolders(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of of FHH:" + kebele.getValue(), MasterRepository.getInstance().getCountOfFHH(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of of MHH:" + kebele.getValue(), MasterRepository.getInstance().getCountOfMHH(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of single female holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSingleFemaleHolders(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of single male holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSingleMaleHolders(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of parcels with of shared ownership:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSharedOwnership(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of female involved in a dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfFemaleInDispute(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of male involved in a dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfMaleInDispute(fromDate, toDate, kebele.getKey()) + "");
-                report.setProperty("Total number of non-natural persons:" + kebele.getValue(), MasterRepository.getInstance().getCountOfNonNaturalPersons(fromDate, toDate, kebele.getKey()) + "");
-
+            report.setProperty("Total number of parcels entered into iMASSREG:" + kebele.getValue(), result + "");
+            report.setProperty("Total number of non committed parcels:" + kebele.getValue(), MasterRepository.getInstance().getCountOfNonCommittedParcels(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of parcels under dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfParcelsWithDispute(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of unique individual holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfUniqueHolders(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of female holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfFemaleHolders(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of male holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfMaleHolders(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of female in shared ownerships:" + kebele.getValue(), MasterRepository.getInstance().getCountFemaleInSharedOwnerships(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of male in shared ownerships:" + kebele.getValue(), MasterRepository.getInstance().getCountMaleInSharedOwnerships(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of single female holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSingleFemaleHolders(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of single male holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSingleMaleHolders(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of parcels with of shared ownership:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSharedOwnership(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of female involved in a dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfFemaleInDispute(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of male involved in a dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfMaleInDispute(fromDate, toDate, kebele.getKey()) + "");
+            report.setProperty("Total number of non-natural persons:" + kebele.getValue(), MasterRepository.getInstance().getCountOfNonNaturalPersons(fromDate, toDate, kebele.getKey()) + "");
             }
         }
         report.setProperty("Report generated on", Instant.now().toString().replace("T", " "));
@@ -394,10 +392,11 @@ public class Administrator {
         Date fromDate = Date.valueOf("1900-01-01");
         Date toDate = Date.valueOf("2200-01-01");
         MasterRepository.getInstance().updateParcelArea(kebele);
+
         Properties report = new Properties();
         long totalDemarcated = MasterRepository.getInstance().getCountOfDemarcatedParcels(kebele);
         long totalMASSREG = MasterRepository.getInstance().getCountOfCommittedParcels(kebele);
-
+            
         //// aggregate data for the kebele
         report.setProperty("Woreda id", CommonStorage.getCurrentWoredaIdForUPI());
         report.setProperty("Woreda name", CommonStorage.getCurrentWoredaName());
@@ -409,15 +408,15 @@ public class Administrator {
         report.setProperty("Total number of unique individual holders", MasterRepository.getInstance().getCountOfUniqueHolders(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of female holders", MasterRepository.getInstance().getCountOfFemaleHolders(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of male holders", MasterRepository.getInstance().getCountOfMaleHolders(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of of FHH", MasterRepository.getInstance().getCountOfFHH(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of of MHH", MasterRepository.getInstance().getCountOfMHH(fromDate, toDate, kebele + "") + "");
+        report.setProperty("Total number of female in shared ownerships", MasterRepository.getInstance().getCountFemaleInSharedOwnerships(fromDate, toDate, kebele + "") + "");
+        report.setProperty("Total number of male in shared ownerships" , MasterRepository.getInstance().getCountMaleInSharedOwnerships(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of single female holders", MasterRepository.getInstance().getCountOfSingleFemaleHolders(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of single male holders", MasterRepository.getInstance().getCountOfSingleMaleHolders(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of parcels with of shared ownership", MasterRepository.getInstance().getCountOfSharedOwnership(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of female involved in a dispute", MasterRepository.getInstance().getCountOfFemaleInDispute(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of male involved in a dispute", MasterRepository.getInstance().getCountOfMaleInDispute(fromDate, toDate, kebele + "") + "");
         report.setProperty("Total number of non-natural persons", MasterRepository.getInstance().getCountOfNonNaturalPersons(fromDate, toDate, kebele + "") + "");
-
+        
         //// Data from GIS
         report.setProperty("Total number of parcels demarcated", totalDemarcated + "");
         report.setProperty("Number of parcels with incomplete information", (totalDemarcated - totalMASSREG) + "");
@@ -427,7 +426,6 @@ public class Administrator {
         report.setProperty("Average parcel size Per single female(in Ha)", MasterRepository.getInstance().getAverageParcelSizeForSingleFemale(kebele) + "");
         report.setProperty("Average parcel size per shared ownership(in Ha)", MasterRepository.getInstance().getAverageParcelSizeForSharedOwnership(kebele) + "");
         report.setProperty("Average parcel size for non natural persons(in Ha)", MasterRepository.getInstance().getAverageParcelSizeForNonNatrualPersons(kebele) + "");
-
         try {
             report.store(new FileOutputStream("tempReport.properties"), null);
             String outputFile = Date.from(Instant.now()).getTime() + ".imrf";
