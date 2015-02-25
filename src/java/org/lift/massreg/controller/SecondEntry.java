@@ -52,7 +52,6 @@ public class SecondEntry {
      */
     protected static void addParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // setup request attributes
         // Remove the currentParcel from request
         request.setAttribute("currentParcel", null);
         // If the pacel is not registerd by the FEO operator SEO cann't add it 
@@ -63,8 +62,16 @@ public class SecondEntry {
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
+        } // if the parcel is not complete in the first stage show error
+        else if (!MasterRepository.getInstance().isParcelComplete(request.getAttribute("upi").toString(), (byte) 1)) {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "The parcel you are trying to add is not compelet on the first stage, you can should wait until the FEO finishs entry of this parcel.");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
         } // If the parcel exists in the second entry stage forward error, the parcel
-        // already exists
+          // already exists
         else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 2)) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The parcel you are trying to add already exists in the database, use find button to view the parcel details.");
@@ -602,7 +609,8 @@ public class SecondEntry {
                 ih.setId(request.getParameter("holderId"));
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
-                ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("newHolderId")));
+                ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("hasPhysicalImpairment")));
+                ih.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
                 ih.setStage(CommonStorage.getSEStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());
                 ih.setStatus(Constants.STATUS[0]);
@@ -685,6 +693,7 @@ public class SecondEntry {
             newIndividualHolder.setId(request.getParameter("newHolderId"));
 
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+            newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
             newIndividualHolder.setStatus(Constants.STATUS[0]);

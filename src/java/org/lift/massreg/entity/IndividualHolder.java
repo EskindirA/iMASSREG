@@ -30,6 +30,7 @@ public class IndividualHolder implements Entity {
     private byte familyRole;
     private String familyRoleText;
     private boolean physicalImpairment;
+    private boolean orphan;
     private String status;
 
     public String getStatus() {
@@ -177,6 +178,18 @@ public class IndividualHolder implements Entity {
         this.physicalImpairment = physicalImpairment;
     }
 
+    public boolean isOrphan() {
+        return orphan;
+    }
+
+    public String isOrphanText() {
+        return isOrphan() ? "Yes" : "No";
+    }
+
+    public void isOrphan(boolean orphan) {
+        this.orphan = orphan;
+    }
+
     public boolean save() {
         return MasterRepository.getInstance().save(this);
     }
@@ -187,12 +200,12 @@ public class IndividualHolder implements Entity {
     }
 
     public boolean remove(HttpServletRequest request) {
-        return delete(request,id, registeredOn, upi, stage);
+        return delete(request, id, registeredOn, upi, stage);
     }
 
-    public static boolean delete(HttpServletRequest request,String holderId, Timestamp registeredOn, String upi, byte stage) {
+    public static boolean delete(HttpServletRequest request, String holderId, Timestamp registeredOn, String upi, byte stage) {
 
-        return MasterRepository.getInstance().deleteIndividualHolder(request,holderId, registeredOn, upi, stage);
+        return MasterRepository.getInstance().deleteIndividualHolder(request, holderId, registeredOn, upi, stage);
     }
 
     public boolean equalsIndividualHolder(IndividualHolder obj) {
@@ -220,6 +233,9 @@ public class IndividualHolder implements Entity {
             returnValue = false;
         }
         if (!this.getSex().trim().equalsIgnoreCase(obj.getSex().trim())) {
+            returnValue = false;
+        }
+        if (this.isOrphan() != obj.isOrphan()) {
             returnValue = false;
         }
         return returnValue;
@@ -265,7 +281,9 @@ public class IndividualHolder implements Entity {
         if (this.hasPhysicalImpairment() != newIndividualHolder.hasPhysicalImpairment()) {
             returnValue.add(new Change("physicalimpairment", this.hasPhysicalImpairment() + "", newIndividualHolder.hasPhysicalImpairment() + ""));
         }
+        if (this.isOrphan() != newIndividualHolder.isOrphan()) {
+            returnValue.add(new Change("isorphan", this.isOrphan() + "", newIndividualHolder.isOrphan() + ""));
+        }
         return returnValue;
     }
-
 }

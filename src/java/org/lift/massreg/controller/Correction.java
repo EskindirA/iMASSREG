@@ -329,6 +329,7 @@ public class Correction {
             newIndividualHolder.setId(request.getParameter("newHolderId"));
 
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+            newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
             newIndividualHolder.setStatus(Constants.STATUS[0]);
@@ -407,7 +408,8 @@ public class Correction {
                 ih.setId(request.getParameter("holderId"));
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
-                ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("newHolderId")));
+                ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+                ih.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
                 ih.setStage(CommonStorage.getCorrectionStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());
                 ih.setStatus(Constants.STATUS[0]);

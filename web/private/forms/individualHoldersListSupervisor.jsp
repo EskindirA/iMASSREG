@@ -172,6 +172,13 @@
                                     <option value = 'true'>Yes</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Is Orphan</label>
+                                <select class="form-control" id="isOrphan" name="isOrphan" >
+                                    <option value = 'false'>No</option>
+                                    <option value = 'true'>Yes</option>
+                                </select>
+                            </div>
                         </div> <!-- /.row (nested) -->
                     </div> <!-- /.panel-body -->
                 </form>
@@ -204,6 +211,7 @@
         $("#" + formId + " #sex").toggleClass("error-field", false);
         $("#" + formId + " #familyRole").toggleClass("error-field", false);
         $("#" + formId + " #physicalImpairment").toggleClass("error-field", false);
+        $("#" + formId + " #isOrphan").toggleClass("error-field", false);
         if ($("#" + formId + " #holderId").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #holderId").toggleClass("error-field", true);
@@ -231,6 +239,10 @@
         if ($("#" + formId + " #physicalImpairment").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #physicalImpairment").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #isOrphan").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #isOrphan").toggleClass("error-field", true);
         }
         return returnValue;
     }
@@ -295,6 +307,7 @@
                 "grandfathersname": $("#addHolderForm #grandFathersName").val(),
                 "holderId": $("#addHolderForm #holderId").val(),
                 "physicalImpairment": $("#addHolderForm #physicalImpairment").val(),
+                "isOrphan": $("#addHolderFrom #isOrphan").val(),
                 "sex": $("#addHolderForm #sex").val()
             },
             error: showajaxerror,

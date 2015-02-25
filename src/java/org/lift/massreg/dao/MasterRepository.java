@@ -81,7 +81,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, holder.getUpi());
@@ -96,6 +96,7 @@ public class MasterRepository {
             stmnt.setByte(10, holder.getFamilyRole());
             stmnt.setString(11, holder.getId());
             stmnt.setBoolean(12, holder.hasPhysicalImpairment());
+            stmnt.setBoolean(13, holder.isOrphan());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -383,6 +384,24 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean isParcelComplete(String upi, byte stage) {
+        boolean returnValue = false;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE upi=? and stage=? and status='active' and completed='true'");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = true;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
     /**
      * Retrieves details of the user specified with the id
      *
@@ -473,6 +492,7 @@ public class MasterRepository {
                 ih.setRegisteredOn(rs.getTimestamp("registeredon"));
                 ih.setSex(rs.getString("sex"));
                 ih.hasPhysicalImpairment(rs.getBoolean("physicalimpairment"));
+                ih.isOrphan(rs.getBoolean("isOrphan"));
                 ih.setStage(rs.getByte("stage"));
                 ih.setUpi(rs.getString("upi"));
                 returnValue.add(ih);
@@ -686,7 +706,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE individualholder SET firstname=?, "
                 + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=?, "
-                + "familyrole=?, holderId=?, physicalimpairment=? WHERE upi=? and stage = ? and registeredon = ?";
+                + "familyrole=?, holderId=?, physicalimpairment=?, isOrphan=? WHERE upi=? and stage = ? and registeredon = ?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, newIndividualHolder.getFirstName());
@@ -697,9 +717,11 @@ public class MasterRepository {
             stmnt.setByte(6, newIndividualHolder.getFamilyRole());
             stmnt.setString(7, newIndividualHolder.getId());
             stmnt.setBoolean(8, newIndividualHolder.hasPhysicalImpairment());
-            stmnt.setString(9, oldIndividualHolder.getUpi());
-            stmnt.setByte(10, oldIndividualHolder.getStage());
-            stmnt.setTimestamp(11, oldIndividualHolder.getRegisteredOn());
+            stmnt.setBoolean(9, newIndividualHolder.isOrphan());
+            stmnt.setString(10, oldIndividualHolder.getUpi());
+            stmnt.setByte(11, oldIndividualHolder.getStage());
+            stmnt.setTimestamp(12, oldIndividualHolder.getRegisteredOn());
+
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1310,7 +1332,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -1325,6 +1347,7 @@ public class MasterRepository {
             stmnt.setByte(10, individualHolder.getFamilyRole());
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
+            stmnt.setBoolean(13, individualHolder.isOrphan());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1469,7 +1492,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -1484,6 +1507,7 @@ public class MasterRepository {
             stmnt.setByte(10, individualHolder.getFamilyRole());
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
+            stmnt.setBoolean(13, individualHolder.isOrphan());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;

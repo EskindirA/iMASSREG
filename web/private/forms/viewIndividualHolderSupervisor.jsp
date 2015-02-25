@@ -63,6 +63,13 @@
                                     <option value = 'true'>Yes</option>
                                 </select>
                             </div>
+                                    <div class="form-group">
+                            <label>Is Orphan</label>
+                                <select class="form-control" id="isOrphan" name="isOrphan" value="<%=holder.isOrphan()%>" disabled >
+                                    <option value = 'false'>No</option>
+                                    <option value = 'true'>Yes</option>
+                                </select>
+                            </div>
                         </div> <!-- /.row (nested) -->
                 </div> <!-- /.panel-body -->
             </form>

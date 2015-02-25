@@ -397,8 +397,10 @@ public class FirstEntry {
             newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
             newIndividualHolder.setId(request.getParameter("newHolderId"));
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+            newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
+            newIndividualHolder.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             newIndividualHolder.setStatus(Constants.STATUS[0]);
 
             if (newIndividualHolder.validateForUpdate()) {
@@ -671,7 +673,7 @@ public class FirstEntry {
                 //Parcel.getLogStatment(oldParcel,newParcel);
                 MasterRepository.getInstance().update(oldParcel, newParcel);
                 if (newParcel.getHolding() == 1 && oldParcel.getHolding() != 1) {
-                    OrganizationHolder.delete(request,oldParcel.getUpi(), oldParcel.getStage());
+                    OrganizationHolder.delete(request, oldParcel.getUpi(), oldParcel.getStage());
                 }
                 if (newParcel.getHolding() != 1 && oldParcel.getHolding() == 1) {
                     ArrayList<IndividualHolder> holders = oldParcel.getIndividualHolders();
@@ -929,7 +931,7 @@ public class FirstEntry {
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (Dispute.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
+        if (Dispute.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
             request.setAttribute("currentParcel", parcel);
             viewDisputeList(request, response);
@@ -953,7 +955,7 @@ public class FirstEntry {
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (IndividualHolder.delete(request,request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
+        if (IndividualHolder.delete(request, request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
             request.setAttribute("currentParcel", parcel);
             individualHolderList(request, response);
@@ -977,7 +979,7 @@ public class FirstEntry {
      */
     protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (PersonWithInterest.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
+        if (PersonWithInterest.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 1)) {
             personsWithInterestList(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -1013,6 +1015,7 @@ public class FirstEntry {
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
                 ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+                ih.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
                 ih.setStage(CommonStorage.getFEStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());
                 ih.setStatus(Constants.STATUS[0]);

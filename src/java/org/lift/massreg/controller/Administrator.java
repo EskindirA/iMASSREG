@@ -312,14 +312,14 @@ public class Administrator {
         }
     }
 
-    protected static void periodicalReport(HttpServletRequest request, HttpServletResponse response)
+    protected static void timeBoundReport(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Date fromDate = Date.valueOf(request.getParameter("fromDate"));
         Date toDate = Date.valueOf(request.getParameter("toDate"));
         if (fromDate == null || toDate == null) {
             response.getOutputStream().println("Please specfiey valide report dates");
         } else {
-            request.setAttribute("report", generatePeriodicalReport(request, fromDate, toDate));
+            request.setAttribute("report", generateTimeBoundReport(request, fromDate, toDate));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PERIODICAL_REPORT));
             rd.forward(request, response);
         }
@@ -337,7 +337,7 @@ public class Administrator {
         }
     }
 
-    private static Properties generatePeriodicalReport(HttpServletRequest request, Date fromDate, Date toDate) {
+    private static Properties generateTimeBoundReport(HttpServletRequest request, Date fromDate, Date toDate) {
         Properties report = new Properties();
 
         Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
