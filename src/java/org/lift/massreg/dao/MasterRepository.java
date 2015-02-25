@@ -347,6 +347,7 @@ public class MasterRepository {
                 }
                 if (returnValue.getHolding() == 1) {
                     returnValue.setIndividualHolders(getAllIndividualHolders(upi, stage));
+                    returnValue.setGuardians(getAllGuardians(upi, stage));
                     returnValue.setPersonsWithInterest(getAllPersonsWithInterest(upi, stage));
                 } else {
                     returnValue.setOrganaizationHolder(getOrganaizationHolder(upi, stage));

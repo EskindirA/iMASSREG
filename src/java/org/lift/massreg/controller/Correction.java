@@ -548,7 +548,6 @@ public class Correction {
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
-            parcel.complete();
             commit(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");
@@ -572,7 +571,6 @@ public class Correction {
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
-            parcel.complete();
             commit(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");
@@ -1186,7 +1184,6 @@ public class Correction {
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
-            parcel.complete();
             commit(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");

@@ -554,6 +554,9 @@ public class Parcel implements Entity {
                     guardians1.commit();
                 }
             }
+            else{
+                System.err.println("Null");
+            }
         } else if (organaizationHolder != null) {
             organaizationHolder.commit();
         }
