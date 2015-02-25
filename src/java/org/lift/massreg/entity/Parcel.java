@@ -51,6 +51,8 @@ public class Parcel implements Entity {
     private OrganizationHolder organaizationHolder;
     private ArrayList<IndividualHolder> individualHolders;
     private ArrayList<PersonWithInterest> personsWithInterest;
+    private ArrayList<Guardian> guardians;
+
     private ArrayList<Dispute> disputes;
 
     private synchronized void fillInTextValues() {
@@ -340,12 +342,31 @@ public class Parcel implements Entity {
         return returnValue;
     }
 
+    public ArrayList<Guardian> getGuardians() {
+        if (guardians == null) {
+            guardians = MasterRepository.getInstance().getAllGuardians(upi, stage);
+        }
+        return guardians;
+    }
+
+    public int getGuardiansCount() {
+        int returnValue = 0;
+        if (getGuardians() != null) {
+            returnValue = getGuardians().size();
+        }
+        return returnValue;
+    }
+
     public void addIndividualHolder(IndividualHolder individualHolder) {
         individualHolders.add(individualHolder);
     }
 
     public void addPersonWithInterest(PersonWithInterest personWithInterest) {
         personsWithInterest.add(personWithInterest);
+    }
+
+    public void addGuardian(Guardian guardian) {
+        guardians.add(guardian);
     }
 
     public void removeIndividualHolder(IndividualHolder individualHolder) {
@@ -399,6 +420,10 @@ public class Parcel implements Entity {
 
     public void setPersonsWithInterest(ArrayList<PersonWithInterest> personsWithInterest) {
         this.personsWithInterest = personsWithInterest;
+    }
+
+    public void setGuardians(ArrayList<Guardian> guardians) {
+        this.guardians = guardians;
     }
 
     public void setDisputes(ArrayList<Dispute> disputes) {
@@ -493,6 +518,20 @@ public class Parcel implements Entity {
         return returnValue;
     }
 
+    public Guardian getGuardian(byte stage, Timestamp registeredOn) {
+        Guardian returnValue = new Guardian();
+        if (stage == this.getStage()) {
+            ArrayList<Guardian> allGuardians = getGuardians();
+            for (Guardian allGuardians1 : allGuardians) {
+                if (allGuardians1.getRegisteredOn().equals(registeredOn)) {
+                    returnValue = allGuardians1;
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+
     public boolean remove(HttpServletRequest request) {
         return delete(request, registeredOn, upi, stage);
     }
@@ -509,6 +548,11 @@ public class Parcel implements Entity {
             }
             for (PersonWithInterest personsWithInterest1 : personsWithInterest) {
                 personsWithInterest1.commit();
+            }
+            if (guardians != null) {
+                for (Guardian guardians1 : guardians) {
+                    guardians1.commit();
+                }
             }
         } else if (organaizationHolder != null) {
             organaizationHolder.commit();
@@ -529,6 +573,11 @@ public class Parcel implements Entity {
             if (personsWithInterest != null) {
                 for (PersonWithInterest personWithInterest : personsWithInterest) {
                     personWithInterest.submitForCorrection();
+                }
+            }
+            if (guardians != null) {
+                for (Guardian guardian : guardians) {
+                    guardian.submitForCorrection();
                 }
             }
         } else if (organaizationHolder != null) {
@@ -631,6 +680,25 @@ public class Parcel implements Entity {
                 boolean found = false;
                 PersonWithInterest firstPWI = this.getPersonsWithInterest().get(i);
                 if (findSimilar(firstPWI, obj.getPersonsWithInterest())) {
+                    found = true;
+                }
+                if (!found) {
+                    returnValue = false;
+                    break;
+                }
+            }
+        }
+        if ((this.getGuardians() != null) != (obj.getGuardians() != null)) {
+            returnValue = false;
+        }
+        if (this.getGuardiansCount() != obj.getGuardiansCount()) {
+            returnValue = false;
+        }
+        if (this.getGuardians() != null && obj.getGuardians() != null) {
+            for (int i = 0; i < this.getGuardians().size(); i++) {
+                boolean found = false;
+                Guardian firstGuardian = this.getGuardians().get(i);
+                if (findSimilar(firstGuardian, obj.getGuardians())) {
                     found = true;
                 }
                 if (!found) {
@@ -756,6 +824,22 @@ public class Parcel implements Entity {
                 }
             }
         }
+        if ((firstParcel.getGuardians() != null) != (secondParcel.getGuardians() != null)) {
+            returnValue.setGuardiansCount(true);
+        }
+        if (firstParcel.getGuardians() != null && secondParcel.getGuardians() != null) {
+            for (int i = 0; i < firstParcel.getGuardians().size(); i++) {
+                boolean found = false;
+                Guardian firstGuardian = firstParcel.getGuardians().get(i);
+                if (findSimilar(firstGuardian, secondParcel.getGuardians())) {
+                    found = true;
+                }
+                if (!found) {
+                    returnValue.setGuardiansDetails(true);
+                    break;
+                }
+            }
+        }
         // compare disputes
         if ((firstParcel.getDisputes() != null) != (secondParcel.getDisputes() != null)) {
             returnValue.setDisputesCount(true);
@@ -795,6 +879,19 @@ public class Parcel implements Entity {
         if (pwiList.size() > 0) {
             for (PersonWithInterest pwi1 : pwiList) {
                 if (pwi.equalsPersonsWithInterest(pwi1)) {
+                    returnValue = true;
+                    break;
+                }
+            }
+        }
+        return returnValue;
+    }
+
+    private static boolean findSimilar(Guardian guardian, ArrayList<Guardian> guardianList) {
+        boolean returnValue = false;
+        if (guardianList.size() > 0) {
+            for (Guardian guardianx : guardianList) {
+                if (guardian.equalsGuardian(guardianx)) {
                     returnValue = true;
                     break;
                 }
@@ -856,6 +953,16 @@ public class Parcel implements Entity {
         }
         if (this.hasDispute() != newParcel.hasDispute()) {
             returnValue.add(new Change("hasdispute", this.hasDispute() + "", newParcel.hasDispute() + ""));
+        }
+        return returnValue;
+    }
+
+    public boolean hasOrphanHolder() {
+        boolean returnValue = false;
+        for (int i = 0; i < individualHolders.size(); i++) {
+            if (individualHolders.get(i).isOrphan()) {
+                returnValue = true;
+            }
         }
         return returnValue;
     }

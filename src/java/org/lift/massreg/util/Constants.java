@@ -62,6 +62,7 @@ public interface Constants {
     public static final String ACTION_FINISH_ORGANIZATION_HOLDER_SEO = "FINISH_ORGANIZATION_HOLDER_SEO";
     public static final String ACTION_PERSONS_WITH_INTEREST_LIST_FEO = "PERSONS_WITH_INTEREST_LIST_FEO";
     public static final String ACTION_PERSONS_WITH_INTEREST_LIST_SEO = "PERSONS_WITH_INTEREST_LIST_SEO";
+    
     public static final String ACTION_SAVE_PERSON_WITH_INTEREST_FEO = "SAVE_PERSON_WITH_INTEREST_FEO";
     public static final String ACTION_SAVE_PERSON_WITH_INTEREST_SEO = "SAVE_PERSON_WITH_INTEREST_SEO";
     public static final String ACTION_DELETE_PERSON_WITH_INTEREST_FEO = "DELETE_PERSON_WITH_INTEREST_FEO";
@@ -75,6 +76,20 @@ public interface Constants {
     public static final String ACTION_FINISH_PERSON_WITH_INTEREST_FEO = "FINISH_PERSON_WITH_INTEREST_FEO";
     public static final String ACTION_FINISH_PERSON_WITH_INTEREST_SEO = "FINISH_PERSON_WITH_INTEREST_SEO";
 
+    public static final String ACTION_GUARDIANS_LIST_FEO = "GUARDIANS_LIST_FEO";
+    public static final String ACTION_GUARDIANS_LIST_SEO = "GUARDIANS_LIST_SEO";
+    
+    public static final String ACTION_SAVE_GUARDIAN_FEO = "SAVE_GUARDIAN_FEO";
+    public static final String ACTION_SAVE_GUARDIAN_SEO = "SAVE_GUARDIAN_SEO";
+    public static final String ACTION_DELETE_GUARDIAN_FEO = "DELETE_GUARDIAN_FEO";
+    public static final String ACTION_DELETE_GUARDIAN_SEO = "DELETE_GUARDIAN_SEO";
+    public static final String ACTION_VIEW_GUARDIAN_FEO = "VIEW_GUARDIAN_FEO";
+    public static final String ACTION_VIEW_GUARDIAN_SEO = "VIEW_GUARDIAN_SEO";
+    public static final String ACTION_EDIT_GUARDIAN_FEO = "EDIT_GUARDIAN_FEO";
+    public static final String ACTION_EDIT_GUARDIAN_SEO = "EDIT_GUARDIAN_SEO";
+    public static final String ACTION_UPDATE_GUARDIAN_FEO = "UPDATE_GUARDIAN_FEO";
+    public static final String ACTION_UPDATE_GUARDIAN_SEO = "UPDATE_GUARDIAN_SEO";
+    
     public static final String ACTION_FINISH_DISPUTE_FEO = "FINISH_DISPUTE_FEO";
     public static final String ACTION_FINISH_DISPUTE_SEO = "FINISH_DISPUTE_SEO";
     public static final String ACTION_START_REVIEW_SEO = "START_REVIEW_SEO";
@@ -99,6 +114,14 @@ public interface Constants {
     public static final String ACTION_EDIT_PERSON_WITH_INTEREST_SUPERVISOR = "EDIT_PERSON_WITH_INTEREST_SUPERVISOR";
     public static final String ACTION_UPDATE_PERSON_WITH_INTEREST_SUPERVISOR = "UPDATE_PERSON_WITH_INTEREST_SUPERVISOR";
     public static final String ACTION_FINISH_PERSON_WITH_INTEREST_SUPERVISOR = "FINISH_PERSON_WITH_INTEREST_SUPERVISOR";
+
+    public static final String ACTION_GUARDIANS_LIST_SUPERVISOR = "GUARDIANS_LIST_SUPERVISOR";
+    public static final String ACTION_SAVE_GUARDIAN_SUPERVISOR = "SAVE_GUARDIAN_SUPERVISOR";
+    public static final String ACTION_DELETE_GUARDIAN_SUPERVISOR = "DELETE_GUARDIAN_SUPERVISOR";
+    public static final String ACTION_VIEW_GUARDIAN_SUPERVISOR = "VIEW_GUARDIAN_SUPERVISOR";
+    public static final String ACTION_EDIT_GUARDIAN_SUPERVISOR = "EDIT_GUARDIAN_SUPERVISOR";
+    public static final String ACTION_UPDATE_GUARDIAN_SUPERVISOR = "UPDATE_GUARDIAN_SUPERVISOR";
+    public static final String ACTION_FINISH_GUARDIAN_SUPERVISOR = "FINISH_GUARDIAN_SUPERVISOR";
 
     public static final String ACTION_DISPUTE_LIST_SUPERVISOR = "DISPUTE_LIST_SUPERVISOR";
     public static final String ACTION_SAVE_DISPUTE_SUPERVISOR = "SAVE_DISPUTE_SUPERVISOR";
@@ -205,6 +228,17 @@ public interface Constants {
     public static final int INDEX_RELOAD = 55;
     public static final int INDEX_PERIODICAL_REPORT = 56;
     public static final int INDEX_KEBELE_REPORT = 57;
+    
+    public static final int INDEX_VIEW_GUARDIAN_FEO = 58;
+    public static final int INDEX_VIEW_GUARDIAN_SEO = 59;
+    public static final int INDEX_GUARDIANS_LIST_FEO = 60;
+    public static final int INDEX_GUARDIANS_LIST_SEO = 61;
+    public static final int INDEX_EDIT_GUARDIAN_FEO = 62;
+    public static final int INDEX_EDIT_GUARDIAN_SEO = 63;
+    public static final int INDEX_EDIT_GUARDIAN_SUPERVISOR = 64;
+    public static final int INDEX_VIEW_GUARDIAN_SUPERVISOR = 65;
+    public static final int INDEX_GUARDIANS_LIST_SUPERVISOR = 66;
+    
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,
@@ -223,35 +257,4 @@ public interface Constants {
         CERTIFICATION_PRINTING
     };
 
-    public enum ACTIONS {
-
-        WELCOME,
-        SAVE_PARCEL,
-        SAVE_DISPUTE,
-        SAVE_HOLDER,
-        COMMIT,
-        SAVE_CORRECTIONS,
-        SEND_FOR_CORRECTION
-    };
-
-    public enum PAGES {
-
-        WELCOME,
-        NEW_PARCEL,
-        NEW_INDIVIDUAL_HOLDER,
-        NEW_ORGANIZATION_HOLDER,
-        NEW_DISPUTE,
-        SAVE_PARCEL,
-        SAVE_DISPUTE,
-        SAVE_HOLDER,
-        HODLER_LIST,
-        DISPUTE_LIST,
-        COMMIT,
-        SEND_FOR_CORRECTION,
-        PARCEL_CORRECTION,
-        ORGANIZATION_HOLDER_CORRECTION,
-        HOLDER_LIST_CORRECTION,
-        INDIVIDUAL_HOLDER_CORRECTION,
-        DISPUTE_CORRECTION,
-    };
 }

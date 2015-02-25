@@ -95,7 +95,7 @@
                                                 <%
                                                     Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
                                                     for (int i = 0; i < kebeles.length; i++) {
-                                                        out.println("<option value = '" + CommonStorage.getCurrentWoredaIdForUPI() + "/" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
+                                                        out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
                                                     }
                                                 %>
                                             </select>

@@ -16,7 +16,6 @@
         parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
     }
 
-    
     String saveurl, viewurl, editurl, deleteurl, backurl, nexturl;
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
@@ -24,14 +23,22 @@
         editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_FEO;
         deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_FEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
-        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_FEO;
+        if (currentParcel.hasOrphanHolder()) {
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_GUARDIANS_LIST_FEO;
+        } else {
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_FEO;
+        }
     } else {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SEO;
         viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SEO;
         editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SEO;
         deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
-        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SEO;
+        if (currentParcel.hasOrphanHolder()) {
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_GUARDIANS_LIST_SEO;
+        } else {
+            nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SEO;
+        }
     }
 %>
 <div class="col-lg-12">
@@ -45,12 +52,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     Parcel: Administrative UPI - ${sessionScope.upi}
-                    <%=reviewMode && parcelDifference.isIndividualHolderDetails()
-                            ?"<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in holder details</span>":""%>
-                            
-                    <span style='float:right' class='<%= reviewMode &&
-                                            parcelDifference.isHoldersCount()
-                                            ?"discrepancy-field":""%>'>Holders Count:<%=currentParcel.getHolderCount()%></span>
+                        <%=reviewMode && parcelDifference.isIndividualHolderDetails()
+                            ? "<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in holder details</span>" : ""%>
+                    <span style='float:right' class='<%= reviewMode
+                            && parcelDifference.isHoldersCount()
+                                    ? "discrepancy-field" : ""%>'>Holders Count:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -79,7 +85,7 @@
                                         out.println("<td>" + holders.get(i).getSexText() + "</td>");
                                         out.println("<td>" + holders.get(i).getDateOfBirth() + "</td>");
                                         out.println("<td>" + holders.get(i).getFamilyRoleText() + "</td>");
-                                        out.println("<td>" + holders.get(i).hasPhysicalImpairmentText()+ "</td>");
+                                        out.println("<td>" + holders.get(i).hasPhysicalImpairmentText() + "</td>");
                                         out.println("<td>");
                                         out.println("<a href = '#' class = 'viewButton' "
                                                 + "data-registeredOn = '" + holders.get(i).getRegisteredOn() + "' "
@@ -207,9 +213,9 @@
 <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <script type="text/javascript">
-    var calendarAdd = $.calendars.instance("ethiopian","am"); 
+    var calendarAdd = $.calendars.instance("ethiopian", "am");
     $("#addHolderForm #dateOfBirth").calendarsPicker({calendar: calendarAdd});
-    
+
     function closeModals() {
         $("#editModal").hide();
         $("#editModal").html("");

@@ -156,6 +156,44 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean save(Guardian guardian) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO Guardian( upi, stage, registeredby, "
+                + "registeredon, firstname, fathersname, grandfathersname, sex, "
+                + "dateofbirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, guardian.getUpi());
+            stmnt.setByte(2, guardian.getStage());
+            stmnt.setLong(3, guardian.getRegisteredBy());
+            stmnt.setTimestamp(4, guardian.getRegisteredOn());
+            stmnt.setString(5, guardian.getFirstName());
+            stmnt.setString(6, guardian.getFathersName());
+            stmnt.setString(7, guardian.getGrandFathersName());
+            stmnt.setString(8, guardian.getSex());
+            stmnt.setString(9, guardian.getDateOfBirth());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, guardian.getRegisteredBy());
+            stmnt.setString(3, "Guardian");
+            stmnt.setString(4, "NEW");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     public boolean save(Dispute dispute) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -801,6 +839,54 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean update(Guardian oldGuardian,
+            Guardian newGuardian) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE Guardian SET firstname=?, "
+                + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=? "
+                + "WHERE upi=? and stage = ? and registeredon = ?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newGuardian.getFirstName());
+            stmnt.setString(2, newGuardian.getFathersName());
+            stmnt.setString(3, newGuardian.getGrandFathersName());
+            stmnt.setString(4, newGuardian.getSex());
+            stmnt.setString(5, newGuardian.getDateOfBirth());
+            stmnt.setString(6, oldGuardian.getUpi());
+            stmnt.setByte(7, oldGuardian.getStage());
+            stmnt.setTimestamp(8, oldGuardian.getRegisteredOn());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            ArrayList<Change> changes = oldGuardian.getDifferenceForChangeLog(newGuardian);
+            for (Change change : changes) {
+                query = "INSERT INTO changelog(upi, activitydate, userid, "
+                        + "tablename, fieldname, fieldoldvalue, fieldnewvalue, "
+                        + "actiontype) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, oldGuardian.getUpi());
+                stmnt.setTimestamp(2, Timestamp.from(Instant.now()));
+                stmnt.setLong(3, newGuardian.getRegisteredBy());
+                stmnt.setString(4, "Guardian");
+                stmnt.setString(5, change.getField());
+                stmnt.setString(6, change.getOldValue());
+                stmnt.setString(7, change.getNewValue());
+                stmnt.setString(8, "UPDATE");
+                result = stmnt.executeUpdate();
+                if (result < 1) {
+                    returnValue = false;
+                }
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     public boolean update(OrganizationHolder oldOrganizationHolder,
             OrganizationHolder newOrganizationHolder) {
         boolean returnValue = true;
@@ -998,6 +1084,34 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public ArrayList<Guardian> getAllGuardians(String upi, byte stage) {
+        ArrayList<Guardian> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Guardian WHERE upi=? and stage=? and status='active'");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                Guardian guardian = new Guardian();
+                guardian.setDateOfBirth(rs.getString("dateofbirth"));
+                guardian.setFirstName(rs.getString("firstname"));
+                guardian.setFathersName(rs.getString("fathersname"));
+                guardian.setGrandFathersName(rs.getString("grandfathersname"));
+                guardian.setRegisteredBy(rs.getLong("registeredby"));
+                guardian.setRegisteredOn(rs.getTimestamp("registeredon"));
+                guardian.setSex(rs.getString("sex"));
+                guardian.setStage(rs.getByte("stage"));
+                guardian.setUpi(rs.getString("upi"));
+                returnValue.add(guardian);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
     public boolean deletePersonWithInterest(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -1014,6 +1128,36 @@ public class MasterRepository {
             stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
             stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
             stmnt.setString(3, "PersonWithInterest");
+            stmnt.setString(4, "DELETE");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+
+            connection.close();
+        } catch (Exception ex) {
+            returnValue = false;
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+     public boolean deleteGuardian(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE Guardian SET status='deleted' WHERE upi=? and stage=? and registeredOn=? ");
+            stmnt.setString(1, upi);
+            stmnt.setByte(2, stage);
+            stmnt.setTimestamp(3, registeredOn);
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "Guardian");
             stmnt.setString(4, "DELETE");
             result = stmnt.executeUpdate();
             if (result < 1) {
@@ -1241,6 +1385,7 @@ public class MasterRepository {
     }
 
     /**
+     * @param region id of the region
      * @return a hash table of all the woredas in a region
      */
     public Option[] getAllWoredas(int region) {
@@ -1377,6 +1522,35 @@ public class MasterRepository {
             stmnt.setString(7, personWithInterest.getGrandFathersName());
             stmnt.setString(8, personWithInterest.getSex());
             stmnt.setString(9, personWithInterest.getDateOfBirth());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean commit(Guardian guardian) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO Guardian( upi, stage, registeredby, "
+                + "registeredon, firstname, fathersname, grandfathersname, sex, "
+                + "dateofbirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, guardian.getUpi());
+            stmnt.setByte(2, CommonStorage.getCommitedStage());
+            stmnt.setLong(3, guardian.getRegisteredBy());
+            stmnt.setTimestamp(4, Timestamp.from(Instant.now()));
+            stmnt.setString(5, guardian.getFirstName());
+            stmnt.setString(6, guardian.getFathersName());
+            stmnt.setString(7, guardian.getGrandFathersName());
+            stmnt.setString(8, guardian.getSex());
+            stmnt.setString(9, guardian.getDateOfBirth());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1537,6 +1711,35 @@ public class MasterRepository {
             stmnt.setString(7, personWithInterest.getGrandFathersName());
             stmnt.setString(8, personWithInterest.getSex());
             stmnt.setString(9, personWithInterest.getDateOfBirth());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean submitForCorrection(Guardian guardian) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO Guardian( upi, stage, registeredby, "
+                + "registeredon, firstname, fathersname, grandfathersname, sex, "
+                + "dateofbirth) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, guardian.getUpi());
+            stmnt.setByte(2, CommonStorage.getCorrectionStage());
+            stmnt.setLong(3, guardian.getRegisteredBy());
+            stmnt.setTimestamp(4, Timestamp.from(Instant.now()));
+            stmnt.setString(5, guardian.getFirstName());
+            stmnt.setString(6, guardian.getFathersName());
+            stmnt.setString(7, guardian.getGrandFathersName());
+            stmnt.setString(8, guardian.getSex());
+            stmnt.setString(9, guardian.getDateOfBirth());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;

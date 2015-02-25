@@ -1,6 +1,7 @@
 package org.lift.massreg.dto;
 
 import java.util.ArrayList;
+import org.lift.massreg.entity.Guardian;
 
 /**
  * @author Yoseph Berhanu <yoseph@bayeth.com>
@@ -26,14 +27,17 @@ public class ParcelDifference {
     private boolean hasDispute;
 
     private boolean personsWithInterestCount;
+    private boolean guardiansCount;
     private boolean disputesCount;
     private boolean holdersCount;
     private boolean individualHolderDetails;
     private boolean personsWithInterestDetails;
+    private boolean guardiansDetails;
     private boolean disputesDetails;
 
     private OrganizationHolderDifference organizationHolderDifference;
     private ArrayList<IndividualHolderDifference> individualHolders;
+    private ArrayList<GuardianDifference> guardians;
     private ArrayList<PersonWithInterestDifference> personsWithInterest;
     private ArrayList<DisputeDifference> disputes;
 
@@ -213,4 +217,21 @@ public class ParcelDifference {
         this.disputesDetails = disputesDetails;
     }
 
+    public boolean isGuardiansCount() {
+        return guardiansCount;
+    }
+
+    public void setGuardiansCount(boolean guardiansCount) {
+        this.guardiansCount = guardiansCount;
+    }
+
+    public boolean isGuardiansDetails() {
+        return guardiansDetails;
+    }
+
+    public void setGuardiansDetails(boolean guardiansDetails) {
+        this.guardiansDetails = guardiansDetails;
+    }
+
+    
 }

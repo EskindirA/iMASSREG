@@ -828,6 +828,30 @@ public class SecondEntry {
     }
 
     /**
+     * Handlers request for viewing a guardian by the first entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void viewGuardian(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") != null) {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_GUARDIAN_SEO));
+            rd.forward(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the guardian your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    /**
      * Handlers request to save a person with interest by the second entry
      * operator
      *
@@ -928,6 +952,32 @@ public class SecondEntry {
         }
     }
 
+       /**
+     * Handlers request for getting the edit guardian form by the first entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void editGuardian(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
+        request.setAttribute("currentParcel", currentParcel);
+        // if the parcel does not exit in the database 
+        if (currentParcel == null) {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "The guardian you are trying to edit does not exist in the database, use the add button to register it.");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_GUARDIAN_SEO));
+            rd.forward(request, response);
+        }
+    }
+
+ 
     /**
      * Handlers request to update person with interest information by the second
      * entry operator
@@ -1274,6 +1324,56 @@ public class SecondEntry {
         }
     }
 
+     /**
+     * Handlers request to update guardian information by the second entry
+     * operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void updateGuardian(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
+        request.setAttribute("currentParcel", currentParcel);
+
+        Guardian oldGuardian = currentParcel.getGuardian(
+                currentParcel.getStage(), Timestamp.valueOf(request.getParameter("registeredOn")));
+        Guardian newGuardian = new Guardian();
+        try {
+            newGuardian.setDateOfBirth(request.getParameter("dateofbirth"));
+            newGuardian.setFirstName(request.getParameter("firstname"));
+            newGuardian.setFathersName(request.getParameter("fathersname"));
+            newGuardian.setGrandFathersName(request.getParameter("grandfathersname"));
+            newGuardian.setSex(request.getParameter("sex"));
+            newGuardian.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
+            newGuardian.setUpi(request.getSession().getAttribute("upi").toString());
+            newGuardian.setStatus(Constants.STATUS[0]);
+            if (newGuardian.validateForUpdate()) {
+                MasterRepository.getInstance().update(oldGuardian, newGuardian);
+                guardiansList(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to guardian list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_GUARDIANS_LIST_SEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to guardians List");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_GUARDIANS_LIST_SEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
     /**
      * Handlers request try commit the current parcel to confirmed status
      *
@@ -1300,6 +1400,61 @@ public class SecondEntry {
             rd.forward(request, response);
         }
     }
+   /**
+     * Handlers request to view list of guardians by the second entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void guardiansList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        boolean reviewMode = false;
+        if (request.getSession().getAttribute("reviewMode") != null) {
+            reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
+        }
+        if (reviewMode) {
+            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+            Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+            request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, seoParcel));
+        }
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        parcel = (Parcel) request.getAttribute("currentParcel");
+        if (parcel != null) {
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_GUARDIANS_LIST_SEO));
+            rd.forward(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "Sorry, the parcel your are looking for dose not exist in the database");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+
+    }
+
+    /**
+     * Handlers request to delete a guardian by the second entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void deleteGuardian(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (Guardian.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage())) {
+            guardiansList(request, response);
+        } else {
+            // if the parcel fails to validate show error message
+            request.getSession().setAttribute("title", "Delete Error");
+            request.getSession().setAttribute("message", "Sorry, there was a problem deleteing the guardian");
+            request.getSession().setAttribute("returnTitle", "Go back to guardian list");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_GUARDIANS_LIST_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
 
     /**
      * Handlers request try commit the current parcel to confirmed status
@@ -1313,6 +1468,57 @@ public class SecondEntry {
         viewParcel(request, response);
     }
 
+    /**
+     * Handlers request to save a guardian by the second entry operator
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     */
+    protected static void saveGuardian(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
+        request.setAttribute("currentParcel", parcel);
+        if (parcel != null) {
+            Guardian guardian = new Guardian();
+            try {
+                guardian.setRegisteredOn(Timestamp.from(Instant.now()));
+                guardian.setDateOfBirth(request.getParameter("dateofbirth"));
+                guardian.setFirstName(request.getParameter("firstname"));
+                guardian.setFathersName(request.getParameter("fathersname"));
+                guardian.setGrandFathersName(request.getParameter("grandfathersname"));
+                guardian.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
+                guardian.setSex(request.getParameter("sex"));
+                guardian.setStage(CommonStorage.getSEStage());
+                guardian.setUpi(request.getSession().getAttribute("upi").toString());
+                guardian.setStatus(Constants.STATUS[0]);
+
+                if (guardian.validateForSave()) {
+                    guardian.save();
+                    guardiansList(request, response);
+                } else {
+                    // if the parcel fails to validate show error message
+                    request.getSession().setAttribute("title", "Validation Error");
+                    request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                    request.getSession().setAttribute("returnTitle", "Go back to guardian list");
+                    request.getSession().setAttribute("returnAction", Constants.ACTION_GUARDIANS_LIST_SEO);
+                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                    rd.forward(request, response);
+                }
+
+            } catch (NumberFormatException | ServletException | IOException ex) {
+                CommonStorage.getLogger().logError(ex.toString());
+                request.getSession().setAttribute("title", "Inrernal Error");
+                request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+                request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_GUARDIANS_LIST_SEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+        }
+
+    }
+
+   
     /**
      * Handlers request send the current parcel for correction by the supervisor
      *

@@ -16,7 +16,12 @@
     editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SUPERVISOR;
     deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SUPERVISOR;
     backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SUPERVISOR;
-    nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SUPERVISOR;
+    if(currentParcel.hasOrphanHolder()){
+        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_GUARDIANS_LIST_SUPERVISOR;
+    }
+    else{
+        nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SUPERVISOR;
+    }
 %>
 <div class="col-lg-12">
     <div class="row">
