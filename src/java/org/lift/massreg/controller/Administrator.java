@@ -4,8 +4,6 @@ import java.io.*;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Properties;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.lift.massreg.dao.MasterRepository;
@@ -297,11 +295,12 @@ public class Administrator {
         String file = request.getParameter("file");
         File f = new File(file);
         try {
+            ReportUtil.sign(file);
             FileInputStream in = new FileInputStream(f);
             byte[] data = new byte[(int) f.length()];
             in.read(data);
             in.close();
-            response.setContentType("text/*");
+            response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-Disposition", "attachment; filename=" + file);
             response.setHeader("Cache-Control", "no cache");
             OutputStream out = response.getOutputStream();
@@ -316,11 +315,13 @@ public class Administrator {
             throws ServletException, IOException {
         Date fromDate = Date.valueOf(request.getParameter("fromDate"));
         Date toDate = Date.valueOf(request.getParameter("toDate"));
+        String fileName = CommonStorage.getCurrentWoredaName() + " Timebound report - " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
         if (fromDate == null || toDate == null) {
             response.getOutputStream().println("Please specfiey valide report dates");
         } else {
-            request.setAttribute("report", generateTimeBoundReport(request, fromDate, toDate));
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PERIODICAL_REPORT));
+            ReportUtil.generateTimeBoundReport(fromDate, toDate, fileName);
+            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
             rd.forward(request, response);
         }
     }
@@ -331,121 +332,14 @@ public class Administrator {
         if (kebele.isEmpty()) {
             response.getOutputStream().println("Please specfiey kebele for the report ");
         } else {
-            request.setAttribute("report", generateKebeleReport(request));
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_KEBELE_REPORT));
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
+            String fileName = "Kebele Report " + kebeleName+ " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+            ReportUtil.generateKebeleReport(kebeleId, kebeleName, fileName);
+            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
             rd.forward(request, response);
         }
     }
 
-    private static Properties generateTimeBoundReport(HttpServletRequest request, Date fromDate, Date toDate) {
-        Properties report = new Properties();
-
-        Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
-
-        for (Option kebele : kebeles) {
-            int result = MasterRepository.getInstance().getCountOfCommittedParcels(fromDate, toDate, kebele.getKey());
-            if (result > 0) {
-            report.setProperty("Total number of parcels entered into iMASSREG:" + kebele.getValue(), result + "");
-            report.setProperty("Total number of non committed parcels:" + kebele.getValue(), MasterRepository.getInstance().getCountOfNonCommittedParcels(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of parcels under dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfParcelsWithDispute(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of unique individual holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfUniqueHolders(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of female holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfFemaleHolders(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of male holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfMaleHolders(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of female in shared ownerships:" + kebele.getValue(), MasterRepository.getInstance().getCountFemaleInSharedOwnerships(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of male in shared ownerships:" + kebele.getValue(), MasterRepository.getInstance().getCountMaleInSharedOwnerships(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of single female holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSingleFemaleHolders(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of single male holders:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSingleMaleHolders(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of parcels with of shared ownership:" + kebele.getValue(), MasterRepository.getInstance().getCountOfSharedOwnership(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of female involved in a dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfFemaleInDispute(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of male involved in a dispute:" + kebele.getValue(), MasterRepository.getInstance().getCountOfMaleInDispute(fromDate, toDate, kebele.getKey()) + "");
-            report.setProperty("Total number of non-natural persons:" + kebele.getValue(), MasterRepository.getInstance().getCountOfNonNaturalPersons(fromDate, toDate, kebele.getKey()) + "");
-            }
-        }
-        report.setProperty("Report generated on", Instant.now().toString().replace("T", " "));
-        report.setProperty("Woreda id", CommonStorage.getCurrentWoredaIdForUPI());
-        report.setProperty("Woreda name", CommonStorage.getCurrentWoredaName());
-        try {
-            report.store(new FileOutputStream("tempReport.properties"), null);
-            String outputFile = Date.from(Instant.now()).getTime() + ".imrf";
-
-            File iFile = new File("tempReport.properties");
-            File oFile = new File(outputFile);
-            FileInputStream fis = new FileInputStream(iFile);
-            byte[] data = new byte[(int) iFile.length()];
-            fis.read(data);
-            fis.close();
-
-            FileOutputStream fos = new FileOutputStream(oFile);
-            fos.write(Base64.getEncoder().encode(data));
-            fos.close();
-            iFile.delete();
-            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + outputFile);
-
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return report;
-    }
-
-    private static Properties generateKebeleReport(HttpServletRequest request) {
-        long kebele = Long.parseLong(request.getParameter("kebele"));
-        Date fromDate = Date.valueOf("1900-01-01");
-        Date toDate = Date.valueOf("2200-01-01");
-        MasterRepository.getInstance().updateParcelArea(kebele);
-
-        Properties report = new Properties();
-        long totalDemarcated = MasterRepository.getInstance().getCountOfDemarcatedParcels(kebele);
-        long totalMASSREG = MasterRepository.getInstance().getCountOfCommittedParcels(kebele);
-            
-        //// aggregate data for the kebele
-        report.setProperty("Woreda id", CommonStorage.getCurrentWoredaIdForUPI());
-        report.setProperty("Woreda name", CommonStorage.getCurrentWoredaName());
-        report.setProperty("Kebele", MasterRepository.getInstance().getKebeleName(kebele, "english"));
-        report.setProperty("Report generated on", Instant.now().toString().replace("T", " "));
-        report.setProperty("Total number of parcels entered into iMASSREG", MasterRepository.getInstance().getCountOfCommittedParcels(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of non committed parcels", MasterRepository.getInstance().getCountOfNonCommittedParcels(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of parcels under dispute", MasterRepository.getInstance().getCountOfParcelsWithDispute(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of unique individual holders", MasterRepository.getInstance().getCountOfUniqueHolders(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of female holders", MasterRepository.getInstance().getCountOfFemaleHolders(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of male holders", MasterRepository.getInstance().getCountOfMaleHolders(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of female in shared ownerships", MasterRepository.getInstance().getCountFemaleInSharedOwnerships(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of male in shared ownerships" , MasterRepository.getInstance().getCountMaleInSharedOwnerships(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of single female holders", MasterRepository.getInstance().getCountOfSingleFemaleHolders(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of single male holders", MasterRepository.getInstance().getCountOfSingleMaleHolders(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of parcels with of shared ownership", MasterRepository.getInstance().getCountOfSharedOwnership(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of female involved in a dispute", MasterRepository.getInstance().getCountOfFemaleInDispute(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of male involved in a dispute", MasterRepository.getInstance().getCountOfMaleInDispute(fromDate, toDate, kebele + "") + "");
-        report.setProperty("Total number of non-natural persons", MasterRepository.getInstance().getCountOfNonNaturalPersons(fromDate, toDate, kebele + "") + "");
-        
-        //// Data from GIS
-        report.setProperty("Total number of parcels demarcated", totalDemarcated + "");
-        report.setProperty("Number of parcels with incomplete information", (totalDemarcated - totalMASSREG) + "");
-        report.setProperty("Total Size of Kebele(in Ha)", MasterRepository.getInstance().getSizeOfKebele(kebele) + "");
-        report.setProperty("Average parcel size(in Ha)", MasterRepository.getInstance().getAverageParcelSize(kebele) + "");
-        report.setProperty("Average parcel size Per single male(in Ha)", MasterRepository.getInstance().getAverageParcelSizeForSingleMale(kebele) + "");
-        report.setProperty("Average parcel size Per single female(in Ha)", MasterRepository.getInstance().getAverageParcelSizeForSingleFemale(kebele) + "");
-        report.setProperty("Average parcel size per shared ownership(in Ha)", MasterRepository.getInstance().getAverageParcelSizeForSharedOwnership(kebele) + "");
-        report.setProperty("Average parcel size for non natural persons(in Ha)", MasterRepository.getInstance().getAverageParcelSizeForNonNatrualPersons(kebele) + "");
-        try {
-            report.store(new FileOutputStream("tempReport.properties"), null);
-            String outputFile = Date.from(Instant.now()).getTime() + ".imrf";
-
-            File iFile = new File("tempReport.properties");
-            File oFile = new File(outputFile);
-            FileInputStream fis = new FileInputStream(iFile);
-            byte[] data = new byte[(int) iFile.length()];
-            fis.read(data);
-            fis.close();
-
-            FileOutputStream fos = new FileOutputStream(oFile);
-            fos.write(Base64.getEncoder().encode(data));
-            fos.close();
-            iFile.delete();
-            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + outputFile);
-
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return report;
-    }
 }

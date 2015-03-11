@@ -31,10 +31,14 @@ public class CommonStorage {
     private static String languageFile = "en_us.properties";
     private static final String settingsFile = "settings.properties";
 
+    private static String keystoreFilePath = null;
+
     private static String GISDBHost = null;
     private static String GISDBName = null;
     private static String GISDBUserName = null;
     private static String GISDBPassword = null;
+
+    private static final char keyStorePassword[] = "p#$$w0rd".toCharArray();
 
     public static long getCurrentWoredaId() {
         if (woredaId < 0) {
@@ -102,14 +106,19 @@ public class CommonStorage {
         try {
             InitialContext ctx = new InitialContext();
             GISDBHost = (String) ctx.lookup("resource/GISDBHost");
-            GISDBName = (String) ctx.lookup("resource/GISDBName");;
-            GISDBUserName = (String) ctx.lookup("resource/GISDBUserName");;
-            GISDBPassword = (String) ctx.lookup("resource/GISDBPassword");;
+            GISDBName = (String) ctx.lookup("resource/GISDBName");
+            GISDBUserName = (String) ctx.lookup("resource/GISDBUserName");
+            GISDBPassword = (String) ctx.lookup("resource/GISDBPassword");
+            keystoreFilePath = (String) ctx.lookup("resource/keystoreFilePath");
+
         } catch (NamingException ex) {
             CommonStorage.getLogger().logError(ex.toString());
         }
     }
 
+    public static String getKeystoreFilePath() {
+        return keystoreFilePath;
+    }
     public static String getText(String key) {
         return languageBundle.getProperty(key);
     }
@@ -124,6 +133,9 @@ public class CommonStorage {
         return new SimpleDateFormat("yyyy-MM-dd").format(java.util.Date.from(Instant.now()));
     }
 
+    public static char[] getKeyStorePassword() {
+        return keyStorePassword;
+    }
     public static void setWoreda(long newWoredaId, String newWoredaName, String newWoredaIdForUPI) {
         // Save to Properties (Woreda, langiage)
         Properties prop = new Properties();

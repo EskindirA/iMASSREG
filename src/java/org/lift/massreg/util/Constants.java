@@ -226,8 +226,7 @@ public interface Constants {
     public static final int INDEX_VIEW_USER_ADMINISTRATOR = 53;
     public static final int INDEX_EDIT_USER_ADMINISTRATOR = 54;
     public static final int INDEX_RELOAD = 55;
-    public static final int INDEX_PERIODICAL_REPORT = 56;
-    public static final int INDEX_KEBELE_REPORT = 57;
+    public static final int INDEX_DOWNLOAD_REPORT = 56;
     
     public static final int INDEX_VIEW_GUARDIAN_FEO = 58;
     public static final int INDEX_VIEW_GUARDIAN_SEO = 59;

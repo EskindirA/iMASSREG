@@ -523,8 +523,7 @@
         }
         return false;
     });
-    
-$("#reportLink").click(function() {
+    $("#reportLink").click(function() {
         $("#reportDetail").html("");
     });
 </script>

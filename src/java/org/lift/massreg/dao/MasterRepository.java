@@ -1112,7 +1112,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public boolean deletePersonWithInterest(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -1143,7 +1143,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-     public boolean deleteGuardian(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
+    public boolean deleteGuardian(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -1978,379 +1978,332 @@ public class MasterRepository {
         return returnValue;
     }
 
-    /// Reports at the woreda level
-    /// Periodical reports
-    /**
-     * @return Total number of parcels entered into iMASSREG for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfCommittedParcels(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(upi) as c FROM parcel WHERE stage=4 and status = 'active' and registeredon between ? and ? and UPI LIKE '" + kebele + "%'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of parcels entered into iMASSREG for a kebele
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfCommittedParcels(long kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(upi) as c FROM parcel WHERE stage=4 and status = 'active' and UPI LIKE '" + kebele + "%'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of parcels entered into iMASSREG for a kebele but
-     * not committed
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfNonCommittedParcels(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon between ? and ? and UPI LIKE '" + kebele + "%' and upi not in ( SELECT upi FROM parcel WHERE stage=4 and status = 'active')";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of parcels under dispute for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfParcelsWithDispute(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(upi) as c FROM parcel WHERE stage=4 and status = 'active' and registeredon between ? and ? and UPI LIKE '" + kebele + "%' and hasdispute=true";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of unique holders for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfUniqueHolders(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(ih.*) as c FROM parcel p, individualholder ih WHERE p.status = 'active' and ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%' and p.stage=4;";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of Female holders for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfFemaleHolders(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct ih.holderId) as c FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%' and p.stage=4 and ih.sex='f'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of male holders for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfMaleHolders(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct ih.holderId) as c FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%' and p.stage=4 and ih.sex='m'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of FHH for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountFemaleInSharedOwnerships(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(holderid) as c FROM IndividualHolder WHERE stage=4 and sex='f' and status = 'active' and UPI in ( SELECT ih.upi FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ?  and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 group by ih.UPI having count(ih.holderId) > 1)";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of MHH for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountMaleInSharedOwnerships(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(holderid) as c FROM IndividualHolder WHERE stage=4 and sex='m' and status = 'active' and UPI in ( SELECT ih.upi FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ?  and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 group by ih.UPI having count(ih.holderId) > 1)";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of parcels with of shared ownership for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfSharedOwnership(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(c) as c FROM ( SELECT ih.upi, count(ih.holderid) as c   FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 group by ih.UPI having count(ih.holderId) > 1) a";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of of female involved in a dispute for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfFemaleInDispute(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(*) as c FROM parcel p, dispute d WHERE p.status = 'active' and  d.status = 'active' and d.registeredon between ? and ? and p.UPI = d.UPI and p.stage = d.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 and d.sex='f'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of of male involved in a dispute for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfMaleInDispute(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(*) as c FROM parcel p, dispute d WHERE p.status = 'active' and  d.status = 'active' and d.registeredon between ? and ? and p.UPI = d.UPI and p.stage = d.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 and d.sex='m'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of single female holders for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfSingleFemaleHolders(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(upi) as c FROM IndividualHolder  WHERE stage=4 and sex='f' and status = 'active' and UPI in (SELECT ih.UPI FROM Parcel p,  IndividualHolder ih  WHERE  p.status = 'active' and  ih.status = 'active' and ih.registeredon between  ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.stage=4 and p.UPI LIKE '" + kebele + "%' GROUP BY ih.UPI HAVING count(ih.holderId) = 1)";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of single male holders for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfSingleMaleHolders(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(upi) as c FROM IndividualHolder  WHERE stage=4 and sex='m' and status = 'active' and UPI in (SELECT ih.UPI FROM Parcel p,  IndividualHolder ih  WHERE  p.status = 'active' and  ih.status = 'active' and ih.registeredon between  ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.stage=4 and p.UPI LIKE '" + kebele + "%' GROUP BY ih.UPI HAVING count(ih.holderId) = 1)";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
-
-    /**
-     * @return Total number of non-natural persons for a kebele
-     * @param from : starting date for report
-     * @param to : ending date for report
-     * @param kebele : kebele to report on
-     */
-    public int getCountOfNonNaturalPersons(Date from, Date to, String kebele) {
-        int returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct oh.organizationname) as c FROM parcel p, organizationholder oh WHERE p.status = 'active' and  oh.status = 'active' and oh.registeredon between ? and ? and p.UPI = oh.UPI and p.stage = oh.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setDate(1, from);
-            stmnt.setDate(2, to);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getInt("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
-        return returnValue;
-    }
+//    /// Reports at the woreda level
+//    /// Periodical reports
+//    /**
+//     * @return Total number of parcels entered into iMASSREG for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfCommittedParcels(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(upi) as c FROM parcel WHERE stage=4 and status = 'active' and registeredon between ? and ? and UPI LIKE '" + kebele + "%'";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of parcels under dispute for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfParcelsWithDispute(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(upi) as c FROM parcel WHERE stage=4 and status = 'active' and registeredon between ? and ? and UPI LIKE '" + kebele + "%' and hasdispute=true";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of unique holders for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfUniqueHolders(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(ih.*) as c FROM parcel p, individualholder ih WHERE p.status = 'active' and ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%' and p.stage=4;";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of Female holders for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfFemaleHolders(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(distinct ih.holderId) as c FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%' and p.stage=4 and ih.sex='f'";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of male holders for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfMaleHolders(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(distinct ih.holderId) as c FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%' and p.stage=4 and ih.sex='m'";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of FHH for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountFemaleInSharedOwnerships(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(holderid) as c FROM IndividualHolder WHERE stage=4 and sex='f' and status = 'active' and UPI in ( SELECT ih.upi FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ?  and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 group by ih.UPI having count(ih.holderId) > 1)";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of MHH for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountMaleInSharedOwnerships(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(holderid) as c FROM IndividualHolder WHERE stage=4 and sex='m' and status = 'active' and UPI in ( SELECT ih.upi FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ?  and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 group by ih.UPI having count(ih.holderId) > 1)";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of parcels with of shared ownership for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfSharedOwnership(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(c) as c FROM ( SELECT ih.upi, count(ih.holderid) as c   FROM parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and  ih.registeredon between ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 group by ih.UPI having count(ih.holderId) > 1) a";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of of female involved in a dispute for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfFemaleInDispute(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(*) as c FROM parcel p, dispute d WHERE p.status = 'active' and  d.status = 'active' and d.registeredon between ? and ? and p.UPI = d.UPI and p.stage = d.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 and d.sex='f'";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of of male involved in a dispute for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfMaleInDispute(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(*) as c FROM parcel p, dispute d WHERE p.status = 'active' and  d.status = 'active' and d.registeredon between ? and ? and p.UPI = d.UPI and p.stage = d.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4 and d.sex='m'";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of single female holders for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountParcelsUnderSingleFemaleHolders(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(upi) as c FROM IndividualHolder  WHERE stage=4 and sex='f' and status = 'active' and UPI in (SELECT ih.UPI FROM Parcel p,  IndividualHolder ih  WHERE  p.status = 'active' and  ih.status = 'active' and ih.registeredon between  ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.stage=4 and p.UPI LIKE '" + kebele + "%' GROUP BY ih.UPI HAVING count(ih.holderId) = 1)";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of single male holders for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfSingleMaleHolders(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(upi) as c FROM IndividualHolder  WHERE stage=4 and sex='m' and status = 'active' and UPI in (SELECT ih.UPI FROM Parcel p,  IndividualHolder ih  WHERE  p.status = 'active' and  ih.status = 'active' and ih.registeredon between  ? and ? and p.UPI = ih.UPI and p.stage = ih.stage and p.stage=4 and p.UPI LIKE '" + kebele + "%' GROUP BY ih.UPI HAVING count(ih.holderId) = 1)";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Total number of non-natural persons for a kebele
+//     * @param from : starting date for report
+//     * @param to : ending date for report
+//     * @param kebele : kebele to report on
+//     */
+//    public int getCountOfNonNaturalPersons(Date from, Date to, String kebele) {
+//        int returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT count(distinct oh.organizationname) as c FROM parcel p, organizationholder oh WHERE p.status = 'active' and  oh.status = 'active' and oh.registeredon between ? and ? and p.UPI = oh.UPI and p.stage = oh.stage and p.UPI LIKE '" + kebele + "%'  and p.stage=4";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            stmnt.setDate(1, from);
+//            stmnt.setDate(2, to);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getInt("c");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
 
     private String getKebeleTable(long kebele) {
         return getKebeleName(kebele, "english").toLowerCase().replace(" ", "_")
@@ -2367,7 +2320,7 @@ public class MasterRepository {
         try {
             String query = "UPDATE Parcel SET area = P2.area FROM dblink("
                     + getDBLinkString() + " ,'SELECT parcel_id, "
-                    + "ST_Area (the_geom) as area FROM " + getKebeleTable(kebele)
+                    + "ST_Area (the_geom) *POWER(0.3048,2) as area FROM " + getKebeleTable(kebele)
                     + "') as P2(parcel_id integer, area double precision) WHERE Parcel.parcelid = P2.parcel_id";
             Connection connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
@@ -2378,22 +2331,156 @@ public class MasterRepository {
         }
     }
 
-    /// Reports generated once the kebele digitization is complete 
+//    /// Reports generated once the kebele digitization is complete 
+//    /**
+//     * @return The area size of a kebele
+//     * @param kebele : kebele to report on
+//     */
+//    public double getSizeOfKebele(long kebele) {
+//        double returnValue = 0.0;
+//        try {
+//            String query = "SELECT sum(P2.area) as totalArea FROM dblink(" + getDBLinkString()
+//                    + ", 'SELECT  ST_Area (the_geom) *POWER(0.3048,2) as area FROM " + getKebeleTable(kebele) + "') as P2(area double precision)";
+//
+//            Connection connection = CommonStorage.getConnection();
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getDouble("totalArea");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return The average area of a parcel in a kebele
+//     * @param kebele : kebele to report on
+//     */
+//    public double getAverageParcelSize(long kebele) {
+//        double returnValue = 0.0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT avg(area) as avgArea FROM parcel WHERE stage=4 and status = 'active' and UPI LIKE '" + kebele + "%'";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getDouble("avgArea");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Average parcel size for single male holders in a kebele
+//     * @param kebele : kebele to report on
+//     */
+//    public double getAverageParcelSizeForSingleMale(long kebele) {
+//        double returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and UPI in ( SELECT ih.upi FROM Parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and p.stage = ih.stage and p.stage=4 and p.UPI = ih.UPI and p.UPI LIKE '" + kebele + "%' and ih.sex='m' GROUP BY ih.upi HAVING count(ih.holderId) = 1)";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getDouble("avgArea");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Average parcel size for single female holders in a kebele
+//     * @param kebele : kebele to report on
+//     */
+//    public double getAverageParcelSizeForSingleFemale(long kebele) {
+//        double returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and UPI in ( SELECT ih.upi FROM Parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and p.stage = ih.stage and p.stage=4 and p.UPI = ih.UPI and p.UPI LIKE '" + kebele + "%' and ih.sex='f' GROUP BY ih.upi HAVING count(ih.holderId) = 1)";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getDouble("avgArea");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Average parcel size for parcels with shared ownership in a kebele
+//     * @param kebele : kebele to report on
+//     */
+//    public double getAverageParcelSizeForSharedOwnership(long kebele) {
+//        double returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and UPI in ( SELECT ih.upi FROM Parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and p.stage = ih.stage and p.stage=4 and p.UPI = ih.UPI and p.UPI LIKE '" + kebele + "%' GROUP BY ih.upi HAVING count(ih.holderId) > 1)";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getDouble("avgArea");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+//
+//    /**
+//     * @return Average parcel size for parcels with non natural persons
+//     * ownership in a kebele
+//     * @param kebele : kebele to report on
+//     */
+//    public double getAverageParcelSizeForNonNatrualPersons(long kebele) {
+//        double returnValue = 0;
+//        Connection connection = CommonStorage.getConnection();
+//        try {
+//            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and holdingType <> 1 and UPI LIKE '" + kebele + "%' ";
+//            PreparedStatement stmnt = connection.prepareStatement(query);
+//            ResultSet rs = stmnt.executeQuery();
+//            if (rs.next()) {
+//                returnValue = rs.getDouble("avgArea");
+//            }
+//            connection.close();
+//        } catch (Exception ex) {
+//            CommonStorage.getLogger().logError(ex.toString());
+//        }
+//        return returnValue;
+//    }
+
+    /////////////////////
+    // New Reports
+    // Timebound Report
     /**
-     * @return The area size of a kebele
+     * @return Total number of parcels with married couple holders for a kebele
+     * @param from : starting date for report
+     * @param to : ending date for report
      * @param kebele : kebele to report on
      */
-    public double getSizeOfKebele(long kebele) {
-        double returnValue = 0.0;
+    public long getCountOfParcelsUnderMarriedCoupleHolders(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(P2.area) as totalArea FROM dblink(" + getDBLinkString()
-                    + ", 'SELECT  ST_Area (the_geom) as area FROM " + getKebeleTable(kebele) + "') as P2(area double precision)";
-
-            Connection connection = CommonStorage.getConnection();
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple)";
             PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
-                returnValue = rs.getDouble("totalArea");
+                returnValue = rs.getLong("c");
             }
             connection.close();
         } catch (Exception ex) {
@@ -2403,18 +2490,301 @@ public class MasterRepository {
     }
 
     /**
-     * @return The average area of a parcel in a kebele
+     * @return Total number of parcels under single female holders for a kebele
+     * @param from : starting date for report
+     * @param to : ending date for report
      * @param kebele : kebele to report on
      */
-    public double getAverageParcelSize(long kebele) {
-        double returnValue = 0.0;
+    public long getCountOfParcelsUnderSingleFemaleHolders(Date from, Date to, String kebele) {
+        long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as avgArea FROM parcel WHERE stage=4 and status = 'active' and UPI LIKE '" + kebele + "%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='m' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels under single male holders for a kebele
+     * @param from : starting date for report
+     * @param to : ending date for report
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfParcelsUnderSingleMaleHolders(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='f' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels under orphans holders for a kebele
+     * @param from : starting date for report
+     * @param to : ending date for report
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfParcelsUnderOrphanHolders(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels under holding of non-natural persons for
+     * a kebele
+     * @param from : starting date for report
+     * @param to : ending date for report
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfParcelsUnderNonNaturalHolders(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and holdingtype!=1 and registeredon between ? and ? and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels under holding of not married persons for
+     * a kebele
+     * @param from : starting date for report
+     * @param to : ending date for report
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfParcelsUnderOtherHoldingTypes(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels under dispute for a kebele
+     * @param from : starting date for report
+     * @param to : ending date for report
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfParcelsUnderDispute(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels entered into iMASSREG for a kebele
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfAllCommittedParcels(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels entered into iMASSREG for a kebele but
+     * not committed
+     * @param from : starting date for report
+     * @param to : ending date for report
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfAllNonCommittedParcels(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon between ? and ? and UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM Parcel WHERE stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /// Kebele Report
+    public long getCountOfMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM MarriedCouple WHERE UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
-                returnValue = rs.getDouble("avgArea");
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder, Parcel WHERE IndividualHolder.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.hasDispute=false AND IndividualHolder.stage=Parcel.stage AND IndividualHolder.UPI=Parcel.UPI AND IndividualHolder.stage=4 AND IndividualHolder.status='active' AND IndividualHolder.isOrphan=true";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfNonNaturalHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct organizationname) as c FROM OrganizationHolder,Parcel WHERE OrganizationHolder.UPI LIKE '" + kebele + "/%'  AND Parcel.stage=4 AND Parcel.status='active' AND Parcel.hasDispute=false AND OrganizationHolder.stage=4 AND OrganizationHolder.status='active'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.hasDispute=true AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
             }
             connection.close();
         } catch (Exception ex) {
@@ -2448,19 +2818,123 @@ public class MasterRepository {
         return returnValue;
     }
 
-    /**
-     * @return Average parcel size for single male holders in a kebele
-     * @param kebele : kebele to report on
-     */
-    public double getAverageParcelSizeForSingleMale(long kebele) {
-        double returnValue = 0;
+    public long getCountOfAllCommittedParcels(long kebele) {
+        long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and UPI in ( SELECT ih.upi FROM Parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and p.stage = ih.stage and p.stage=4 and p.UPI = ih.UPI and p.UPI LIKE '" + kebele + "%' and ih.sex='m' GROUP BY ih.upi HAVING count(ih.holderId) = 1)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.stage=4";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
-                returnValue = rs.getDouble("avgArea");
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsNoData(long kebele) {
+        long returnValue = 0;
+        returnValue = getCountOfDemarcatedParcels(kebele) - getCountOfAllCommittedParcels(kebele);
+        return returnValue;
+    }
+
+    public double getAverageCountOfParcelsUnderMarriedCoupleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfParcelsPerMarriedCoupleHolder(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM ( SELECT count(Parcel.upi) as c, holderId FROM MarriedCouple,Parcel WHERE 	Parcel.UPI LIKE '" + kebele + "/%'  and Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and Parcel.UPI = MarriedCouple.UPI GROUP BY holderId ) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfParcelsPerSingleFemaleHolder(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM ( SELECT count(Parcel.upi) as c, holderId FROM SingleFemaleHolder,Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and Parcel.UPI = SingleFemaleHolder.UPI GROUP BY holderId ) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfParcelsPerSingleMaleHolder(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM ( SELECT count(Parcel.upi) as c, holderId FROM SingleMaleHolder,Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and Parcel.UPI = SingleMaleHolder.UPI GROUP BY holderId ) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfParcelsPerOrphanHolder(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = " SELECT avg(c) as a FROM (SELECT holderId ,count(distinct Parcel.upi) as c FROM IndividualHolder,Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  AND Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and Parcel.UPI = IndividualHolder.UPI and isOrphan=true GROUP BY holderId) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfParcelsPerNonNaturalHolder(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT organizationname ,count(distinct Parcel.upi) as c FROM OrganizationHolder,Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  AND Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and Parcel.UPI = OrganizationHolder.UPI GROUP BY organizationname) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
             }
             connection.close();
         } catch (Exception ex) {
@@ -2470,18 +2944,104 @@ public class MasterRepository {
     }
 
     /**
-     * @return Average parcel size for single female holders in a kebele
+     * @return Total number of parcels entered into iMASSREG for a kebele but
+     * not committed
      * @param kebele : kebele to report on
      */
-    public double getAverageParcelSizeForSingleFemale(long kebele) {
-        double returnValue = 0;
+    public long getCountOfAllNonCommittedParcels(long kebele) {
+        long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and UPI in ( SELECT ih.upi FROM Parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and p.stage = ih.stage and p.stage=4 and p.UPI = ih.UPI and p.UPI LIKE '" + kebele + "%' and ih.sex='f' GROUP BY ih.upi HAVING count(ih.holderId) = 1)";
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM Parcel WHERE stage=4 and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
-                returnValue = rs.getDouble("avgArea");
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderNonNaturalHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
             }
             connection.close();
         } catch (Exception ex) {
@@ -2491,18 +3051,18 @@ public class MasterRepository {
     }
 
     /**
-     * @return Average parcel size for parcels with shared ownership in a kebele
+     * @return Total number of parcels under single female holders for a kebele
      * @param kebele : kebele to report on
      */
-    public double getAverageParcelSizeForSharedOwnership(long kebele) {
-        double returnValue = 0;
+    public long getCountOfParcelsUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and UPI in ( SELECT ih.upi FROM Parcel p, individualholder ih WHERE p.status = 'active' and  ih.status = 'active' and p.stage = ih.stage and p.stage=4 and p.UPI = ih.UPI and p.UPI LIKE '" + kebele + "%' GROUP BY ih.upi HAVING count(ih.holderId) > 1)";
+            String query = "SELECT count(distinct upi) as c FROM IndividualHolder WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='m' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
-                returnValue = rs.getDouble("avgArea");
+                returnValue = rs.getLong("c");
             }
             connection.close();
         } catch (Exception ex) {
@@ -2512,19 +3072,18 @@ public class MasterRepository {
     }
 
     /**
-     * @return Average parcel size for parcels with non natural persons
-     * ownership in a kebele
+     * @return Total number of parcels under single male holders for a kebele
      * @param kebele : kebele to report on
      */
-    public double getAverageParcelSizeForNonNatrualPersons(long kebele) {
-        double returnValue = 0;
+    public long getCountOfParcelsUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) avgArea FROM Parcel WHERE status = 'active' and stage=4 and holdingType <> 1 and UPI LIKE '" + kebele + "%' ";
+            String query = "SELECT count(distinct upi) as c FROM IndividualHolder WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='f' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
-                returnValue = rs.getDouble("avgArea");
+                returnValue = rs.getLong("c");
             }
             connection.close();
         } catch (Exception ex) {
@@ -2532,5 +3091,2211 @@ public class MasterRepository {
         }
         return returnValue;
     }
+
+    public double getTotalAreaOfParcelsUnderMarriedCoupleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfParcelsUnderSingleFemaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfParcelsUnderSingleMaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfParcelsUnderOrphanHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfParcelsUnderNonNaturalHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and holdingtype!=1";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfParcelsUnderOtherHoldingTypes(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfParcelsUnderDispute(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfParcelsWithNoData(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM dblink(" + getDBLinkString()
+                    + ",'SELECT parcel_id, ST_Area (the_geom) * POWER(0.3048,2) as area FROM "
+                    + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and stage=4)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getTotalAreaOfAllParcels(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM dblink(" + getDBLinkString()
+                    + ",'SELECT ST_Area (the_geom) * POWER(0.3048,2)  as area FROM "
+                    + getKebeleTable(kebele) + "') as P2(area double precision)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsUnderMarriedCoupleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM MarriedCouple )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsUnderSingleFemaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM SingleFemaleHolder )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsUnderSingleMaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' stage=4 and hasDispute='false' and status='active' and UPI in (SELECT UPI FROM SingleMaleHolder )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsUnderOrphanHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsUnderNonNaturalHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and holdingtype!=1";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsUnderOtherHoldingTypes(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsUnderDispute(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT sum(area) as a FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfParcelsWithNoData(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(area) as a FROM dblink(" + getDBLinkString()
+                    + ",'SELECT parcel_id, ST_Area (the_geom) * POWER(0.3048,2) as area FROM "
+                    + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and stage=4)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageAreaOfAllParcels(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(area) as a FROM dblink(" + getDBLinkString()
+                    + ",'SELECT ST_Area (the_geom) * POWER(0.3048,2)  as area FROM "
+                    + getKebeleTable(kebele) + "') as P2(area double precision)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    // By Other ownership evidence
+    
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByOwnershipEvidence(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleFemaleHoldersByOwnershipEvidence(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleMaleHoldersByOwnershipEvidence(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOrphanHoldersByOwnershipEvidence(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderNonNaturalHoldersByOwnershipEvidence(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOtherHoldingTypesByOwnershipEvidence(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDisputeByOwnershipEvidence(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND otherevidence=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsByOwnershipEvidence(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND otherevidence=? AND Parcel.status='active' AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    // By Land Use type
+    
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleMaleHoldersByLandUseType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOrphanHoldersByLandUseType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderNonNaturalHoldersByLandUseType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOtherHoldingTypesByLandUseType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDisputeByLandUseType(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND landusetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsByLandUseType(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND landusetype=? AND Parcel.status='active' AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    // By Soil Fertility Status
+    
+    public long getCountOfParcelsUnderMarriedCoupleHoldersBySoilFertility (long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleFemaleHoldersBySoilFertility(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleMaleHoldersBySoilFertility(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOrphanHoldersBySoilFertility(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderNonNaturalHoldersBySoilFertility(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOtherHoldingTypesBySoilFertility(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDisputeBySoilFertility(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND soilfertilitytype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsBySoilFertility(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND Parcel.status='active' AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    // By Soil Fertility Status
+    
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByHoldingType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND holdingtype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleFemaleHoldersByHoldingType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND holdingtype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleMaleHoldersByHoldingType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND holdingtype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOrphanHoldersByHoldingType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND holdingtype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderNonNaturalHoldersByHoldingType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND holdingtype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOtherHoldingTypesByHoldingType(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND holdingtype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDisputeByHoldingType(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND holdingtype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsByHoldingType(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND holdingtype=? AND Parcel.status='active' AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    // By Organisation Type
+
+    public long getCountOfParcelsUnderNonNaturalHoldersByOrganisationType(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.hasDispute='false' AND Parcel.status='active' AND Parcel.stage=4 AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDisputeByOrganisationType(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.hasDispute='true' AND Parcel.status='active' AND Parcel.stage=4 AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsByOrganisationType(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.stage=4 AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    // By means of acquisition
+    
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByMeansOfAcquisition(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleFemaleHoldersByMeansOfAcquisition(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleMaleHoldersByMeansOfAcquisition(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOrphanHoldersByMeansOfAcquisition(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderNonNaturalHoldersByMeansOfAcquisition(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOtherHoldingTypesByMeansOfAcquisition(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDisputeByMeansOfAcquisition(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND acquisitiontype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsByMeansOfAcquisition(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND Parcel.status='active' AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+ 
+    // By encumbrance
+    
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByEncumbrances(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleFemaleHoldersByEncumbrances(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderSingleMaleHoldersByEncumbrances(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOrphanHoldersByEncumbrances(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderNonNaturalHoldersByEncumbrances(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderOtherHoldingTypesByEncumbrances(long kebele, byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsUnderDisputeByEncumbrances(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND encumbrancetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsByEncumbrances(long kebele,byte type) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND Parcel.status='active' AND Parcel.stage=4";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+ 
+    // Physical Impairment
+    
+    public long getCountOfMarriedCoupleHoldersWithPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND	(familyrole=1 OR familyrole=2 ) AND physicalimpairment='true' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfMarriedCoupleHoldersWithoutPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND (familyrole=1 OR familyrole=2 ) AND physicalimpairment='false' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfSingleFemaleHoldersWithPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='true' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfSingleFemaleHoldersWithoutPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='false' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfSingleMaleHoldersWithPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='true' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfSingleMaleHoldersWithoutPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='false' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfOrphanHoldersWithPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND isOrphan='true' AND physicalimpairment='true' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfOrphanHoldersWithoutPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND isOrphan='true' AND physicalimpairment='false' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfOtherHoldingTypesWithPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE physicalimpairment='true' AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfOtherHoldingTypesWithoutPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE physicalimpairment='false' AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllHoldersWithPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='true' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllHoldersWithoutPhysicalImpairment(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='false' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithPersonsOfInterestUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithPersonsOfInterestUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingelFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfParcelsWithPersonsOfInterestUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest  WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingelMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfParcelsWithPersonsOfInterestUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE AND stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfParcelsWithPersonsOfInterestUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithPersonsOfInterestUnderDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='true' AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllParcelsWithPersonsOfInterest(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelFemaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelMaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestUnderOphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestForParcelsWithDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestForAllParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelFemaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelMaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestUnderOphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestForParcelsWithDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMalePersonsWithInterestForAllParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfFemalePersonsWithInterestUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemalePersonsWithInterestUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelFemaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemalePersonsWithInterestUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelMaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemalePersonsWithInterestUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemalePersonsWithInterestUnderOphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemalePersonsWithInterestUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemalePersonsWithInterestForParcelsWithDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfFemalePersonsWithInterestForAllParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfPIPerParcelsUnderMarriedCoupleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfPIPerParcelsUnderSingleFemaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfPIPerParcelsUnderSingleMaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfPIPerParcelsUnderOrphanHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status='active' and isOrphan='true') group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfPIPerParcelsUnderOtherHoldingTypes(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and  Parcel.UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and Parcel.UPI IN (SELECT UPI FROM IndividualHolder WHERE sex='m' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    //.......
+    public double getAverageNumberOfPIPerParcelsUnderDisputes(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and  Parcel.hasDispute='true') t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfPIPerParcels(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' ) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /////////////////////
+
+    public int getCountOfParcelsWithPersonsOfInterestForMarriedHolders(String kebele) {
+        int returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel  WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 and status='active') and UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getInt("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public int getCountOfPersonWithInterestForParcelsUnderMarriedHolders(String kebele) {
+        int returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getInt("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+
+    public int getCountOfMalePersonWithInterestForParcelsUnderMarriedHolders(String kebele) {
+        int returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex = 'm' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getInt("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public int getCountOfFemalePersonWithInterestForParcelsUnderMarriedHolders(String kebele) {
+        int returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex = 'f' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getInt("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public Date getFirstDataEntryDateInKebeleForMarriedHolders(String kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '70106006/%' and  UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    public Date getLastDataEntryDateInKebeleForMarriedHolders(String kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '70106006/%' and  UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            CommonStorage.getLogger().logError(ex.toString());
+        }
+        return returnValue;
+    }
+
+    /// Disputes Report
 
 }

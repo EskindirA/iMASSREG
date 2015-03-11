@@ -70,9 +70,28 @@
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
     <resource-ref>
-        <res-ref-name>jdbc/postgis</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
+        <res-ref-name>resource/GISDBHost</res-ref-name>
+        <res-type>java.lang.String</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    <resource-ref>
+        <res-ref-name>resource/GISDBName</res-ref-name>
+        <res-type>java.lang.String</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+    <resource-ref>
+        <res-ref-name>resource/GISDBUserName</res-ref-name>
+        <res-type>java.lang.String</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+    <resource-ref>
+        <res-ref-name>resource/GISDBPassword</res-ref-name>
+        <res-type>java.lang.String</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+
 </web-app>

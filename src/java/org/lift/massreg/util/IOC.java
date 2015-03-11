@@ -83,8 +83,7 @@ public class IOC {
         pages.put(Constants.INDEX_VIEW_USER_ADMINISTRATOR, "viewUser.jsp");
         pages.put(Constants.INDEX_EDIT_USER_ADMINISTRATOR, "editUser.jsp");
         pages.put(Constants.INDEX_RELOAD, "reload.jsp");
-        pages.put(Constants.INDEX_PERIODICAL_REPORT, "periodicalReport.jsp");
-        pages.put(Constants.INDEX_KEBELE_REPORT, "kebeleReport.jsp");
+        pages.put(Constants.INDEX_DOWNLOAD_REPORT, "downloadReport.jsp");
         pages.put(Constants.INDEX_GUARDIANS_LIST_FEO, "guardianListDEO.jsp");
         pages.put(Constants.INDEX_GUARDIANS_LIST_SEO, "guardianListDEO.jsp");
         pages.put(Constants.INDEX_VIEW_GUARDIAN_FEO, "viewGuardianDEO.jsp");

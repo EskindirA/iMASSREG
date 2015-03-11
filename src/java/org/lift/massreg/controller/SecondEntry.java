@@ -162,13 +162,7 @@ public class SecondEntry {
             rd.forward(request, response);
             return;
         }
-        ArrayList<PersonWithInterest> allPWI = parcel.getPersonsWithInterest();
-        if (allPWI != null) {
-            for (int i = 0; i < allPWI.size(); i++) {
-                allPWI.get(i).remove(request);
-            }
-        }
-        // Delete all disputes of the parcel, if any
+         // Delete all disputes of the parcel, if any
         if (parcel.hasDispute()) {
             ArrayList<Dispute> allDisputes = parcel.getDisputes();
             for (int i = 0; i < allDisputes.size(); i++) {
@@ -180,6 +174,18 @@ public class SecondEntry {
         if (allHolders != null) {
             for (int i = 0; i < allHolders.size(); i++) {
                 allHolders.get(i).remove(request);
+            }
+        }
+        ArrayList<PersonWithInterest> allPWI = parcel.getPersonsWithInterest();
+        if (allPWI != null) {
+            for (int i = 0; i < allPWI.size(); i++) {
+                allPWI.get(i).remove(request);
+            }
+        }
+        ArrayList<Guardian> allGuardians = parcel.getGuardians();
+        if (allGuardians != null) {
+            for (int i = 0; i < allGuardians.size(); i++) {
+                allGuardians.get(i).remove(request);
             }
         }
         if (parcel.getOrganizationHolder() != null) {
