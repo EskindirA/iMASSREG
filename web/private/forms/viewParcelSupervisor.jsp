@@ -13,14 +13,14 @@
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
         <div class="col-lg-6 col-lg-offset-3 ">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Parcel Details </h2>
+            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=CommonStorage.getText("view_parcel_details")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Parcel: Administrative UPI - ${requestScope.upi} [ <%=currentParcel.getHolderCount()%> holder(s)]
+                    <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi")%> - ${requestScope.upi} [ <%=currentParcel.getHolderCount()%> <%=CommonStorage.getText("holders")%>]
                 </div>
                 <div class="panel-body">
                     <form role="form" action="#" id="addParcelForm">
@@ -28,27 +28,27 @@
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="form-group col-lg-5">
-                                        <label>Team</label>
+                                        <label><%=CommonStorage.getText("team")%></label>
                                         <select class="form-control" name = "teamNo" id = "teamNo" value="${requestScope.currentParcel.teamNo}" disabled>
                                             <%
                                                 int[] teamNumbers = CommonStorage.getTeamNumbers();
                                                 for (int i = 0; i < teamNumbers.length; i++) {
-                                                    out.println("<option value='" + teamNumbers[i] + "'>Team " + teamNumbers[i] + "</option>");
+                                                    out.println("<option value='" + teamNumbers[i] + "'>"+CommonStorage.getText("team") + " " + teamNumbers[i] + "</option>");
                                                 }
                                             %>
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-7">
-                                        <label>Certificate Number</label>
-                                        <input class="form-control " placeholder="Does Not Exist" id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" disabled/>
+                                        <label><%=CommonStorage.getText("certificate_number")%></label>
+                                        <input class="form-control " id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" disabled/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Holding Number</label>
-                                    <input class="form-control " placeholder="Does Not Exist" id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" disabled/>
+                                    <label><%=CommonStorage.getText("holding_number")%></label>
+                                    <input class="form-control " id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" disabled/>
                                 </div>                                
                                 <div class="form-group">
-                                    <label>Other Evidence</label>
+                                    <label><%=CommonStorage.getText("other_evidence")%></label>
                                     <select class="form-control" id="otherEvidence" name="otherEvidence" value="${requestScope.currentParcel.otherEvidence}" disabled>
                                         <%
                                             Option[] otherEvidenceTypes = MasterRepository.getInstance().getAllOtherEvidenceTypes();
@@ -59,7 +59,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Means of Acquisition </label>
+                                    <label><%=CommonStorage.getText("means_of_acquisition")%></label>
                                     <select class="form-control" id="meansOfAcquisition" name="meansOfAcquisition" value="${requestScope.currentParcel.meansOfAcquisition}" disabled>
                                         <%
                                             Option[] meansOfAcquisitionTypes = MasterRepository.getInstance().getAllMeansOfAcquisitionTypes();
@@ -70,7 +70,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Acquisition Year</label>
+                                    <label><%=CommonStorage.getText("acquisition_year")%></label>
                                     <select class="form-control" name="acquisitionYear" id = "acquisitionYear" value="${requestScope.currentParcel.acquisitionYear}" disabled>
                                         <%
                                             for (int i = 1963; i <= 2007; i++) {
@@ -80,14 +80,14 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Orthograph map sheet No.</label>
-                                    <input class="form-control " placeholder="Enter Certificate # " id="mapsheetno" name="mapsheetno" required ="true" value="${requestScope.currentParcel.mapSheetNo}" disabled/>
+                                    <label><%=CommonStorage.getText("orthograph_map_sheet_no")%></label>
+                                    <input class="form-control " id="mapsheetno" name="mapsheetno" required ="true" value="${requestScope.currentParcel.mapSheetNo}" disabled/>
                                 </div>
                                 <input type="submit" id = "backButton" class="btn btn-default col-lg-3" value="Back" />
                             </div> <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Current Land Use</label>
+                                    <label><%=CommonStorage.getText("current_land_use")%></label>
                                     <select class="form-control" id="currentLandUse" name="currentLandUse" value="${requestScope.currentParcel.currentLandUse}" disabled>
                                         <%
                                             Option[] currentLandUseTypes = MasterRepository.getInstance().getAllCurrentLandUseTypes();
@@ -98,7 +98,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Soil Fertility </label>
+                                    <label><%=CommonStorage.getText("soil_fertility")%></label>
                                     <select class="form-control" id="soilFertility" name="soilFertility" value="${requestScope.currentParcel.soilFertility}" disabled>
                                         <%
                                             Option[] soilFertilityTypes = MasterRepository.getInstance().getAllSoilFertilityTypes();
@@ -109,7 +109,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Holding Type</label>
+                                    <label><%=CommonStorage.getText("holding_type")%></label>
                                     <select class="form-control" id="holdingType" name="holdingType" value="${requestScope.currentParcel.holding}" disabled>
                                         <%
                                             Option[] holdingTypes = MasterRepository.getInstance().getAllHoldingTypes();
@@ -120,7 +120,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Encumbrance </label>
+                                    <label><%=CommonStorage.getText("encumbrance")%> </label>
                                     <select class="form-control" id="encumbrance" name="encumbrance" value="${requestScope.currentParcel.encumbrance}" disabled>
                                         <%
                                             Option[] encumbranceTypes = MasterRepository.getInstance().getAllEncumbranceTypes();
@@ -131,27 +131,27 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Survey Date </label>
-                                    <input class="form-control " placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" disabled/>
+                                    <label><%=CommonStorage.getText("survey_Date")%></label>
+                                    <input class="form-control" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <label>Has Dispute ?:</label>
+                                    <label><%=CommonStorage.getText("has_dispute")%> ?:</label>
                                     <select class="form-control" id="hasDispute" name="hasDispute" value="<%= currentParcel.hasDispute()%>" disabled>
-                                        <option value = 'false'>No</option>
-                                        <option value = 'true'>Yes</option>
+                                        <option value = 'false'><%=CommonStorage.getText("no")%></option>
+                                        <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                                     </select>
                                 </div>
                                 <div class="row">
                                     <%
                                         if (currentParcel.canEdit(CommonStorage.getCurrentUser(request))) {
-                                            out.println("<input type='submit' id = 'deleteButton' name = 'deleteButton' class='btn btn-danger col-lg-2 col-lg-offset-3' value='Delete' />");
-                                            out.println("<input type='submit' id = 'editButton' name = 'editButton' class='btn btn-default col-lg-2' style='margin-left:1em' value='Edit' />");
+                                            out.println("<input type='submit' id = 'deleteButton' name = 'deleteButton' class='btn btn-danger col-lg-2 col-lg-offset-3' value='" + CommonStorage.getText("delete") + "' />");
+                                            out.println("<input type='submit' id = 'editButton' name = 'editButton' class='btn btn-default col-lg-2' style='margin-left:1em' value='" + CommonStorage.getText("edit") + "' />");
                                         } else {
                                             out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                         }
                                     %>
 
-                                    <input type="submit" id = "nextButton" name = "nextButton" class="btn btn-default col-lg-3" style="margin-left: 1em" value="Next" />
+                                    <input type="submit" id = "nextButton" name = "nextButton" class="btn btn-default col-lg-3" style="margin-left: 1em" value="<%=CommonStorage.getText("next")%>" />
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                         </div> <!-- /.row (nested) -->
@@ -176,7 +176,7 @@
         return false;
     });
     $("#deleteButton").click(function() {
-        bootbox.confirm("Are you sure you want delete this parcel ?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_parcel")%> ?", function(result) {
             if (result) {
                 $.ajax({
                     url: "<%=deleteurl%>",
@@ -196,7 +196,7 @@
         return false;
     });
     $("#backButton").click(function() {
-        bootbox.confirm("Are you sure you want to go back?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_delete_to_go_back")%>?", function(result) {
             if (result) {
                 $.ajax({
                     url: "<%=backurl%>",

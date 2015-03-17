@@ -17,14 +17,14 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-3 col-lg-offset-5 ">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=CommonStorage.getText("admin.welcome")%></h2>
+            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=CommonStorage.getText("welcome")%></h2>
         </div>
     </div>
     <div class="bs-example">
         <ul class="nav nav-tabs" style="margin-bottom: 15px;">
-            <li class="active"><a href="#users" data-toggle="tab">Users</a></li>
-            <li><a href="#settings" data-toggle="tab">Settings</a></li>
-            <li><a href="#report" data-toggle="tab" id="reportLink">Report</a></li>
+            <li class="active"><a href="#users" data-toggle="tab"><%=CommonStorage.getText("users")%></a></li>
+            <li><a href="#settings" data-toggle="tab"><%=CommonStorage.getText("settings")%></a></li>
+            <li><a href="#report" data-toggle="tab" id="reportLink"><%=CommonStorage.getText("report")%></a></li>
             <!--li class="disabled"><a>Disabled</a></li-->
         </ul>
         <div id="myTabContent" class="tab-content">
@@ -32,17 +32,17 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading">iMASSREG Users</div>
+                            <div class="panel-heading"><%=CommonStorage.getText("imassreg_users")%></div>
                             <div class="panel-body" >
                                 <div>
                                     <table class="table table-striped table-bordered table-hover" id="dataTables" >
                                         <thead>
                                             <tr>
-                                                <th>User Name</th>
-                                                <th>Name</th>
-                                                <th>Phone Number</th>
-                                                <th>Role</th>
-                                                <th>Fix</th>
+                                                <th><%=CommonStorage.getText("user_name")%></th>
+                                                <th><%=CommonStorage.getText("name")%></th>
+                                                <th><%=CommonStorage.getText("phone_number")%></th>
+                                                <th><%=CommonStorage.getText("role")%></th>
+                                                <th><%=CommonStorage.getText("fix")%></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,13 +62,13 @@
                                                     out.println("<td>" + users.get(i).getRole() + "</td>");
                                                     out.print("<td>");
                                                     out.print("<a href = '#' class='viewButton' "
-                                                            + "data-userId='" + users.get(i).getUserId() + "'>View</a>");
+                                                            + "data-userId='" + users.get(i).getUserId() + "'>" + CommonStorage.getText("view") + "</a>");
                                                     out.print("|<a href = '#' class='editButton' "
-                                                            + "data-userId='" + users.get(i).getUserId() + "'>Edit</a>");
+                                                            + "data-userId='" + users.get(i).getUserId() + "'>" + CommonStorage.getText("edit") + "</a>");
                                                     out.print("|<a href = '#' class='deleteButton' "
-                                                            + "data-userId='" + users.get(i).getUserId() + "'>Delete</a>");
+                                                            + "data-userId='" + users.get(i).getUserId() + "'>" + CommonStorage.getText("delete") + "</a>");
                                                     out.print("|<a href = '#' class='changePasswordButton' "
-                                                            + "data-userId='" + users.get(i).getUserId() + "'>Change Password</a>");
+                                                            + "data-userId='" + users.get(i).getUserId() + "'>" + CommonStorage.getText("change_password") + "</a>");
                                                     out.println("</td>");
                                                 }
                                             %>
@@ -76,7 +76,7 @@
                                     </table>
                                 </div> <!-- /.table-responsive -->
                                 <div class="row">
-                                    <button type='submit' id = 'addUserButton' name = 'addUserButton' class='btn btn-default col-lg-1 ' data-toggle='modal' data-target='#addModal' style="float:left;margin-left: 1em" >Add</button>
+                                    <button type='submit' id = 'addUserButton' name = 'addUserButton' class='btn btn-default col-lg-1 ' data-toggle='modal' data-target='#addModal' style="float:left;margin-left: 1em" ><%=CommonStorage.getText("add")%></button>
                                 </div>
                                 <br/>
                             </div> <!-- /.panel-body -->
@@ -89,13 +89,13 @@
                     <div class="col-lg-4 col-lg-offset-4">
                         <div class="panel panel-default" >
                             <div class="panel-heading">
-                                Settings
+                                <%=CommonStorage.getText("settings")%>
                             </div>
                             <div class="panel-body" id="panelBody" >
                                 <form role="form" action="#" method="POST" id="settingsForm" name="findParcelForm" style="padding-left: 1em;padding-right: 1em">
                                     <div class="row">
                                         <div class="form-group">
-                                            <label>Woreda</label>
+                                            <label><%=CommonStorage.getText("woreda")%></label>
                                             <select class="form-control" id="woreda" name="woreda" value="<%= CommonStorage.getCurrentWoredaId()%>">
                                                 <%
                                                     Option[] regions = MasterRepository.getInstance().getAllRegions();
@@ -111,7 +111,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group error" id="someId">
-                                            <label>Language</label>
+                                            <label><%=CommonStorage.getText("language")%></label>
                                             <select class="form-control" id="language" name="language" value="<%= CommonStorage.getCurrentLanguage()%>">
                                                 <option value = 'english' >English</option>
                                                 <option value = 'amharic' >Amharic</option>
@@ -119,7 +119,7 @@
                                                 <option value = 'oromiffa' >Oromiffa</option>
                                             </select>
                                         </div>
-                                        <button type='submit' id = 'updateSettingsButton' name = 'updateSettingsButton' class='btn btn-default col-lg-3' style='float:right'>Update</button>
+                                        <button type='submit' id = 'updateSettingsButton' name = 'updateSettingsButton' class='btn btn-default col-lg-3' style='float:right'><%=CommonStorage.getText("update")%></button>
                                     </div> <!-- /.row (nested) -->
                                 </form>
                             </div> <!-- /.panel-body -->
@@ -132,23 +132,23 @@
                     <div class="col-lg-5 col-lg-offset-1">
                         <div class="panel panel-default" >
                             <div class="panel-heading">
-                                Periodical Report
+                                <%=CommonStorage.getText("timebound_report")%>
                             </div>
                             <div class="panel-body" id="panelBody" >
                                 <form role="form" action="#" method="POST" id="periodicalReportForm" name="periodicalReportForm" style="padding-left: 1em;padding-right: 1em">
                                     <div class="row">
                                         <div class="form-group col-lg-6">
-                                            <label>From</label>
+                                            <label><%=CommonStorage.getText("from")%></label>
                                             <input type="date" class="form-control" id="fromDate" name="fromDate" value="<%=CommonStorage.getLastReportDate()%>"/>
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label>To</label>
+                                            <label><%=CommonStorage.getText("to")%></label>
                                             <input type="date" class="form-control" id="toDate" name="toDate" value="<%=CommonStorage.getCurrentDate()%>" />
                                         </div>
                                     </div>
                                     <div class="form-group ">
                                         <label>&nbsp;</label>
-                                        <button id = 'periodicalReportButton' name = 'periodicalReportButton' class='btn btn-primary form-control' style="width:8em; float:right">Generate</button>
+                                        <button id = 'periodicalReportButton' name = 'periodicalReportButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
                                     </div>
                                 </form>
                             </div> <!-- /.panel-body -->
@@ -157,12 +157,12 @@
                     <div class="col-lg-5 col-lg-offset-1">
                         <div class="panel panel-default" >
                             <div class="panel-heading">
-                                Kebele Report
+                                <%=CommonStorage.getText("kebele_report")%>
                             </div>
                             <div class="panel-body" id="panelBody" >
                                 <form role="form" action="#" method="POST" id="kebeleReportForm" name="kebeleReportForm" style="padding-left: 1em;padding-right: 1em">
                                     <div class="form-group">
-                                        <label>Keble</label>
+                                        <label><%=CommonStorage.getText("kebele")%></label>
                                         <select class="form-control" id="kebele" name="kebele">
                                             <%
                                                 Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
@@ -176,7 +176,7 @@
                                     </div>
                                     <div class="form-group ">
                                         <label>&nbsp;</label>
-                                        <button id = 'kebeleReportButton' name = 'kebeleReportButton' class='btn btn-primary form-control' style="width:8em; float:right">Generate</button>
+                                        <button id = 'kebeleReportButton' name = 'kebeleReportButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
                                     </div>
                                 </form>
                             </div> <!-- /.panel-body -->
@@ -193,46 +193,46 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Register a User</h4>
+                <h4 class="modal-title"><%=CommonStorage.getText("register_a_user")%></h4>
             </div>            <!-- /modal-header -->
             <div class="modal-body">
                 <form role="form" action="#" id="addUserForm">
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                                <label>First Name</label>
+                                <label><%=CommonStorage.getText("first_name")%></label>
                                 <input class="form-control " id="firstName" name="firstName" />
                             </div>
                             <div class="form-group">
-                                <label>Father's Name</label>
+                                <label><%=CommonStorage.getText("fathers_name")%></label>
                                 <input class="form-control " id="fathersName" name="fathersName" />
                             </div> 
                             <div class="form-group">
-                                <label>Grandfather's Name</label>
+                                <label><%=CommonStorage.getText("grandfather_name")%></label>
                                 <input class="form-control " id="grandFathersName" name="grandFathersName" />
                             </div>
                             <div class="form-group">
-                                <label>Phone Number</label>
+                                <label><%=CommonStorage.getText("phone_number")%></label>
                                 <input class="form-control " id="phoneNo" name="phoneno" />
                             </div>
                             <div class="form-group">
-                                <label>Role</label>
+                                <label><%=CommonStorage.getText("role")%></label>
                                 <select class="form-control" id="role" name="role">
-                                    <option value = 'feo'>First Entry Operator</option>
-                                    <option value = 'seo'>Second Entry Operator</option>
-                                    <option value = 'supervisor'>Supervisor</option>
+                                    <option value = 'feo'><%=CommonStorage.getText("first_entry_operator")%></option>
+                                    <option value = 'seo'><%=CommonStorage.getText("second_entry_operator")%></option>
+                                    <option value = 'supervisor'><%=CommonStorage.getText("supervisor")%></option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>User Name</label>
+                                <label><%=CommonStorage.getText("user_name")%></label>
                                 <input class="form-control " type="text" id="username" name="username" />
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
+                                <label><%=CommonStorage.getText("password")%></label>
                                 <input class="form-control " type="password" id="password" name="password" />
                             </div>
                             <div class="form-group">
-                                <label>Confirm Password</label>
+                                <label><%=CommonStorage.getText("confirm_password")%></label>
                                 <input class="form-control " type="password" id="cpassword" name="cpassword" />
                             </div>
                         </div> <!-- /.row (nested) -->
@@ -240,8 +240,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" id="saveUserButton" class="btn btn-primary" value = "Add" />
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("cancel")%></button>
+                <input type="submit" id="saveUserButton" class="btn btn-primary" value = "<%=CommonStorage.getText("add")%>" />
             </div> 
         </div>
     </div>
@@ -251,7 +251,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Update Password </h4>
+                <h4 class="modal-title"><%=CommonStorage.getText("update_password")%></h4>
             </div>            <!-- /modal-header -->
             <div class="modal-body">
                 <form role="form" action="#" id="updatePasswordForm">
@@ -259,11 +259,11 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                                <label>New Password</label>
+                                <label><%=CommonStorage.getText("new_password")%></label>
                                 <input class="form-control " id="newPassword" name="newPassword" type="password"/>
                             </div> 
                             <div class="form-group">
-                                <label>Confirm Password</label>
+                                <label><%=CommonStorage.getText("confirm_password")%></label>
                                 <input class="form-control " id="cnewPassword" name="cnewPassword" type="password"/>
                             </div>
                         </div> <!-- /.row (nested) -->
@@ -271,8 +271,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" id="updatePasswordButton" class="btn btn-primary" value = "Update" />
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("cancel")%></button>
+                <input type="submit" id="updatePasswordButton" class="btn btn-primary" value = "<%=CommonStorage.getText("update")%>" />
             </div> 
         </div>
     </div>
@@ -386,7 +386,7 @@
         });
     }
     function deleteUser(userId) {
-        bootbox.confirm("Are you sure you want to delete this user ?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_user")%>?", function (result) {
             if (result) {
                 $.ajax({
                     type: 'POST',
@@ -407,12 +407,12 @@
             success: loadViewUser
         });
     }
-    $("#settings select").each(function() {
+    $("#settings select").each(function () {
         $(this).val($(this).attr("value"));
     });
-    $("#updatePasswordButton").click(function() {
+    $("#updatePasswordButton").click(function () {
         if (!validateUpdatePassword()) {
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
             $.ajax({
                 type: 'POST',
@@ -428,25 +428,25 @@
         return false;
     });
     $('#dataTables').dataTable();
-    $('.editButton').click(function() {
+    $('.editButton').click(function () {
         editUser($(this).attr("data-userId"));
         return false;
     });
-    $('.viewButton').click(function() {
+    $('.viewButton').click(function () {
         viewUser($(this).attr("data-userId"));
         return false;
     });
-    $('.changePasswordButton').click(function() {
+    $('.changePasswordButton').click(function () {
         $("#updatePasswordForm #usrId").val($(this).attr("data-userId"));
         $("#updatePasswordModal").modal();
         return false;
     });
-    $('.deleteButton').click(function() {
+    $('.deleteButton').click(function () {
         deleteUser($(this).attr("data-userId"));
         return false;
     });
-    $("#settings #updateSettingsButton").click(function() {
-        bootbox.confirm("Are you sure you want to save the settings ?", function(result) {
+    $("#settings #updateSettingsButton").click(function () {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_save_the_settings")%>?", function (result) {
             if (result) {
                 $.ajax({
                     url: "<%=updateSettingsurl%>",
@@ -478,18 +478,18 @@
             success: loadForward
         });
     }
-    $("#saveUserButton").click(function() {
+    $("#saveUserButton").click(function () {
         if (!validate("addUserForm")) {// validate
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
             save(); // save
             $("#addModal").hide(); // close modale
         }
         return false;
     });
-    $("#periodicalReportButton").click(function() {
+    $("#periodicalReportButton").click(function () {
         if (!validateGenerateReport()) {
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
             $.ajax({
                 url: "<%=periodicalReporturl%>",
@@ -498,7 +498,7 @@
                     toDate: $("#report #toDate").val()
                 },
                 error: showajaxerror,
-                success: function(data) {
+                success: function (data) {
                     $("#reportDetail").html(data);
                 }
             });
@@ -506,9 +506,9 @@
         return false;
     });
 
-    $("#kebeleReportButton").click(function() {
-        if ($("#kebeleReportForm #kebele").val().trim()==="" ){
-            showError("Please select a kebele  to generate a report");
+    $("#kebeleReportButton").click(function () {
+        if ($("#kebeleReportForm #kebele").val().trim() === "") {
+            showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
         } else {
             $.ajax({
                 url: "<%=kebeleReporturl%>",
@@ -516,14 +516,14 @@
                     kebele: $("#kebeleReportForm #kebele").val()
                 },
                 error: showajaxerror,
-                success: function(data) {
+                success: function (data) {
                     $("#reportDetail").html(data);
                 }
             });
         }
         return false;
     });
-    $("#reportLink").click(function() {
+    $("#reportLink").click(function () {
         $("#reportDetail").html("");
     });
 </script>

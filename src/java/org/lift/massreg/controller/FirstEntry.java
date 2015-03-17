@@ -59,7 +59,7 @@ public class FirstEntry {
         request.setAttribute("currentParcel", null);
         if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 1)) {
             request.getSession().setAttribute("title", "Error");
-            request.getSession().setAttribute("message", "The parcel you are trying to add already exists in the database, use find button to view the parcel details.");
+            request.getSession().setAttribute("message", CommonStorage.getText("parcel_exists"));
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
@@ -360,7 +360,7 @@ public class FirstEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
@@ -411,7 +411,7 @@ public class FirstEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -461,7 +461,7 @@ public class FirstEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to guardians List");
@@ -518,7 +518,7 @@ public class FirstEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -565,7 +565,7 @@ public class FirstEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
@@ -633,7 +633,7 @@ public class FirstEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -798,7 +798,7 @@ public class FirstEntry {
                 rd.forward(request, response);
             }
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -971,7 +971,7 @@ public class FirstEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
@@ -1187,7 +1187,7 @@ public class FirstEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -1239,7 +1239,7 @@ public class FirstEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -1289,7 +1289,7 @@ public class FirstEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -1339,7 +1339,7 @@ public class FirstEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");

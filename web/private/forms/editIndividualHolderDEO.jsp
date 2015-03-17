@@ -17,41 +17,41 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Edit Holder Details</h4>
+            <h4 class="modal-title"><%=CommonStorage.getText("edit_holder_details")%></h4>
         </div>            <!-- /modal-header -->
         <div class="modal-body">
             <form id="editHolderFrom" name="editHolderFrom">
                 <div class="panel-body">         
                     <div class="row">
                         <div class="form-group">
-                            <label>Holder Id</label>
+                            <label><%=CommonStorage.getText("holder_id")%></label>
                             <input class="form-control " type="text" id="holderId" name="holderId" value="<%=holder.getId()%>" />
                         </div>
                         <div class="form-group">
-                            <label>First Name</label>
+                            <label><%=CommonStorage.getText("first_name")%></label>
                             <input class="form-control " id="firstName" name="firstName" value="<%=holder.getFirstName()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Father's Name</label>
+                            <label><%=CommonStorage.getText("fathers_name")%></label>
                             <input class="form-control " id="fathersName" name="fathersName" value="<%=holder.getFathersName()%>" />
                         </div> 
                         <div class="form-group">
-                            <label>Grandfather's Name</label>
+                            <label><%=CommonStorage.getText("grandfathers_name")%></label>
                             <input class="form-control " id="grandFathersName" name="grandFathersName" value="<%=holder.getGrandFathersName()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Sex</label>
+                            <label><%=CommonStorage.getText("sex")%></label>
                             <select class="form-control" id="sex" name="sex" value="<%=holder.getSex()%>" >
                                 <option value = 'm'>Male</option>
                                 <option value = 'f'>Female</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Date of Birth</label>
+                            <label><%=CommonStorage.getText("date_of_birth")%></label>
                             <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' value="<%=holder.getDateOfBirth()%>"  readonly style="background: #FFF !important"/>
                         </div>
                         <div class="form-group">
-                            <label>Family Relationship/Status</label>
+                            <label><%=CommonStorage.getText("family_role")%></label>
                             <select class="form-control" id="familyRole" name="familyRole" value="<%=holder.getFamilyRole()%>" >
                                 <%
                                     Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
@@ -62,17 +62,17 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Has Physical Impairment</label>
+                            <label><%=CommonStorage.getText("has_physical_impairment")%></label>
                             <select class="form-control" id="physicalImpairment" name="physicalImpairment" value="<%=holder.hasPhysicalImpairment()%>" >
-                                <option value = 'false'>No</option>
-                                <option value = 'true'>Yes</option>
+                                <option value = 'false'><%=CommonStorage.getText("no")%></option>
+                                <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Is Orphan</label>
+                            <label><%=CommonStorage.getText("is_orphan")%></label>
                             <select class="form-control" id="isOrphan" name="isOrphan" value="<%=holder.isOrphan()%>" >
-                                <option value = 'false'>No</option>
-                                <option value = 'true'>Yes</option>
+                                <option value = 'false'><%=CommonStorage.getText("no")%></option>
+                                <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                             </select>
                         </div>
                     </div> <!-- /.row (nested) -->
@@ -80,8 +80,8 @@
             </form>
         </div>   
         <div class="modal-footer">
-            <input type="submit" id="updateHolderButton" name="updateHolderButton" class='btn btn-info' value = 'Save' />
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" id="updateHolderButton" name="updateHolderButton" class='btn btn-info' value = '<%=CommonStorage.getText("save")%>' />
+            <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("close")%></button>
         </div> 
     </div>
 </div>
@@ -90,7 +90,7 @@
     $("#editHolderFrom #dateOfBirth").calendarsPicker({calendar: calendarview});
     $("#updateHolderButton").click(function() {
         if (!validate("editHolderFrom")) {// validate
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
             update();// save
             closeModals();

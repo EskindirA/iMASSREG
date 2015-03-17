@@ -70,7 +70,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             returnValue = false;
         }
         return returnValue;
@@ -112,8 +112,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -150,8 +149,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -188,8 +186,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -228,8 +225,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -271,8 +267,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -306,7 +301,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             returnValue = false;
         }
         return returnValue;
@@ -355,7 +350,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
 
         return returnValue;
@@ -400,7 +395,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -418,7 +413,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -436,7 +431,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -480,7 +475,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -506,7 +501,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -538,7 +533,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
 
         return returnValue;
@@ -568,7 +563,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -597,7 +592,7 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -627,7 +622,7 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }
@@ -675,7 +670,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             returnValue = false;
         }
         return returnValue;
@@ -733,7 +728,7 @@ public class MasterRepository {
 
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             returnValue = false;
         }
         return returnValue;
@@ -786,7 +781,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (SQLException | NumberFormatException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             returnValue = false;
         }
         return returnValue;
@@ -834,8 +829,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -882,8 +876,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -927,8 +920,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -954,8 +946,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -974,8 +965,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1005,8 +995,7 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1035,8 +1024,7 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1053,8 +1041,7 @@ public class MasterRepository {
             int result = stmnt.executeUpdate();
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
     }
 
     public ArrayList<PersonWithInterest> getAllPersonsWithInterest(String upi, byte stage) {
@@ -1080,8 +1067,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1108,8 +1094,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1138,8 +1123,7 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1168,8 +1152,7 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1196,8 +1179,7 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1226,8 +1208,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1342,8 +1323,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1361,8 +1341,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1380,8 +1359,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1401,8 +1379,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1441,8 +1418,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1467,8 +1443,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1500,8 +1475,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1529,8 +1503,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1558,8 +1531,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1589,8 +1561,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1630,8 +1601,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1656,8 +1626,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1689,8 +1658,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1718,8 +1686,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1747,8 +1714,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1778,8 +1744,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1824,8 +1789,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1862,8 +1826,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1881,8 +1844,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1901,8 +1863,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
         }
         return returnValue;
     }
@@ -1919,8 +1880,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1937,8 +1897,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1955,8 +1914,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -1973,8 +1931,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2000,8 +1957,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2025,8 +1981,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2050,8 +2005,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2075,8 +2029,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2100,8 +2053,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2125,8 +2077,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2150,8 +2101,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2175,8 +2125,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2200,8 +2149,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2225,8 +2173,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2250,8 +2197,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2275,8 +2221,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2300,8 +2245,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 
@@ -2327,8 +2271,7 @@ public class MasterRepository {
             stmnt.executeUpdate();
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
     }
 
 //    /// Reports generated once the kebele digitization is complete 
@@ -2350,8 +2293,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2371,8 +2313,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2392,8 +2333,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2413,8 +2353,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2434,8 +2373,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 //
@@ -2456,8 +2394,7 @@ public class MasterRepository {
 //            }
 //            connection.close();
 //        } catch (Exception ex) {
-//            CommonStorage.getLogger().logError(ex.toString());
-//        }
+//            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
 
@@ -2484,8 +2421,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2509,8 +2445,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2534,8 +2469,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2559,8 +2493,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2585,8 +2518,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2611,8 +2543,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2636,8 +2567,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2659,8 +2589,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2685,8 +2614,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2703,8 +2631,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2720,8 +2647,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2737,8 +2663,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2754,8 +2679,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2771,8 +2695,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2788,8 +2711,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2813,8 +2735,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2830,8 +2751,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2853,8 +2773,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2870,8 +2789,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2887,8 +2805,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2904,8 +2821,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2921,8 +2837,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2938,8 +2853,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2960,8 +2874,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2977,8 +2890,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -2994,8 +2906,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3011,8 +2922,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3028,8 +2938,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3045,8 +2954,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3066,8 +2974,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3087,8 +2994,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3104,8 +3010,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3121,8 +3026,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3138,8 +3042,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3155,8 +3058,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3172,8 +3074,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3189,8 +3090,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3206,8 +3106,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3225,8 +3124,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3244,8 +3142,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3261,8 +3158,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3278,8 +3174,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3295,8 +3190,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3312,8 +3206,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3329,8 +3222,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3346,8 +3238,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3363,8 +3254,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3382,8 +3272,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3401,8 +3290,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3421,8 +3309,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3439,8 +3326,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3457,8 +3343,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3475,8 +3360,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3493,8 +3377,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3511,8 +3394,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3529,8 +3411,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3547,8 +3428,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3567,8 +3447,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3585,8 +3464,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3603,8 +3481,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3621,8 +3498,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3639,8 +3515,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3657,8 +3532,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3675,8 +3549,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3693,8 +3566,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3713,8 +3585,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3731,8 +3602,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3749,8 +3619,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3767,8 +3636,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3785,8 +3653,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3803,8 +3670,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3821,8 +3687,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3839,8 +3704,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -3859,8 +3723,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3877,8 +3740,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3895,8 +3757,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3913,8 +3774,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3931,8 +3791,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3949,8 +3808,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3967,8 +3825,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -3985,8 +3842,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4005,8 +3861,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4023,8 +3878,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4041,8 +3895,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4061,8 +3914,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4079,8 +3931,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4097,8 +3948,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4115,8 +3965,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4133,8 +3982,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4151,8 +3999,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4169,8 +4016,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4187,8 +4033,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
  
@@ -4207,8 +4052,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4225,8 +4069,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4243,8 +4086,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4261,8 +4103,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4279,8 +4120,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4297,8 +4137,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4315,8 +4154,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4333,8 +4171,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
  
@@ -4352,8 +4189,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4369,8 +4205,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4386,8 +4221,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4403,8 +4237,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4420,8 +4253,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4437,8 +4269,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4454,8 +4285,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4471,8 +4301,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4488,8 +4317,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4505,8 +4333,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4522,8 +4349,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4539,8 +4365,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4556,8 +4381,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4573,8 +4397,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4590,8 +4413,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4607,8 +4429,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4624,8 +4445,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4641,8 +4461,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4658,8 +4477,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4675,8 +4493,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4692,8 +4509,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4709,8 +4525,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4726,8 +4541,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4743,8 +4557,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4760,8 +4573,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4777,8 +4589,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4794,8 +4605,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4811,8 +4621,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4828,8 +4637,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4845,8 +4653,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4862,8 +4669,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4879,8 +4685,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4896,8 +4701,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4913,8 +4717,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4930,8 +4733,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -4947,8 +4749,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4964,8 +4765,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4981,8 +4781,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -4998,8 +4797,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5015,8 +4813,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5032,8 +4829,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5049,8 +4845,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
     
@@ -5066,8 +4861,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5083,8 +4877,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5100,8 +4893,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5117,8 +4909,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5134,8 +4925,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5151,8 +4941,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5169,8 +4958,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5186,8 +4974,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5205,8 +4992,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5222,8 +5008,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5240,8 +5025,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5257,8 +5041,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5274,8 +5057,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 
@@ -5291,8 +5073,7 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
-        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
         return returnValue;
     }
 

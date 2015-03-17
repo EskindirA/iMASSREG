@@ -105,7 +105,7 @@ public class Administrator {
                 }
 
             } catch (ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to user list");
@@ -214,7 +214,7 @@ public class Administrator {
                 rd.forward(request, response);
             }
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Welcome page");

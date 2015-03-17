@@ -36,35 +36,32 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 ">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Guardians List</h2>
+            <h2 class="page-header">&nbsp;&nbsp;<%=CommonStorage.getText("some_internal_error_has_happened_the_error_has_been_saved_and_will_be_reported_to_the_developers_please_go_back_to_the_welcome_page")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading"> 
-                    Parcel: Administrative UPI - ${sessionScope.upi}
+                    <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi")%> - ${sessionScope.upi}
                     <%
-                        if(parcelDifference==null){
-                            System.err.println("Parcel Diff Null");
-                        }
                         if (reviewMode && parcelDifference.isGuardiansDetails()) {
-                            out.println("<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in guardian details</span>");
+                            out.println("<span style='margin-left: 3em' class='discrepancy-field'>" + CommonStorage.getText("there_is_a_discrepancy_in_guardians_details") + "</span>");
                         }
                         
                     %>
                     <span style='float:right' class='<%= reviewMode
                                                 && parcelDifference.isGuardiansCount()
-                                                        ? "discrepancy-field" : ""%>'>Guardian Count:<%=currentParcel.getGuardiansCount()%></span>
+                                                        ? "discrepancy-field" : ""%>'><%=CommonStorage.getText("guardians_count")%>:<%=currentParcel.getGuardiansCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Sex</th>
-                                    <th>Date of Birth</th>
+                                    <th><%=CommonStorage.getText("name")%></th>
+                                    <th><%=CommonStorage.getText("sex")%></th>
+                                    <th><%=CommonStorage.getText("date_of_birth")%></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -81,15 +78,15 @@
                                         out.println("<td>" + guardians.get(i).getDateOfBirth() + "</td>");
                                         out.println("<td>");
                                         out.println("<a href = '#' class = 'viewButton' "
-                                                + "data-registeredOn = '" + guardians.get(i).getRegisteredOn() + "' >View</a>");
+                                                + "data-registeredOn = '" + guardians.get(i).getRegisteredOn() + "' >" + CommonStorage.getText("view") + "</a>");
 
                                         if (editable) {
                                             out.println("|");
                                             out.println("<a href = '#' class='editButton' data-registeredOn='"
-                                                    + guardians.get(i).getRegisteredOn() + "'>Edit</a>");
+                                                    + guardians.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("edit") + "</a>");
                                             out.println("|");
                                             out.println("<a href = '#' class='deleteButton' data-registeredOn='"
-                                                    + guardians.get(i).getRegisteredOn() + "'>Delete</a>");
+                                                    + guardians.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
 
                                         }
                                         out.println("</td>");
@@ -102,17 +99,17 @@
                 </div> <!-- /.panel-body -->
                 <div class="row">
                     <div class="col-lg-6">
-                        <button type="submit" id = "backButton" class="btn btn-default col-lg-2 col-lg-offset-1">Back</button>
+                        <button type="submit" id = "backButton" class="btn btn-default col-lg-2 col-lg-offset-1"><%=CommonStorage.getText("back")%></button>
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
                             <%
                                 if (editable) {
-                                    out.println("<button type='submit' id = 'addGuardianButton' name = 'addGuardianButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >Add</button>");
+                                    out.println("<button type='submit' id = 'addGuardianButton' name = 'addGuardianButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >"+CommonStorage.getText("add")+"</button>");
                                 } else {
                                     out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                 }
-                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Next</button>");
+                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>"+CommonStorage.getText("next")+"</button>");
                             %>
                         </div>                        
                     </div>
@@ -127,33 +124,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Register a Guardian</h4>
+                <h4 class="modal-title"><%=CommonStorage.getText("register_a_guardian")%></h4>
             </div>            <!-- /modal-header -->
             <div class="modal-body">
                 <form role="form" action="#" id="addGuardianForm">
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                                <label>First Name</label>
+                                <label><%=CommonStorage.getText("first_name")%></label>
                                 <input class="form-control " id="firstName" name="firstName" />
                             </div>
                             <div class="form-group">
-                                <label>Father's Name</label>
+                                <label><%=CommonStorage.getText("fathers_name")%></label>
                                 <input class="form-control " id="fathersName" name="fathersName" />
                             </div> 
                             <div class="form-group">
-                                <label>Grandfather's Name</label>
+                                <label><%=CommonStorage.getText("grandfathers_name")%></label>
                                 <input class="form-control " id="grandFathersName" name="grandFathersName" />
                             </div>
                             <div class="form-group">
-                                <label>Sex</label>
+                                <label><%=CommonStorage.getText("sex")%></label>
                                 <select class="form-control" id="sex" name="sex">
-                                    <option value = 'm'>Male</option>
-                                    <option value = 'f'>Female</option>
+                                    <option value = 'm'><%=CommonStorage.getText("male")%></option>
+                                    <option value = 'f'><%=CommonStorage.getText("female")%></option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Date of Birth</label>
+                                <label><%=CommonStorage.getText("date_of_birth")%></label>
                                 <input class="form-control " id="dateOfBirth" name="dateOfBirth"  type='text' readonly style="background: #FFF !important"/>
                             </div>
                         </div> <!-- /.row (nested) -->
@@ -161,8 +158,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" id="saveGuardianButton" class="btn btn-primary" value = "Add" />
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("cancel")%></button>
+                <input type="submit" id="saveGuardianButton" class="btn btn-primary" value = "<%=CommonStorage.getText("add")%>" />
             </div> 
         </div>
     </div>
@@ -211,7 +208,7 @@
         $("#editModal").html(result);
     }
     function deleteGuardian(regOn) {
-        bootbox.confirm("Are you sure you want delete this guardian ?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_guardian")%> ?", function(result) {
             if (result) {
                 $.ajax({
                     type: 'POST',
@@ -275,7 +272,7 @@
     });
     $("#saveGuardianButton").click(function() {
         if (!validate("addGuardianForm")) {// validate
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         }
         else {
             save();// save
@@ -295,7 +292,7 @@
         return false;
     });
     $("#backButton").click(function() {
-        bootbox.confirm("Are you sure you want to go back?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function(result) {
             if (result) {
                 $.ajax({
                     type: 'POST',

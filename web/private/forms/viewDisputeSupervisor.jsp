@@ -12,33 +12,33 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">View Dispute Details</h4>
+            <h4 class="modal-title"><%=CommonStorage.getText("view_dispute_details")%></h4>
         </div>            <!-- /modal-header -->
         <div class="modal-body">
             <form id="viewDisputeFrom" name="viewDisputeFrom" >
                 <div class="panel-body">
                     <div class="row">
                         <div class="form-group">
-                            <label>First Name</label>
+                            <label><%=CommonStorage.getText("firstName")%></label>
                             <input class="form-control " id="firstName" name="firstName" value="<%=dispute.getFirstName()%>" disabled/>
                         </div>
                         <div class="form-group">
-                            <label>Father's Name</label>
+                            <label><%=CommonStorage.getText("fathers_name")%></label>
                             <input class="form-control " id="fathersName" name="fathersName" value="<%=dispute.getFathersName()%>" disabled/>
                         </div> 
                         <div class="form-group">
-                            <label>Grandfather's Name</label>
+                            <label><%=CommonStorage.getText("grandfathers_name")%></label>
                             <input class="form-control " id="grandFathersName" name="grandFathersName" value="<%=dispute.getGrandFathersName()%>" disabled/>
                         </div>
                         <div class="form-group">
-                            <label>Sex</label>
+                            <label><%=CommonStorage.getText("sex")%></label>
                             <select class="form-control" id="sex" name="sex" value="<%=dispute.getSex()%>" disabled>
-                                <option value = 'm'>Male</option>
-                                <option value = 'f'>Female</option>
+                                <option value = 'm'><%=CommonStorage.getText("male")%></option>
+                                <option value = 'f'><%=CommonStorage.getText("female")%></option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Dispute Type</label>
+                            <label><%=CommonStorage.getText("dispute_type")%></label>
                             <select class="form-control" id="disputeType" name="disputeType" value="<%=dispute.getDisputeType()%>" disabled>
                                 <%
                                     Option[] disputeTypes = MasterRepository.getInstance().getAllDisputeTypes();
@@ -49,7 +49,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Dispute Status</label>
+                            <label><%=CommonStorage.getText("dispute_status")%></label>
                             <select class="form-control" id="disputeStatus" name="disputeStatus" value="<%=dispute.getDisputeStatus()%>" disabled>
                                 <%
                                     Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
@@ -66,10 +66,10 @@
         <div class="modal-footer">
             <%
                 if (editable) {
-                    out.println("<input type='submit' id='editDisputeButton' class='btn btn-primary' value = 'Edit' />");
+                    out.println("<input type='submit' id='editDisputeButton' class='btn btn-primary' value = '"+CommonStorage.getText("edit")+"' />");
                 }
             %>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("close")%></button>
         </div> 
     </div>
 </div>

@@ -22,25 +22,25 @@
 <div class="col-lg-5 col-lg-offset-4">
     <div class="row">
         <div class="col-lg-7 col-lg-offset-3">
-            <h2 class="page-header">View Holder Details</h2>
+            <h2 class="page-header"><%=CommonStorage.getText("view_holder_details")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Parcel: Administrative UPI - ${sessionScope.upi}
+                    <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi")%> - ${sessionScope.upi}
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
                             <form role="form" action="#" id="viewHolderFrom" name="viewHolderFrom" method="action">
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input class="form-control " id="organizationName" name="organizationName" placeholder="Name of the holding organization" value="<%=holder.getName()%>" disabled/>
+                                    <label><%=CommonStorage.getText("name")%></label>
+                                    <input class="form-control " id="organizationName" name="organizationName" value="<%=holder.getName()%>" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <label>Type</label>
+                                    <label><%=CommonStorage.getText("type")%></label>
                                     <select class="form-control" id="organizationType" name="organizationType" value="<%=holder.getOrganizationType()%>" disabled>
                                         <%
                                             Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
@@ -52,19 +52,19 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <button type="submit" id = "backButton" class="btn btn-default col-lg-6" style="float:left">Back</button>
+                                        <button type="submit" id = "backButton" class="btn btn-default col-lg-6" style="float:left"><%=CommonStorage.getText("back")%></button>
                                     </div>
                                     <div class="col-lg-6">
                                         <%
                                             if (editable) {
-                                                out.println("<button type='submit' id = 'editHolderButton' name = 'editHolderButton' class='btn btn-default col-lg-4 col-lg-offset-2' >Edit</button>");
+                                                out.println("<button type='submit' id = 'editHolderButton' name = 'editHolderButton' class='btn btn-default col-lg-4 col-lg-offset-2' >"+CommonStorage.getText("edit")+"</button>");
                                             } else {
                                                 out.println("<span class='col-lg-2 col-lg-offset-2'></span>");
                                             }
                                             if (cParcel.hasDispute()) {
-                                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-5' style='float:right'>Next</button>");
+                                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-5' style='float:right'>"+CommonStorage.getText("next")+"</button>");
                                             } else {
-                                                out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-5' style='float:right'>Finish</button>");
+                                                out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-5' style='float:right'>"+CommonStorage.getText("finish")+"</button>");
                                             }
                                         %>
                                     </div>
@@ -86,7 +86,7 @@
         $(this).val($(this).attr("value"));
     });
     $("#backButton").click(function() {
-        bootbox.confirm("Are you sure you want to go back?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function(result) {
             if (result) {
                 $.ajax({
                     type:'POST',

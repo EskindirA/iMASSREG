@@ -57,7 +57,7 @@ public class SecondEntry {
         // If the pacel is not registerd by the FEO operator SEO cann't add it 
         if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 1)) {
             request.getSession().setAttribute("title", "Error");
-            request.getSession().setAttribute("message", "The parcel you are trying to add is not registered by the FEO, you can only add parcels already registered by the FEO.");
+            request.getSession().setAttribute("message", CommonStorage.getText("parcel_not_registered"));
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
@@ -71,7 +71,7 @@ public class SecondEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } // If the parcel exists in the second entry stage forward error, the parcel
-          // already exists
+        // already exists
         else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 2)) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The parcel you are trying to add already exists in the database, use find button to view the parcel details.");
@@ -162,7 +162,7 @@ public class SecondEntry {
             rd.forward(request, response);
             return;
         }
-         // Delete all disputes of the parcel, if any
+        // Delete all disputes of the parcel, if any
         if (parcel.hasDispute()) {
             ArrayList<Dispute> allDisputes = parcel.getDisputes();
             for (int i = 0; i < allDisputes.size(); i++) {
@@ -289,7 +289,7 @@ public class SecondEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -330,7 +330,7 @@ public class SecondEntry {
                 //Parcel.getLogStatment(oldParcel,newParcel);
                 MasterRepository.getInstance().update(oldParcel, newParcel);
                 if (newParcel.getHolding() == 1 && oldParcel.getHolding() != 1) {
-                    OrganizationHolder.delete(request,oldParcel.getUpi(), oldParcel.getStage());
+                    OrganizationHolder.delete(request, oldParcel.getUpi(), oldParcel.getStage());
                 }
                 if (newParcel.getHolding() != 1 && oldParcel.getHolding() == 1) {
                     ArrayList<IndividualHolder> holders = oldParcel.getIndividualHolders();
@@ -355,7 +355,7 @@ public class SecondEntry {
                 rd.forward(request, response);
             }
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -496,7 +496,7 @@ public class SecondEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -524,13 +524,13 @@ public class SecondEntry {
             if (request.getSession().getAttribute("reviewMode") != null) {
                 reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
             }
-            if (reviewMode ) {
+            if (reviewMode) {
                 Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
-                if(feoParcel.getHolding()>1 && parcel.getHolding()>1){
+                if (feoParcel.getHolding() > 1 && parcel.getHolding() > 1) {
                     request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), parcel.getOrganizationHolder()));
-                    request.getSession().setAttribute("ignoreReviewMode",false);
-                }else{
-                    request.getSession().setAttribute("ignoreReviewMode",true);
+                    request.getSession().setAttribute("ignoreReviewMode", false);
+                } else {
+                    request.getSession().setAttribute("ignoreReviewMode", true);
                 }
             }
 
@@ -583,7 +583,7 @@ public class SecondEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
@@ -635,7 +635,7 @@ public class SecondEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -719,7 +719,7 @@ public class SecondEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -738,7 +738,7 @@ public class SecondEntry {
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (IndividualHolder.delete(request,request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
+        if (IndividualHolder.delete(request, request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
             request.setAttribute("currentParcel", parcel);
             individualHolderList(request, response);
@@ -896,7 +896,7 @@ public class SecondEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go Back To Welcome Page");
@@ -958,7 +958,7 @@ public class SecondEntry {
         }
     }
 
-       /**
+    /**
      * Handlers request for getting the edit guardian form by the first entry
      * operator
      *
@@ -983,7 +983,6 @@ public class SecondEntry {
         }
     }
 
- 
     /**
      * Handlers request to update person with interest information by the second
      * entry operator
@@ -1024,7 +1023,7 @@ public class SecondEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go Back to Welcome Page");
@@ -1043,7 +1042,7 @@ public class SecondEntry {
      */
     protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (PersonWithInterest.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
+        if (PersonWithInterest.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
             personsWithInterestList(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -1117,7 +1116,7 @@ public class SecondEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
@@ -1225,7 +1224,7 @@ public class SecondEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
@@ -1243,7 +1242,7 @@ public class SecondEntry {
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (Dispute.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
+        if (Dispute.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
             request.setAttribute("currentParcel", parcel);
             viewDisputeList(request, response);
@@ -1330,7 +1329,7 @@ public class SecondEntry {
         }
     }
 
-     /**
+    /**
      * Handlers request to update guardian information by the second entry
      * operator
      *
@@ -1370,7 +1369,7 @@ public class SecondEntry {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to guardians List");
@@ -1406,7 +1405,8 @@ public class SecondEntry {
             rd.forward(request, response);
         }
     }
-   /**
+
+    /**
      * Handlers request to view list of guardians by the second entry operator
      *
      * @param request request object passed from the main controller
@@ -1512,7 +1512,7 @@ public class SecondEntry {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -1524,7 +1524,6 @@ public class SecondEntry {
 
     }
 
-   
     /**
      * Handlers request send the current parcel for correction by the supervisor
      *

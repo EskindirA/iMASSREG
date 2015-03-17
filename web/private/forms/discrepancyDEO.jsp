@@ -1,8 +1,8 @@
-<%@page import="org.lift.massreg.util.Constants"%>
+<%@page import="org.lift.massreg.util.*"%>
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 ">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discrepancies</h2>
+            <h2 class="page-header"><%=CommonStorage.getText("discrepancies")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
@@ -13,12 +13,10 @@
                 <div class="panel-body" id="panelBody">
                     <form role="form" action="#" method="POST" id="commitForm" name="commitForm">
                         <div class="row">
-                            <p style="padding: 2em">Discrepancies exist between your version of data
-                                and that of the FEO,please review your entry or
-                                submit the parcel for correction by the supervisor</p>
+                            <p style="padding: 2em"><%=CommonStorage.getText("discrepancies_exist")%></p>
                             <div class="row" style="margin-top: 3em">
-                                <button id = "reviewButton" class="btn btn-default col-lg-2 col-lg-offset-6">Review</button>
-                                <button id = "submitForCorrectionButton" class="btn btn-default col-lg-3" style="margin-left: 1em" >Submit For Correction</button>
+                                <button id = "reviewButton" class="btn btn-default col-lg-2 col-lg-offset-6"><%=CommonStorage.getText("review")%></button>
+                                <button id = "submitForCorrectionButton" class="btn btn-default col-lg-3" style="margin-left: 1em" ><%=CommonStorage.getText("submit_for_correction")%></button>
                             </div>
                         </div> <!-- /.row (nested) -->
                     </form>

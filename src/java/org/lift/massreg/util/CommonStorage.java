@@ -85,9 +85,10 @@ public class CommonStorage {
                     languageFile = "en_us.properties";
                     break;
             }
-            languageBundle.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(languageFile));
+            languageBundle.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(languageFile),"UTF-8"));
         } catch (Exception ex) {
-            getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+
         }
     }
 
@@ -101,7 +102,7 @@ public class CommonStorage {
             language = prop.getProperty("language");
             loadTextValues();
         } catch (Exception ex) {
-            getLogger().logError(ex.toString());
+            ex.printStackTrace(getLogger().getErrorStream());
         }
         try {
             InitialContext ctx = new InitialContext();
@@ -112,7 +113,7 @@ public class CommonStorage {
             keystoreFilePath = (String) ctx.lookup("resource/keystoreFilePath");
 
         } catch (NamingException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
     }
 
@@ -120,7 +121,7 @@ public class CommonStorage {
         return keystoreFilePath;
     }
     public static String getText(String key) {
-        return languageBundle.getProperty(key);
+        return languageBundle.getProperty(key,"XXXXXXXXXXXXXXXXXXX");
     }
 
     public static String getLastReportDate() {
@@ -150,7 +151,7 @@ public class CommonStorage {
             woredaName = newWoredaName;
             woredaIDForUPI = newWoredaIdForUPI;
         } catch (Exception ex) {
-            getLogger().logError(ex.toString());
+            ex.printStackTrace(getLogger().getErrorStream());
         }
     }
 
@@ -164,12 +165,12 @@ public class CommonStorage {
             language = newLanguage;
             loadTextValues();
         } catch (Exception ex) {
-            getLogger().logError(ex.toString());
+            ex.printStackTrace(getLogger().getErrorStream());
         }
     }
 
     public static int[] getTeamNumbers() {
-        int[] returnValue = {1, 2, 3};
+        int[] returnValue = {1, 2, 3, 4};
         return returnValue;
     }
 
@@ -245,13 +246,13 @@ public class CommonStorage {
                             DataSource ds = (DataSource) new InitialContext().lookup("jdbc/newmassreg");
                             connection = ds.getConnection();
                         } catch (NamingException | SQLException ex) {
-                            getLogger().logError(ex.toString());
+                            ex.printStackTrace(getLogger().getErrorStream());
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            getLogger().logError(e.toString());
+            e.printStackTrace(getLogger().getErrorStream());
         }
         return connection;
     }

@@ -5,17 +5,27 @@
  */
 package org.lift.massreg.util;
 
+import java.io.PrintStream;
+
 /**
  *
  * @author Yoseph
  */
 public class Logger {
 
+    /*
     public void logError(String err) {
         System.err.println("MASSREG ERROR:" + err);
     }
 
     public void logMessage(String msg) {
         System.err.println("MASSREG ERROR:" + msg);
+    }
+    */
+    public PrintStream getErrorStream(){
+        return System.err;
+    }
+    public PrintStream getMessageStream(){
+        return System.out;
     }
 }

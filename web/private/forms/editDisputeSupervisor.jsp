@@ -12,33 +12,33 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Edit Dispute Details</h4>
+            <h4 class="modal-title"><%=CommonStorage.getText("edit_dispute_details")%></h4>
         </div>            <!-- /modal-header -->
         <div class="modal-body">
             <form id="editDisputeFrom" name="editDisputeFrom" >
                 <div class="panel-body">
                     <div class="row">
                         <div class="form-group">
-                            <label>First Name</label>
+                            <label><%=CommonStorage.getText("first_name")%></label>
                             <input class="form-control " id="firstName" name="firstName" value="<%=dispute.getFirstName()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Father's Name</label>
+                            <label><%=CommonStorage.getText("fathers_name")%></label>
                             <input class="form-control " id="fathersName" name="fathersName" value="<%=dispute.getFathersName()%>" />
                         </div> 
                         <div class="form-group">
-                            <label>Grandfather's Name</label>
+                            <label><%=CommonStorage.getText("grandfathers_name")%></label>
                             <input class="form-control " id="grandFathersName" name="grandFathersName" value="<%=dispute.getGrandFathersName()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Sex</label>
+                            <label><%=CommonStorage.getText("sex")%></label>
                             <select class="form-control" id="sex" name="sex" value="<%=dispute.getSex()%>" >
-                                <option value = 'm'>Male</option>
-                                <option value = 'f'>Female</option>
+                                <option value = 'm'><%=CommonStorage.getText("male")%></option>
+                                <option value = 'f'><%=CommonStorage.getText("female")%></option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Dispute Type</label>
+                            <label><%=CommonStorage.getText("dispute_type")%></label>
                             <select class="form-control" id="disputeType" name="disputeType" value="<%=dispute.getDisputeType()%>" >
                                 <%
                                     Option[] disputeTypes = MasterRepository.getInstance().getAllDisputeTypes();
@@ -49,7 +49,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Dispute is/being handled by</label>
+                            <label><%=CommonStorage.getText("dispute_status")%></label>
                             <select class="form-control" id="disputeStatus" name="disputeStatus" value="<%=dispute.getDisputeStatus()%>" >
                                 <%
                                     Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
@@ -64,8 +64,8 @@
             </form>
         </div>
         <div class="modal-footer">
-            <input type='submit' id='updateDisputeButton' name='saveDisputeButton' class='btn btn-info' value = 'Save' />
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type='submit' id='updateDisputeButton' name='saveDisputeButton' class='btn btn-info' value = '<%=CommonStorage.getText("save")%>' />
+            <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("close")%></button>
         </div> 
     </div>
 </div>
@@ -79,7 +79,7 @@
     });
     $("#updateDisputeButton").click(function() {
         if (!validate("editDisputeFrom")) {// validate
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
             return false;
         } else {
             update();// save

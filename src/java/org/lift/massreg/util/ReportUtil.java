@@ -171,7 +171,7 @@ public class ReportUtil {
                 wb.write(fileOut);
             }
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return wb;
     }
@@ -829,7 +829,7 @@ public class ReportUtil {
                 wb.write(fileOut);
             }
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return wb;
     }

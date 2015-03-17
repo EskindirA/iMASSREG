@@ -7,8 +7,8 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-3 col-lg-offset-5 ">
-            <h2 class="page-header">Your report is ready</h2>
-            <a class="btn-primary col-lg-offset-2 col-lg-8 btn" title="Download Report" target="_blank" href="<%=reportUrl%>">Download</a>
+            <h2 class="page-header"><%=CommonStorage.getText("your_report_is_ready")%></h2>
+            <a class="btn-primary col-lg-offset-2 col-lg-8 btn" title="<%=CommonStorage.getText("download_report")%>" target="_blank" href="<%=reportUrl%>"><%=CommonStorage.getText("download")%></a>
         </div>
     </div>
 </div> 

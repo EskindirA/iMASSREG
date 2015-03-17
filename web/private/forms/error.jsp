@@ -1,6 +1,6 @@
-<%@page import="org.lift.massreg.util.Constants"%>
-<h1>Some internal error has happened, the error has been saved please go back to the welcome page</h1>
-<button id="goToHomeBtn" class="btn btn-default">Go back to home page</button>
+<%@page import="org.lift.massreg.util.*"%>
+<h1><%=CommonStorage.getText("guardians_list")%></h1>
+<button id="goToHomeBtn" class="btn btn-default"><%=CommonStorage.getText("go_back_to_home_page")%></button>
 <script type="text/javascript">
     $("#goToHomeBtn").click(function() {
         window.location = '<%=request.getContextPath()%>/Index?action=<%=Constants.ACTION_WELCOME%>';

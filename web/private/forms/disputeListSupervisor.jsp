@@ -8,7 +8,7 @@
     boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<Dispute> disputes = currentParcel.getDisputes();
     ParcelDifference parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
-    String saveurl, viewurl, deleteurl, editurl, backurl, finishurl,welcomeurl;
+    String saveurl, viewurl, deleteurl, editurl, backurl, finishurl, welcomeurl;
     saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_DISPUTE_SUPERVISOR;
     viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_DISPUTE_SUPERVISOR;
     deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_DISPUTE_SUPERVISOR;
@@ -24,31 +24,31 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-3 col-lg-offset-4 ">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disputes List</h2>
+            <h2 class="page-header"><%=CommonStorage.getText("dispute_list")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading"> 
-                    Parcel: Administrative UPI - ${sessionScope.upi}
+                    <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi")%> - ${sessionScope.upi}
                     <% if (parcelDifference.isDisputesDetails()) {
-                            out.println("<span style='margin-left: 3em' class='discrepancy-field'>There is a discrepancy in dispute details</span>");
+                            out.println("<span style='margin-left: 3em' class='discrepancy-field'>" + CommonStorage.getText("there_is_a_discrepancy_in_dispute_details") + "</span>");
                         }
                     %>
 
                           <span style='float:right' class='<%= parcelDifference.isDisputesCount() && currentParcel.canEdit(CommonStorage.getCurrentUser(request))
-                            ? "discrepancy-field" : ""%>'>Dispute Count:<%=currentParcel.getDisputeCount()%></span>
+                            ? "discrepancy-field" : ""%>'><%=CommonStorage.getText("dispute_count")%>:<%=currentParcel.getDisputeCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Sex</th>
-                                    <th>Type</th>
-                                    <th>Status</th>
+                                    <th><%=CommonStorage.getText("name")%></th>
+                                    <th><%=CommonStorage.getText("sex")%></th>
+                                    <th><%=CommonStorage.getText("type")%></th>
+                                    <th><%=CommonStorage.getText("status")%></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -66,14 +66,14 @@
                                         out.println("<td>" + disputes.get(i).getDisputeStatusText() + "</td>");
                                         out.println("<td>");
                                         out.println("<a href = '#' class='viewButton' "
-                                                + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>View</a>");
+                                                + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("view") + "</a>");
                                         if (editable) {
                                             out.println("|");
                                             out.println("<a href = '#' class='editButton' "
-                                                    + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>Edit</a>");
+                                                    + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("edit") + "</a>");
                                             out.println("|");
                                             out.println("<a href = '#' class='deleteButton' "
-                                                    + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>Delete</a>");
+                                                    + "data-registeredOn='" + disputes.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
                                         }
                                         out.println("</td>");
                                         out.println("</tr>");
@@ -85,24 +85,22 @@
                 </div> <!-- /.panel-body -->
                 <div class="row">
                     <div class="col-lg-6">
-                        <button type="submit" id = "backButton" class="btn btn-default col-lg-2 col-lg-offset-1">Back</button>
+                        <button type="submit" id = "backButton" class="btn btn-default col-lg-2 col-lg-offset-1"><%=CommonStorage.getText("back")%></button>
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
                             <%
                                 if (editable) {
-                                    out.println("<button type='submit' id = 'addDisputeButton' name = 'addDisputeButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >Add</button>");
+                                    out.println("<button type='submit' id = 'addDisputeButton' name = 'addDisputeButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >" + CommonStorage.getText("add") + "</button>");
                                 } else {
                                     out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                 }
                             %>
                             <%
                                 if (currentParcel.getDisputeCount() >= 1 && currentParcel.canEdit(CommonStorage.getCurrentUser(request))) {
-                                    out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
-                                } else if (!currentParcel.canEdit(CommonStorage.getCurrentUser(request))) {
-                                    out.println("<button type='submit' id = 'goToWelcomeButton' name = 'goToWelcomeButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>Finish</button>");
+                                    out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>" + CommonStorage.getText("finish") + "</button>");
                                 } else {
-                                    out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em' disabled>Finish</button>");
+                                    out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em' disabled>" + CommonStorage.getText("finish") + "</button>");
                                 }
                             %>
                         </div>                        
@@ -118,33 +116,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Register a Dispute</h4>
+                <h4 class="modal-title"><%=CommonStorage.getText("register_a_dispute")%></h4>
             </div>            <!-- /modal-header -->
             <div class="modal-body">
                 <form id="addDisputeForm">
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                                <label>First Name</label>
+                                <label><%=CommonStorage.getText("first_name")%></label>
                                 <input class="form-control " id="firstName" name="firstName" />
                             </div>
                             <div class="form-group">
-                                <label>Father's Name</label>
+                                <label><%=CommonStorage.getText("fathers_name")%></label>
                                 <input class="form-control " id="fathersName" name="fathersName" />
                             </div> 
                             <div class="form-group">
-                                <label>Grandfather's Name</label>
+                                <label><%=CommonStorage.getText("grandfathers_name")%></label>
                                 <input class="form-control " id="grandFathersName" name="grandFathersName" />
                             </div>
                             <div class="form-group">
-                                <label>Sex</label>
+                                <label><%=CommonStorage.getText("sex")%></label>
                                 <select class="form-control" id="sex" name="sex">
-                                    <option value = 'm'>Male</option>
-                                    <option value = 'f'>Female</option>
+                                    <option value = 'm'><%=CommonStorage.getText("male")%></option>
+                                    <option value = 'f'><%=CommonStorage.getText("female")%></option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Dispute Type</label>
+                                <label><%=CommonStorage.getText("dispute_type")%></label>
                                 <select class="form-control" id="disputeType" name="disputeType" >
                                     <%
                                         Option[] disputeTypes = MasterRepository.getInstance().getAllDisputeTypes();
@@ -155,7 +153,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Dispute is/being handled by</label>
+                                <label><%=CommonStorage.getText("dispute_status")%></label>
                                 <select class="form-control" id="disputeStatus" name="disputeStatus" >
                                     <%
                                         Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
@@ -170,8 +168,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" id="saveDisputeButton" class="btn btn-primary" value = "Add" />
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("cancel")%></button>
+                <input type="submit" id="saveDisputeButton" class="btn btn-primary" value = "<%=CommonStorage.getText("add")%>" />
             </div> 
         </div>
     </div>
@@ -222,7 +220,7 @@
         $("#editModal").html(result);
     }
     function deleteDispute(regOn) {
-        bootbox.confirm("Are you sure you want delete thise dispute ?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_delete_this_dispute")%> ?", function (result) {
             if (result) {
                 $.ajax({
                     type: 'POST',
@@ -273,7 +271,7 @@
             success: loadForward
         });
     }
-    $("#finishButton").click(function() {
+    $("#finishButton").click(function () {
         $.ajax({
             type: 'POST',
             url: "<%=finishurl%>",
@@ -283,28 +281,28 @@
         return false;
     });
     $('#dataTables-example').dataTable({"bPaginate": false});
-    $('.editButton').click(function() {
+    $('.editButton').click(function () {
         editDispute($(this).attr("data-registeredOn"));
         return false;
     });
-    $('.viewButton').click(function() {
+    $('.viewButton').click(function () {
         viewDispute($(this).attr("data-registeredOn"));
         return false;
     });
-    $('.deleteButton').click(function() {
+    $('.deleteButton').click(function () {
         deleteDispute($(this).attr("data-registeredOn"));
         return false;
     });
-    $("#saveDisputeButton").click(function() {
+    $("#saveDisputeButton").click(function () {
         if (!validate("addDisputeForm")) {// validate
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
             save();// save
             $("#addModal").hide();// close modale
         }
         return false;
     });
-    $("#goToWelcomeButton").click(function() {
+    $("#goToWelcomeButton").click(function () {
         $.ajax({
             type: 'POST',
             url: "<%=welcomeurl%>",
@@ -312,8 +310,8 @@
             success: loadForward
         });
     });
-    $("#backButton").click(function() {
-        bootbox.confirm("Are you sure you want to go back?", function(result) {
+    $("#backButton").click(function () {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function (result) {
             if (result) {
                 $.ajax({
                     type: 'POST',

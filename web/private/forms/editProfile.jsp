@@ -9,34 +9,34 @@
 <div class="col-lg-5 col-lg-offset-4">
     <div class="row">
         <div class="col-lg-7 col-lg-offset-3">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp; Profile Details</h2>
+            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp; <%=CommonStorage.getText("profile_details")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <%= currentUser.getFirstName() + " " + currentUser.getFathersName()%>' Profile
+                    <%= currentUser.getFirstName() + " " + currentUser.getFathersName()%>' <%=CommonStorage.getText("profile")%>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
                             <form role="form"  id="editProfileFrom" name="editProfileFrom" >
                                 <div class="form-group">
-                                    <label>Current Password</label>
+                                    <label><%=CommonStorage.getText("current_password")%></label>
                                     <input class="form-control " id="oldPassword" name="oldPassword" placeholder="Old password"  type="password"/>
                                 </div>
                                 <div class="form-group">
-                                    <label>New Password: </label>
+                                    <label><%=CommonStorage.getText("new_password")%>: </label>
                                     <input class="form-control " id="password" name="password" type="password" />
                                 </div>
                                 <div class="form-group">
-                                    <label>Confirm Password: </label>
+                                    <label><%=CommonStorage.getText("confirm_password")%>: </label>
                                     <input class="form-control " id="cPassword" name="cPassword" type="password" />
                                 </div>
                                 <div class="col-lg-12">
-                                    <button type='submit' id = 'cancelEditButton' name = 'cancelEditButton' class='btn btn-default col-lg-2 col-lg-offset-7' >Cancel</button>
-                                    <button type='submit' id = 'updatePasswordButton' name = 'updatePasswordButton' class='btn btn-default col-lg-2' style='margin-left: .2em' >Update</button>
+                                    <button type='submit' id = 'cancelEditButton' name = 'cancelEditButton' class='btn btn-default col-lg-2 col-lg-offset-7' ><%=CommonStorage.getText("cancel")%></button>
+                                    <button type='submit' id = 'updatePasswordButton' name = 'updatePasswordButton' class='btn btn-default col-lg-2' style='margin-left: .2em' ><%=CommonStorage.getText("update")%></button>
                                 </div>
                                 <!-- /.row (nested) -->
                             </form>
@@ -101,7 +101,7 @@
     });
     $("#updatePasswordButton").click(function() {
         if (!validatePassword()) {// validate
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
             return false;
         } else {
             updatePassword();// save

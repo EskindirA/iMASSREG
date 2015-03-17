@@ -143,7 +143,7 @@ public class Correction {
                 rd.forward(request, response);
             }
         } catch (Exception ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -366,7 +366,7 @@ public class Correction {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -445,7 +445,7 @@ public class Correction {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -497,7 +497,7 @@ public class Correction {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to Parcel");
@@ -637,7 +637,7 @@ public class Correction {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go Back To Welcome Page");
@@ -688,7 +688,7 @@ public class Correction {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go Back To Welcome Page");
@@ -839,7 +839,7 @@ public class Correction {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go Back to Welcome Page");
@@ -888,7 +888,7 @@ public class Correction {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go Back to Welcome Page");
@@ -1022,7 +1022,7 @@ public class Correction {
                 }
 
             } catch (NumberFormatException | ServletException | IOException ex) {
-                CommonStorage.getLogger().logError(ex.toString());
+                ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
                 request.getSession().setAttribute("title", "Inrernal Error");
                 request.getSession().setAttribute("message", "Sorry, some internal error has happend");
                 request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
@@ -1127,7 +1127,7 @@ public class Correction {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to wlecome page");
@@ -1264,7 +1264,7 @@ public class Correction {
             }
 
         } catch (NumberFormatException | ServletException | IOException ex) {
-            CommonStorage.getLogger().logError(ex.toString());
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
             request.getSession().setAttribute("returnTitle", "Go back to Welcome page");

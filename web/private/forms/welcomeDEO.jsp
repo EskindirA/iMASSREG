@@ -14,14 +14,14 @@
 <div class="col-lg-8 col-lg-offset-2">
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 ">
-            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome</h2>
+            <h2 class="page-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=CommonStorage.getText("welcome")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Find a parcel
+                    <%=CommonStorage.getText("find_a_parcel")%>
                 </div>
                 <div class="panel-body" id="panelBody">
                     <form role="form" action="#" method="POST" id="welcomeForm" name="welcomeForm">
@@ -29,7 +29,7 @@
                             <div class="col-lg-6">
                                 <input type="hidden" name="WoredaId" id="WoredaId" value="<%= CommonStorage.getCurrentWoredaId()%>" />
                                 <div class="form-group">
-                                    <label>Kebele</label>
+                                    <label><%=CommonStorage.getText("kebele")%></label>
                                     <select class="form-control" id="kebele" name="kebele">
                                         <%
                                             Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
@@ -42,18 +42,18 @@
                                     </select>
                                 </div>
                                 <div class="form-group error" id="someId">
-                                    <label>Parcel #</label>
-                                    <input class="form-control" placeholder="Enter parcel # " name = "parcelNo" id = "parcelNo" type="text" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" />
+                                    <label><%=CommonStorage.getText("parcel_id")%></label>
+                                    <input class="form-control" name = "parcelNo" id = "parcelNo" type="text" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" />
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Administrative UPI</label>
-                                    <input class="form-control " placeholder="" name = "upi" id = "upi" disabled required value="${sessionScope.upi}"/>
+                                    <label><%=CommonStorage.getText("administrative_upi")%></label>
+                                    <input class="form-control" name = "upi" id = "upi" disabled required value="${sessionScope.upi}"/>
                                 </div>
                                 <div class="row" style="margin-top: 3em">
-                                    <button id = "addButton" class="btn btn-default col-lg-2 col-lg-offset-7">Add</button>
-                                    <button id = "findButton" class="btn btn-default col-lg-2" style="margin-left: 1em" >Find</button>
+                                    <button id = "addButton" class="btn btn-default col-lg-2 col-lg-offset-7"><%=CommonStorage.getText("add")%></button>
+                                    <button id = "findButton" class="btn btn-default col-lg-2" style="margin-left: 1em" ><%=CommonStorage.getText("find")%></button>
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                         </div> <!-- /.row (nested) -->
@@ -73,7 +73,7 @@
         if ($("#kebele").val() === "" ) {
             showError("Please select a kebele");
         }else if ($("#upi").val() === "" || $("#parcelNo").val() === "" || $("#kebele").val() === "") {
-            showError("Kebele, Parcel Number and Administrative UPI are required fields");
+            showError("<%=CommonStorage.getText("parcel_number_should_be_composed_of_digits_only")%>");
         } else {// Call to the service to get the add parcel form
             $.ajax({
                 success: loadForward,
@@ -97,14 +97,14 @@
     $("#welcomeForm").submit(loadAdd);
     $("#findButton").click(function() {
         if(isNaN(parseFloat($("#parcelNo").val())) || !isFinite($("#parcelNo").val())){
-            showError("Parcel number should be composed of digits only");
+            showError("<%=CommonStorage.getText("parcel_number_should_be_composed_of_digits_only")%>");
             return;
         }
         updateUPI();
         if ($("#kebele").val() === "" ) {
             showError("Please select a kebele");
         }else if ($("#upi").val() === "" || $("#parcelNo").val() === "") {
-            showError("Parcel Number and Administrative UPI are required fields");
+            showError("<%=CommonStorage.getText("parcel_number_and_administrative_upi_are_required_fields")%>");
         }
         else { // Call to the service to get the view parcel form
             $.ajax({

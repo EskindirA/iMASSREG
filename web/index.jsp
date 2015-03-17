@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>MASSREG</title>
+        <title>iMASSREG</title>
         <link href="<%=request.getContextPath()%>/assets/images/imassreg.png" rel="icon" type="image/png"  >
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
@@ -104,7 +104,7 @@
                     <a class="navbar-brand" href="/MASSREG/Index">
                         <img src="<%=request.getContextPath()%>/assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:5px;z-index:4;top:0px"> 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MASSREG v2.0 
-                        - <%= CommonStorage.getCurrentWoredaName()%> Woreda </a>
+                        - <%= CommonStorage.getCurrentWoredaName()%> <%=CommonStorage.getText("woreda")%> </a>
                 </div> <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
                     <%-- <li class="dropdown">
@@ -172,9 +172,9 @@
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#" id="viewProfileButton"><i class="fa fa-user fa-fw" title="see <%= CommonStorage.getCurrentUser(request).getFullName()%>'s profile"></i> <span class="name">View Profile</span></a> </li>
+                            <li><a href="#" id="viewProfileButton"><i class="fa fa-user fa-fw" ></i> <span class="name"><%=CommonStorage.getText("view_profile")%></span></a> </li>
                             <li class="divider"></li>
-                            <li> <a href="<%=request.getContextPath()%>/Index?action=<%= Constants.ACTION_LOGOUT%>"><i class="fa fa-sign-out fa-fw"></i> Logout</a> </li>
+                            <li> <a href="<%=request.getContextPath()%>/Index?action=<%= Constants.ACTION_LOGOUT%>"><i class="fa fa-sign-out fa-fw"></i> <%=CommonStorage.getText("logout")%></a> </li>
                         </ul> <!-- /.dropdown-user -->
                     </li> <!-- /.dropdown -->
                 </ul> <!-- /.navbar-top-links -->

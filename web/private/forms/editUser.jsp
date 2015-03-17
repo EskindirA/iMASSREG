@@ -8,38 +8,38 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Edit User Details</h4>
+            <h4 class="modal-title"><%=CommonStorage.getText("edit_user_details")%></h4>
         </div>            <!-- /modal-header -->
         <div class="modal-body">
             <form id="editUserForm" name="editUserForm" >
                 <div class="panel-body">
                     <div class="row">
                         <div class="form-group">
-                            <label>First Name</label>
+                            <label><%=CommonStorage.getText("first_name")%></label>
                             <input class="form-control " id="firstName" name="firstName" value="<%=currentUser.getFirstName()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Father's Name</label>
+                            <label><%=CommonStorage.getText("fathers_name")%></label>
                             <input class="form-control " id="fathersName" name="fathersName" value="<%=currentUser.getFathersName()%>" />
                         </div> 
                         <div class="form-group">
-                            <label>Grandfather's Name</label>
+                            <label><%=CommonStorage.getText("grandfathers_name")%></label>
                             <input class="form-control " id="grandFathersName" name="grandFathersName" value="<%=currentUser.getGrandFathersName()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Phone Number</label>
+                            <label><%=CommonStorage.getText("phone_number")%></label>
                             <input class="form-control " id="phoneNo" name="phoneno" value="<%=currentUser.getPhoneNumber()%>" />
                         </div>
                         <div class="form-group">
-                            <label>Role</label>
+                            <label><%=CommonStorage.getText("role")%></label>
                             <select class="form-control" id="role" name="role" value="<%=currentUser.getRoleText().toLowerCase()%>" >
-                                <option value = 'feo'>First Entry Operator</option>
-                                <option value = 'seo'>Second Entry Operator</option>
-                                <option value = 'supervisor'>Supervisor</option>
+                                <option value = 'feo'><%=CommonStorage.getText("first_entry_operator")%></option>
+                                <option value = 'seo'><%=CommonStorage.getText("second_entry_operator")%></option>
+                                <option value = 'supervisor'><%=CommonStorage.getText("supervisor")%></option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>User Name</label>
+                            <label><%=CommonStorage.getText("user_name")%></label>
                             <input class="form-control " type="text" id="username" name="username" value="<%=currentUser.getUsername()%>" />
                         </div>
                     </div> <!-- /.row (nested) -->
@@ -47,8 +47,8 @@
             </form>
         </div>
         <div class="modal-footer">
-            <input type='submit' id='updateUserButton' name='updateUserButton' class='btn btn-info' value = 'Save' />
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type='submit' id='updateUserButton' name='updateUserButton' class='btn btn-info' value = '<%=CommonStorage.getText("save")%>' />
+            <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("close")%></button>
         </div> 
     </div>
 </div>
@@ -100,13 +100,11 @@
     }
     $("#updateUserButton").click(function() {
         if (!validateUpdate()) {// validate
-            showError("Please input appropriate values in the highlighted fields");
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
             return false;
         }else{
             update();
         }
         return false;
     });
-    
-
 </script>
