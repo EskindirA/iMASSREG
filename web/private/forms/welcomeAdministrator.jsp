@@ -427,7 +427,9 @@
         }
         return false;
     });
-    $('#dataTables').dataTable();
+    $('#dataTables').dataTable( {
+        "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
+    } );
     $('.editButton').click(function () {
         editUser($(this).attr("data-userId"));
         return false;

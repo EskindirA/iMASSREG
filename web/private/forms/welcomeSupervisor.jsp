@@ -149,7 +149,9 @@
             success: loadForward
         });
     }
-    $('#dataTables').dataTable();
+    $('#dataTables').dataTable( {
+        "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
+    } );
     $('.editButton').click(function () {
         editParcel($(this).attr("data-upi"));
         return false;
