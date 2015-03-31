@@ -112,7 +112,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -149,7 +150,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -186,7 +188,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -225,7 +228,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -267,7 +271,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -829,7 +834,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -876,7 +882,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -920,7 +927,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -946,7 +954,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -965,7 +974,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -995,7 +1005,8 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1024,7 +1035,8 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1041,7 +1053,8 @@ public class MasterRepository {
             int result = stmnt.executeUpdate();
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
     }
 
     public ArrayList<PersonWithInterest> getAllPersonsWithInterest(String upi, byte stage) {
@@ -1067,7 +1080,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1094,7 +1108,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1123,7 +1138,8 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1152,7 +1168,8 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1179,7 +1196,8 @@ public class MasterRepository {
             connection.close();
         } catch (Exception ex) {
             returnValue = false;
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1208,7 +1226,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1323,7 +1342,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1341,7 +1361,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1359,7 +1380,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1379,7 +1401,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue.toArray(new Option[0]);
     }
 
@@ -1418,7 +1441,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1443,7 +1467,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1475,7 +1500,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1503,7 +1529,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1531,7 +1558,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1561,7 +1589,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1601,7 +1630,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1626,7 +1656,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1658,7 +1689,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1686,7 +1718,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1714,7 +1747,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1744,7 +1778,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1789,7 +1824,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1826,7 +1862,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1844,7 +1881,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1863,7 +1901,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
         }
         return returnValue;
     }
@@ -1880,7 +1919,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1897,7 +1937,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1914,7 +1955,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -1931,7 +1973,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2248,7 +2291,6 @@ public class MasterRepository {
 //            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
-
     private String getKebeleTable(long kebele) {
         return getKebeleName(kebele, "english").toLowerCase().replace(" ", "_")
                 + "_" + kebele;
@@ -2271,7 +2313,8 @@ public class MasterRepository {
             stmnt.executeUpdate();
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
     }
 
 //    /// Reports generated once the kebele digitization is complete 
@@ -2397,7 +2440,6 @@ public class MasterRepository {
 //            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());//        }
 //        return returnValue;
 //    }
-
     /////////////////////
     // New Reports
     // Timebound Report
@@ -2421,7 +2463,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2445,7 +2488,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2469,7 +2513,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2493,7 +2538,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2518,7 +2564,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2543,7 +2590,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2567,7 +2615,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2589,7 +2638,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2614,7 +2664,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2631,7 +2682,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2647,7 +2699,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2663,7 +2716,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2679,7 +2733,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2695,7 +2750,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2711,7 +2767,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2735,7 +2792,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2751,7 +2809,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2773,7 +2832,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2789,7 +2849,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2805,7 +2866,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2821,7 +2883,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2837,7 +2900,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2853,7 +2917,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2874,7 +2939,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2890,7 +2956,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2906,7 +2973,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2922,7 +2990,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2938,7 +3007,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2954,7 +3024,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2966,7 +3037,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM IndividualHolder WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='m' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='m' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2974,7 +3045,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -2986,7 +3058,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM IndividualHolder WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='f' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE sex='f' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) = 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2994,7 +3066,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3010,7 +3083,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3026,7 +3100,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3042,7 +3117,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3058,7 +3134,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3074,7 +3151,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3090,7 +3168,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3106,17 +3185,19 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     public double getTotalAreaOfParcelsWithNoData(long kebele) {
         double returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
+        Connection connection;
         try {
             String query = "SELECT sum(area) as a FROM dblink(" + getDBLinkString()
                     + ",'SELECT parcel_id, ST_Area (the_geom) * POWER(0.3048,2) as area FROM "
                     + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and stage=4)";
+            connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3124,17 +3205,19 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     public double getTotalAreaOfAllParcels(long kebele) {
         double returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
+        Connection connection;
         try {
             String query = "SELECT sum(area) as a FROM dblink(" + getDBLinkString()
                     + ",'SELECT ST_Area (the_geom) * POWER(0.3048,2)  as area FROM "
                     + getKebeleTable(kebele) + "') as P2(area double precision)";
+            connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3142,7 +3225,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3150,7 +3234,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM MarriedCouple )";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM MarriedCouple )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3158,7 +3242,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3166,7 +3251,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM SingleFemaleHolder )";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM SingleFemaleHolder )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3174,7 +3259,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3182,7 +3268,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' stage=4 and hasDispute='false' and status='active' and UPI in (SELECT UPI FROM SingleMaleHolder )";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and stage=4 and hasDispute='false' and status='active' and UPI in (SELECT UPI FROM SingleMaleHolder )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3190,7 +3276,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3206,7 +3293,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3222,7 +3310,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3238,7 +3327,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3254,17 +3344,19 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     public double getAverageAreaOfParcelsWithNoData(long kebele) {
         double returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
+        Connection connection;
         try {
             String query = "SELECT avg(area) as a FROM dblink(" + getDBLinkString()
                     + ",'SELECT parcel_id, ST_Area (the_geom) * POWER(0.3048,2) as area FROM "
                     + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and stage=4)";
+            connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3272,17 +3364,19 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     public double getAverageAreaOfAllParcels(long kebele) {
         double returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
+        Connection connection;
         try {
             String query = "SELECT avg(area) as a FROM dblink(" + getDBLinkString()
                     + ",'SELECT ST_Area (the_geom) * POWER(0.3048,2)  as area FROM "
                     + getKebeleTable(kebele) + "') as P2(area double precision)";
+            connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3290,12 +3384,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     // By Other ownership evidence
-    
     public long getCountOfParcelsUnderMarriedCoupleHoldersByOwnershipEvidence(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -3309,7 +3403,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3326,7 +3421,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3343,7 +3439,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3360,7 +3457,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3377,7 +3475,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3394,11 +3493,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByOwnershipEvidence(long kebele,byte type) {
+    public long getCountOfParcelsUnderDisputeByOwnershipEvidence(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3411,11 +3511,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByOwnershipEvidence(long kebele,byte type) {
+    public long getCountOfAllParcelsByOwnershipEvidence(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3428,12 +3529,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     // By Land Use type
-    
     public long getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -3447,7 +3548,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3464,7 +3566,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3481,7 +3584,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3498,7 +3602,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3515,7 +3620,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3532,11 +3638,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByLandUseType(long kebele,byte type) {
+    public long getCountOfParcelsUnderDisputeByLandUseType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3549,11 +3656,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByLandUseType(long kebele,byte type) {
+    public long getCountOfAllParcelsByLandUseType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3566,13 +3674,13 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     // By Soil Fertility Status
-    
-    public long getCountOfParcelsUnderMarriedCoupleHoldersBySoilFertility (long kebele, byte type) {
+    public long getCountOfParcelsUnderMarriedCoupleHoldersBySoilFertility(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3585,7 +3693,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3602,7 +3711,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3619,7 +3729,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3636,7 +3747,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3653,7 +3765,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3670,11 +3783,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeBySoilFertility(long kebele,byte type) {
+    public long getCountOfParcelsUnderDisputeBySoilFertility(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3687,11 +3801,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfAllParcelsBySoilFertility(long kebele,byte type) {
+    public long getCountOfAllParcelsBySoilFertility(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3704,12 +3819,13 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     // By Soil Fertility Status
-    
+    /// TODO: Remove
     public long getCountOfParcelsUnderMarriedCoupleHoldersByHoldingType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -3723,10 +3839,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
+    /// TODO: Remove
     public long getCountOfParcelsUnderSingleFemaleHoldersByHoldingType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -3740,10 +3858,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
+    /// TODO: Remove
     public long getCountOfParcelsUnderSingleMaleHoldersByHoldingType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -3757,10 +3877,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
+    /// TODO: Remove
     public long getCountOfParcelsUnderOrphanHoldersByHoldingType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -3774,7 +3896,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3791,7 +3914,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3808,11 +3932,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByHoldingType(long kebele,byte type) {
+    public long getCountOfParcelsUnderDisputeByHoldingType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3825,11 +3950,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByHoldingType(long kebele,byte type) {
+    public long getCountOfAllParcelsByHoldingType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3842,13 +3968,13 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     // By Organisation Type
-
-    public long getCountOfParcelsUnderNonNaturalHoldersByOrganisationType(long kebele,byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersByOrganisationType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3861,11 +3987,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByOrganisationType(long kebele,byte type) {
+    public long getCountOfParcelsUnderDisputeByOrganisationType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3878,11 +4005,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByOrganisationType(long kebele,byte type) {
+    public long getCountOfAllParcelsByOrganisationType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3895,12 +4023,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
     // By means of acquisition
-    
     public long getCountOfParcelsUnderMarriedCoupleHoldersByMeansOfAcquisition(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -3914,7 +4042,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3931,7 +4060,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3948,7 +4078,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3965,7 +4096,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3982,7 +4114,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -3999,11 +4132,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByMeansOfAcquisition(long kebele,byte type) {
+    public long getCountOfParcelsUnderDisputeByMeansOfAcquisition(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4016,11 +4150,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByMeansOfAcquisition(long kebele,byte type) {
+    public long getCountOfAllParcelsByMeansOfAcquisition(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4033,12 +4168,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
- 
+
     // By encumbrance
-    
     public long getCountOfParcelsUnderMarriedCoupleHoldersByEncumbrances(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4052,7 +4187,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4069,7 +4205,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4086,7 +4223,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4103,7 +4241,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4120,7 +4259,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4137,11 +4277,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByEncumbrances(long kebele,byte type) {
+    public long getCountOfParcelsUnderDisputeByEncumbrances(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4154,11 +4295,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByEncumbrances(long kebele,byte type) {
+    public long getCountOfAllParcelsByEncumbrances(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4171,12 +4313,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
- 
+
     // Physical Impairment
-    
     public long getCountOfMarriedCoupleHoldersWithPhysicalImpairment(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4189,10 +4331,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfMarriedCoupleHoldersWithoutPhysicalImpairment(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4205,10 +4348,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfSingleFemaleHoldersWithPhysicalImpairment(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4221,10 +4365,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfSingleFemaleHoldersWithoutPhysicalImpairment(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4237,10 +4382,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfSingleMaleHoldersWithPhysicalImpairment(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4253,10 +4399,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfSingleMaleHoldersWithoutPhysicalImpairment(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4269,10 +4416,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfOrphanHoldersWithPhysicalImpairment(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4285,7 +4433,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4301,7 +4450,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4317,7 +4467,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4333,7 +4484,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4349,7 +4501,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4365,7 +4518,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4381,7 +4535,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4389,7 +4544,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingelFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4397,15 +4552,16 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfParcelsWithPersonsOfInterestUnderSingleMaleHolders(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest  WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingelMaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest  WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM singlemaleholder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4413,15 +4569,16 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfParcelsWithPersonsOfInterestUnderOrphanHolders(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE AND stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4429,10 +4586,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfParcelsWithPersonsOfInterestUnderOtherHoldingTypes(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4445,7 +4603,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4461,7 +4620,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4477,7 +4637,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4493,7 +4654,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4501,7 +4663,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4509,7 +4671,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4517,7 +4680,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelMaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE stage=4 AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4525,7 +4688,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4541,7 +4705,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4557,7 +4722,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4573,7 +4739,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4589,7 +4756,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4605,7 +4773,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4621,7 +4790,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4629,7 +4799,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4637,7 +4807,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4645,7 +4816,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelMaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE stage=4 AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4653,7 +4824,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4669,7 +4841,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4685,7 +4858,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4701,7 +4875,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4717,7 +4892,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4733,10 +4909,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfFemalePersonsWithInterestUnderMarriedCoupleHolders(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4749,7 +4926,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4757,7 +4935,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4765,7 +4943,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4773,7 +4952,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingelMaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE stage=4 AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4781,7 +4960,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4797,7 +4977,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4813,7 +4994,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4829,7 +5011,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4845,10 +5028,11 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
-    
+
     public long getCountOfFemalePersonsWithInterestForAllParcels(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -4861,7 +5045,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4869,7 +5054,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4877,7 +5062,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4885,7 +5071,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4893,7 +5079,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4901,7 +5088,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4909,7 +5096,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4917,7 +5105,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status='active' and isOrphan='true') group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status='active' and isOrphan='true') group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4925,7 +5113,8 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
@@ -4941,16 +5130,50 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    //.......
-    public double getAverageNumberOfPIPerParcelsUnderDisputes(long kebele) {
+    public long getCountOfParcelsWithGuardianUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfGuardiansForParcelsUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfGuardiansPerParcelsUnderMarriedCoupleHolders(long kebele) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and  Parcel.hasDispute='true') t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4958,15 +5181,84 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public double getAverageNumberOfPIPerParcels(long kebele) {
-        double returnValue = 0;
+    public long getCountOfMaleGuardiansForParcelsUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' ) t";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemaleGuardiansForParcelsUnderMarriedCoupleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public String getFirstDataEntryDateInKebeleForMarriedHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getLastDataEntryDateInKebeleForMarriedHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM MarriedCouple)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public double getAverageNumberOfPIPerParcelForAllParcels(long kebele) {
+         double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' GROUP BY Parcel.UPI) as t ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4974,13 +5266,13 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    /////////////////////
-
-    public int getCountOfParcelsWithPersonsOfInterestForMarriedHolders(String kebele) {
+    ////////////////////
+    public int getCountOfParcelsWithPersonsOfInterestForMarriedHolders(long kebele) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4992,11 +5284,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public int getCountOfPersonWithInterestForParcelsUnderMarriedHolders(String kebele) {
+    public int getCountOfPersonWithInterestForParcelsUnderMarriedHolders(long kebele) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5008,12 +5301,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-
-    public int getCountOfMalePersonWithInterestForParcelsUnderMarriedHolders(String kebele) {
+    public int getCountOfMalePersonWithInterestForParcelsUnderMarriedHolders(long kebele) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5025,11 +5318,12 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public int getCountOfFemalePersonWithInterestForParcelsUnderMarriedHolders(String kebele) {
+    public int getCountOfFemalePersonWithInterestForParcelsUnderMarriedHolders(long kebele) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5041,15 +5335,101 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
     }
 
-    public Date getFirstDataEntryDateInKebeleForMarriedHolders(String kebele) {
+    public long getCountOfParcelsWithGuardiansUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfGuardiansForParcelsUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfGuardiansPerParcelsUnderSingleFemaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMaleGuardiansForParcelsUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemaleGuardiansForParcelsUnderSingleFemaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public String getFirstDataEntryDateInKebeleForSingleFemaleHolders(long kebele) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '70106006/%' and  UPI in (SELECT UPI FROM MarriedCouple)";
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5057,15 +5437,16 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
-        return returnValue;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
     }
 
-    public Date getLastDataEntryDateInKebeleForMarriedHolders(String kebele) {
+    public String getLastDataEntryDateInKebeleForSingleFemaleHolders(long kebele) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '70106006/%' and  UPI in (SELECT UPI FROM MarriedCouple)";
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5073,10 +5454,657 @@ public class MasterRepository {
             }
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());        }
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public long getCountOfParcelsWithGuardiansUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
         return returnValue;
+    }
+
+    public long getCountOfGuardiansForParcelsUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfGuardiansPerParcelsUnderSingleMaleHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMaleGuardiansForParcelsUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemaleGuardiansForParcelsUnderSingleMaleHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public String getFirstDataEntryDateInKebeleForSingleMaleHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getLastDataEntryDateInKebeleForSingleMaleHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleMaleHolder)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public long getCountOfParcelsWithGuardiansUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfGuardiansForParcelsUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfGuardiansPerParcelsUnderOrphanHolders(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status='active' and isOrphan='true') group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMaleGuardiansForParcelsUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemaleGuardiansForParcelsUnderOrphanHolders(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE  sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public String getFirstDataEntryDateInKebeleForOrphanHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getLastDataEntryDateInKebeleForOrphanHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getFirstDataEntryDateInKebeleForNonNaturalHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and holdingtype!=1 ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getLastDataEntryDateInKebeleForNonNaturalHolders(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and holdingtype!=1 ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public long getCountOfParcelsWithGuardiansUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) AND UPI IN (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfGuardiansForParcelsUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    //TODO: Check
+    public double getAverageNumberOfGuardiansPerParcelsUnderOtherHoldingTypes(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and  Parcel.UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and Parcel.UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) group by Parcel.upi) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMaleGuardiansForParcelsUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemaleGuardiansForParcelsUnderOtherHoldingTypes(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public String getFirstDataEntryDateInKebeleForOtherHoldingTypes(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getLastDataEntryDateInKebeleForOtherHoldingTypes(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public double getAverageNumberOfPIPerParcelsUnderDispute(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.hasDispute='true' group by Parcel.UPI) as q";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithGuardiansUnderDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='true' AND UPI IN (SELECT UPI FROM Guardian WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfGuardiansForParcelsWithDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfGuardiansPerParcelsUnderDispute(long kebele) {
+        double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and  Parcel.hasDispute='true' GROUP BY Parcel.UPI) t";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMaleGuardiansForParcelsWithDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemaleGuardiansForParcelsWithDispute(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+    
+    public String getFirstDataEntryDateInKebeleForParcelsWithDispute(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  hasDispute='true' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getLastDataEntryDateInKebeleForParcelsWithDispute(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  hasDispute='true' ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public long getCountOfAllParcelsWithGuardians(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Guardian WHERE stage=4 AND status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfGuardiansForAllParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public double getAverageNumberOfGuardiansPerParcelForAllParcels(long kebele) {
+         double returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' GROUP BY Parcel.UPI) as t ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDouble("a");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfMaleGuardiansForAllParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemaleGuardiansForAllParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public String getFirstDataEntryDateInKebeleForAllParcels(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
+    }
+
+    public String getLastDataEntryDateInKebeleForAllParcels(long kebele) {
+        Date returnValue = null;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getDate("d");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue==null?"":returnValue.toString();
     }
 
     /// Disputes Report
-
 }

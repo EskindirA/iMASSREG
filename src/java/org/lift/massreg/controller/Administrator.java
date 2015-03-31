@@ -295,7 +295,6 @@ public class Administrator {
         String file = request.getParameter("file");
         File f = new File(file);
         try {
-            ReportUtil.sign(file);
             FileInputStream in = new FileInputStream(f);
             byte[] data = new byte[(int) f.length()];
             in.read(data);
@@ -321,6 +320,7 @@ public class Administrator {
         } else {
             ReportUtil.generateTimeBoundReport(fromDate, toDate, fileName);
             request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            ReportUtil.sign(fileName);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
             rd.forward(request, response);
         }
@@ -337,6 +337,7 @@ public class Administrator {
             String fileName = "Kebele Report " + kebeleName+ " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
             ReportUtil.generateKebeleReport(kebeleId, kebeleName, fileName);
             request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            ReportUtil.sign(fileName);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
             rd.forward(request, response);
         }

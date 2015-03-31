@@ -97,7 +97,7 @@ public class CommonStorage {
         try {
             prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(settingsFile));
             woredaId = Long.parseLong(prop.getProperty("woredaId"));
-            woredaName = prop.getProperty("woredaName");
+            woredaName = prop.getProperty("woredaName").trim();
             woredaIDForUPI = prop.getProperty("woredaIDForUPI");
             language = prop.getProperty("language");
             loadTextValues();
