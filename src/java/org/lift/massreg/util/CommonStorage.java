@@ -85,7 +85,7 @@ public class CommonStorage {
                     languageFile = "en_us.properties";
                     break;
             }
-            languageBundle.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(languageFile),"UTF-8"));
+            languageBundle.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(languageFile), "UTF-8"));
         } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
 
@@ -120,8 +120,9 @@ public class CommonStorage {
     public static String getKeystoreFilePath() {
         return keystoreFilePath;
     }
+
     public static String getText(String key) {
-        return languageBundle.getProperty(key,"XXXXXXXXXXXXXXXXXXX");
+        return languageBundle.getProperty(key, "XXXXXXXXXXXXXXXXXXX");
     }
 
     public static String getLastReportDate() {
@@ -137,6 +138,7 @@ public class CommonStorage {
     public static char[] getKeyStorePassword() {
         return keyStorePassword;
     }
+
     public static void setWoreda(long newWoredaId, String newWoredaName, String newWoredaIdForUPI) {
         // Save to Properties (Woreda, langiage)
         Properties prop = new Properties();
@@ -170,7 +172,10 @@ public class CommonStorage {
     }
 
     public static int[] getTeamNumbers() {
-        int[] returnValue = {1, 2, 3, 4};
+        int[] returnValue = new int[20];
+        for (int i = 0; i < 21; i++) {
+            returnValue[i] = i + 1;
+        }
         return returnValue;
     }
 
