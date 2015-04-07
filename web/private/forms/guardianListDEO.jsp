@@ -36,7 +36,7 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4 ">
-            <h2 class="page-header">&nbsp;&nbsp;<%=CommonStorage.getText("some_internal_error_has_happened_the_error_has_been_saved_and_will_be_reported_to_the_developers_please_go_back_to_the_welcome_page")%></h2>
+            <h2 class="page-header">&nbsp;&nbsp;<%=CommonStorage.getText("guardians_list")%></h2>
         </div>
     </div> <!-- /.row -->
     <div class="row">

@@ -122,7 +122,7 @@ public class CommonStorage {
     }
 
     public static String getText(String key) {
-        return languageBundle.getProperty(key, "XXXXXXXXXXXXXXXXXXX");
+        return languageBundle.getProperty(key, "XXXXXXXXXXXXXX");
     }
 
     public static String getLastReportDate() {
@@ -173,7 +173,7 @@ public class CommonStorage {
 
     public static int[] getTeamNumbers() {
         int[] returnValue = new int[20];
-        for (int i = 0; i < 21; i++) {
+        for (int i = 0; i < 20; i++) {
             returnValue[i] = i + 1;
         }
         return returnValue;

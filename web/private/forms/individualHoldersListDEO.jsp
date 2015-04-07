@@ -67,8 +67,8 @@
                                     <th><%=CommonStorage.getText("name")%></th>
                                     <th><%=CommonStorage.getText("sex")%></th>
                                     <th><%=CommonStorage.getText("date_of_birth")%></th>
-                                    <th><%=CommonStorage.getText("family_relationship_status")%></th>
                                     <th><%=CommonStorage.getText("family_role")%></th>
+                                    <th><%=CommonStorage.getText("has_physical_impairment")%></th>
                                     <th></th>
                                 </tr>
                             </thead>

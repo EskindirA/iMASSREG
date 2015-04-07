@@ -90,6 +90,7 @@
     });
     function update() {
         $.ajax({
+            type:'POST',
             url: "<%=updateurl%>",
             data: { "firstname": $("#editDisputeFrom #firstName").val(),
                 "fathersname": $("#editDisputeFrom #fathersName").val(),

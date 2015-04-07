@@ -315,6 +315,7 @@ public class SecondEntry {
             newParcel.setCertificateNumber(request.getParameter("certificateNumber"));
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
+            newParcel.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
             newParcel.setMapSheetNo(request.getParameter("mapsheetNumber"));
             newParcel.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
@@ -564,6 +565,7 @@ public class SecondEntry {
             OrganizationHolder oldOrganizationHolder = currentParcel.getOrganizationHolder();
             OrganizationHolder newOrganizationHolder = new OrganizationHolder();
             newOrganizationHolder.setName(request.getParameter("organizationName"));
+            newOrganizationHolder.setRegisteredby(CommonStorage.getCurrentUser(request).getUserId());
             newOrganizationHolder.setOrganizationType(Byte.parseByte(request.getParameter("organizationType")));
             newOrganizationHolder.setStage(CommonStorage.getFEStage());
             newOrganizationHolder.setStatus(Constants.STATUS[0]);
@@ -697,7 +699,7 @@ public class SecondEntry {
             newIndividualHolder.setFathersName(request.getParameter("fathersname"));
             newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
             newIndividualHolder.setId(request.getParameter("newHolderId"));
-
+            newIndividualHolder.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));
@@ -1002,6 +1004,7 @@ public class SecondEntry {
         PersonWithInterest newPersonWithInterest = new PersonWithInterest();
         try {
             newPersonWithInterest.setDateOfBirth(request.getParameter("dateofbirth"));
+            newPersonWithInterest.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             newPersonWithInterest.setFirstName(request.getParameter("firstname"));
             newPersonWithInterest.setFathersName(request.getParameter("fathersname"));
             newPersonWithInterest.setGrandFathersName(request.getParameter("grandfathersname"));

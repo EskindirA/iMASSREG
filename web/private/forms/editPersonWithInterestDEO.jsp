@@ -74,7 +74,7 @@
     });
     function update() {
         $.ajax({
-            post:'POST',
+            type:'POST',
             url: "<%=updateurl%>",
             data: {
                 "dateofbirth": $("#editPersonWithInterestFrom #dateOfBirth").val(),
