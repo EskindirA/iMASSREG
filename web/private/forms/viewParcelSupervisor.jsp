@@ -131,7 +131,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label><%=CommonStorage.getText("survey_Date")%></label>
+                                    <label><%=CommonStorage.getText("survey_date")%></label>
                                     <input class="form-control" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}" disabled/>
                                 </div>
                                 <div class="form-group">

@@ -82,8 +82,7 @@
 </div>
 <script type="text/javascript">
     var calendar = $.calendars.instance("ethiopian","am"); 
-    $("#dateOfBirth").calendarsPicker({calendar: calendar});
-
+    $("#editHolderFrom #dateOfBirth").calendarsPicker({calendar: calendar});
     $("#updateHolderButton").click(function() {
         if (!validate("editHolderFrom")) {// validate
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");

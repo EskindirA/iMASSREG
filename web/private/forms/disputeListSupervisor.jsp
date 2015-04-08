@@ -48,7 +48,7 @@
                                     <th><%=CommonStorage.getText("name")%></th>
                                     <th><%=CommonStorage.getText("sex")%></th>
                                     <th><%=CommonStorage.getText("type")%></th>
-                                    <th><%=CommonStorage.getText("status")%></th>
+                                    <th><%=CommonStorage.getText("dispute_status")%></th>
                                     <th></th>
                                 </tr>
                             </thead>
