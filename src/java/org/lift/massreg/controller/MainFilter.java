@@ -540,6 +540,8 @@ public class MainFilter extends HttpServlet {
             Administrator.timeBoundReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR)) {
             Administrator.kebeleReport(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_PUBLIC_DISPLAY)) {
+            Administrator.publicDisplay(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {
             Administrator.exportReport(request, response);
         } // for all unknown requests

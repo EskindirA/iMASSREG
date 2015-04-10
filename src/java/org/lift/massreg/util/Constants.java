@@ -149,7 +149,9 @@ public interface Constants {
     public static final String ACTION_KEBELE_REPORT_ADMINISTRATOR = "KEBELE_REPORT_ADMINISTRATOR";
     public static final String ACTION_PERIODICAL_REPORT_ADMINISTRATOR = "PERIODICAL_REPORT_ADMINISTRATOR";
     public static final String ACTION_EXPORT_REPORT_ADMINISTRATOR = "EXPORT_REPORT_ADMINISTRATOR";
-    // pages
+    public static final String ACTION_PUBLIC_DISPLAY = "PUBLIC_DISPLAY";
+    
+// pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
     public static final int INDEX_WELCOME_SEO = 2;
@@ -237,7 +239,7 @@ public interface Constants {
     public static final int INDEX_EDIT_GUARDIAN_SUPERVISOR = 64;
     public static final int INDEX_VIEW_GUARDIAN_SUPERVISOR = 65;
     public static final int INDEX_GUARDIANS_LIST_SUPERVISOR = 66;
-    
+    public static final int INDEX_PUBLIC_DISPLAY = 67;
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,

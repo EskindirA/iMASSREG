@@ -342,4 +342,29 @@ public class Administrator {
         }
     }
 
+    public static void publicDisplay(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try{
+        String kebele =request.getParameter("kebele");
+        if (kebele.isEmpty()) {
+            response.getOutputStream().println("Please specfiey kebele for the report ");
+        } else {
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            request.setAttribute("holdersList", MasterRepository.getInstance().getPublicDisplayReport(kebeleId));
+            request.setAttribute("kebeleName",  MasterRepository.getInstance().getKebeleName(kebeleId,CommonStorage.getCurrentLanguage()));
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
+            rd.forward(request, response);
+        }
+        }catch(Exception ex){
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+        
+    }
+
 }

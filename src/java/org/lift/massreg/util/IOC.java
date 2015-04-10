@@ -93,6 +93,7 @@ public class IOC {
         pages.put(Constants.INDEX_GUARDIANS_LIST_SUPERVISOR, "guardianListSupervisor.jsp");
         pages.put(Constants.INDEX_VIEW_GUARDIAN_SUPERVISOR, "viewGuardianSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_SUPERVISOR, "editGuardianSupervisor.jsp");
+        pages.put(Constants.INDEX_PUBLIC_DISPLAY, "publicDisplay.jsp");
     }
 
     public static String getPage(int id) {

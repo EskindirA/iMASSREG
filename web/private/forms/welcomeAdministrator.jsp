@@ -13,6 +13,8 @@
     String updatepasswordurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PASSWORD_ADMINISTRATOR;
     String periodicalReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERIODICAL_REPORT_ADMINISTRATOR;
     String kebeleReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR;
+    String publicDisplayurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PUBLIC_DISPLAY;
+    
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -24,8 +26,8 @@
         <ul class="nav nav-tabs" style="margin-bottom: 15px;">
             <li class="active"><a href="#users" data-toggle="tab"><%=CommonStorage.getText("users")%></a></li>
             <li><a href="#settings" data-toggle="tab"><%=CommonStorage.getText("settings")%></a></li>
+            <li><a href="#publicDisplay" data-toggle="tab"><%=CommonStorage.getText("public_display")%></a></li>
             <li><a href="#report" data-toggle="tab" id="reportLink"><%=CommonStorage.getText("report")%></a></li>
-            <!--li class="disabled"><a>Disabled</a></li-->
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active in" id="users">
@@ -184,6 +186,35 @@
                     </div>
                 </div>
                 <div id="reportDetail"></div>
+            </div>
+            <div class="tab-pane fade" id="publicDisplay">
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <div class="panel panel-default" >
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="publicDisplayForm" name="publicDisplayForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label><%=CommonStorage.getText("kebele")%></label>
+                                        <select class="form-control" id="publicDisplayKebele" name="publicDisplayKebele">
+                                            <%
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>"
+                                                            + kebeles[i].getValue()
+                                                            + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'publicDisplayButton' name = 'publicDisplayButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+                <div id="publicDisplayDetail"></div>
             </div>
         </div>
     </div>
@@ -528,4 +559,32 @@
     $("#reportLink").click(function () {
         $("#reportDetail").html("");
     });
+    
+    $("#publicDisplayButton").click(function () {
+        if ($("#publicDisplayForm #publicDisplayKebele").val().trim() === "") {
+            showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_public_display_printout")%>");
+        } else {
+            $.ajax({
+                url: "<%=publicDisplayurl%>",
+                data: {
+                    kebele: $("#publicDisplayForm #publicDisplayKebele").val()
+                },
+                error: showajaxerror,
+                success: function (data) {
+                    var mywindow = window.open('#','Public Display');
+                    mywindow.document.write('<html><head><title>Public Display - Printout</title></head>');
+                    mywindow.document.write('<body>');
+                    mywindow.document.write(data);
+                    mywindow.document.write('</body></html>');
+                    mywindow.document.close();
+                    mywindow.focus();
+                    mywindow.print();
+                    mywindow.close();
+                    //$("#publicDisplayDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
+    
 </script>

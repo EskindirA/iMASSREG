@@ -4,13 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/editGuardianDEO.jsp</file>
-            <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/editDisputeDEO.jsp</file>
             <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/guardianListDEO.jsp</file>
-            <file>file:/home/yoseph/projects/work/LIFT/massreg/src/java/org/lift/massreg/dao/MasterRepository.java</file>
             <file>file:/home/yoseph/projects/work/LIFT/massreg/src/java/org/lift/massreg/controller/MainFilter.java</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/addParcelDEO.jsp</file>
             <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/disputeListDEO.jsp</file>
-            <file>file:/home/yoseph/projects/work/LIFT/massreg/src/java/org/lift/massreg/controller/SecondEntry.java</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/disputeListSupervisor.jsp</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/individualHoldersListSupervisor.jsp</file>
             <file>file:/home/yoseph/projects/work/LIFT/massreg/src/java/org/lift/massreg/util/CommonStorage.java</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/editParcelDEO.jsp</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/editDisputeDEO.jsp</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/web/private/forms/editGuardianSupervisor.jsp</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/src/java/org/lift/massreg/dao/MasterRepository.java</file>
+            <file>file:/home/yoseph/projects/work/LIFT/massreg/src/java/org/lift/massreg/controller/SecondEntry.java</file>
         </group>
     </open-files>
 </project-private>

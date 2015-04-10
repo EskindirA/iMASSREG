@@ -2839,26 +2839,27 @@ public class MasterRepository {
     }
 
     public double getAverageNumberOfParcelsPerMarriedCoupleHolder(long kebele) {
-        return (double)getCountOfParcelsUnderMarriedCoupleHolders(kebele)/(double)getCountOfMarriedCoupleHolders(kebele);
+        return (double) getCountOfParcelsUnderMarriedCoupleHolders(kebele) / (double) getCountOfMarriedCoupleHolders(kebele);
     }
 
     public double getAverageNumberOfParcelsPerSingleFemaleHolder(long kebele) {
-        return (double)getCountOfParcelsUnderSingleFemaleHolders(kebele)/(double)getCountOfSingleFemaleHolders(kebele);
+        return (double) getCountOfParcelsUnderSingleFemaleHolders(kebele) / (double) getCountOfSingleFemaleHolders(kebele);
     }
 
     public double getAverageNumberOfParcelsPerSingleMaleHolder(long kebele) {
-        return (double)getCountOfParcelsUnderSingleMaleHolders(kebele)/(double)getCountOfSingleMaleHolders(kebele);
+        return (double) getCountOfParcelsUnderSingleMaleHolders(kebele) / (double) getCountOfSingleMaleHolders(kebele);
     }
 
     public double getAverageNumberOfParcelsPerOrphanHolder(long kebele) {
-        return (double)getCountOfParcelsUnderOrphanHolders(kebele)/(double)getCountOfOrphanHolders(kebele);
+        return (double) getCountOfParcelsUnderOrphanHolders(kebele) / (double) getCountOfOrphanHolders(kebele);
     }
 
-    public double getAverageNumberOfParcelsPerNonNaturalHolder(long kebele){
-        return (double)getCountOfParcelsUnderNonNaturalHolders(kebele)/(double)getCountOfNonNaturalHolders(kebele);
+    public double getAverageNumberOfParcelsPerNonNaturalHolder(long kebele) {
+        return (double) getCountOfParcelsUnderNonNaturalHolders(kebele) / (double) getCountOfNonNaturalHolders(kebele);
     }
-    public double getAverageNumberOfParcelsPerOtherHoldingType(long kebele){
-        return (double)getCountOfParcelsUnderOtherHoldingTypes(kebele)/(double)getCountOfHoldersOfOtherHoldingTypes(kebele);
+
+    public double getAverageNumberOfParcelsPerOtherHoldingType(long kebele) {
+        return (double) getCountOfParcelsUnderOtherHoldingTypes(kebele) / (double) getCountOfHoldersOfOtherHoldingTypes(kebele);
     }
 
     /**
@@ -6193,7 +6194,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public long getNumberOfSingleFemaleHoldersInDisputeByType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -6228,7 +6229,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public long getNumberOfSingleMaleHoldersInDisputeByType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -6263,7 +6264,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public long getNumberOfOrphanHoldersInDisputeByType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -6333,7 +6334,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public long getNumberOfOtherHoldingTypesInDisputeByType(long kebele, byte type) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -6368,7 +6369,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public long getNumberOfDisputesByTypeAndStatus(long kebele, byte type, byte status) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -6415,6 +6416,101 @@ public class MasterRepository {
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
                 returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public ArrayList<HolderPublicDisplayDTO> getPublicDisplayReport(long kebele) {
+        ArrayList<HolderPublicDisplayDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT distinct holderId FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' ORDER BY holderid";
+            PreparedStatement stmnt0 = connection.prepareStatement(query);
+            ResultSet rs = stmnt0.executeQuery();
+            ArrayList<String> holderIds = new ArrayList<>();
+            while (rs.next()) {
+                holderIds.add(rs.getString("holderid"));
+            }
+
+            for (String h : holderIds) {
+                query = "SELECT * FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holderid=?";
+                PreparedStatement stmnt1 = connection.prepareStatement(query);
+                stmnt1.setString(1, h);
+                ResultSet holderrs = stmnt1.executeQuery();
+                HolderPublicDisplayDTO holder = null;
+                while(holderrs.next()) {
+                    if(holder==null){
+                        holder = new HolderPublicDisplayDTO();
+                        holder.setId(holderrs.getString("holderid"));
+                        holder.setName(holderrs.getString("firstname") + " " + holderrs.getString("fathersname") + " " + holderrs.getString("grandfathersname"));
+                        holder.setSex("f".equalsIgnoreCase(holderrs.getString("sex")) ? CommonStorage.getText("female") : CommonStorage.getText("male"));
+                    }
+                    query = "SELECT * FROM parcel WHERE stage=4 and status='active' AND UPI = ?";
+                    PreparedStatement stmnt2 = connection.prepareStatement(query);
+                    stmnt2.setString(1, holderrs.getString("upi"));
+                    ResultSet parcels = stmnt2.executeQuery();
+                    while (parcels.next()) {
+                        ParcelPublicDisplayDTO parcel = new ParcelPublicDisplayDTO();
+                        parcel.setHolding(parcels.getByte("holdingtype"));
+                        parcel.setMapSheetNo(parcels.getString("mapsheetno"));
+                        parcel.setParcelId(parcels.getInt("parcelid"));
+                        parcel.setUpi(parcels.getString("upi"));
+                        parcel.setArea(parcels.getDouble("area"));
+                        parcel.hasDispute(parcels.getBoolean("hasdispute"));
+
+                        query = "SELECT * FROM individualholder WHERE stage=4 and status='active' AND UPI = ?";
+                        PreparedStatement stmnt3 = connection.prepareStatement(query);
+                        stmnt3.setString(1, holderrs.getString("upi"));
+                        ResultSet coholders = stmnt3.executeQuery();
+                        while (coholders.next()) {
+                            if (coholders.getString("holderid").equalsIgnoreCase(holderrs.getString("holderid"))) {
+                                continue;
+                            }
+                            parcel.addHolder(coholders.getString("firstName") + " " + coholders.getString("fathersname") + " " + coholders.getString("grandfathersname"));
+                        }
+
+                        query = "SELECT * FROM guardian WHERE stage=4 and status='active' AND UPI = ?";
+                        PreparedStatement stmnt4 = connection.prepareStatement(query);
+                        stmnt4.setString(1, holderrs.getString("upi"));
+                        ResultSet guardians = stmnt4.executeQuery();
+
+                        while (guardians.next()) {
+                            parcel.addGuardian(guardians.getString("firstName") + " " + guardians.getString("fathersname") + " " + guardians.getString("grandfathersname"));
+                        }
+                        holder.addParcel(parcel);
+                    }
+                }
+                returnValue.add(holder);
+
+            }
+
+            /// Organizational Holder
+            query = "SELECT * FROM organizationholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt4 = connection.prepareStatement(query);
+            ResultSet organizationholder = stmnt4.executeQuery();
+            while (organizationholder.next()) {
+                HolderPublicDisplayDTO holder = new HolderPublicDisplayDTO();
+                holder.setName(organizationholder.getString("organizationname"));
+                query = "SELECT * FROM parcel WHERE stage=4 and status='active' AND UPI = ?";
+                PreparedStatement stmnt5 = connection.prepareStatement(query);
+                stmnt5.setString(1, organizationholder.getString("upi"));
+                ResultSet parcels = stmnt5.executeQuery();
+                while (parcels.next()) {
+                    ParcelPublicDisplayDTO parcel = new ParcelPublicDisplayDTO();
+                    parcel.setHolding(parcels.getByte("holdingtype"));
+                    parcel.setMapSheetNo(parcels.getString("mapsheetno"));
+                    parcel.setParcelId(parcels.getInt("parcelid"));
+                    parcel.setArea(parcels.getDouble("area"));
+                    parcel.setUpi(parcels.getString("upi"));
+                    parcel.hasDispute(parcels.getBoolean("hasdispute"));
+                    holder.addParcel(parcel);
+                }
+
+                returnValue.add(holder);
             }
             connection.close();
         } catch (Exception ex) {
