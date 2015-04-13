@@ -572,7 +572,9 @@
                 error: showajaxerror,
                 success: function (data) {
                     var mywindow = window.open('#','Public Display');
-                    mywindow.document.write('<html><head><title>Public Display - Printout</title></head>');
+                    mywindow.document.write('<html><head>');
+                    mywindow.document.write('<title>Public Display - Printout</title>');
+                    mywindow.document.write('</head>');
                     mywindow.document.write('<body>');
                     mywindow.document.write(data);
                     mywindow.document.write('</body></html>');

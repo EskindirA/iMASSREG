@@ -5,13 +5,17 @@
     ArrayList<HolderPublicDisplayDTO> holdersList = (ArrayList<HolderPublicDisplayDTO>) request.getAttribute("holdersList");
 %>
 <style>
+    
     tbody{
         page-break-inside: avoid;
     }
     table{
-      border-style:solid;
-      border-color: #555 ; 
-      border-width: 1px;
+      border-right-style:solid;
+      border-right-color: #555 ; 
+      border-right-width: 1px;
+      border-top-style:solid;
+      border-top-color: #555 ; 
+      border-top-width: 1px;
       page-break-inside: avoid;
     }
     td,th{
@@ -25,7 +29,7 @@
     }
 </style>
 <div class="table-responsive">
-    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <table class="table table-striped table-bordered table-hover" >
         <!--caption>
             Woreda - < %=CommonStorage.getCurrentWoredaName()%>
             Kebele - < %=request.getAttribute("kebeleName")%>

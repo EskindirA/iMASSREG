@@ -350,6 +350,7 @@ public class Administrator {
             response.getOutputStream().println("Please specfiey kebele for the report ");
         } else {
             long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            MasterRepository.getInstance().updateParcelArea(kebeleId);
             request.setAttribute("holdersList", MasterRepository.getInstance().getPublicDisplayReport(kebeleId));
             request.setAttribute("kebeleName",  MasterRepository.getInstance().getKebeleName(kebeleId,CommonStorage.getCurrentLanguage()));
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
