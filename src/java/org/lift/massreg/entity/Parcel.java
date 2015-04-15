@@ -969,4 +969,84 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
+
+
+    public void submitForMinorCorrection() {
+        MasterRepository.getInstance().submitForMinorCorrection(this);
+        if (this.getHolding() == 1) {
+            for (IndividualHolder individualHolder : individualHolders) {
+                individualHolder.submitForMinorCorrection();
+            }
+            if (personsWithInterest != null) {
+                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                    personWithInterest.submitForMinorCorrection();
+                }
+            }
+            if (guardians != null) {
+                for (Guardian guardian : guardians) {
+                    guardian.submitForMinorCorrection();
+                }
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitForMinorCorrection();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.submitForMinorCorrection();
+            }
+        }
+    }
+
+    public void submitForMajorCorrection() {
+        MasterRepository.getInstance().submitForMajorCorrection(this);
+        if (this.getHolding() == 1) {
+            for (IndividualHolder individualHolder : individualHolders) {
+                individualHolder.submitForMajorCorrection();
+            }
+            if (personsWithInterest != null) {
+                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                    personWithInterest.submitForMajorCorrection();
+                }
+            }
+            if (guardians != null) {
+                for (Guardian guardian : guardians) {
+                    guardian.submitForMajorCorrection();
+                }
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitForMajorCorrection();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.submitForMajorCorrection();
+            }
+        }
+    }
+
+    public void submitToConfirmed() {
+        MasterRepository.getInstance().submitToConfirmed(this);
+        if (this.getHolding() == 1) {
+            for (IndividualHolder individualHolder : individualHolders) {
+                individualHolder.submitToConfirmed();
+            }
+            if (personsWithInterest != null) {
+                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                    personWithInterest.submitToConfirmed();
+                }
+            }
+            if (guardians != null) {
+                for (Guardian guardian : guardians) {
+                    guardian.submitToConfirmed();
+                }
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitToConfirmed();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.submitToConfirmed();
+            }
+        }
+    }
+
 }

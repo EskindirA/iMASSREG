@@ -151,7 +151,16 @@ public interface Constants {
     public static final String ACTION_EXPORT_REPORT_ADMINISTRATOR = "EXPORT_REPORT_ADMINISTRATOR";
     public static final String ACTION_PUBLIC_DISPLAY = "PUBLIC_DISPLAY";
     
-// pages
+    
+    public static final String ACTION_MINOR_CORRECTION_PDC = "MINOR_CORRECTION_PDC";
+    public static final String ACTION_MAJOR_CORRECTION_PDC = "MAJOR_CORRECTION_PDC";
+    public static final String ACTION_CONFIRMED_PARCEL_PDC = "CONFIRMED_PARCEL_PDC";
+    public static final String ACTION_FIND_PARCEL_PDC = "FIND_PARCEL_PDC";
+
+    public static final String ACTION_VIEW_HOLDER_PDC = "VIEW_HOLDER_PDC";
+    
+    
+    // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
     public static final int INDEX_WELCOME_SEO = 2;
@@ -240,12 +249,22 @@ public interface Constants {
     public static final int INDEX_VIEW_GUARDIAN_SUPERVISOR = 65;
     public static final int INDEX_GUARDIANS_LIST_SUPERVISOR = 66;
     public static final int INDEX_PUBLIC_DISPLAY = 67;
+    
+    public static final int INDEX_WELCOME_POSTPDCOORDINATOR = 70;
+    public static final int INDEX_VIEW_PARCEL_PDC = 71;
+    
     public enum ROLE {
 
         FIRST_ENTRY_OPERATOR,
         SECOND_ENTRY_OPERATOR,
         SUPERVISOR,
-        ADMINISTRATOR
+        ADMINISTRATOR,
+        POSTPDCOORDINATOR,
+        CORRECTION_FIRST_ENTRY_OPERATOR,
+        CORRECTION_SECOND_ENTRY_OPERATOR,
+        CORRECTION_SUPERVISOR,
+        MINOR_CORRECTION_OFFICER
+        
     };
 
     public enum LEVEL {

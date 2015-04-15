@@ -66,6 +66,21 @@ public class CurrentUserDTO extends User{
             case SUPERVISOR:
                 returnValue += "Supervisor";
                 break;
+            case POSTPDCOORDINATOR:
+                returnValue += "PDC";
+                break;
+            case MINOR_CORRECTION_OFFICER:
+                returnValue += "MCO";
+                break;
+            case CORRECTION_FIRST_ENTRY_OPERATOR:
+                returnValue += "CFEO";
+                break;
+            case CORRECTION_SECOND_ENTRY_OPERATOR:
+                returnValue += "CSEO";
+                break;
+            case CORRECTION_SUPERVISOR:
+                returnValue += "CSupervisor";
+                break;
         }
         returnValue += ")";
         return returnValue;

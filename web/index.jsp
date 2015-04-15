@@ -101,7 +101,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/MASSREG/Index">
+                    <a class="navbar-brand" href="<%=request.getContextPath()%>">
                         <img src="<%=request.getContextPath()%>/assets/images/beta_icon.png" style="display:inline; width:40px; position:absolute;left:5px;z-index:4;top:0px"> 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MASSREG v2.0 
                         - <%= CommonStorage.getCurrentWoredaName()%> <%=CommonStorage.getText("woreda")%> </a>

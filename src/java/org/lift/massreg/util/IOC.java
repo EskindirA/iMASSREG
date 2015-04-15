@@ -94,6 +94,10 @@ public class IOC {
         pages.put(Constants.INDEX_VIEW_GUARDIAN_SUPERVISOR, "viewGuardianSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_SUPERVISOR, "editGuardianSupervisor.jsp");
         pages.put(Constants.INDEX_PUBLIC_DISPLAY, "publicDisplay.jsp");
+        
+        pages.put(Constants.INDEX_WELCOME_POSTPDCOORDINATOR, "welcomePDC.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_PDC, "viewParcelPDC.jsp");
+        
     }
 
     public static String getPage(int id) {

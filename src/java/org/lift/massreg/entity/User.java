@@ -102,6 +102,22 @@ public class User implements Entity {
             case SUPERVISOR:
                 returnValue += "Supervisor";
                 break;
+            case POSTPDCOORDINATOR:
+                returnValue = "PDC";
+                break;
+            case MINOR_CORRECTION_OFFICER:
+                returnValue = "MCO";
+                break;
+            case CORRECTION_FIRST_ENTRY_OPERATOR:
+                returnValue = "CFEO";
+                break;
+            case CORRECTION_SECOND_ENTRY_OPERATOR:
+                returnValue = "CSEO";
+                break;
+            case CORRECTION_SUPERVISOR:
+                returnValue = "CSUPER";
+                break;
+
         }
         returnValue += ")";
         return returnValue;
@@ -138,12 +154,28 @@ public class User implements Entity {
             case ADMINISTRATOR:
                 returnValue = "ADMINISTRATOR";
                 break;
+            case POSTPDCOORDINATOR:
+                returnValue = "PDC";
+                break;
+            case MINOR_CORRECTION_OFFICER:
+                returnValue = "MCO";
+                break;
+            case CORRECTION_FIRST_ENTRY_OPERATOR:
+                returnValue = "CFEO";
+                break;
+            case CORRECTION_SECOND_ENTRY_OPERATOR:
+                returnValue = "CSEO";
+                break;
+            case CORRECTION_SUPERVISOR:
+                returnValue = "CSUPER";
+                break;
+
         }
         return returnValue;
     }
 
     public boolean save(HttpServletRequest request) {
-        return MasterRepository.getInstance().save(request,this);
+        return MasterRepository.getInstance().save(request, this);
     }
 
     @Override
@@ -151,9 +183,10 @@ public class User implements Entity {
         return true;
     }
 
-    public static boolean delete(HttpServletRequest request,long userId) {
-        return MasterRepository.getInstance().deleteUser(request,userId);
+    public static boolean delete(HttpServletRequest request, long userId) {
+        return MasterRepository.getInstance().deleteUser(request, userId);
     }
+
     @Override
     public boolean validateForUpdate() {
         return true;

@@ -237,6 +237,26 @@ public class CommonStorage {
     public static byte getCommitedStage() {
         return 4;
     }
+    public static byte getMinorCorrectionStage() {
+        return 5;
+    }
+    public static byte getMajorCorrectionStage() {
+        return 6;
+    }
+    public static byte getMajorCorrectionFEStage() {
+        return 7;
+    }
+    public static byte getMajorCorrectionSEStage() {
+        return 8;
+    }
+
+    public static byte getMajorCorrectionSupervisorStage() {
+        return 9;
+    }
+
+    public static byte getConfirmedStage() {
+        return 10;
+    }
 
     public static Logger getLogger() {
         return logger;

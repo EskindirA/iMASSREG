@@ -25,7 +25,7 @@ public class Guardian implements Entity {
     private String sex;
     private String dateOfBirth;
     private String status;
-   
+
     public String getStatus() {
         return status;
     }
@@ -115,7 +115,7 @@ public class Guardian implements Entity {
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-   
+
     public String getFullName() {
         return getFirstName() + " " + getFathersName() + " " + getGrandFathersName();
     }
@@ -130,11 +130,11 @@ public class Guardian implements Entity {
     }
 
     public boolean remove(HttpServletRequest request) {
-        return delete(request,registeredOn, upi, stage);
+        return delete(request, registeredOn, upi, stage);
     }
 
     public static boolean delete(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
-        return MasterRepository.getInstance().deleteGuardian(request,registeredOn, upi, stage);
+        return MasterRepository.getInstance().deleteGuardian(request, registeredOn, upi, stage);
     }
 
     public boolean equalsGuardian(Guardian obj) {
@@ -189,5 +189,17 @@ public class Guardian implements Entity {
             returnValue.add(new Change("dateofbirth", this.getDateOfBirth() + "", newGuardian.getDateOfBirth() + ""));
         }
         return returnValue;
+    }
+
+    public boolean submitForMinorCorrection() {
+        return MasterRepository.getInstance().submitForMinorCorrection(this);
+    }
+
+    public boolean submitForMajorCorrection() {
+        return MasterRepository.getInstance().submitForMajorCorrection(this);
+    }
+
+    public boolean submitToConfirmed() {
+        return MasterRepository.getInstance().submitToConfirmed(this);
     }
 }

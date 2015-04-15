@@ -3,12 +3,12 @@
 <%@page import="org.lift.massreg.entity.Parcel"%>
 <%@page import="java.util.ArrayList"%>
 <%
-    ArrayList<Parcel> parcelsInCorrection = (ArrayList<Parcel>) request.getAttribute("parcelsInCorrection");
-    
-    String editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_SUPERVISOR;
-    String viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SUPERVISOR;
-    String deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_SUPERVISOR;
-    String findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_SUPERVISOR;
+    ArrayList<Parcel> parcelsInCorrection = (ArrayList<Parcel>) request.getAttribute("parcelsInCommitted");
+
+    String minorCorrectionURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_MINOR_CORRECTION_PDC;
+    String majorCorrectionURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_MAJOR_CORRECTION_PDC;
+    String confirmedURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_CONFIRMED_PARCEL_PDC;
+    String findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_PDC;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -18,7 +18,7 @@
     </div>
     <div class="bs-example">
         <ul class="nav nav-tabs" style="margin-bottom: 15px;">
-            <li class="active"><a href="#correctionParcels" data-toggle="tab"><%=CommonStorage.getText("corrections")%></a></li>
+            <li class="active"><a href="#correctionParcels" data-toggle="tab"><%=CommonStorage.getText("committed")%></a></li>
             <li><a href="#findParcel" data-toggle="tab"><%=CommonStorage.getText("find_a_parcel")%></a></li>
             <!--li class="disabled"><a>Disabled</a></li-->
         </ul>
@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><%=CommonStorage.getText("parcels_submitted_for_correction")%></div>
+                            <div class="panel-heading"><%=CommonStorage.getText("committed_parcels")%></div>
                             <div class="panel-body" >
                                 <div>
                                     <table class="table table-striped table-bordered table-hover" id="dataTables" >
@@ -54,18 +54,10 @@
                                                     out.println("<td>" + parcelsInCorrection.get(i).hasDisputeText() + "</td>");
                                                     out.println("<td>" + parcelsInCorrection.get(i).getMeansOfAcquisition() + "</td>");
                                                     out.println("<td>" + parcelsInCorrection.get(i).getSurveyDate() + "</td>");
-                                                    
+
                                                     out.print("<td>");
-                                                    out.print("<a href = '#' class='viewButton' "
-                                                            + "data-upi='" + parcelsInCorrection.get(i).getUpi() + "'>" + CommonStorage.getText("view") + "</a>");
-                                                    if (parcelsInCorrection.get(i).canEdit(CommonStorage.getCurrentUser(request))) {
-                                                        out.print("|");
-                                                        out.print("<a href = '#' class='editButton' "
-                                                                + "data-upi='" + parcelsInCorrection.get(i).getUpi() + "'>" + CommonStorage.getText("edit") + "</a>");
-                                                        out.print("|");
-                                                        out.print("<a href = '#' class='deleteButton' "
-                                                                + "data-upi='" + parcelsInCorrection.get(i).getUpi() + "'>" + CommonStorage.getText("delete") + "</a>");
-                                                    }
+                                                    out.print("<a href = '#' class='takeActionButton' "
+                                                            + "data-upi='" + parcelsInCorrection.get(i).getUpi() + "'>" + CommonStorage.getText("take_action") + "</a>");
                                                     out.println("</td>");
                                                 }
 
@@ -122,48 +114,69 @@
 
 
 <script>
-    function editParcel(upi) {
+    function sendToMinorCorrection(upi) {
         $.ajax({
             type: 'POST',
-            url: "<%=editurl%>",
+            url: "<%=minorCorrectionURL%>",
             data: {"upi": upi},
             error: showajaxerror,
-            success: loadForward
+            success: loadInPlace
         });
     }
-    function deleteParcel(upi) {
+    function sendToMajorCorrection(upi) {
         $.ajax({
             type: 'POST',
-            url: "<%=deleteurl%>",
+            url: "<%=majorCorrectionURL%>",
             data: {"upi": upi},
             error: showajaxerror,
-            success: loadForward
+            success: loadInPlace
         });
     }
-    function viewParcel(upi) {
+    function sendToConfirmed(upi) {
         $.ajax({
             type: 'POST',
-            url: "<%=viewurl%>",
+            url: "<%=confirmedURL%>",
             data: {"upi": upi},
             error: showajaxerror,
-            success: loadForward
+            success: loadInPlace
         });
     }
-    $('#dataTables').dataTable( {
+    
+    $('#dataTables').dataTable({
         "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
-    } );
-    $("#dataTables").on("click", ".editButton", function () {
-        editParcel($(this).attr("data-upi"));
-        return false;
     });
-    $("#dataTables").on("click", ".viewButton", function () {
-        viewParcel($(this).attr("data-upi"));
-        return false;
-    });
-    $("#dataTables").on("click", ".deleteButton", function () {
-        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_parcel")%>?", function (result) {
-            if (result) {
-                deleteParcel($(this).attr("data-upi"));
+    $("#dataTables").on("click", ".takeActionButton", function () {
+        var upi = $(this).attr("data-upi");
+        bootbox.dialog({ 
+            onEscape:function(){},
+            message: "<center><%=CommonStorage.getText("what_sort_action_do_you_wish_to_take_on_this_parcel")+"? <br/> (" +CommonStorage.getText("administrative_upi")%>"+ upi +")</center>",
+            title: "<%=CommonStorage.getText("take_action")%>",
+            buttons: {
+                minor: {
+                    label: "<%=CommonStorage.getText("send_for_minor_correction")%>",
+                    className: "btn-default",
+                    callback: function() {
+                        sendToMinorCorrection(upi);
+                    }
+                },
+                major: {
+                    label: "<%=CommonStorage.getText("send_for_major_correction")%>",
+                    className: "btn-default",
+                    callback: function() {
+                        sendToMajorCorrection(upi);
+                    }
+                },
+                confirm: {
+                    label: "<%=CommonStorage.getText("confirm_as_correct")%>",
+                    className: "btn-default",
+                    callback: function() {
+                        sendToConfirmed(upi);
+                    }
+                },
+                main: {
+                    label: "<%=CommonStorage.getText("cancel")%>",
+                    className: "btn-primary"
+                }
             }
         });
         return false;

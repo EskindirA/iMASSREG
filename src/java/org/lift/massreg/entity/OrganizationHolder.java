@@ -169,4 +169,13 @@ public class OrganizationHolder implements Entity {
         }
         return returnValue;
     }
+    public boolean submitForMinorCorrection() {
+        return MasterRepository.getInstance().submitForMinorCorrection(this);
+    }
+    public boolean submitForMajorCorrection() {
+        return MasterRepository.getInstance().submitForMajorCorrection(this);
+    }
+    public boolean submitToConfirmed() {
+        return MasterRepository.getInstance().submitToConfirmed(this);
+    }
 }

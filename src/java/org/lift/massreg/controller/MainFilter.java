@@ -52,6 +52,9 @@ public class MainFilter extends HttpServlet {
                 case ADMINISTRATOR:
                     Administrator.welcomePage(request, response);
                     break;
+                case POSTPDCOORDINATOR:
+                    PostPDCoordinator.welcomePage(request, response);
+                    break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME_PART)) {
             switch (CommonStorage.getCurrentUser(request).getRole()) {
@@ -66,6 +69,9 @@ public class MainFilter extends HttpServlet {
                     break;
                 case ADMINISTRATOR:
                     Administrator.welcomeForm(request, response);
+                    break;
+                case POSTPDCOORDINATOR:
+                    PostPDCoordinator.welcomeForm(request, response);
                     break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PROFILE)) {
@@ -544,7 +550,28 @@ public class MainFilter extends HttpServlet {
             Administrator.publicDisplay(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {
             Administrator.exportReport(request, response);
-        } // for all unknown requests
+        } 
+        // For PDC
+        else if(action.equalsIgnoreCase(Constants.ACTION_MINOR_CORRECTION_PDC)){
+            PostPDCoordinator.sendToMinorCorrection(request, response);
+        }
+        else if(action.equalsIgnoreCase(Constants.ACTION_MAJOR_CORRECTION_PDC)){
+            PostPDCoordinator.sendToMajorCorrection(request, response);
+        }
+        else if(action.equalsIgnoreCase(Constants.ACTION_CONFIRMED_PARCEL_PDC)){
+            PostPDCoordinator.sendToConfirmed(request, response);
+        }
+        else if(action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_PDC)){
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            PostPDCoordinator.viewParcel(request, response);
+        }
+        
+        // for all unknown requests
         else {
             All.goBackToHome(request, response);
         }

@@ -24,7 +24,7 @@
                                 <input class="form-control " id="fathersName" name="fathersName" value="<%=currentUser.getFathersName()%>" disabled/>
                             </div> 
                             <div class="form-group">
-                                <label><%=CommonStorage.getText("grandfather_name")%></label>
+                                <label><%=CommonStorage.getText("grandfathers_name")%></label>
                                 <input class="form-control " id="grandFathersName" name="grandFathersName" value="<%=currentUser.getGrandFathersName()%>" disabled/>
                             </div>
                             <div class="form-group">
@@ -37,6 +37,11 @@
                                     <option value = 'feo'><%=CommonStorage.getText("first_entry_operator")%></option>
                                     <option value = 'seo'><%=CommonStorage.getText("second_entry_operator")%></option>
                                     <option value = 'supervisor'><%=CommonStorage.getText("supervisor")%></option>
+                                    <option value = 'PDC'><%=CommonStorage.getText("post_public_display_coordinator")%></option>
+                                    <option value = 'MCO'><%=CommonStorage.getText("minor_corrections_officer")%></option>
+                                    <option value = 'CFEO'><%=CommonStorage.getText("correction_first_entry_operator")%></option>
+                                    <option value = 'CSEO'><%=CommonStorage.getText("correction_second_entry_operator")%></option>
+                                    <option value = 'CSUPER'><%=CommonStorage.getText("correction_supervisor")%></option>
                                 </select>
                             </div>
                             <div class="form-group">

@@ -223,8 +223,8 @@ public class ReportUtil {
                 row1.createCell(6).setCellValue(createHelper.createRichTextString("Average Number of Parcels"));
                 row1.createCell(7).setCellValue(createHelper.createRichTextString("Total number of non committed parcels"));
                 row1.createCell(8).setCellValue(createHelper.createRichTextString("Total number of committed parcels"));
-                row1.createCell(9).setCellValue(createHelper.createRichTextString("Total Area"));
-                row1.createCell(10).setCellValue(createHelper.createRichTextString("Average area"));
+                row1.createCell(9).setCellValue(createHelper.createRichTextString("Total area(Ha)"));
+                row1.createCell(10).setCellValue(createHelper.createRichTextString("Average area(Ha)"));
                 row1.createCell(11).setCellValue(createHelper.createRichTextString("Court Decision"));
                 row1.createCell(12).setCellValue(createHelper.createRichTextString("Tax Receipt"));
                 row1.createCell(13).setCellValue(createHelper.createRichTextString("Rain fed annual crops"));

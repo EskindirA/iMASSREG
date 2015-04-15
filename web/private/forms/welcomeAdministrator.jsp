@@ -14,7 +14,7 @@
     String periodicalReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERIODICAL_REPORT_ADMINISTRATOR;
     String kebeleReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR;
     String publicDisplayurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PUBLIC_DISPLAY;
-    
+
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -239,7 +239,7 @@
                                 <input class="form-control " id="fathersName" name="fathersName" />
                             </div> 
                             <div class="form-group">
-                                <label><%=CommonStorage.getText("grandfather_name")%></label>
+                                <label><%=CommonStorage.getText("grandfathers_name")%></label>
                                 <input class="form-control " id="grandFathersName" name="grandFathersName" />
                             </div>
                             <div class="form-group">
@@ -252,6 +252,11 @@
                                     <option value = 'feo'><%=CommonStorage.getText("first_entry_operator")%></option>
                                     <option value = 'seo'><%=CommonStorage.getText("second_entry_operator")%></option>
                                     <option value = 'supervisor'><%=CommonStorage.getText("supervisor")%></option>
+                                    <option value = 'PDC'><%=CommonStorage.getText("post_public_display_coordinator")%></option>
+                                    <option value = 'MCO'><%=CommonStorage.getText("minor_corrections_officer")%></option>
+                                    <option value = 'CFEO'><%=CommonStorage.getText("correction_first_entry_operator")%></option>
+                                    <option value = 'CSEO'><%=CommonStorage.getText("correction_second_entry_operator")%></option>
+                                    <option value = 'CSUPER'><%=CommonStorage.getText("correction_supervisor")%></option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -458,23 +463,23 @@
         }
         return false;
     });
-    $('#dataTables').dataTable( {
+    $('#dataTables').dataTable({
         "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
-    } );
-    $('.editButton').click(function () {
+    });
+    $("#dataTables").on("click", ".editButton", function () {
         editUser($(this).attr("data-userId"));
         return false;
     });
-    $('.viewButton').click(function () {
+    $("#dataTables").on("click", ".viewButton", function () {
         viewUser($(this).attr("data-userId"));
         return false;
     });
-    $('.changePasswordButton').click(function () {
+    $("#dataTables").on("click", ".changePasswordButton", function () {
         $("#updatePasswordForm #usrId").val($(this).attr("data-userId"));
         $("#updatePasswordModal").modal();
         return false;
     });
-    $('.deleteButton').click(function () {
+    $("#dataTables").on("click", ".deleteButton", function () {
         deleteUser($(this).attr("data-userId"));
         return false;
     });
@@ -559,7 +564,7 @@
     $("#reportLink").click(function () {
         $("#reportDetail").html("");
     });
-    
+
     $("#publicDisplayButton").click(function () {
         if ($("#publicDisplayForm #publicDisplayKebele").val().trim() === "") {
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_public_display_printout")%>");
@@ -571,7 +576,7 @@
                 },
                 error: showajaxerror,
                 success: function (data) {
-                    var mywindow = window.open('#','Public Display');
+                    var mywindow = window.open('#', 'Public Display');
                     mywindow.document.write('<html><head>');
                     mywindow.document.write('<title>Public Display - Printout</title>');
                     mywindow.document.write('</head>');
@@ -588,5 +593,5 @@
         }
         return false;
     });
-    
+
 </script>

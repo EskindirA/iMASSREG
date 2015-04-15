@@ -90,6 +90,21 @@ public class Administrator {
                     case "ADMINISTRATOR":
                         user.setRole(Constants.ROLE.ADMINISTRATOR);
                         break;
+                    case "PDC":
+                        user.setRole(Constants.ROLE.POSTPDCOORDINATOR);
+                        break;
+                    case "MCO":
+                        user.setRole(Constants.ROLE.MINOR_CORRECTION_OFFICER);
+                        break;
+                    case "CFEO":
+                        user.setRole(Constants.ROLE.CORRECTION_FIRST_ENTRY_OPERATOR);
+                        break;
+                    case "CSEO":
+                        user.setRole(Constants.ROLE.CORRECTION_SECOND_ENTRY_OPERATOR);
+                        break;
+                    case "CSUPER":
+                        user.setRole(Constants.ROLE.CORRECTION_SUPERVISOR);
+                        break;
                 }
 
                 if (user.validateForSave()) {
@@ -201,6 +216,21 @@ public class Administrator {
                     break;
                 case "ADMINISTRATOR":
                     newUser.setRole(Constants.ROLE.ADMINISTRATOR);
+                    break;
+                case "PDC":
+                    newUser.setRole(Constants.ROLE.POSTPDCOORDINATOR);
+                    break;
+                case "MCO":
+                    newUser.setRole(Constants.ROLE.MINOR_CORRECTION_OFFICER);
+                    break;
+                case "CFEO":
+                    newUser.setRole(Constants.ROLE.CORRECTION_FIRST_ENTRY_OPERATOR);
+                    break;
+                case "CSEO":
+                    newUser.setRole(Constants.ROLE.CORRECTION_SECOND_ENTRY_OPERATOR);
+                    break;
+                case "CSUPER":
+                    newUser.setRole(Constants.ROLE.CORRECTION_SUPERVISOR);
                     break;
             }
             if (MasterRepository.getInstance().update(oldUser, newUser)) {
@@ -344,19 +374,19 @@ public class Administrator {
 
     public static void publicDisplay(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try{
-        String kebele =request.getParameter("kebele");
-        if (kebele.isEmpty()) {
-            response.getOutputStream().println("Please specfiey kebele for the report ");
-        } else {
-            long kebeleId = Long.parseLong(request.getParameter("kebele"));
-            MasterRepository.getInstance().updateParcelArea(kebeleId);
-            request.setAttribute("holdersList", MasterRepository.getInstance().getPublicDisplayReport(kebeleId));
-            request.setAttribute("kebeleName",  MasterRepository.getInstance().getKebeleName(kebeleId,CommonStorage.getCurrentLanguage()));
-            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
-            rd.forward(request, response);
-        }
-        }catch(Exception ex){
+        try {
+            String kebele = request.getParameter("kebele");
+            if (kebele.isEmpty()) {
+                response.getOutputStream().println("Please specfiey kebele for the report ");
+            } else {
+                long kebeleId = Long.parseLong(request.getParameter("kebele"));
+                MasterRepository.getInstance().updateParcelArea(kebeleId);
+                request.setAttribute("holdersList", MasterRepository.getInstance().getPublicDisplayReport(kebeleId));
+                request.setAttribute("kebeleName", MasterRepository.getInstance().getKebeleName(kebeleId, CommonStorage.getCurrentLanguage()));
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
+                rd.forward(request, response);
+            }
+        } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
@@ -365,7 +395,7 @@ public class Administrator {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         }
-        
+
     }
 
 }
