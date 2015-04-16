@@ -27,7 +27,7 @@ public class PostPDCoordinator {
      */
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCommitted();
+        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCommitted(request.getAttribute("kebele").toString());
         request.setAttribute("parcelsInCommitted", parcelsInCorrection);
         request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_POSTPDCOORDINATOR));
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
@@ -42,7 +42,7 @@ public class PostPDCoordinator {
      */
     protected static void welcomeForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCommitted();
+        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCommitted(request.getAttribute("kebele").toString());
         request.setAttribute("parcelsInCommitted", parcelsInCorrection);
         RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_POSTPDCOORDINATOR));
         rd.forward(request, response);

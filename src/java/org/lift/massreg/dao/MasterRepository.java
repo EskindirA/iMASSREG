@@ -6128,11 +6128,15 @@ public class MasterRepository {
     }
 
 
-    public ArrayList<Parcel> getALLParcelsInCommitted() {
+    public ArrayList<Parcel> getALLParcelsInCommitted(String kebele) {
         ArrayList<Parcel> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE stage = 4 and status='active' and upi not in (SELECT upi FROM Parcel WHERE stage >= 5 and status='active')");
+            String query = "SELECT * FROM Parcel WHERE stage = 4 and status='active' and upi not in (SELECT upi FROM Parcel WHERE stage >= 5 and status='active')";
+            if(!kebele.equalsIgnoreCase("all")){
+                query+=" and UPI LIKE '"+ kebele +"/%'";
+            }
+            PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 Parcel parcel = new Parcel();

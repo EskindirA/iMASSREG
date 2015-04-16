@@ -53,6 +53,15 @@ public class MainFilter extends HttpServlet {
                     Administrator.welcomePage(request, response);
                     break;
                 case POSTPDCOORDINATOR:
+                    if (request.getParameter("kebele") != null) {
+                        request.setAttribute("kebele", request.getParameter("kebele").trim());
+                        request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
+                    } else if (request.getSession().getAttribute("kebele") != null) {
+                        request.setAttribute("kebele", request.getSession().getAttribute("kebele"));
+                    }else{
+                        request.setAttribute("kebele", "all");
+                        request.getSession().setAttribute("kebele", "all");
+                    }
                     PostPDCoordinator.welcomePage(request, response);
                     break;
             }
@@ -291,7 +300,7 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_START_REVIEW_SEO)) {
             getUPI(request);
             SecondEntry.startReview(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_SEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_SEO)) {
             getUPI(request);
             SecondEntry.saveGuardian(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_GUARDIAN_SEO)) {
@@ -525,7 +534,7 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_SUPERVISOR)) {
             getUPI(request);
             Correction.guardiansList(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_SUPERVISOR)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_SUPERVISOR)) {
             getUPI(request);
             Correction.finishPersonWithInterest(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_USER_ADMINISTRATOR)) {
@@ -546,22 +555,18 @@ public class MainFilter extends HttpServlet {
             Administrator.timeBoundReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR)) {
             Administrator.kebeleReport(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_PUBLIC_DISPLAY)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PUBLIC_DISPLAY)) {
             Administrator.publicDisplay(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {
             Administrator.exportReport(request, response);
-        } 
-        // For PDC
-        else if(action.equalsIgnoreCase(Constants.ACTION_MINOR_CORRECTION_PDC)){
+        } // For PDC
+        else if (action.equalsIgnoreCase(Constants.ACTION_MINOR_CORRECTION_PDC)) {
             PostPDCoordinator.sendToMinorCorrection(request, response);
-        }
-        else if(action.equalsIgnoreCase(Constants.ACTION_MAJOR_CORRECTION_PDC)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_MAJOR_CORRECTION_PDC)) {
             PostPDCoordinator.sendToMajorCorrection(request, response);
-        }
-        else if(action.equalsIgnoreCase(Constants.ACTION_CONFIRMED_PARCEL_PDC)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_CONFIRMED_PARCEL_PDC)) {
             PostPDCoordinator.sendToConfirmed(request, response);
-        }
-        else if(action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_PDC)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_PDC)) {
             if (request.getParameter("upi") != null) {
                 request.setAttribute("upi", request.getParameter("upi").trim());
                 request.getSession().setAttribute("upi", request.getParameter("upi").trim());
@@ -569,9 +574,19 @@ public class MainFilter extends HttpServlet {
                 request.setAttribute("upi", request.getSession().getAttribute("upi"));
             }
             PostPDCoordinator.viewParcel(request, response);
-        }
-        
-        // for all unknown requests
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PARCEL_LIST_PDC)) {
+
+            if (request.getParameter("kebele") != null) {
+                request.setAttribute("kebele", request.getParameter("kebele").trim());
+                request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
+            } else if (request.getSession().getAttribute("kebele") != null) {
+                request.setAttribute("kebele", request.getSession().getAttribute("kebele"));
+            }else{
+                request.setAttribute("kebele", "all");
+                request.getSession().setAttribute("kebele", "all");
+            }
+            PostPDCoordinator.welcomeForm(request, response);
+        } // for all unknown requests
         else {
             All.goBackToHome(request, response);
         }

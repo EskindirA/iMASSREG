@@ -158,7 +158,8 @@ public interface Constants {
     public static final String ACTION_FIND_PARCEL_PDC = "FIND_PARCEL_PDC";
 
     public static final String ACTION_VIEW_HOLDER_PDC = "VIEW_HOLDER_PDC";
-    
+    public static final String ACTION_PARCEL_LIST_PDC = "PARCEL_LIST_PDC";
+        
     
     // pages
     public static final int INDEX_ERROR = 0;

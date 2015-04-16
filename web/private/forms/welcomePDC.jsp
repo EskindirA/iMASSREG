@@ -9,6 +9,7 @@
     String majorCorrectionURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_MAJOR_CORRECTION_PDC;
     String confirmedURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_CONFIRMED_PARCEL_PDC;
     String findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_PDC;
+    String filterurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PARCEL_LIST_PDC;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -27,7 +28,23 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><%=CommonStorage.getText("committed_parcels")%></div>
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-lg-7"><%=CommonStorage.getText("committed_parcels")%></div>
+                                    <div class="col-lg-2" style="vertical-align: middle"><label style="float: right"><%=CommonStorage.getText("kebele")%></label></div>
+                                    <div class="col-lg-3" style="vertical-align: middle">
+                                        <select class="form-control" id="displayKebele" name="displayKebele">
+                                            <%
+                                                Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
+                                                out.println("<option value = 'all'>" + CommonStorage.getText("select_a_kebele") + "</option>");
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="panel-body" >
                                 <div>
                                     <table class="table table-striped table-bordered table-hover" id="dataTables" >
@@ -85,7 +102,6 @@
                                             <label><%=CommonStorage.getText("kebele")%></label>
                                             <select class="form-control" id="kebele" name="kebele">
                                                 <%
-                                                    Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
                                                     for (int i = 0; i < kebeles.length; i++) {
                                                         out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
                                                     }
@@ -141,35 +157,54 @@
             success: loadInPlace
         });
     }
-    
+
+    $("#displayKebele").val('<%=request.getAttribute("kebele").toString()%>');
+
+    $("#displayKebele").change(function () {
+        if ($("#displayKebele").val() === "") {
+            showError("Please select a kebele");
+        }
+        else { // Call to the service to get the view parcel form
+            $.ajax({
+                success: loadInPlace,
+                error: showajaxerror,
+                type: 'POST',
+                data: {
+                    "kebele": $("#displayKebele").val()},
+                url: '<%=filterurl%>'
+            });
+        }
+        return false;
+    });
     $('#dataTables').dataTable({
         "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
     });
     $("#dataTables").on("click", ".takeActionButton", function () {
         var upi = $(this).attr("data-upi");
-        bootbox.dialog({ 
-            onEscape:function(){},
-            message: "<center><%=CommonStorage.getText("what_sort_action_do_you_wish_to_take_on_this_parcel")+"? <br/> (" +CommonStorage.getText("administrative_upi")%>"+ upi +")</center>",
+        bootbox.dialog({
+            onEscape: function () {
+            },
+            message: "<center><%=CommonStorage.getText("what_sort_action_do_you_wish_to_take_on_this_parcel") + "? <br/> (" + CommonStorage.getText("administrative_upi")%>" + upi + ")</center>",
             title: "<%=CommonStorage.getText("take_action")%>",
             buttons: {
                 minor: {
                     label: "<%=CommonStorage.getText("send_for_minor_correction")%>",
                     className: "btn-default",
-                    callback: function() {
+                    callback: function () {
                         sendToMinorCorrection(upi);
                     }
                 },
                 major: {
                     label: "<%=CommonStorage.getText("send_for_major_correction")%>",
                     className: "btn-default",
-                    callback: function() {
+                    callback: function () {
                         sendToMajorCorrection(upi);
                     }
                 },
                 confirm: {
                     label: "<%=CommonStorage.getText("confirm_as_correct")%>",
                     className: "btn-default",
-                    callback: function() {
+                    callback: function () {
                         sendToConfirmed(upi);
                     }
                 },
