@@ -455,23 +455,45 @@ public class Parcel implements Entity {
         boolean firstentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getFEStage());
         boolean secondentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getSEStage());
         boolean supervisor = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getCorrectionStage());
-        boolean confirmed = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getCommitedStage());
+        boolean commited = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getCommitedStage());
+        boolean minorcorrection = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMinorCorrectionStage());
+        boolean majorcorrection = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionStage());
+        boolean majorcorrectionFE = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionFEStage());
+        boolean majorcorrectionSE = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionSEStage());
+        boolean majorcorrectionSupervisor = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionSupervisorStage());
+        boolean confirmed = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getConfirmedStage());
         switch (cudto.getRole()) {
             case FIRST_ENTRY_OPERATOR:
-                if (secondentry || supervisor || confirmed) {
+                if (secondentry || supervisor || commited) {
                     returnValue = false;
                 }
                 break;
             case SECOND_ENTRY_OPERATOR:
-                if (supervisor || confirmed) {
+                if (supervisor || commited) {
                     returnValue = false;
                 }
                 break;
             case SUPERVISOR:
-                if (confirmed) {
+                if (commited) {
                     returnValue = false;
                 }
                 break;
+            case MINOR_CORRECTION_OFFICER:
+                if (confirmed || majorcorrection || majorcorrectionFE || majorcorrectionSE || majorcorrectionSupervisor) {
+                    returnValue = false;
+                }
+            case CORRECTION_FIRST_ENTRY_OPERATOR:
+                if (confirmed || majorcorrectionSE || majorcorrectionSupervisor) {
+                    returnValue = false;
+                }
+            case CORRECTION_SECOND_ENTRY_OPERATOR:
+                if (confirmed || majorcorrectionSupervisor) {
+                    returnValue = false;
+                }
+            case CORRECTION_SUPERVISOR:
+                if (confirmed) {
+                    returnValue = false;
+                }
         }
         return returnValue;
     }
@@ -553,8 +575,7 @@ public class Parcel implements Entity {
                 for (Guardian guardians1 : guardians) {
                     guardians1.commit();
                 }
-            }
-            else{
+            } else {
                 System.err.println("Null");
             }
         } else if (organaizationHolder != null) {
@@ -969,7 +990,6 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
-
 
     public void submitForMinorCorrection() {
         MasterRepository.getInstance().submitForMinorCorrection(this);

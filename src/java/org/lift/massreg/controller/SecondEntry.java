@@ -23,6 +23,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,6 +39,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void welcomeFrom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,6 +53,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void addParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -114,6 +120,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -147,6 +155,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -213,6 +223,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -237,6 +249,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -304,6 +318,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -371,6 +387,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void addOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -384,6 +402,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void individualHolderList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -405,6 +425,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -432,6 +454,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -462,6 +486,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -514,6 +540,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -553,6 +581,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateOrganizationHolder(HttpServletRequest request,
             HttpServletResponse response)
@@ -600,6 +630,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -655,6 +687,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -680,6 +714,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateIndividualHolder(HttpServletRequest request,
             HttpServletResponse response)
@@ -737,6 +773,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1242,6 +1280,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1265,6 +1305,8 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void finishOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1289,10 +1331,12 @@ public class SecondEntry {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void finishPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {

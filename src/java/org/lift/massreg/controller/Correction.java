@@ -260,6 +260,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -301,6 +303,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -326,6 +330,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateIndividualHolder(HttpServletRequest request,
             HttpServletResponse response)
@@ -381,6 +387,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

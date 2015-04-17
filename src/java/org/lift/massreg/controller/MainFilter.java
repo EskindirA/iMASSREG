@@ -54,15 +54,14 @@ public class MainFilter extends HttpServlet {
                     break;
                 case POSTPDCOORDINATOR:
                     if (request.getParameter("kebele") != null) {
-                        request.setAttribute("kebele", request.getParameter("kebele").trim());
                         request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
-                    } else if (request.getSession().getAttribute("kebele") != null) {
-                        request.setAttribute("kebele", request.getSession().getAttribute("kebele"));
-                    }else{
-                        request.setAttribute("kebele", "all");
+                    } else {
                         request.getSession().setAttribute("kebele", "all");
                     }
                     PostPDCoordinator.welcomePage(request, response);
+                    break;
+                case MINOR_CORRECTION_OFFICER:
+                    MinorCorrections.welcomePage(request, response);
                     break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME_PART)) {
@@ -80,7 +79,15 @@ public class MainFilter extends HttpServlet {
                     Administrator.welcomeForm(request, response);
                     break;
                 case POSTPDCOORDINATOR:
+                    if (request.getParameter("kebele") != null) {
+                        request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
+                    } else {
+                        request.getSession().setAttribute("kebele", "all");
+                    }
                     PostPDCoordinator.welcomeForm(request, response);
+                    break;
+                case MINOR_CORRECTION_OFFICER:
+                    MinorCorrections.welcomeForm(request, response);
                     break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PROFILE)) {
@@ -575,18 +582,37 @@ public class MainFilter extends HttpServlet {
             }
             PostPDCoordinator.viewParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_PARCEL_LIST_PDC)) {
-
             if (request.getParameter("kebele") != null) {
-                request.setAttribute("kebele", request.getParameter("kebele").trim());
                 request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
-            } else if (request.getSession().getAttribute("kebele") != null) {
-                request.setAttribute("kebele", request.getSession().getAttribute("kebele"));
-            }else{
-                request.setAttribute("kebele", "all");
+            } else {
                 request.getSession().setAttribute("kebele", "all");
             }
             PostPDCoordinator.welcomeForm(request, response);
-        } // for all unknown requests
+        } // Minor corrections officer 
+        else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_MCO)) {
+            MinorCorrections.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_MCO)) {
+            MinorCorrections.editParcel(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_MCO)) {
+            MinorCorrections.deleteParcel(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_CONFIRM_PARCEL_MCO)) {
+            MinorCorrections.confirmParcel(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCO)) {
+            MinorCorrections.updateParcel(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCO)) {
+            MinorCorrections.viewHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_MCO)) {
+            MinorCorrections.viewIndividualHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_MCO)) {
+            MinorCorrections.updateIndividualHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_MCO)) {
+            MinorCorrections.editIndividualHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_MCO)) {
+            MinorCorrections.editOrganizationHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_MCO)) {
+            MinorCorrections.updateOrganizationHolder(request, response);
+        }
+                // for all unknown requests
         else {
             All.goBackToHome(request, response);
         }

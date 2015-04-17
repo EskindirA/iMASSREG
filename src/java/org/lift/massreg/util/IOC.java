@@ -95,9 +95,18 @@ public class IOC {
         pages.put(Constants.INDEX_EDIT_GUARDIAN_SUPERVISOR, "editGuardianSupervisor.jsp");
         pages.put(Constants.INDEX_PUBLIC_DISPLAY, "publicDisplay.jsp");
         
-        pages.put(Constants.INDEX_WELCOME_POSTPDCOORDINATOR, "welcomePDC.jsp");
+        pages.put(Constants.INDEX_WELCOME_PDC, "welcomePDC.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_PDC, "viewParcelPDC.jsp");
-        
+
+        pages.put(Constants.INDEX_WELCOME_MCO, "welcomeMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_MCO, "viewParcelMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_PARCEL_MCO, "editParcelMCO.jsp");
+        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_MCO,"addOrganizationHolderMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_MCO,"viewOrganizationHolderMCO.jsp");
+        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_MCO,"individualHoldersListMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_MCO,"editOrganizationHolderMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_INDIVIDUAL_HOLDER_MCO,"viewIndividualHolderMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_MCO,"editIndividualHolderMCO.jsp");
     }
 
     public static String getPage(int id) {

@@ -156,11 +156,27 @@ public interface Constants {
     public static final String ACTION_MAJOR_CORRECTION_PDC = "MAJOR_CORRECTION_PDC";
     public static final String ACTION_CONFIRMED_PARCEL_PDC = "CONFIRMED_PARCEL_PDC";
     public static final String ACTION_FIND_PARCEL_PDC = "FIND_PARCEL_PDC";
-
     public static final String ACTION_VIEW_HOLDER_PDC = "VIEW_HOLDER_PDC";
     public static final String ACTION_PARCEL_LIST_PDC = "PARCEL_LIST_PDC";
-        
     
+    public static final String ACTION_VIEW_PARCEL_MCO = "VIEW_PARCEL_MCO";
+    public static final String ACTION_EDIT_PARCEL_MCO = "EDIT_PARCEL_MCO";
+    public static final String ACTION_CONFIRM_PARCEL_MCO = "CONFIRM_PARCEL_MCO";
+    public static final String ACTION_DELETE_PARCEL_MCO = "DELETE_PARCEL_MCO";
+    public static final String ACTION_VIEW_HOLDER_MCO = "VIEW_HOLDER_MCO";
+    public static final String ACTION_UPDATE_PARCEL_MCO = "UPDATE_PARCEL_MCO";
+    public static final String ACTION_FINISH_ORGANIZATION_HOLDER_MCO = "FINISH_ORGANIZATION_HOLDER_MCO";
+    public static final String ACTION_EDIT_ORGANIZATION_HOLDER_MCO = "EDIT_ORGANIZATION_HOLDER_MCO";
+    public static final String ACTION_DISPUTE_LIST_MCO = "DISPUTE_LIST_MCO";
+    public static final String ACTION_UPDATE_ORGANIZATION_HOLDER_MCO = "UPDATE_ORGANIZATION_HOLDER_MCO";
+    public static final String ACTION_SAVE_HOLDER_MCO = "SAVE_HOLDER_MCO";
+    public static final String ACTION_VIEW_INDIVIDUAL_HOLDER_MCO = "VIEW_INDIVIDUAL_HOLDER_MCO";
+    public static final String ACTION_EDIT_INDIVIDUAL_HOLDER_MCO = "EDIT_INDIVIDUAL_HOLDER_MCO";
+    public static final String ACTION_DELETE_INDIVIDUAL_HOLDER_MCO = "DELETE_INDIVIDUAL_HOLDER_MCO";
+    public static final String ACTION_GUARDIANS_LIST_MCO = "GUARDIANS_LIST_MCO";
+    public static final String ACTION_PERSONS_WITH_INTEREST_LIST_MCO = "PERSONS_WITH_INTEREST_LIST_MCO";
+    public static final String ACTION_UPDATE_INDIVIDUAL_HOLDER_MCO = "UPDATE_INDIVIDUAL_HOLDER_MCO";
+            
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
@@ -251,8 +267,19 @@ public interface Constants {
     public static final int INDEX_GUARDIANS_LIST_SUPERVISOR = 66;
     public static final int INDEX_PUBLIC_DISPLAY = 67;
     
-    public static final int INDEX_WELCOME_POSTPDCOORDINATOR = 70;
+    public static final int INDEX_WELCOME_PDC = 70;
     public static final int INDEX_VIEW_PARCEL_PDC = 71;
+    
+    public static final int INDEX_WELCOME_MCO = 72;
+    public static final int INDEX_VIEW_PARCEL_MCO = 73;
+    public static final int INDEX_EDIT_PARCEL_MCO = 74;
+    public static final int INDEX_ADD_ORGANIZATION_HOLDER_MCO = 75;
+    public static final int INDEX_VIEW_ORGANIZATION_HOLDER_MCO = 76;
+    public static final int INDEX_INDIVIDUAL_HOLDERS_LIST_MCO = 77;
+    public static final int INDEX_EDIT_ORGANIZATION_HOLDER_MCO = 78;
+    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_MCO = 79;
+    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_MCO = 80;
+    
     
     public enum ROLE {
 

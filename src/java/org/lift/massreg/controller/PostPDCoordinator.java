@@ -18,45 +18,51 @@ import org.lift.massreg.util.IOC;
  * @since 2.0
  */
 public class PostPDCoordinator {
- 
-     /**
+
+    /**
      * Handlers request for getting the welcome page
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCommitted(request.getAttribute("kebele").toString());
-        request.setAttribute("parcelsInCommitted", parcelsInCorrection);
-        request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_POSTPDCOORDINATOR));
+        ArrayList<Parcel> parcelsInCommitted = MasterRepository.getInstance().getALLParcelsInCommitted(request.getSession().getAttribute("kebele").toString());
+        request.setAttribute("parcelsInCommitted", parcelsInCommitted);
+        request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_PDC));
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
-    
+
     /**
      * Handlers request for getting the welcome form
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void welcomeForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCommitted(request.getAttribute("kebele").toString());
-        request.setAttribute("parcelsInCommitted", parcelsInCorrection);
-        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_POSTPDCOORDINATOR));
+        ArrayList<Parcel> parcelsInCommitted = MasterRepository.getInstance().getALLParcelsInCommitted(request.getSession().getAttribute("kebele").toString());
+        request.setAttribute("parcelsInCommitted", parcelsInCommitted);
+        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_PDC));
         rd.forward(request, response);
     }
-    
+
     /**
      * Handlers request for sending a parcel to minor correction
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void sendToMinorCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
         parcel.submitForMinorCorrection();
         welcomeForm(request, response);
@@ -67,35 +73,41 @@ public class PostPDCoordinator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void sendToMajorCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
         parcel.submitForMajorCorrection();
         welcomeForm(request, response);
     }
-    
+
     /**
      * Handlers request for sending a parcel to confirmed status
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void sendToConfirmed(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
         parcel.submitToConfirmed();
         welcomeForm(request, response);
     }
 
-    
     /**
-     * Handlers request for getting a parcel form by the Post-Public Display Coordinator
+     * Handlers request for getting a parcel form by the Post-Public Display
+     * Coordinator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -116,5 +128,4 @@ public class PostPDCoordinator {
         }
     }
 
-    
 }

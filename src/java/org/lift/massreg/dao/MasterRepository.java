@@ -2048,6 +2048,7 @@ public class MasterRepository {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
     }
+
     /////////////////////
     // New Reports
     // Timebound Report
@@ -6050,8 +6051,8 @@ public class MasterRepository {
                 stmnt1.setString(1, h);
                 ResultSet holderrs = stmnt1.executeQuery();
                 HolderPublicDisplayDTO holder = null;
-                while(holderrs.next()) {
-                    if(holder==null){
+                while (holderrs.next()) {
+                    if (holder == null) {
                         holder = new HolderPublicDisplayDTO();
                         holder.setId(holderrs.getString("holderid"));
                         holder.setName(holderrs.getString("firstname") + " " + holderrs.getString("fathersname") + " " + holderrs.getString("grandfathersname"));
@@ -6127,14 +6128,13 @@ public class MasterRepository {
         return returnValue;
     }
 
-
     public ArrayList<Parcel> getALLParcelsInCommitted(String kebele) {
         ArrayList<Parcel> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
             String query = "SELECT * FROM Parcel WHERE stage = 4 and status='active' and upi not in (SELECT upi FROM Parcel WHERE stage >= 5 and status='active')";
-            if(!kebele.equalsIgnoreCase("all")){
-                query+=" and UPI LIKE '"+ kebele +"/%'";
+            if (!kebele.equalsIgnoreCase("all")) {
+                query += " and UPI LIKE '" + kebele + "/%'";
             }
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
@@ -6176,7 +6176,6 @@ public class MasterRepository {
         }
         return returnValue;
     }
-
 
     // Post PD & O Correction
     public boolean submitForMinorCorrection(Parcel parcel) {
@@ -6368,7 +6367,6 @@ public class MasterRepository {
         return returnValue;
     }
 
-
     public boolean submitForMajorCorrection(Parcel parcel) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -6558,7 +6556,6 @@ public class MasterRepository {
         return returnValue;
     }
 
-
     public boolean submitToConfirmed(Parcel parcel) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -6599,7 +6596,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public boolean submitToConfirmed(OrganizationHolder holder) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -6744,6 +6741,54 @@ public class MasterRepository {
         } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public ArrayList<Parcel> getALLParcelsInMinorCorrection() {
+        ArrayList<Parcel> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT * FROM Parcel WHERE stage = " + CommonStorage.getMinorCorrectionStage()
+                    + " and status='active' and upi not in (SELECT upi FROM Parcel "
+                    + "WHERE stage > " + CommonStorage.getMinorCorrectionStage() + " and status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                Parcel parcel = new Parcel();
+                parcel.setAcquisition(rs.getByte("acquisitiontype"));
+                parcel.setAcquisitionYear(rs.getInt("acquisitionyear"));
+                parcel.setCertificateNumber(rs.getString("certificateno"));
+                parcel.setCurrentLandUse(rs.getByte("landusetype"));
+                parcel.setEncumbrance(rs.getByte("encumbrancetype"));
+                parcel.setHolding(rs.getByte("holdingtype"));
+                parcel.setHoldingNumber(rs.getString("holdingno"));
+                parcel.setMapSheetNo(rs.getString("mapsheetno"));
+                parcel.setOtherEvidence(rs.getByte("otherevidence"));
+                parcel.setParcelId(rs.getInt("parcelid"));
+                parcel.setRegisteredBy(rs.getLong("registeredby"));
+                parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
+                parcel.setStage(rs.getByte("stage"));
+                parcel.setStatus(rs.getString("status"));
+                parcel.setSurveyDate(rs.getString("surveydate"));
+                parcel.setUpi(rs.getString("upi"));
+                parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
+                parcel.hasDispute(rs.getBoolean("hasdispute"));
+                parcel.setTeamNo(rs.getByte("teamNo"));
+                if (parcel.hasDispute()) {
+                    parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
+                }
+                if (parcel.getHolding() == 1) {
+                    parcel.setIndividualHolders(getAllIndividualHolders(parcel.getUpi(), parcel.getStage()));
+                    parcel.setPersonsWithInterest(getAllPersonsWithInterest(parcel.getUpi(), parcel.getStage()));
+                } else {
+                    parcel.setOrganaizationHolder(getOrganaizationHolder(parcel.getUpi(), parcel.getStage()));
+                }
+                returnValue.add(parcel);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return returnValue;
     }

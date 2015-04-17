@@ -3,7 +3,7 @@
 <%@page import="org.lift.massreg.entity.Parcel"%>
 <%@page import="java.util.ArrayList"%>
 <%
-    ArrayList<Parcel> parcelsInCorrection = (ArrayList<Parcel>) request.getAttribute("parcelsInCommitted");
+    ArrayList<Parcel> parcelsInCommitted = (ArrayList<Parcel>) request.getAttribute("parcelsInCommitted");
 
     String minorCorrectionURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_MINOR_CORRECTION_PDC;
     String majorCorrectionURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_MAJOR_CORRECTION_PDC;
@@ -60,21 +60,21 @@
                                         </thead>
                                         <tbody>
                                             <%
-                                                for (int i = 0; i < parcelsInCorrection.size(); i++) {
+                                                for (int i = 0; i < parcelsInCommitted.size(); i++) {
                                                     if (i % 2 == 0) {
                                                         out.println("<tr class='odd gradeA'>");
                                                     } else {
                                                         out.println("<tr class='even gradeA'>");
                                                     }
-                                                    out.println("<td>" + parcelsInCorrection.get(i).getUpi() + "</td>");
-                                                    out.println("<td>" + parcelsInCorrection.get(i).getCertificateNumber() + "</td>");
-                                                    out.println("<td>" + parcelsInCorrection.get(i).hasDisputeText() + "</td>");
-                                                    out.println("<td>" + parcelsInCorrection.get(i).getMeansOfAcquisition() + "</td>");
-                                                    out.println("<td>" + parcelsInCorrection.get(i).getSurveyDate() + "</td>");
+                                                    out.println("<td>" + parcelsInCommitted.get(i).getUpi() + "</td>");
+                                                    out.println("<td>" + parcelsInCommitted.get(i).getCertificateNumber() + "</td>");
+                                                    out.println("<td>" + parcelsInCommitted.get(i).hasDisputeText() + "</td>");
+                                                    out.println("<td>" + parcelsInCommitted.get(i).getMeansOfAcquisition() + "</td>");
+                                                    out.println("<td>" + parcelsInCommitted.get(i).getSurveyDate() + "</td>");
 
                                                     out.print("<td>");
                                                     out.print("<a href = '#' class='takeActionButton' "
-                                                            + "data-upi='" + parcelsInCorrection.get(i).getUpi() + "'>" + CommonStorage.getText("take_action") + "</a>");
+                                                            + "data-upi='" + parcelsInCommitted.get(i).getUpi() + "'>" + CommonStorage.getText("take_action") + "</a>");
                                                     out.println("</td>");
                                                 }
 
@@ -158,7 +158,7 @@
         });
     }
 
-    $("#displayKebele").val('<%=request.getAttribute("kebele").toString()%>');
+    $("#displayKebele").val('<%=request.getSession().getAttribute("kebele").toString()%>');
 
     $("#displayKebele").change(function () {
         if ($("#displayKebele").val() === "") {
