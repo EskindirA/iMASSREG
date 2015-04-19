@@ -5,18 +5,15 @@
 <%@page import="org.lift.massreg.entity.*"%>
 <%
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
-    boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     ArrayList<Guardian> guardians = currentParcel.getGuardians();
-    ParcelDifference parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
-    
-    String saveurl, viewurl, editurl, deleteurl,backurl,nexturl;
-    
-    saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_GUARDIAN_SUPERVISOR;
-    viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_GUARDIAN_SUPERVISOR;
-    editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_GUARDIAN_SUPERVISOR;
-    deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_GUARDIAN_SUPERVISOR;
-    backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_SUPERVISOR;
-    nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_SUPERVISOR;
+    String saveurl, viewurl, editurl, deleteurl, backurl, nexturl;
+
+    saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_GUARDIAN_MCO;
+    viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_GUARDIAN_MCO;
+    editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_GUARDIAN_MCO;
+    deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_GUARDIAN_MCO;
+    backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_HOLDER_MCO;
+    nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCO;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -28,14 +25,8 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading"> 
-                    <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi")%> - ${sessionScope.upi}
-                    <% 
-                        if(parcelDifference.isGuardiansDetails()&& currentParcel.canEdit(CommonStorage.getCurrentUser(request))){
-                        out.println("<span style='margin-left: 3em' class='discrepancy-field'>" + CommonStorage.getText("there_is_a_discrepancy_in_guardians_details") + "</span>");
-                    }
-                    %>
-                                        <span style='float:right' class='<%= parcelDifference.isGuardiansCount()
-                                            ?"discrepancy-field":""%>'><%=CommonStorage.getText("guardians_count")%> :<%=currentParcel.getGuardiansCount()%></span>
+                    <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi") + " - " + request.getParameter("upi")%>
+                    <span style='float:right'><%=CommonStorage.getText("guardians_count")%> :<%=currentParcel.getGuardiansCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -63,15 +54,12 @@
                                         out.println("<a href = '#' class = 'viewButton' "
                                                 + "data-registeredOn = '" + guardians.get(i).getRegisteredOn() + "' >" + CommonStorage.getText("view") + "</a>");
 
-                                        if (editable) {
-                                            out.println("|");
-                                            out.println("<a href = '#' class='editButton' data-registeredOn='"
-                                                    + guardians.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("edit") + "</a>");
-                                            out.println("|");
-                                            out.println("<a href = '#' class='deleteButton' data-registeredOn='"
-                                                    + guardians.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
-
-                                        }
+                                        out.println("|");
+                                        out.println("<a href = '#' class='editButton' data-registeredOn='"
+                                                + guardians.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("edit") + "</a>");
+                                        out.println("|");
+                                        out.println("<a href = '#' class='deleteButton' data-registeredOn='"
+                                                + guardians.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
                                         out.println("</td>");
                                         out.println("</tr>");
                                     }
@@ -86,14 +74,8 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
-                            <%
-                                if (editable) {
-                                    out.println("<button type='submit' id = 'addGuardianButton' name = 'addGuardianButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >"+CommonStorage.getText("add")+"</button>");
-                                } else {
-                                    out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
-                                }
-                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>"+CommonStorage.getText("next")+"</button>");
-                            %>
+                            <button type='submit' id = 'addGuardianButton' name = 'addGuardianButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' ><%=CommonStorage.getText("add")%></button>
+                            <button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'><%=CommonStorage.getText("next")%></button>
                         </div>                        
                     </div>
                 </div>
@@ -149,10 +131,9 @@
 </div>
 <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
-<script type="text/javascript">
-    var calendarAdd = $.calendars.instance("ethiopian","am"); 
+<script type="text/javascript" >
+    var calendarAdd = $.calendars.instance("ethiopian", "am");
     $("#addGuardianForm #dateOfBirth").calendarsPicker({calendar: calendarAdd});
-   
     function closeModals() {
         $("#editModal").html("");
         $("#editModal").hide();
@@ -161,26 +142,26 @@
     }
     function validate(formId) {
         var returnValue = true;
-        $("#" + formId + " #firstName").toggleClass("error-field",false);
-        $("#" + formId + " #fathersName").toggleClass("error-field",false);
-        $("#" + formId + " #grandFathersName").toggleClass("error-field",false);
-        $("#" + formId + " #sex").toggleClass("error-field",false);
+        $("#" + formId + " #firstName").toggleClass("error-field", false);
+        $("#" + formId + " #fathersName").toggleClass("error-field", false);
+        $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
+        $("#" + formId + " #sex").toggleClass("error-field", false);
         if ($("#" + formId + " #firstName").val().trim() === "") {
             returnValue = false;
-            $("#" + formId + " #firstName").toggleClass("error-field",true);
+            $("#" + formId + " #firstName").toggleClass("error-field", true);
         }
         if ($("#" + formId + " #fathersName").val().trim() === "") {
             returnValue = false;
-            $("#" + formId + " #fathersName").toggleClass("error-field",true);
+            $("#" + formId + " #fathersName").toggleClass("error-field", true);
         }
         if ($("#" + formId + " #grandFathersName").val().trim() === "") {
             returnValue = false;
-            $("#" + formId + " #grandFathersName").toggleClass("error-field",true);
+            $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
         }
         if ($("#" + formId + " #sex").val().trim() === "") {
             returnValue = false;
-            $("#" + formId + " #sex").toggleClass("error-field",true);
-        }        
+            $("#" + formId + " #sex").toggleClass("error-field", true);
+        }
         return returnValue;
     }
     function loadViewGuardian(result) {
@@ -192,45 +173,48 @@
         $("#editModal").html(result);
     }
     function deleteGuardian(regOn) {
-        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_guardian")%> ?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_guardian")%> ?", function (result) {
             if (result) {
                 $.ajax({
-                    type:'POST',
+                    type: 'POST',
                     url: "<%=deleteurl%>",
-                    data: {"registeredOn": regOn},
+                    data: {
+                        "upi": '<%=request.getParameter("upi")%>',
+                        "registeredOn": regOn
+                    },
                     error: showajaxerror,
                     success: loadInPlace
                 });
             }
         });
     }
-    function editGuardian( regOn) {
+    function editGuardian(regOn) {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=editurl%>",
-            data: {"registeredOn": regOn },
+            data: {"registeredOn": regOn, "upi": '<%=request.getParameter("upi")%>'},
             error: showajaxerror,
             success: loadViewHolder
         });
     }
     function viewGuardian(regOn) {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=viewurl%>",
-            data: {"registeredOn": regOn},
+            data: {"registeredOn": regOn, "upi": '<%=request.getParameter("upi")%>'},
             error: showajaxerror,
             success: loadViewHolder
         });
     }
-    function validateGuardiansList(){
+    function validateGuardiansList() {
 //        showError("validatePersonWithInterestList");
         return true;
     }
     function save() {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=saveurl%>",
-            data: {
+            data: {"upi": '<%=request.getParameter("upi")%>',
                 "dateofbirth": $("#addGuardianForm #dateOfBirth").val(),
                 "firstname": $("#addGuardianForm #firstName").val(),
                 "fathersname": $("#addGuardianForm #fathersName").val(),
@@ -243,45 +227,47 @@
         });
     }
     $('#dataTables-example').dataTable({"bPaginate": false});
-    $('.editButton').click(function() {
+    $('.editButton').click(function () {
         editGuardian($(this).attr("data-registeredOn"));
         return false;
     });
-    $('.viewButton').click(function() {
+    $('.viewButton').click(function () {
         viewGuardian($(this).attr("data-registeredOn"));
         return false;
     });
-    $('.deleteButton').click(function() {
+    $('.deleteButton').click(function () {
         deleteGuardian($(this).attr("data-registeredOn"));
         return false;
     });
-    $("#saveGuardianButton").click(function() {
+    $("#saveGuardianButton").click(function () {
         if (!validate("addGuardianForm")) {// validate
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
-        } 
+        }
         else {
-            save();// save
-            $("#addModal").hide();// close modale
+            save(); // save
+            $("#addModal").hide(); // close modale
         }
         return false;
     });
-    $("#nextButton").click(function() {
-        if(validateGuardiansList()){
+    $("#nextButton").click(function () {
+        if (validateGuardiansList()) {
             $.ajax({
-                type:'POST',
+                type: 'POST',
                 url: "<%=nexturl%>",
+                data: {"upi": '<%=request.getParameter("upi")%>'},
                 error: showajaxerror,
                 success: loadForward
             });
         }
         return false;
     });
-    $("#backButton").click(function() {
-        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function(result) {
+    $("#backButton").click(function () {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function (result) {
             if (result) {
                 $.ajax({
-                    type:'POST',
+                    type: 'POST',
                     url: "<%=backurl%>",
+                    data: {"upi": '<%=request.getParameter("upi")%>'},
                     error: showajaxerror,
                     success: loadBackward
                 });

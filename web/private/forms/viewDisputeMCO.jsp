@@ -1,11 +1,9 @@
 <%@page import="java.sql.Timestamp"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
-<%@page import="org.lift.massreg.util.Option"%>
-<%@page import="org.lift.massreg.util.CommonStorage"%>
+<%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.*"%>
 <%
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
-    boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     Timestamp registeredOn = Timestamp.valueOf(request.getParameter("registeredOn"));
     Dispute dispute = currentParcel.getDispute(currentParcel.getStage(), registeredOn);
 %>
@@ -65,11 +63,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <%
-                if (editable) {
-                    out.println("<input type='submit' id='editDisputeButton' class='btn btn-primary' value = '"+CommonStorage.getText("edit")+"' />");
-                }
-            %>
+            <input type='submit' id='editDisputeButton' class='btn btn-primary' value = '<%=CommonStorage.getText("edit")%>'/>
             <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("close")%></button>
         </div> 
     </div>

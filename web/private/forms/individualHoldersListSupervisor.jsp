@@ -145,7 +145,7 @@
                             </div> 
                             <div class="form-group">
                                 <label><%=CommonStorage.getText("grandfathers_name")%></label>
-                                <input class="form-control " id="graendFathersName" name="grandFathersName" />
+                                <input class="form-control " id="grandFathersName" name="grandFathersName" />
                             </div>
                             <div class="form-group">
                                 <label><%=CommonStorage.getText("sex")%></label>

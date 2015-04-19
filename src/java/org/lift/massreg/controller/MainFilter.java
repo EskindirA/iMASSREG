@@ -607,12 +607,58 @@ public class MainFilter extends HttpServlet {
             MinorCorrections.updateIndividualHolder(request, response);
         }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_MCO)) {
             MinorCorrections.editIndividualHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_MCO)) {
+            MinorCorrections.deleteIndividualHolder(request, response);
         }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_MCO)) {
             MinorCorrections.editOrganizationHolder(request, response);
         }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_MCO)) {
             MinorCorrections.updateOrganizationHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_MCO)) {
+            MinorCorrections.saveHolder(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_MCO)) {
+            MinorCorrections.guardiansList(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_GUARDIAN_MCO)) {
+            MinorCorrections.viewGuardian(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_GUARDIAN_MCO)) {
+            MinorCorrections.editGuardian(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_GUARDIAN_MCO)) {
+            MinorCorrections.deleteGuardian(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_GUARDIAN_MCO)) {
+            MinorCorrections.updateGuardian(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_MCO)) {
+            MinorCorrections.saveGuardian(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCO)) {
+            MinorCorrections.personsWithInterestList(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_MCO)) {
+            MinorCorrections.viewPersonWithInterest(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_MCO)) {
+            MinorCorrections.updatePersonWithInterest(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_MCO)) {
+            MinorCorrections.editPersonWithInterest(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_MCO)) {
+            MinorCorrections.deletePersonWithInterest(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_MCO)) {
+            MinorCorrections.savePersonWithInterest(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_MCO)) {
+            MinorCorrections.viewDisputeList(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_MCO)) {
+            MinorCorrections.viewDispute(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_MCO)) {
+            MinorCorrections.editDispute(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_MCO)) {
+            MinorCorrections.updateDispute(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_MCO)) {
+            MinorCorrections.deleteDispute(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_MCO)) {
+            MinorCorrections.saveDispute(request, response);
+        }else if(action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_MCO)){
+            MinorCorrections.welcomeForm(request, response);
+        }else if(action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_MCO)){
+            MinorCorrections.welcomeForm(request, response);
+        }else if(action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_MCO)){
+            MinorCorrections.welcomeForm(request, response);
         }
-                // for all unknown requests
+        // for all unknown requests
         else {
             All.goBackToHome(request, response);
         }

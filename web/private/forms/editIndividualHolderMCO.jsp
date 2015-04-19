@@ -101,6 +101,7 @@
             type:'POST',
             url: "<%=updateurl%>",
             data: {
+                "upi":'<%=request.getParameter("upi")%>',
                 "dateofbirth": $("#editHolderFrom #dateOfBirth").val(),
                 "familyrole": $("#editHolderFrom #familyRole").val(),
                 "firstname": $("#editHolderFrom #firstName").val(),

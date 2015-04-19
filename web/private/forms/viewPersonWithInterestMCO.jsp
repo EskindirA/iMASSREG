@@ -4,7 +4,6 @@
 <%@page import="org.lift.massreg.entity.*"%>
 <%
     Parcel currentParcel = (Parcel) request.getAttribute("currentParcel");
-    boolean editable = currentParcel.canEdit(CommonStorage.getCurrentUser(request));
     Timestamp registeredOn = Timestamp.valueOf(request.getParameter("registeredOn"));
     PersonWithInterest personWithInterest = currentParcel.getPersonWithInterest(currentParcel.getStage(), registeredOn);
 %>
@@ -46,11 +45,7 @@
             </form>
         </div>   
         <div class="modal-footer">
-            <%
-                if (editable) {
-                    out.println("<input type='submit' id='editPersonWithInterestButton' name = 'editPersonWithInterestButton' class='btn btn-primary' value = '" + CommonStorage.getText("edit") + "' />");
-                }
-            %>
+            <input type='submit' id='editPersonWithInterestButton' name = 'editPersonWithInterestButton' class='btn btn-primary' value = '<%=CommonStorage.getText("edit")%>' />
             <button type="button" class="btn btn-default" data-dismiss="modal"><%=CommonStorage.getText("close")%></button>
         </div> 
     </div>

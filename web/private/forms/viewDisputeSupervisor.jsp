@@ -19,7 +19,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="form-group">
-                            <label><%=CommonStorage.getText("firstName")%></label>
+                            <label><%=CommonStorage.getText("first_name")%></label>
                             <input class="form-control " id="firstName" name="firstName" value="<%=dispute.getFirstName()%>" disabled/>
                         </div>
                         <div class="form-group">

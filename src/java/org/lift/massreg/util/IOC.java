@@ -22,7 +22,7 @@ public class IOC {
         pages.put(Constants.INDEX_WELCOME_FEO, "welcomeDEO.jsp");
         pages.put(Constants.INDEX_WELCOME_SEO, "welcomeDEO.jsp");
         pages.put(Constants.INDEX_WELCOME_SUPERVISOR, "welcomeSupervisor.jsp");
-        
+
         pages.put(Constants.INDEX_ADD_PARCEL_FEO, "addParcelDEO.jsp");
         pages.put(Constants.INDEX_ADD_PARCEL_SEO, "addParcelDEO.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_FEO, "viewParcelDEO.jsp");
@@ -94,19 +94,28 @@ public class IOC {
         pages.put(Constants.INDEX_VIEW_GUARDIAN_SUPERVISOR, "viewGuardianSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_SUPERVISOR, "editGuardianSupervisor.jsp");
         pages.put(Constants.INDEX_PUBLIC_DISPLAY, "publicDisplay.jsp");
-        
+
         pages.put(Constants.INDEX_WELCOME_PDC, "welcomePDC.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_PDC, "viewParcelPDC.jsp");
 
         pages.put(Constants.INDEX_WELCOME_MCO, "welcomeMCO.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_MCO, "viewParcelMCO.jsp");
         pages.put(Constants.INDEX_EDIT_PARCEL_MCO, "editParcelMCO.jsp");
-        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_MCO,"addOrganizationHolderMCO.jsp");
-        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_MCO,"viewOrganizationHolderMCO.jsp");
-        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_MCO,"individualHoldersListMCO.jsp");
-        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_MCO,"editOrganizationHolderMCO.jsp");
-        pages.put(Constants.INDEX_VIEW_INDIVIDUAL_HOLDER_MCO,"viewIndividualHolderMCO.jsp");
-        pages.put(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_MCO,"editIndividualHolderMCO.jsp");
+        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_MCO, "addOrganizationHolderMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_MCO, "viewOrganizationHolderMCO.jsp");
+        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_MCO, "individualHoldersListMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_MCO, "editOrganizationHolderMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_INDIVIDUAL_HOLDER_MCO, "viewIndividualHolderMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_MCO, "editIndividualHolderMCO.jsp");
+        pages.put(Constants.INDEX_GUARDIANS_LIST_MCO, "guardianListMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_GUARDIAN_MCO,"viewGuardianMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_GUARDIAN_MCO,"editGuardianMCO.jsp");
+        pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_MCO, "personWithInterestListMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_MCO,"viewPersonWithInterestMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_PERSON_WITH_INTEREST_MCO,"editPersonWithInterestMCO.jsp");
+        pages.put(Constants.INDEX_DISPUTE_LIST_MCO,"disputeListMCO.jsp");
+        pages.put(Constants.INDEX_VIEW_DISPUTE_MCO,"viewDisputeMCO.jsp");
+        pages.put(Constants.INDEX_EDIT_DISPUTE_MCO,"editDisputeMCO.jsp");
     }
 
     public static String getPage(int id) {

@@ -242,6 +242,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void guardiansList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -416,6 +418,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -470,6 +474,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -522,6 +528,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void personsWithInterestList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -612,6 +620,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void savePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -663,6 +673,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveGuardian(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -714,6 +726,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -738,6 +752,7 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
      */
     protected static void viewGuardian(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -763,6 +778,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -787,6 +804,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editGuardian(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -813,6 +832,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updatePersonWithInterest(HttpServletRequest request,
             HttpServletResponse response)
@@ -862,6 +883,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateGuardian(HttpServletRequest request,
             HttpServletResponse response)
@@ -933,6 +956,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteGuardian(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -955,6 +980,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -978,6 +1005,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewDisputeList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -996,6 +1025,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1053,6 +1084,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1077,6 +1110,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1101,6 +1136,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1150,6 +1187,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
