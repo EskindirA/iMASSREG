@@ -192,7 +192,89 @@ public interface Constants {
     public static final String ACTION_UPDATE_DISPUTE_MCO = "UPDATE_DISPUTE_MCO";
     public static final String ACTION_DELETE_DISPUTE_MCO = "DELETE_DISPUTE_MCO";
     public static final String ACTION_FINISH_DISPUTE_MCO = "FINISH_DISPUTE_MCO";
-    
+
+    public static final String ACTION_FIND_PARCEL_MCFEO = "FIND_PARCEL_MCFEO";
+    public static final String ACTION_FIND_PARCEL_MCSEO = "FIND_PARCEL_MCSEO";
+    public static final String ACTION_ADD_PARCEL_MCFEO = "ADD_PARCEL_MCFEO";
+    public static final String ACTION_ADD_PARCEL_MCSEO = "ADD_PARCEL_MCSEO";
+    public static final String ACTION_VIEW_PARCEL_MCFEO = "VIEW_PARCEL_MCFEO";
+    public static final String ACTION_VIEW_PARCEL_MCSEO = "VIEW_PARCEL_MCSEO";
+    public static final String ACTION_EDIT_PARCEL_MCFEO = "EDIT_PARCEL_MCFEO";
+    public static final String ACTION_EDIT_PARCEL_MCSEO = "EDIT_PARCEL_MCSEO";
+    public static final String ACTION_SAVE_PARCEL_MCFEO = "SAVE_PARCEL_MCFEO";
+    public static final String ACTION_SAVE_PARCEL_MCSEO = "SAVE_PARCEL_MCSEO";
+
+    public static final String ACTION_VIEW_HOLDER_MCFEO = "VIEW_HOLDER_MCFEO";
+    public static final String ACTION_VIEW_HOLDER_MCSEO = "VIEW_HOLDER_MCSEO";
+    public static final String ACTION_ADD_HOLDER_MCFEO = "ADD_HOLDER_MCFEO";
+    public static final String ACTION_ADD_HOLDER_MCSEO = "ADD_HOLDER_MCSEO";
+    public static final String ACTION_SAVE_HOLDER_MCFEO = "SAVE_HOLDER_MCFEO";
+    public static final String ACTION_SAVE_HOLDER_MCSEO = "SAVE_HOLDER_MCSEO";
+    public static final String ACTION_DISPUTE_LIST_MCFEO = "DISPUTE_LIST_MCFEO";
+    public static final String ACTION_DISPUTE_LIST_MCSEO = "DISPUTE_LIST_MCSEO";
+    public static final String ACTION_SAVE_DISPUTE_MCFEO = "SAVE_DISPUTE_MCFEO";
+    public static final String ACTION_SAVE_DISPUTE_MCSEO = "SAVE_DISPUTE_MCSEO";
+    public static final String ACTION_UPDATE_PARCEL_MCFEO = "UPDATE_PARCEL_MCFEO";
+    public static final String ACTION_UPDATE_PARCEL_MCSEO = "UPDATE_PARCEL_MCSEO";
+    public static final String ACTION_VIEW_DISPUTE_MCFEO = "VIEW_DISPUTE_MCFEO";
+    public static final String ACTION_VIEW_DISPUTE_MCSEO = "VIEW_DISPUTE_MCSEO";
+    public static final String ACTION_VIEW_INDIVIDUAL_HOLDER_MCFEO = "VIEW_INDIVIDUAL_HOLDER_MCFEO";
+    public static final String ACTION_VIEW_INDIVIDUAL_HOLDER_MCSEO = "VIEW_INDIVIDUAL_HOLDER_MCSEO";
+    public static final String ACTION_EDIT_INDIVIDUAL_HOLDER_MCFEO = "EDIT_INDIVIDUAL_HOLDER_MCFEO";
+    public static final String ACTION_EDIT_INDIVIDUAL_HOLDER_MCSEO = "EDIT_INDIVIDUAL_HOLDER_MCSEO";
+    public static final String ACTION_DELETE_DISPUTE_MCFEO = "DELETE_DISPUTE_MCFEO";
+    public static final String ACTION_DELETE_DISPUTE_MCSEO = "DELETE_DISPUTE_MCSEO";
+    public static final String ACTION_DELETE_INDIVIDUAL_HOLDER_MCFEO = "DELETE_INDIVIDUAL_HOLDER_MCFEO";
+    public static final String ACTION_DELETE_INDIVIDUAL_HOLDER_MCSEO = "DELETE_INDIVIDUAL_HOLDER_MCSEO";
+    public static final String ACTION_DELETE_PARCEL_MCFEO = "DELETE_PARCEL_MCFEO";
+    public static final String ACTION_DELETE_PARCEL_MCSEO = "DELETE_PARCEL_MCSEO";
+    public static final String ACTION_EDIT_DISPUTE_MCFEO = "EDIT_DISPUTE_MCFEO";
+    public static final String ACTION_EDIT_DISPUTE_MCSEO = "EDIT_DISPUTE_MCSEO";
+    public static final String ACTION_UPDATE_DISPUTE_MCFEO = "UPDATE_DISPUTE_MCFEO";
+    public static final String ACTION_UPDATE_DISPUTE_MCSEO = "UPDATE_DISPUTE_MCSEO";
+    public static final String ACTION_UPDATE_INDIVIDUAL_HOLDER_MCFEO = "UPDATE_INDIVIDUAL_HOLDER_MCFEO";
+    public static final String ACTION_UPDATE_INDIVIDUAL_HOLDER_MCSEO = "UPDATE_INDIVIDUAL_HOLDER_MCSEO";
+    public static final String ACTION_UPDATE_ORGANIZATION_HOLDER_MCFEO = "UPDATE_ORGANIZATION_HOLDER_MCFEO";
+    public static final String ACTION_UPDATE_ORGANIZATION_HOLDER_MCSEO = "UPDATE_ORGANIZATION_HOLDER_MCSEO";
+    public static final String ACTION_EDIT_ORGANIZATION_HOLDER_MCFEO = "EDIT_ORGANIZATION_HOLDER_MCFEO";
+    public static final String ACTION_EDIT_ORGANIZATION_HOLDER_MCSEO = "EDIT_ORGANIZATION_HOLDER_MCSEO";
+    public static final String ACTION_FINISH_ORGANIZATION_HOLDER_MCFEO = "FINISH_ORGANIZATION_HOLDER_MCFEO";
+    public static final String ACTION_FINISH_ORGANIZATION_HOLDER_MCSEO = "FINISH_ORGANIZATION_HOLDER_MCSEO";
+    public static final String ACTION_PERSONS_WITH_INTEREST_LIST_MCFEO = "PERSONS_WITH_INTEREST_LIST_MCFEO";
+    public static final String ACTION_PERSONS_WITH_INTEREST_LIST_MCSEO = "PERSONS_WITH_INTEREST_LIST_MCSEO";
+
+    public static final String ACTION_SAVE_PERSON_WITH_INTEREST_MCFEO = "SAVE_PERSON_WITH_INTEREST_MCFEO";
+    public static final String ACTION_SAVE_PERSON_WITH_INTEREST_MCSEO = "SAVE_PERSON_WITH_INTEREST_MCSEO";
+    public static final String ACTION_DELETE_PERSON_WITH_INTEREST_MCFEO = "DELETE_PERSON_WITH_INTEREST_MCFEO";
+    public static final String ACTION_DELETE_PERSON_WITH_INTEREST_MCSEO = "DELETE_PERSON_WITH_INTEREST_MCSEO";
+    public static final String ACTION_VIEW_PERSON_WITH_INTEREST_MCFEO = "VIEW_PERSON_WITH_INTEREST_MCFEO";
+    public static final String ACTION_VIEW_PERSON_WITH_INTEREST_MCSEO = "VIEW_PERSON_WITH_INTEREST_MCSEO";
+    public static final String ACTION_EDIT_PERSON_WITH_INTEREST_MCFEO = "EDIT_PERSON_WITH_INTEREST_MCFEO";
+    public static final String ACTION_EDIT_PERSON_WITH_INTEREST_MCSEO = "EDIT_PERSON_WITH_INTEREST_MCSEO";
+    public static final String ACTION_UPDATE_PERSON_WITH_INTEREST_MCFEO = "UPDATE_PERSON_WITH_INTEREST_MCFEO";
+    public static final String ACTION_UPDATE_PERSON_WITH_INTEREST_MCSEO = "UPDATE_PERSON_WITH_INTEREST_MCSEO";
+    public static final String ACTION_FINISH_PERSON_WITH_INTEREST_MCFEO = "FINISH_PERSON_WITH_INTEREST_MCFEO";
+    public static final String ACTION_FINISH_PERSON_WITH_INTEREST_MCSEO = "FINISH_PERSON_WITH_INTEREST_MCSEO";
+
+    public static final String ACTION_GUARDIANS_LIST_MCFEO = "GUARDIANS_LIST_MCFEO";
+    public static final String ACTION_GUARDIANS_LIST_MCSEO = "GUARDIANS_LIST_MCSEO";
+
+    public static final String ACTION_SAVE_GUARDIAN_MCFEO = "SAVE_GUARDIAN_MCFEO";
+    public static final String ACTION_SAVE_GUARDIAN_MCSEO = "SAVE_GUARDIAN_MCSEO";
+    public static final String ACTION_DELETE_GUARDIAN_MCFEO = "DELETE_GUARDIAN_MCFEO";
+    public static final String ACTION_DELETE_GUARDIAN_MCSEO = "DELETE_GUARDIAN_MCSEO";
+    public static final String ACTION_VIEW_GUARDIAN_MCFEO = "VIEW_GUARDIAN_MCFEO";
+    public static final String ACTION_VIEW_GUARDIAN_MCSEO = "VIEW_GUARDIAN_MCSEO";
+    public static final String ACTION_EDIT_GUARDIAN_MCFEO = "EDIT_GUARDIAN_MCFEO";
+    public static final String ACTION_EDIT_GUARDIAN_MCSEO = "EDIT_GUARDIAN_MCSEO";
+    public static final String ACTION_UPDATE_GUARDIAN_MCFEO = "UPDATE_GUARDIAN_MCFEO";
+    public static final String ACTION_UPDATE_GUARDIAN_MCSEO = "UPDATE_GUARDIAN_MCSEO";
+
+    public static final String ACTION_FINISH_DISPUTE_MCFEO = "FINISH_DISPUTE_MCFEO";
+    public static final String ACTION_FINISH_DISPUTE_MCSEO = "FINISH_DISPUTE_MCSEO";
+    public static final String ACTION_START_REVIEW_MCSEO = "START_REVIEW_MCSEO";
+    public static final String ACTION_SUBMIT_FOR_CORRECTION_MCSEO = "SUBMIT_FOR_CORRECTION_MCSEO";
+
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
@@ -308,6 +390,28 @@ public interface Constants {
     public static final int INDEX_DISPUTE_LIST_MCO = 87;
     public static final int INDEX_VIEW_DISPUTE_MCO = 88;
     public static final int INDEX_EDIT_DISPUTE_MCO = 89;
+
+    public static final int INDEX_WELCOME_MCDEO = 90;
+    public static final int INDEX_WELCOME_MCSUPERVISOR = 91;
+    public static final int INDEX_ADD_PARCEL_MCDEO = 92;
+    public static final int INDEX_VIEW_PARCEL_MCDEO = 93;
+    public static final int INDEX_ADD_ORGANIZATION_HOLDER_MCDEO = 94;
+    public static final int INDEX_INDIVIDUAL_HOLDERS_LIST_MCDEO = 95;
+    public static final int INDEX_EDIT_INDIVIDUAL_HOLDER_MCDEO = 96;
+    public static final int INDEX_VIEW_INDIVIDUAL_HOLDER_MCDEO = 97;
+    public static final int INDEX_VIEW_ORGANIZATION_HOLDER_MCDEO = 98;
+    public static final int INDEX_EDIT_ORGANIZATION_HOLDER_MCDEO = 99;
+    public static final int INDEX_DISPUTE_LIST_MCDEO = 100;
+    public static final int INDEX_EDIT_PARCEL_MCDEO = 101;
+    public static final int INDEX_VIEW_DISPUTE_MCDEO = 102;
+    public static final int INDEX_EDIT_DISPUTE_MCDEO = 103;
+    public static final int INDEX_PERSONS_WITH_INTEREST_LIST_MCDEO = 104;
+    public static final int INDEX_VIEW_PERSON_WITH_INTEREST_MCDEO = 105;
+    public static final int INDEX_EDIT_PERSON_WITH_INTEREST_MCDEO = 106;
+    public static final int INDEX_VIEW_GUARDIAN_MCDEO = 107;
+    public static final int INDEX_GUARDIANS_LIST_MCDEO = 108;
+    public static final int INDEX_EDIT_GUARDIAN_MCDEO = 109;
+    public static final int INDEX_DISCREPANCY_MCDEO = 110;
 
     public enum ROLE {
 

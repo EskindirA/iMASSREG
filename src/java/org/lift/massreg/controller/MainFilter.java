@@ -63,6 +63,16 @@ public class MainFilter extends HttpServlet {
                 case MINOR_CORRECTION_OFFICER:
                     MinorCorrections.welcomePage(request, response);
                     break;
+                case CORRECTION_FIRST_ENTRY_OPERATOR:
+                    CorrectionFirstEntry.welcomePage(request, response);
+                    break;
+                case CORRECTION_SECOND_ENTRY_OPERATOR:
+                    CorrectionSecondEntry.welcomePage(request, response);
+                    break;
+                case CORRECTION_SUPERVISOR:
+                    CorrectionSupervisor.welcomePage(request, response);
+                    break;
+
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME_PART)) {
             switch (CommonStorage.getCurrentUser(request).getRole()) {
@@ -89,6 +99,15 @@ public class MainFilter extends HttpServlet {
                 case MINOR_CORRECTION_OFFICER:
                     MinorCorrections.welcomeForm(request, response);
                     break;
+                case CORRECTION_FIRST_ENTRY_OPERATOR:
+                    CorrectionFirstEntry.welcomeForm(request, response);
+                    break;
+                case CORRECTION_SECOND_ENTRY_OPERATOR:
+                    CorrectionSecondEntry.welcomeForm(request, response);
+                    break;
+                case CORRECTION_SUPERVISOR:
+                    CorrectionSupervisor.welcomeForm(request, response);
+                    break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PROFILE)) {
             getUPI(request);
@@ -113,6 +132,7 @@ public class MainFilter extends HttpServlet {
             getUPI(request);
             FirstEntry.editParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_FEO)) {
+            getUPI(request);
             FirstEntry.saveParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_FEO)) {
             getUPI(request);
@@ -593,72 +613,298 @@ public class MainFilter extends HttpServlet {
             MinorCorrections.viewParcel(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_MCO)) {
             MinorCorrections.editParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_MCO)) {
             MinorCorrections.deleteParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_CONFIRM_PARCEL_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_CONFIRM_PARCEL_MCO)) {
             MinorCorrections.confirmParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCO)) {
             MinorCorrections.updateParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCO)) {
             MinorCorrections.viewHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_MCO)) {
             MinorCorrections.viewIndividualHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_MCO)) {
             MinorCorrections.updateIndividualHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_MCO)) {
             MinorCorrections.editIndividualHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_MCO)) {
             MinorCorrections.deleteIndividualHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_MCO)) {
             MinorCorrections.editOrganizationHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_MCO)) {
             MinorCorrections.updateOrganizationHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_MCO)) {
             MinorCorrections.saveHolder(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_MCO)) {
             MinorCorrections.guardiansList(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_GUARDIAN_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_GUARDIAN_MCO)) {
             MinorCorrections.viewGuardian(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_GUARDIAN_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_GUARDIAN_MCO)) {
             MinorCorrections.editGuardian(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_GUARDIAN_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_GUARDIAN_MCO)) {
             MinorCorrections.deleteGuardian(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_GUARDIAN_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_GUARDIAN_MCO)) {
             MinorCorrections.updateGuardian(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_MCO)) {
             MinorCorrections.saveGuardian(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCO)) {
             MinorCorrections.personsWithInterestList(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_MCO)) {
             MinorCorrections.viewPersonWithInterest(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_MCO)) {
             MinorCorrections.updatePersonWithInterest(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_MCO)) {
             MinorCorrections.editPersonWithInterest(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_MCO)) {
             MinorCorrections.deletePersonWithInterest(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_MCO)) {
             MinorCorrections.savePersonWithInterest(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_MCO)) {
             MinorCorrections.viewDisputeList(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_MCO)) {
             MinorCorrections.viewDispute(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_MCO)) {
             MinorCorrections.editDispute(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_MCO)) {
             MinorCorrections.updateDispute(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_MCO)) {
             MinorCorrections.deleteDispute(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_MCO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_MCO)) {
             MinorCorrections.saveDispute(request, response);
-        }else if(action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_MCO)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_MCO)) {
             MinorCorrections.welcomeForm(request, response);
-        }else if(action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_MCO)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_MCO)) {
             MinorCorrections.welcomeForm(request, response);
-        }else if(action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_MCO)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_MCO)) {
             MinorCorrections.welcomeForm(request, response);
-        }
-        // for all unknown requests
+        }// Coorection First Entry
+        else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.addParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.saveParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.editParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.updateParcel(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.personsWithInterestList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.editOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.finishOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.finishDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.saveHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewDisputeList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.saveDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.editIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.deleteDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.deleteIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.deleteParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.editDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.updateDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.updateIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.updateOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.savePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.deletePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.editPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.updatePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.finishPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.saveGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_GUARDIAN_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.deleteGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_GUARDIAN_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.viewGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_GUARDIAN_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.editGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_GUARDIAN_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.updateGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_MCFEO)) {
+            getUPI(request);
+            CorrectionFirstEntry.guardiansList(request, response);
+        } // Correction Second Entry Operator
+        else if (action.equalsIgnoreCase(Constants.ACTION_ADD_PARCEL_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.addParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.saveHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PARCEL_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.saveParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.editParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.updateParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.deleteParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.saveHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.editOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.updateOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.editIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.updateIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.deleteIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.personsWithInterestList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.savePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.editPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.updatePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.deletePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewDisputeList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.saveDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.editDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.updateDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.deleteDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.finishOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.finishDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.finishPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SUBMIT_FOR_CORRECTION_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.submitForCorrection(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_START_REVIEW_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.startReview(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.saveGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_GUARDIAN_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.deleteGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_GUARDIAN_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.viewGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_GUARDIAN_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.editGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_GUARDIAN_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.updateGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_MCSEO)) {
+            getUPI(request);
+            CorrectionSecondEntry.guardiansList(request, response);
+        }// for all unknown requests
         else {
             All.goBackToHome(request, response);
         }

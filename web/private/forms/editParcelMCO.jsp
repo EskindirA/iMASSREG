@@ -28,7 +28,7 @@
                                 <div class="row">
                                     <div class="form-group col-lg-5">
                                         <label><%=CommonStorage.getText("team")%></label>
-                                        <select class="form-control" name = "teamNo" id = "teamNo" value="${requestScope.currentParcel.teamNo}">
+                                        <select class="form-control" name = "teamNo" id = "teamNo" value="${requestScope.currentParcel.teamNo}" disabled>
                                             <%
                                                 int[] teamNumbers = CommonStorage.getTeamNumbers();
                                                 for (int i = 0; i < teamNumbers.length; i++) {
@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="form-group col-lg-7">
                                         <label><%=CommonStorage.getText("certificate_number")%></label>
-                                        <input class='form-control' id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" />
+                                        <input class='form-control' id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" disabled/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -48,7 +48,7 @@
                                 </div>                                
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("other_evidence")%></label>
-                                    <select class="form-control" id="otherEvidence" name="otherEvidence" value="${requestScope.currentParcel.otherEvidence}" >
+                                    <select class="form-control" id="otherEvidence" name="otherEvidence" value="${requestScope.currentParcel.otherEvidence}" disabled>
                                         <%
                                             Option[] otherEvidenceTypes = MasterRepository.getInstance().getAllOtherEvidenceTypes();
                                             for (int i = 0; i < otherEvidenceTypes.length; i++) {
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("means_of_acquisition")%> </label>
-                                    <select class="form-control" id="meansOfAcquisition" name="meansOfAcquisition" value="${requestScope.currentParcel.meansOfAcquisition}" >
+                                    <select class="form-control" id="meansOfAcquisition" name="meansOfAcquisition" value="${requestScope.currentParcel.meansOfAcquisition}" disabled>
                                         <%
                                             Option[] meansOfAcquisitionTypes = MasterRepository.getInstance().getAllMeansOfAcquisitionTypes();
                                             for (int i = 0; i < meansOfAcquisitionTypes.length; i++) {
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("acquisition_year")%></label>
-                                    <select class="form-control" name="acquisitionYear" id = "acquisitionYear" value="${requestScope.currentParcel.acquisitionYear}" >
+                                    <select class="form-control" name="acquisitionYear" id = "acquisitionYear" value="${requestScope.currentParcel.acquisitionYear}" disabled>
                                         <%
                                             for (int i = 1963; i <= 2007; i++) {
                                                 out.println("<option value = '" + i + "'>" + i + "</option>");
@@ -87,7 +87,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("current_land_use")%></label>
-                                    <select class="form-control" id="currentLandUse" name="currentLandUse" value="${requestScope.currentParcel.currentLandUse}" >
+                                    <select class="form-control" id="currentLandUse" name="currentLandUse" value="${requestScope.currentParcel.currentLandUse}" disabled >
                                         <%
                                             Option[] currentLandUseTypes = MasterRepository.getInstance().getAllCurrentLandUseTypes();
                                             for (int i = 0; i < currentLandUseTypes.length; i++) {
@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("soil_fertility")%> </label>
-                                    <select class="form-control" id="soilFertility" name="soilFertility" value="${requestScope.currentParcel.soilFertility}" >
+                                    <select class="form-control" id="soilFertility" name="soilFertility" value="${requestScope.currentParcel.soilFertility}" disabled>
                                         <%
                                             Option[] soilFertilityTypes = MasterRepository.getInstance().getAllSoilFertilityTypes();
                                             for (int i = 0; i < soilFertilityTypes.length; i++) {
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("holding_type")%></label>
-                                    <select class="form-control" id="holdingType" name="holdingType" value="${requestScope.currentParcel.holding}" >
+                                    <select class="form-control" id="holdingType" name="holdingType" value="${requestScope.currentParcel.holding}" disabled>
                                         <%
                                             Option[] holdingTypes = MasterRepository.getInstance().getAllHoldingTypes();
                                             for (int i = 0; i < holdingTypes.length; i++) {
@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("encumbrance")%> </label>
-                                    <select class="form-control" id="encumbrance" name="encumbrance" value="${requestScope.currentParcel.encumbrance}" >
+                                    <select class="form-control" id="encumbrance" name="encumbrance" value="${requestScope.currentParcel.encumbrance}" disabled>
                                         <%
                                             Option[] encumbranceTypes = MasterRepository.getInstance().getAllEncumbranceTypes();
                                             for (int i = 0; i < encumbranceTypes.length; i++) {
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("survey_date")%> </label>
-                                    <input class="form-control" placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}"  readonly style="background: #FFF !important"/>
+                                    <input class="form-control" placeholder="Select survey date" type="text" id="surveyDate" name="surveyDate" required value="${requestScope.currentParcel.surveyDate}"  disabled/>
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("has_dispute")%> ?:</label>
