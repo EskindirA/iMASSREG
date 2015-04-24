@@ -101,7 +101,7 @@ public class CommonStorage {
             woredaIDForUPI = prop.getProperty("woredaIDForUPI");
             language = prop.getProperty("language");
             loadTextValues();
-        } catch (Exception ex) {
+        } catch (IOException | NumberFormatException ex) {
             ex.printStackTrace(getLogger().getErrorStream());
         }
         try {

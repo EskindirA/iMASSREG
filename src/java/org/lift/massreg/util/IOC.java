@@ -41,11 +41,9 @@ public class IOC {
         pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_SEO, "addOrganizationHolderDEO.jsp");
         pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_FEO, "viewOrganizationHolderDEO.jsp");
         pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_SEO, "viewOrganizationHolderDEO.jsp");
-        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_SUPERVISOR, "viewOrganizationHolderSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_FEO, "editOrganizationHolderDEO.jsp");
         pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SEO, "editOrganizationHolderDEO.jsp");
-        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SUPERVISOR, "editOrganizationHolderSupervisor.jsp");
-
+        
         pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_FEO, "personWithInterestListDEO.jsp");
         pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_SEO, "personWithInterestListDEO.jsp");
         pages.put(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_FEO, "viewPersonWithInterestDEO.jsp");
@@ -61,6 +59,9 @@ public class IOC {
         pages.put(Constants.INDEX_EDIT_DISPUTE_SEO, "editDisputeDEO.jsp");
         pages.put(Constants.INDEX_DISCREPANCY_SEO, "discrepancyDEO.jsp");
         pages.put(Constants.INDEX_DISCREPANCY_MCDEO,"discrepancyMCDEO.jsp");
+        
+        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SUPERVISOR, "editOrganizationHolderSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_SUPERVISOR, "viewOrganizationHolderSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_PARCEL_SUPERVISOR, "editParcelSupervisor.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_SUPERVISOR, "viewParcelSupervisor.jsp");
         pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_SUPERVISOR, "individualHoldersListSupervisor.jsp");
@@ -75,6 +76,9 @@ public class IOC {
         pages.put(Constants.INDEX_DISPUTE_LIST_SUPERVISOR, "disputeListSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_DISPUTE_SUPERVISOR, "editDisputeSupervisor.jsp");
         pages.put(Constants.INDEX_VIEW_DISPUTE_SUPERVISOR, "viewDisputeSupervisor.jsp");
+        pages.put(Constants.INDEX_GUARDIANS_LIST_SUPERVISOR, "guardianListSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_GUARDIAN_SUPERVISOR, "viewGuardianSupervisor.jsp");
+        pages.put(Constants.INDEX_EDIT_GUARDIAN_SUPERVISOR, "editGuardianSupervisor.jsp");
 
         pages.put(Constants.INDEX_VIEW_PROFILE, "viewProfile.jsp");
         pages.put(Constants.INDEX_EDIT_PROFILE, "editProfile.jsp");
@@ -91,9 +95,6 @@ public class IOC {
         pages.put(Constants.INDEX_VIEW_GUARDIAN_SEO, "viewGuardianDEO.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_FEO, "editGuardianDEO.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_SEO, "editGuardianDEO.jsp");
-        pages.put(Constants.INDEX_GUARDIANS_LIST_SUPERVISOR, "guardianListSupervisor.jsp");
-        pages.put(Constants.INDEX_VIEW_GUARDIAN_SUPERVISOR, "viewGuardianSupervisor.jsp");
-        pages.put(Constants.INDEX_EDIT_GUARDIAN_SUPERVISOR, "editGuardianSupervisor.jsp");
         pages.put(Constants.INDEX_PUBLIC_DISPLAY, "publicDisplay.jsp");
 
         pages.put(Constants.INDEX_WELCOME_PDC, "welcomePDC.jsp");
@@ -140,6 +141,28 @@ public class IOC {
         
         pages.put(Constants.INDEX_WELCOME_MCSUPERVISOR,"welcomeMCSupervisor.jsp");
 
+        pages.put(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_MCSUPERVISOR, "editOrganizationHolderMCSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_ORGANIZATION_HOLDER_MCSUPERVISOR, "viewOrganizationHolderMCSupervisor.jsp");
+        pages.put(Constants.INDEX_EDIT_PARCEL_MCSUPERVISOR, "editParcelMCSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_MCSUPERVISOR, "viewParcelMCSupervisor.jsp");
+        pages.put(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_MCSUPERVISOR, "individualHoldersListMCSupervisor.jsp");
+        pages.put(Constants.INDEX_EDIT_INDIVIDUAL_HOLDER_MCSUPERVISOR, "editIndividualHolderMCSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_INDIVIDUAL_HOLDER_MCSUPERVISOR, "viewIndividualHolderMCSupervisor.jsp");
+
+        pages.put(Constants.INDEX_PERSONS_WITH_INTEREST_LIST_MCSUPERVISOR, "personWithInterestListMCSupervisor.jsp");
+        pages.put(Constants.INDEX_EDIT_PERSON_WITH_INTEREST_MCSUPERVISOR, "editPersonWithInterestMCSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_PERSON_WITH_INTEREST_MCSUPERVISOR, "viewPersonWithInterestMCSupervisor.jsp");
+        pages.put(Constants.INDEX_ADD_ORGANIZATION_HOLDER_MCSUPERVISOR, "addOrganizationHoldeMCSupervisor.jsp");
+
+        pages.put(Constants.INDEX_DISPUTE_LIST_MCSUPERVISOR, "disputeListMCSupervisor.jsp");
+        pages.put(Constants.INDEX_EDIT_DISPUTE_MCSUPERVISOR, "editDisputeMCSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_DISPUTE_MCSUPERVISOR, "viewDisputeMCSupervisor.jsp");
+        pages.put(Constants.INDEX_GUARDIANS_LIST_MCSUPERVISOR, "guardianListMCSupervisor.jsp");
+        pages.put(Constants.INDEX_VIEW_GUARDIAN_MCSUPERVISOR, "viewGuardianMCSupervisor.jsp");
+        pages.put(Constants.INDEX_EDIT_GUARDIAN_MCSUPERVISOR, "editGuardianMCSupervisor.jsp");
+
+        pages.put(Constants.INDEX_WELCOME_WC, "welcomeWC.jsp");
+        
 
     }
 

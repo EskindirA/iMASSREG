@@ -1626,7 +1626,7 @@ public class CorrectionSecondEntry {
     protected static void submitForCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getMajorCorrectionSEStage());
-        parcel.submitForCorrection();
+        parcel.submitForPPDCorrection();
         request.getSession().setAttribute("reviewMode", false);
         request.getSession().setAttribute("upi", null);
         request.getSession().setAttribute("parcelNo", null);

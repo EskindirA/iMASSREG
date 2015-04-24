@@ -212,6 +212,10 @@ public class Dispute implements Entity {
         return MasterRepository.getInstance().submitForCorrection(this);
     }
 
+    public void submitForPPDCorrection() {
+        MasterRepository.getInstance().submitForPPDCorrection(this);
+    }
+    
     public ArrayList<Change> getDifferenceForChangeLog(Dispute newDispute) {
         ArrayList<Change> returnValue = new ArrayList<>();
         if (this.getDisputeStatus() != newDispute.getDisputeStatus()) {

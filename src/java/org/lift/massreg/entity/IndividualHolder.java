@@ -254,6 +254,10 @@ public class IndividualHolder implements Entity {
         return MasterRepository.getInstance().submitForCorrection(this);
     }
 
+    public void submitForPPDCorrection() {
+        MasterRepository.getInstance().submitForPPDCorrection(this);
+    }
+    
     public ArrayList<Change> getDifferenceForChangeLog(IndividualHolder newIndividualHolder) {
         ArrayList<Change> returnValue = new ArrayList<>();
 

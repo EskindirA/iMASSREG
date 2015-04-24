@@ -170,6 +170,10 @@ public class PersonWithInterest implements Entity {
         return MasterRepository.getInstance().submitForCorrection(this);
     }
 
+    public void submitForPPDCorrection() {
+        MasterRepository.getInstance().submitForPPDCorrection(this);
+    }
+    
     public ArrayList<Change> getDifferenceForChangeLog(PersonWithInterest newPersonWithInterest) {
         ArrayList<Change> returnValue = new ArrayList<>();
 

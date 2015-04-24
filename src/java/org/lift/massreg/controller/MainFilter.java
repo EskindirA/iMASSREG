@@ -904,7 +904,218 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_MCSEO)) {
             getUPI(request);
             CorrectionSecondEntry.guardiansList(request, response);
-        }// for all unknown requests
+        } // for Correction Supervisor
+        else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PARCEL_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.editParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.updateParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.updateParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.viewHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.viewIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.deleteIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.editIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.updateIndividualHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.saveHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.personsWithInterestList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_PERSON_WITH_INTEREST_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.savePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PERSON_WITH_INTEREST_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.viewPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_PERSON_WITH_INTEREST_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.editPersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PERSON_WITH_INTEREST_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.updatePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PERSON_WITH_INTEREST_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.deletePersonWithInterest(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DISPUTE_LIST_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.viewDisputeList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_DISPUTE_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.saveDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_DISPUTE_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.viewDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_DISPUTE_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.editDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_DISPUTE_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.updateDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.deleteDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.finishOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_ORGANIZATION_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.editOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.updateOrganizationHolder(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_PARCEL_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.deleteParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_MCSUPERVISOR)) {
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            CorrectionSupervisor.viewParcel(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_DISPUTE_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.finishDispute(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_GUARDIAN_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.saveGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_GUARDIAN_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.deleteGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_GUARDIAN_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.viewGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_GUARDIAN_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.editGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_GUARDIAN_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.updateGuardian(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_GUARDIANS_LIST_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.guardiansList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_PERSON_WITH_INTEREST_MCSUPERVISOR)) {
+            getUPI(request);
+            CorrectionSupervisor.finishPersonWithInterest(request, response);
+        } // for all unknown requests
         else {
             All.goBackToHome(request, response);
         }

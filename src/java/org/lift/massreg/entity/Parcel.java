@@ -614,6 +614,32 @@ public class Parcel implements Entity {
         }
     }
 
+    public void submitForPPDCorrection() {
+        MasterRepository.getInstance().submitForPPDCorrection(this);
+        if (this.getHolding() == 1) {
+            for (IndividualHolder individualHolder : individualHolders) {
+                individualHolder.submitForPPDCorrection();
+            }
+            if (personsWithInterest != null) {
+                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                    personWithInterest.submitForPPDCorrection();
+                }
+            }
+            if (guardians != null) {
+                for (Guardian guardian : guardians) {
+                    guardian.submitForPPDCorrection();
+                }
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitForPPDCorrection();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.submitForPPDCorrection();
+            }
+        }
+    }
+
     @Override
     public boolean validateForUpdate() {
         return true;

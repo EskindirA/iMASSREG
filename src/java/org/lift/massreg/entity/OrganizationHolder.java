@@ -145,6 +145,10 @@ public class OrganizationHolder implements Entity {
         return MasterRepository.getInstance().submitForCorrection(this);
     }
 
+    public void submitForPPDCorrection() {
+        MasterRepository.getInstance().submitForPPDCorrection(this);
+    }
+    
     public static OrganizationHolderDifference difference(OrganizationHolder firstHolder, OrganizationHolder secondHolder) {
         OrganizationHolderDifference returnValue = new OrganizationHolderDifference();
         if (firstHolder.getName() != null && secondHolder.getName() != null) {

@@ -170,6 +170,10 @@ public class Guardian implements Entity {
         return MasterRepository.getInstance().submitForCorrection(this);
     }
 
+    public void submitForPPDCorrection() {
+        MasterRepository.getInstance().submitForPPDCorrection(this);
+    }
+    
     public ArrayList<Change> getDifferenceForChangeLog(Guardian newGuardian) {
         ArrayList<Change> returnValue = new ArrayList<>();
 

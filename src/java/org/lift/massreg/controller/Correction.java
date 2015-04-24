@@ -55,6 +55,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void findParceForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -70,6 +72,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -97,6 +101,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -162,6 +168,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -198,6 +206,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -228,6 +238,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void individualHolderList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -292,6 +304,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -561,6 +575,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void finishDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -584,6 +600,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void finishPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -607,6 +625,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void commit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -757,6 +777,7 @@ public class Correction {
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
      * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewGuardian(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -939,6 +960,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1216,6 +1239,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void addOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1228,6 +1253,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void finishOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1251,6 +1278,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1284,6 +1313,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateOrganizationHolder(HttpServletRequest request,
             HttpServletResponse response)
@@ -1330,6 +1361,8 @@ public class Correction {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
