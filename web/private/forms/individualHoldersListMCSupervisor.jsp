@@ -106,11 +106,7 @@
                                 } else {
                                     out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                 }
-                                if (currentParcel.getHolderCount() >= 1) {
-                                    out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>"+CommonStorage.getText("next")+"</button>");
-                                } else {
-                                    out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em' disabled>"+CommonStorage.getText("next")+"</button>");
-                                }
+                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>"+CommonStorage.getText("next")+"</button>");
                             %>
                         </div>
                     </div>
