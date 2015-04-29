@@ -44,6 +44,7 @@
                 <th><%=CommonStorage.getText("area")%></th>
                 <th><%=CommonStorage.getText("guardian")%></th>
                 <th><%=CommonStorage.getText("other_holders")%></th>
+                <th><%=CommonStorage.getText("has_missing_value")%>?</th>
             </tr>
         </thead>
         <tbody>
@@ -69,6 +70,7 @@
                             coholdersList += holder + ",";
                         }
                         out.println("<td>" + coholdersList.substring(0,coholdersList.length()-1) + "</td>");
+                        out.println("<td>"+holdersList.get(i).getParcels().get(j).hasMissingValueText()+"</td>");
                         out.print("</tr><tr>");
                     }
                     out.println("</tr>");

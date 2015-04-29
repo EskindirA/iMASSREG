@@ -11,7 +11,7 @@ import org.lift.massreg.util.Constants;
  * @version 2.0
  * @since 2.0
  */
-public class CurrentUserDTO extends User{
+public class CurrentUserDTO extends User {
 
     private String username;
     private Timestamp loginTime;
@@ -19,10 +19,12 @@ public class CurrentUserDTO extends User{
 
     private Constants.ROLE role;
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
@@ -43,10 +45,12 @@ public class CurrentUserDTO extends User{
         this.clientInfo = clientInfo;
     }
 
+    @Override
     public Constants.ROLE getRole() {
         return role;
     }
 
+    @Override
     public void setRole(Constants.ROLE role) {
         this.role = role;
     }
@@ -68,6 +72,9 @@ public class CurrentUserDTO extends User{
                 break;
             case POSTPDCOORDINATOR:
                 returnValue += "PDC";
+                break;
+            case WOREDA_COORDINATOR:
+                returnValue += "WC";
                 break;
             case MINOR_CORRECTION_OFFICER:
                 returnValue += "MCO";

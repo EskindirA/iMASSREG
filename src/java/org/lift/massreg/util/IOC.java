@@ -160,7 +160,9 @@ public class IOC {
         pages.put(Constants.INDEX_GUARDIANS_LIST_MCSUPERVISOR, "guardianListMCSupervisor.jsp");
         pages.put(Constants.INDEX_VIEW_GUARDIAN_MCSUPERVISOR, "viewGuardianMCSupervisor.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_MCSUPERVISOR, "editGuardianMCSupervisor.jsp");
-
+    
+        pages.put(Constants.INDEX_PUBLIC_DISPLAY_CHECKLIST_PDC,"pdCheckList.jsp");
+        pages.put(Constants.INDEX_VIEW_PARCEL_WC,"viewParcelWC.jsp");
         pages.put(Constants.INDEX_WELCOME_WC, "welcomeWC.jsp");
         
 

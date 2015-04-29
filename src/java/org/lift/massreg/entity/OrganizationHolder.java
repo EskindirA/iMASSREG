@@ -2,7 +2,6 @@ package org.lift.massreg.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.dto.Change;
@@ -181,5 +180,8 @@ public class OrganizationHolder implements Entity {
     }
     public boolean submitToConfirmed() {
         return MasterRepository.getInstance().submitToConfirmed(this);
+    }
+    public boolean approve() {
+        return MasterRepository.getInstance().approve(this);
     }
 }

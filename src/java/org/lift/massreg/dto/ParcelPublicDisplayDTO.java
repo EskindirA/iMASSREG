@@ -1,14 +1,17 @@
 package org.lift.massreg.dto;
 
 import java.util.ArrayList;
-import org.lift.massreg.entity.*;
 import org.lift.massreg.util.CommonStorage;
 
 /**
- *
- * @author yoseph
+ * @author Yoseph Berhanu <yoseph@bayeth.com>
+ * @version 2.0
+ * @since 2.0
  */
+
 public class ParcelPublicDisplayDTO {
+
+    private boolean hasMissingValue = false;
     private String upi;
     private int parcelId;
     private String mapSheetNo;
@@ -72,24 +75,36 @@ public class ParcelPublicDisplayDTO {
     }
 
     public ArrayList<String> getOtherHolders() {
-        if(coHolders.isEmpty()){
+        if (coHolders.isEmpty()) {
             coHolders.add(CommonStorage.getText("dose_not_exist"));
         }
         return coHolders;
     }
 
     public ArrayList<String> getGuardians() {
-        if(guardians.isEmpty()){
+        if (guardians.isEmpty()) {
             guardians.add(CommonStorage.getText("dose_not_exist"));
         }
         return guardians;
     }
 
-
-    public void addHolder(String holder){
+    public void addHolder(String holder) {
         coHolders.add(holder);
     }
-    public void addGuardian(String guardian){
+
+    public void addGuardian(String guardian) {
         guardians.add(guardian);
+    }
+
+    public boolean hasMissingValue() {
+        return hasMissingValue;
+    }
+
+    public void hasMissingValue(boolean hasMissingValue) {
+        this.hasMissingValue = hasMissingValue;
+    }
+
+    public String hasMissingValueText() {
+        return hasMissingValue ? CommonStorage.getText("yes") : CommonStorage.getText("no");
     }
 }

@@ -1,5 +1,6 @@
 package org.lift.massreg.controller;
 
+import com.sun.xml.xsom.impl.scd.Iterators;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -7,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.lift.massreg.dao.MasterRepository;
+import org.lift.massreg.dto.PublicDisplayCheckList;
 import org.lift.massreg.entity.Parcel;
 import org.lift.massreg.util.CommonStorage;
 import org.lift.massreg.util.Constants;
@@ -126,6 +128,23 @@ public class PostPDCoordinator {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         }
+    }
+
+    /**
+     * Handlers request for getting a printable checklist
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
+     */
+    protected static void printCheckList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ArrayList<PublicDisplayCheckList> list = MasterRepository.getInstance().getPublicDisplayCheckList(request.getParameter("kebele"));
+        request.setAttribute("list", list);
+        RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY_CHECKLIST_PDC));
+        rd.forward(request, response);
+
     }
 
 }

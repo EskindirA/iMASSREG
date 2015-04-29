@@ -314,6 +314,11 @@ public interface Constants {
     public static final String ACTION_FINISH_ORGANIZATION_HOLDER_MCSUPERVISOR= "FINISH_ORGANIZATION_HOLDER_MCSUPERVISOR";
     public static final String ACTION_UPDATE_ORGANIZATION_HOLDER_MCSUPERVISOR= "UPDATE_ORGANIZATION_HOLDER_MCSUPERVISOR";
     public static final String ACTION_FIND_PARCEL_MCSUPERVISOR= "FIND_PARCEL_MCSUPERVISOR";
+    public static final String ACTION_APPROVE_WC = "APPROVE_WC";
+    public static final String ACTION_VIEW_PARCEL_WC = "VIEW_PARCEL_WC";
+    
+    public static final String ACTION_PRINT_CHECKLIST_PDC = "PRINT_CHECKLIST_PDC";
+    public static final String ACTION_DELETE_WC="DELETE_WC";
     
     // pages
     public static final int INDEX_ERROR = 0;
@@ -454,7 +459,7 @@ public interface Constants {
     public static final int INDEX_DISCREPANCY_MCDEO = 110;
     
     
-        public static final int INDEX_EDIT_PARCEL_MCSUPERVISOR = 111;
+    public static final int INDEX_EDIT_PARCEL_MCSUPERVISOR = 111;
     public static final int INDEX_VIEW_PARCEL_MCSUPERVISOR = 112;
 
     public static final int INDEX_INDIVIDUAL_HOLDERS_LIST_MCSUPERVISOR = 113;
@@ -475,8 +480,11 @@ public interface Constants {
     public static final int INDEX_EDIT_GUARDIAN_MCSUPERVISOR = 125;
     public static final int INDEX_VIEW_GUARDIAN_MCSUPERVISOR = 126;
     public static final int INDEX_GUARDIANS_LIST_MCSUPERVISOR = 127;
+    public static final int INDEX_PUBLIC_DISPLAY_CHECKLIST_PDC = 128;
     
-    public static final int INDEX_WELCOME_WC = 128;
+    public static final int INDEX_WELCOME_WC = 129;
+    public static final int INDEX_VIEW_PARCEL_WC = 130;
+    
 
     public enum ROLE {
 
@@ -488,7 +496,8 @@ public interface Constants {
         CORRECTION_FIRST_ENTRY_OPERATOR,
         CORRECTION_SECOND_ENTRY_OPERATOR,
         CORRECTION_SUPERVISOR,
-        MINOR_CORRECTION_OFFICER
+        MINOR_CORRECTION_OFFICER,
+        WOREDA_COORDINATOR
 
     };
 

@@ -72,6 +72,19 @@ public class MainFilter extends HttpServlet {
                 case CORRECTION_SUPERVISOR:
                     CorrectionSupervisor.welcomePage(request, response);
                     break;
+                case WOREDA_COORDINATOR:
+                    if (request.getParameter("kebele") != null) {
+                        request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
+                    } else {
+                        request.getSession().setAttribute("kebele", "all");
+                    }
+                    if (request.getParameter("status") != null) {
+                        request.getSession().setAttribute("status", request.getParameter("status").trim());
+                    } else {
+                        request.getSession().setAttribute("status", "confirmed");
+                    }
+                    WoredaCorrdinator.welcomePage(request, response);
+                    break;
 
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME_PART)) {
@@ -107,6 +120,19 @@ public class MainFilter extends HttpServlet {
                     break;
                 case CORRECTION_SUPERVISOR:
                     CorrectionSupervisor.welcomeForm(request, response);
+                    break;
+                case WOREDA_COORDINATOR:
+                    if (request.getParameter("kebele") != null) {
+                        request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
+                    } else {
+                        request.getSession().setAttribute("kebele", "all");
+                    }
+                    if (request.getParameter("status") != null) {
+                        request.getSession().setAttribute("status", request.getParameter("status").trim());
+                    } else {
+                        request.getSession().setAttribute("status", "committed");
+                    }
+                    WoredaCorrdinator.welcomeForm(request, response);
                     break;
             }
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PROFILE)) {
@@ -608,6 +634,13 @@ public class MainFilter extends HttpServlet {
                 request.getSession().setAttribute("kebele", "all");
             }
             PostPDCoordinator.welcomeForm(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PRINT_CHECKLIST_PDC)) {
+            if (request.getParameter("kebele") != null) {
+                request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
+            } else {
+                request.getSession().setAttribute("kebele", "all");
+            }
+            PostPDCoordinator.printCheckList(request, response);
         } // Minor corrections officer 
         else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_MCO)) {
             MinorCorrections.viewParcel(request, response);
@@ -696,7 +729,7 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PARCEL_MCFEO)) {
             getUPI(request);
             CorrectionFirstEntry.updateParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCFEO)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_HOLDER_MCFEO)) {
             getUPI(request);
             CorrectionFirstEntry.viewHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_PERSONS_WITH_INTEREST_LIST_MCFEO)) {
@@ -1116,6 +1149,11 @@ public class MainFilter extends HttpServlet {
             getUPI(request);
             CorrectionSupervisor.finishPersonWithInterest(request, response);
         } // for all unknown requests
+        else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_WC)) {
+            WoredaCorrdinator.viewParcel(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_APPROVE_WC)) {
+            WoredaCorrdinator.approveParcel(request, response);
+        }
         else {
             All.goBackToHome(request, response);
         }

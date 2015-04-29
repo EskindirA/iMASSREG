@@ -103,19 +103,22 @@ public class User implements Entity {
                 returnValue += "Supervisor";
                 break;
             case POSTPDCOORDINATOR:
-                returnValue = "PDC";
+                returnValue += "PDC";
+                break;
+            case WOREDA_COORDINATOR:
+                returnValue += "WC";
                 break;
             case MINOR_CORRECTION_OFFICER:
-                returnValue = "MCO";
+                returnValue += "MCO";
                 break;
             case CORRECTION_FIRST_ENTRY_OPERATOR:
-                returnValue = "CFEO";
+                returnValue += "CFEO";
                 break;
             case CORRECTION_SECOND_ENTRY_OPERATOR:
-                returnValue = "CSEO";
+                returnValue += "CSEO";
                 break;
             case CORRECTION_SUPERVISOR:
-                returnValue = "CSUPER";
+                returnValue += "CSUPER";
                 break;
 
         }
@@ -156,6 +159,9 @@ public class User implements Entity {
                 break;
             case POSTPDCOORDINATOR:
                 returnValue = "PDC";
+                break;
+            case WOREDA_COORDINATOR:
+                returnValue = "WC";
                 break;
             case MINOR_CORRECTION_OFFICER:
                 returnValue = "MCO";

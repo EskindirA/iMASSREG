@@ -2,14 +2,10 @@ package org.lift.massreg.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import javax.servlet.http.HttpServletRequest;
-import org.lift.massreg.dao.MasterRepository;
-import org.lift.massreg.dto.Change;
-import org.lift.massreg.dto.CurrentUserDTO;
-import org.lift.massreg.dto.ParcelDifference;
-import org.lift.massreg.util.CommonStorage;
-import org.lift.massreg.util.Option;
+import javax.servlet.http.*;
+import org.lift.massreg.dao.*;
+import org.lift.massreg.dto.*;
+import org.lift.massreg.util.*;
 
 /**
  *
@@ -49,9 +45,9 @@ public class Parcel implements Entity {
     private String encumbranceText;
     private boolean hasDispute;
     private OrganizationHolder organaizationHolder;
-    private ArrayList<IndividualHolder> individualHolders;
-    private ArrayList<PersonWithInterest> personsWithInterest;
-    private ArrayList<Guardian> guardians;
+    private ArrayList<IndividualHolder> individualHolders = new ArrayList<>();
+    private ArrayList<PersonWithInterest> personsWithInterest= new ArrayList<>();
+    private ArrayList<Guardian> guardians= new ArrayList<>();
 
     private ArrayList<Dispute> disputes;
 
@@ -1009,8 +1005,8 @@ public class Parcel implements Entity {
 
     public boolean hasOrphanHolder() {
         boolean returnValue = false;
-        for (int i = 0; i < individualHolders.size(); i++) {
-            if (individualHolders.get(i).isOrphan()) {
+        for (IndividualHolder individualHolder : individualHolders) {
+            if (individualHolder.isOrphan()) {
                 returnValue = true;
             }
         }
@@ -1091,6 +1087,32 @@ public class Parcel implements Entity {
         if (disputes != null) {
             for (Dispute dispute : disputes) {
                 dispute.submitToConfirmed();
+            }
+        }
+    }
+
+    public void approve() {
+        MasterRepository.getInstance().approve(this);
+        if (this.getHolding() == 1) {
+            individualHolders.stream().forEach((individualHolder) -> {
+                individualHolder.approve();
+            });
+            if (personsWithInterest != null) {
+                personsWithInterest.stream().forEach((personWithInterest) -> {
+                    personWithInterest.approve();
+                });
+            }
+            if (guardians != null) {
+                guardians.stream().forEach((guardian) -> {
+                    guardian.approve();
+                });
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.approve();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.approve();
             }
         }
     }

@@ -257,6 +257,9 @@ public class CommonStorage {
     public static byte getConfirmedStage() {
         return 10;
     }
+    public static byte getApprovedStage() {
+        return 11;
+    }
 
     public static Logger getLogger() {
         return logger;

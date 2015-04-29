@@ -10,6 +10,7 @@
     String confirmedURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_CONFIRMED_PARCEL_PDC;
     String findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_PDC;
     String filterurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PARCEL_LIST_PDC;
+    String checkListurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PRINT_CHECKLIST_PDC;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -20,7 +21,8 @@
     <div class="bs-example">
         <ul class="nav nav-tabs" style="margin-bottom: 15px;">
             <li class="active"><a href="#correctionParcels" data-toggle="tab"><%=CommonStorage.getText("committed")%></a></li>
-            <li><a href="#findParcel" data-toggle="tab"><%=CommonStorage.getText("find_a_parcel")%></a></li>
+            <!--li><a href="#findParcel" data-toggle="tab"><%=CommonStorage.getText("find_a_parcel")%></a></li-->
+            <li><a href="#checkList" data-toggle="tab"><%=CommonStorage.getText("check_list")%></a></li>
             <!--li class="disabled"><a>Disabled</a></li-->
         </ul>
         <div id="myTabContent" class="tab-content">
@@ -124,6 +126,36 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="checkList">
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <%=CommonStorage.getText("check_list")%>
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="printCheckListForm" name="printCheckListForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="row">
+                                        <input type="hidden" name="WoredaId" id="WoredaId" value="<%= CommonStorage.getCurrentWoredaId()%>" />
+                                        <div class="form-group">
+                                            <label><%=CommonStorage.getText("kebele")%></label>
+                                            <select class="form-control" id="checkListKebele" name="checkListKebele">
+                                                <%
+                                                    for (int i = 0; i < kebeles.length; i++) {
+                                                        out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
+                                                    }
+                                                %>
+                                            </select>
+                                        </div>
+                                        <button type='submit' id = 'printCheckListButton' name = 'printCheckListButton' class='btn btn-default col-lg-3' style='float:right'><%=CommonStorage.getText("print")%></button>
+                                    </div> <!-- /.row (nested) -->
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -201,6 +233,13 @@
                         sendToMajorCorrection(upi);
                     }
                 },
+                missing: {
+                    label: "<%=CommonStorage.getText("missing_data")%>",
+                    className: "btn-default",
+                    callback: function () {
+                        sendToMajorCorrection(upi);
+                    }
+                },
                 confirm: {
                     label: "<%=CommonStorage.getText("confirm_as_correct")%>",
                     className: "btn-default",
@@ -233,6 +272,37 @@
                     "parcelNo": $("#findParcel #parcelNo").val(),
                     "kebele": $("#findParcel #kebele").val()},
                 url: '<%=findurl%>'
+            });
+        }
+        return false;
+    });
+    $("#checkList #printCheckListButton").click(function () {
+        updateUPI();
+        if ($("#kebele").val() === "") {
+            showError("Please select a kebele");
+        }
+        else { // Call to the service to get print form
+            $.ajax({
+                success: function (data) {
+                    var mywindow = window.open('#', 'Public Display - Check List');
+                    mywindow.document.write('<html><head>');
+                    mywindow.document.write('<title>Public Display - Check List</title>');
+                    mywindow.document.write('</head>');
+                    mywindow.document.write('<body>');
+                    mywindow.document.write(data);
+                    mywindow.document.write('</body></html>');
+                    mywindow.document.close();
+                    mywindow.focus();
+                    mywindow.print();
+                    mywindow.close();
+                    //$("#publicDisplayDetail").html(data);
+                },
+                error: showajaxerror,
+                type: 'POST',
+                url: '<%=checkListurl%>',
+                data: {
+                    "kebele": $("#checkList #checkListKebele").val()},
+                
             });
         }
         return false;

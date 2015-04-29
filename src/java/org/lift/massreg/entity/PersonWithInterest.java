@@ -208,4 +208,7 @@ public class PersonWithInterest implements Entity {
     public boolean submitToConfirmed() {
         return MasterRepository.getInstance().submitToConfirmed(this);
     }
+    public boolean approve() {
+        return MasterRepository.getInstance().approve(this);
+    }
 }

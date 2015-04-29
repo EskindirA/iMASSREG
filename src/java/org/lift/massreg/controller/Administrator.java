@@ -412,7 +412,7 @@ public class Administrator {
                 RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
                 rd.forward(request, response);
             }
-        } catch (Exception ex) {
+        } catch (IOException | NumberFormatException | ServletException ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
