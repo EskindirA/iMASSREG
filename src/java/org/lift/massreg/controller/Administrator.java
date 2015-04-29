@@ -22,6 +22,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,6 +40,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void welcomeForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,6 +56,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void reload(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,6 +70,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void saveUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -92,6 +100,9 @@ public class Administrator {
                         break;
                     case "PDC":
                         user.setRole(Constants.ROLE.POSTPDCOORDINATOR);
+                        break;
+                    case "WC":
+                        user.setRole(Constants.ROLE.WOREDA_COORDINATOR);
                         break;
                     case "MCO":
                         user.setRole(Constants.ROLE.MINOR_CORRECTION_OFFICER);
@@ -143,6 +154,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void viewUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -167,6 +180,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void editUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -190,6 +205,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateUser(HttpServletRequest request,
             HttpServletResponse response)
@@ -219,6 +236,9 @@ public class Administrator {
                     break;
                 case "PDC":
                     newUser.setRole(Constants.ROLE.POSTPDCOORDINATOR);
+                    break;
+                case "WC":
+                    newUser.setRole(Constants.ROLE.WOREDA_COORDINATOR);
                     break;
                 case "MCO":
                     newUser.setRole(Constants.ROLE.MINOR_CORRECTION_OFFICER);
@@ -259,6 +279,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updateSettings(HttpServletRequest request,
             HttpServletResponse response)
@@ -275,6 +297,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void updatePassword(HttpServletRequest request,
             HttpServletResponse response)
@@ -299,6 +323,8 @@ public class Administrator {
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
      */
     protected static void deleteUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

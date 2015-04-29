@@ -188,6 +188,10 @@
         $("#viewModal").hide();
         $("#viewModal").html("");
     }
+    function validate(formId){
+        return true;
+    }
+    /*
     function validate(formId) {
         var returnValue = true;
         $("#" + formId + " #holderId").toggleClass("error-field", false);
@@ -232,6 +236,7 @@
         }
         return returnValue;
     }
+    */
     function loadViewHolder(result) {
         $("#editModal").html("").hide();
         $("#viewModal").html(result).modal();

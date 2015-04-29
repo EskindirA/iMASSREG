@@ -159,6 +159,10 @@
         $("#viewModal").hide();
         $("#viewModal").html("");
     }
+    function validate(formId){
+        return true;
+    }
+    /*
     function validate(formId) {
         var returnValue = true;
         $("#" + formId + " #firstName").toggleClass("error-field",false);
@@ -183,6 +187,7 @@
         }        
         return returnValue;
     }
+    */
     function loadViewGuardian(result) {
         $("#editModal").html("").hide();
         $("#viewModal").html(result).modal();

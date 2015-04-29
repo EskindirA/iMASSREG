@@ -198,6 +198,10 @@
 <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="viewModalLable" aria-hidden="true"></div>
 <script type="text/javascript">
+    function validate(formId){
+        return true;
+    }
+    /*
     function validate(formId) {
         var returnValue = true;
         $("#" + formId + " #firstName").toggleClass("error-field",false);
@@ -232,6 +236,7 @@
         }
         return returnValue;
     }
+    */
     function loadViewDispute(result) {
         $("#editModal").html("").hide();
         $("#viewModal").html(result).modal();
