@@ -412,7 +412,7 @@ public class MinorCorrections {
      */
     protected static void viewIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi").toString(), CommonStorage.getMinorCorrectionStage());
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getMinorCorrectionStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -567,7 +567,7 @@ public class MinorCorrections {
                 ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
                 ih.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
                 ih.setStage(CommonStorage.getMinorCorrectionStage());
-                ih.setUpi(request.getParameter("upi").toString());
+                ih.setUpi(request.getParameter("upi"));
                 ih.setStatus(Constants.STATUS[0]);
 
                 if (ih.validateForSave()) {

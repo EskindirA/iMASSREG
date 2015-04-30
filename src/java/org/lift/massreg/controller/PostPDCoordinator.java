@@ -1,6 +1,5 @@
 package org.lift.massreg.controller;
 
-import com.sun.xml.xsom.impl.scd.Iterators;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;

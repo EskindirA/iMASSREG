@@ -175,16 +175,16 @@ public class SecondEntry {
         // Delete all disputes of the parcel, if any
         if (parcel.hasDispute()) {
             ArrayList<Dispute> allDisputes = parcel.getDisputes();
-            for (int i = 0; i < allDisputes.size(); i++) {
-                allDisputes.get(i).remove(request);
-            }
+            allDisputes.stream().forEach((allDispute) -> {
+                allDispute.remove(request);
+            });
         }
         // Delete all holders of the parcel, if any
         ArrayList<IndividualHolder> allHolders = parcel.getIndividualHolders();
         if (allHolders != null) {
-            for (int i = 0; i < allHolders.size(); i++) {
-                allHolders.get(i).remove(request);
-            }
+            allHolders.stream().forEach((allHolder) -> {
+                allHolder.remove(request);
+            });
         }
         ArrayList<PersonWithInterest> allPWI = parcel.getPersonsWithInterest();
         if (allPWI != null) {

@@ -164,7 +164,8 @@ public class IOC {
         pages.put(Constants.INDEX_PUBLIC_DISPLAY_CHECKLIST_PDC,"pdCheckList.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_WC,"viewParcelWC.jsp");
         pages.put(Constants.INDEX_WELCOME_WC, "welcomeWC.jsp");
-        
+        pages.put(Constants.INDEX_CERTIFICATE_PRINTING_CHECKLIST_WC,"cpCheckList.jsp");
+        pages.put(Constants.INDEX_PRINT_CERTIFCATE_WC,"certificateWC.jsp");
 
     }
 

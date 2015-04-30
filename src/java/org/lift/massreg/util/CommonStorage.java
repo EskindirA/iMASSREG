@@ -32,7 +32,8 @@ public class CommonStorage {
     private static final String settingsFile = "settings.properties";
 
     private static String keystoreFilePath = null;
-
+    private static String imageStorePath = null;
+    
     private static String GISDBHost = null;
     private static String GISDBName = null;
     private static String GISDBUserName = null;
@@ -111,6 +112,7 @@ public class CommonStorage {
             GISDBUserName = (String) ctx.lookup("resource/GISDBUserName");
             GISDBPassword = (String) ctx.lookup("resource/GISDBPassword");
             keystoreFilePath = (String) ctx.lookup("resource/keystoreFilePath");
+            imageStorePath = (String) ctx.lookup("resource/imageStorePath");
 
         } catch (NamingException ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
@@ -120,7 +122,7 @@ public class CommonStorage {
     public static String getKeystoreFilePath() {
         return keystoreFilePath;
     }
-
+    
     public static String getText(String key) {
         return languageBundle.getProperty(key, "XXXXXXXXXXXXXX");
     }

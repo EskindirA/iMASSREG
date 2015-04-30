@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
-                            <button type='submit' id = 'addDisputeButton' name = 'addDisputeButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' ><%= CommonStorage.getText("add") %></button>");
+                            <button type='submit' id = 'addDisputeButton' name = 'addDisputeButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' ><%= CommonStorage.getText("add") %></button>
                             <%
                                 if (currentParcel.getDisputeCount() >= 1 && currentParcel.canEdit(CommonStorage.getCurrentUser(request))) {
                                     out.println("<button type='submit' id = 'finishButton' name = 'finishButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>" + CommonStorage.getText("finish") + "</button>");

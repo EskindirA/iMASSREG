@@ -1153,8 +1153,15 @@ public class MainFilter extends HttpServlet {
             WoredaCorrdinator.viewParcel(request, response);
         }else if (action.equalsIgnoreCase(Constants.ACTION_APPROVE_WC)) {
             WoredaCorrdinator.approveParcel(request, response);
-        }
-        else {
+        }else if (action.equalsIgnoreCase(Constants.ACTION_PRINT_CERTIFCATE_WC)) {
+            WoredaCorrdinator.printCertificate(request, response);
+        }else if (action.equalsIgnoreCase(Constants.ACTION_PRINT_CHEACKLIST_WC)) {
+            WoredaCorrdinator.printCheckList(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_SETTINGS_WC)) {
+            WoredaCorrdinator.updateSettings(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_GET_IMAGE_WC)) {
+            WoredaCorrdinator.getImage(request, response);
+        } else {
             All.goBackToHome(request, response);
         }
     }

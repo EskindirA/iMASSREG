@@ -84,16 +84,16 @@ public class CorrectionSecondEntry {
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
-        } else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 3)) {
+        } else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getMajorCorrectionSupervisorStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The parcel you are trying to add is already sent for correction.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
-        } else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 4)) {
+        } else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getConfirmedStage())) {
             request.getSession().setAttribute("title", "Error");
-            request.getSession().setAttribute("message", "The parcel you are trying to add is already commited.");
+            request.getSession().setAttribute("message", "The parcel you are trying to add is already confirmed.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
             request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
@@ -396,8 +396,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to view list of individual holders 
-     * operator
+     * Handlers request to view list of individual holders operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller

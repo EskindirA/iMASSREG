@@ -408,6 +408,8 @@ public class Administrator {
                 long kebeleId = Long.parseLong(request.getParameter("kebele"));
                 MasterRepository.getInstance().updateParcelArea(kebeleId);
                 request.setAttribute("holdersList", MasterRepository.getInstance().getPublicDisplayReport(kebeleId));
+                request.setAttribute("parcelList", MasterRepository.getInstance().getParcelsWithoutHolder(kebeleId));
+                
                 request.setAttribute("kebeleName", MasterRepository.getInstance().getKebeleName(kebeleId, CommonStorage.getCurrentLanguage()));
                 RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
                 rd.forward(request, response);

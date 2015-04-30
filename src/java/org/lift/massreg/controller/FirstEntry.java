@@ -63,7 +63,7 @@ public class FirstEntry {
             throws ServletException, IOException {
         // Remove the currentParcel from request
         request.setAttribute("currentParcel", null);
-        if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 1)) {
+        if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getFEStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", CommonStorage.getText("parcel_exists"));
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");

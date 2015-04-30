@@ -104,6 +104,10 @@ public class ParcelPublicDisplayDTO {
         this.hasMissingValue = hasMissingValue;
     }
 
+    public String hasDisputeText() {
+        return hasDispute ? CommonStorage.getText("yes") : CommonStorage.getText("no");
+    }
+    
     public String hasMissingValueText() {
         return hasMissingValue ? CommonStorage.getText("yes") : CommonStorage.getText("no");
     }
