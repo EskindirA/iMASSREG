@@ -53,7 +53,7 @@
                                     <select class="form-control" id="otherEvidence" name="otherEvidence" value="${requestScope.currentParcel.otherEvidence}" disabled>
                                         <%
                                             Option[] otherEvidenceTypes = MasterRepository.getInstance().getAllOtherEvidenceTypes();
-                                            for (int i = 0; i < otherEvidenceTypes.length; i++) {
+                                            for (int i = 0; i < otherEvidenceTypes.length-1; i++) {
                                                 out.println("<option value = '" + otherEvidenceTypes[i].getKey() + "'>" + otherEvidenceTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -64,7 +64,7 @@
                                     <select class="form-control" id="meansOfAcquisition" name="meansOfAcquisition" value="${requestScope.currentParcel.meansOfAcquisition}" disabled>
                                         <%
                                             Option[] meansOfAcquisitionTypes = MasterRepository.getInstance().getAllMeansOfAcquisitionTypes();
-                                            for (int i = 0; i < meansOfAcquisitionTypes.length; i++) {
+                                            for (int i = 0; i < meansOfAcquisitionTypes.length-1; i++) {
                                                 out.println("<option value = '" + meansOfAcquisitionTypes[i].getKey() + "'>" + meansOfAcquisitionTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -92,7 +92,7 @@
                                     <select class="form-control" id="currentLandUse" name="currentLandUse" value="${requestScope.currentParcel.currentLandUse}" disabled>
                                         <%
                                             Option[] currentLandUseTypes = MasterRepository.getInstance().getAllCurrentLandUseTypes();
-                                            for (int i = 0; i < currentLandUseTypes.length; i++) {
+                                            for (int i = 0; i < currentLandUseTypes.length-1; i++) {
                                                 out.println("<option value = '" + currentLandUseTypes[i].getKey() + "'>" + currentLandUseTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -103,7 +103,7 @@
                                     <select class="form-control" id="soilFertility" name="soilFertility" value="${requestScope.currentParcel.soilFertility}" disabled>
                                         <%
                                             Option[] soilFertilityTypes = MasterRepository.getInstance().getAllSoilFertilityTypes();
-                                            for (int i = 0; i < soilFertilityTypes.length; i++) {
+                                            for (int i = 0; i < soilFertilityTypes.length-1; i++) {
                                                 out.println("<option value = '" + soilFertilityTypes[i].getKey() + "'>" + soilFertilityTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -114,7 +114,7 @@
                                     <select class="form-control" id="holdingType" name="holdingType" value="${requestScope.currentParcel.holding}" disabled>
                                         <%
                                             Option[] holdingTypes = MasterRepository.getInstance().getAllHoldingTypes();
-                                            for (int i = 0; i < holdingTypes.length; i++) {
+                                            for (int i = 0; i < holdingTypes.length-1; i++) {
                                                 out.println("<option value = '" + holdingTypes[i].getKey() + "'>" + holdingTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -125,7 +125,7 @@
                                     <select class="form-control" id="encumbrance" name="encumbrance" value="${requestScope.currentParcel.encumbrance}" disabled>
                                         <%
                                             Option[] encumbranceTypes = MasterRepository.getInstance().getAllEncumbranceTypes();
-                                            for (int i = 0; i < encumbranceTypes.length; i++) {
+                                            for (int i = 0; i < encumbranceTypes.length-1; i++) {
                                                 out.println("<option value = '" + encumbranceTypes[i].getKey() + "'>" + encumbranceTypes[i].getValue() + "</option>");
                                             }
                                         %>

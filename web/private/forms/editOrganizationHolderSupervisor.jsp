@@ -53,6 +53,8 @@
                                         } else {
                                             out.println("<select class='form-control ' id='organizationType' name='organizationType' value='" + holder.getOrganizationType() + "' disabled >");
                                         }
+                                        out.println("<option value=''>"+CommonStorage.getText("please_select_a_value")+"</option>");
+
                                         Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
                                         for (int i = 0; i < organizationTypes.length; i++) {
                                             out.println("<option value = '" + organizationTypes[i].getKey() + "'>" + organizationTypes[i].getValue() + "</option>");

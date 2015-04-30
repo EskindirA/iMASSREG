@@ -34,6 +34,7 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("sex")%></label>
                             <select class="form-control" id="sex" name="sex" value="<%=dispute.getSex()%>" disabled>
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <option value = 'm'><%=CommonStorage.getText("male")%></option>
                                 <option value = 'f'><%=CommonStorage.getText("female")%></option>
                                 <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
@@ -42,6 +43,7 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("dispute_type")%></label>
                             <select class="form-control" id="disputeType" name="disputeType" value="<%=dispute.getDisputeType()%>" disabled>
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <%
                                     Option[] disputeTypes = MasterRepository.getInstance().getAllDisputeTypes();
                                     for (int i = 0; i < disputeTypes.length; i++) {
@@ -53,6 +55,7 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("dispute_status")%></label>
                             <select class="form-control" id="disputeStatus" name="disputeStatus" value="<%=dispute.getDisputeStatus()%>" disabled>
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <%
                                     Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
                                     for (int i = 0; i < disputeStatusTypes.length; i++) {

@@ -58,6 +58,7 @@
                                     <select class="form-control <%= reviewMode &&
                                             holderDifference.isOrganizationType()
                                             ?"discrepancy-field":""%>" id="organizationType" name="organizationType" value="<%=holder.getOrganizationType()%>" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
                                             for (int i = 0; i < organizationTypes.length; i++) {

@@ -72,9 +72,10 @@
                                             <select class="form-control  <%= reviewMode
                                                     && parcelDifference.isOtherEvidence()
                                                             ? "discrepancy-field" : ""%>" id="otherEvidence" name="otherEvidence" value="${requestScope.currentParcel.otherEvidence}" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] otherEvidenceTypes = MasterRepository.getInstance().getAllOtherEvidenceTypes();
-                                            for (int i = 0; i < otherEvidenceTypes.length; i++) {
+                                            for (int i = 0; i < otherEvidenceTypes.length-1; i++) {
                                                 out.println("<option value = '" + otherEvidenceTypes[i].getKey() + "'>" + otherEvidenceTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -85,9 +86,10 @@
                                             <select class="form-control <%= reviewMode
                                                     && parcelDifference.isMeansOfAcquisition()
                                                             ? "discrepancy-field" : ""%>" id="meansOfAcquisition" name="meansOfAcquisition" value="${requestScope.currentParcel.meansOfAcquisition}" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] meansOfAcquisitionTypes = MasterRepository.getInstance().getAllMeansOfAcquisitionTypes();
-                                            for (int i = 0; i < meansOfAcquisitionTypes.length; i++) {
+                                            for (int i = 0; i < meansOfAcquisitionTypes.length-1; i++) {
                                                 out.println("<option value = '" + meansOfAcquisitionTypes[i].getKey() + "'>" + meansOfAcquisitionTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -98,6 +100,7 @@
                                             <select class="form-control  <%= reviewMode
                                                     && parcelDifference.isAcquisitionYear()
                                                             ? "discrepancy-field" : ""%>" name="acquisitionYear" id = "acquisitionYear" value="${requestScope.currentParcel.acquisitionYear}" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             for (int i = 1963; i <= 2007; i++) {
                                                 out.println("<option value = '" + i + "'>" + i + "</option>");
@@ -119,9 +122,10 @@
                                             <select class="form-control  <%= reviewMode
                                                     && parcelDifference.isCurrentLandUse()
                                                             ? "discrepancy-field" : ""%>" id="currentLandUse" name="currentLandUse" value="${requestScope.currentParcel.currentLandUse}" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] currentLandUseTypes = MasterRepository.getInstance().getAllCurrentLandUseTypes();
-                                            for (int i = 0; i < currentLandUseTypes.length; i++) {
+                                            for (int i = 0; i < currentLandUseTypes.length-1; i++) {
                                                 out.println("<option value = '" + currentLandUseTypes[i].getKey() + "'>" + currentLandUseTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -132,9 +136,10 @@
                                             <select class="form-control  <%= reviewMode
                                                     && parcelDifference.isSoilFertility()
                                                             ? "discrepancy-field" : ""%>" id="soilFertility" name="soilFertility" value="${requestScope.currentParcel.soilFertility}" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] soilFertilityTypes = MasterRepository.getInstance().getAllSoilFertilityTypes();
-                                            for (int i = 0; i < soilFertilityTypes.length; i++) {
+                                            for (int i = 0; i < soilFertilityTypes.length-1; i++) {
                                                 out.println("<option value = '" + soilFertilityTypes[i].getKey() + "'>" + soilFertilityTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -145,9 +150,10 @@
                                             <select class="form-control  <%= reviewMode
                                                     && parcelDifference.isHolding()
                                                             ? "discrepancy-field" : ""%>" id="holdingType" name="holdingType" value="${requestScope.currentParcel.holding}" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] holdingTypes = MasterRepository.getInstance().getAllHoldingTypes();
-                                            for (int i = 0; i < holdingTypes.length; i++) {
+                                            for (int i = 0; i < holdingTypes.length-1; i++) {
                                                 out.println("<option value = '" + holdingTypes[i].getKey() + "'>" + holdingTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -158,9 +164,10 @@
                                             <select class="form-control  <%= reviewMode
                                                     && parcelDifference.isEncumbrance()
                                                             ? "discrepancy-field" : ""%>" id="encumbrance" name="encumbrance" value="${requestScope.currentParcel.encumbrance}" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] encumbranceTypes = MasterRepository.getInstance().getAllEncumbranceTypes();
-                                            for (int i = 0; i < encumbranceTypes.length; i++) {
+                                            for (int i = 0; i < encumbranceTypes.length-1; i++) {
                                                 out.println("<option value = '" + encumbranceTypes[i].getKey() + "'>" + encumbranceTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -177,6 +184,7 @@
                                             <select class="form-control  <%= reviewMode
                                                     && parcelDifference.isHasDispute()
                                                             ? "discrepancy-field" : ""%>" id="hasDispute" name="hasDispute" value="<%= cParcel.hasDispute()%>" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <option value = 'false'><%=CommonStorage.getText("no")%></option>
                                         <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                                     </select>
@@ -206,7 +214,7 @@
         $("#currentLandUse").toggleClass("error-field", false);
         $("#soilFertility").toggleClass("error-field", false);
         $("#holdingType").toggleClass("error-field", false);
-        $("#Encumbrance").toggleClass("error-field", false);
+        $("#encumbrance").toggleClass("error-field", false);
         $("#hasDispute").toggleClass("error-field", false);
         if ($("#mapsheetno").val() === "") {
             returnValue = false;
@@ -240,9 +248,9 @@
             returnValue = false;
             $("#holdingType").toggleClass("error-field", true);
         }
-        if ($("#Encumbrance").val() === "") {
+        if ($("#encumbrance").val() === "") {
             returnValue = false;
-            $("#Encumbrance").toggleClass("error-field", true);
+            $("#encumbrance").toggleClass("error-field", true);
         }
         if ($("#hasDispute").val() === "") {
             returnValue = false;

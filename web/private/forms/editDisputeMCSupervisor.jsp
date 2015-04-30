@@ -33,6 +33,7 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("sex")%></label>
                             <select class="form-control" id="sex" name="sex" value="<%=dispute.getSex()%>" >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <option value = 'm'><%=CommonStorage.getText("male")%></option>
                                 <option value = 'f'><%=CommonStorage.getText("female")%></option>
                                 <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
@@ -41,9 +42,10 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("dispute_type")%></label>
                             <select class="form-control" id="disputeType" name="disputeType" value="<%=dispute.getDisputeType()%>" >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <%
                                     Option[] disputeTypes = MasterRepository.getInstance().getAllDisputeTypes();
-                                    for (int i = 0; i < disputeTypes.length; i++) {
+                                    for (int i = 0; i < disputeTypes.length-1; i++) {
                                         out.println("<option value = '" + disputeTypes[i].getKey() + "'>" + disputeTypes[i].getValue() + "</option>");
                                     }
                                 %>
@@ -52,9 +54,10 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("dispute_status")%></label>
                             <select class="form-control" id="disputeStatus" name="disputeStatus" value="<%=dispute.getDisputeStatus()%>" >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <%
                                     Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
-                                    for (int i = 0; i < disputeStatusTypes.length; i++) {
+                                    for (int i = 0; i < disputeStatusTypes.length-1; i++) {
                                         out.println("<option value = '" + disputeStatusTypes[i].getKey() + "'>" + disputeStatusTypes[i].getValue() + "</option>");
                                     }
                                 %>

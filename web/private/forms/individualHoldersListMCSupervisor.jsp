@@ -146,6 +146,7 @@
                             <div class="form-group">
                                 <label><%=CommonStorage.getText("sex")%></label>
                                 <select class="form-control" id="sex" name="sex">
+                                    <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                     <option value = 'm'><%=CommonStorage.getText("male")%></option>
                                     <option value = 'f'><%=CommonStorage.getText("female")%></option>
                                     <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
@@ -160,7 +161,7 @@
                                 <select class="form-control" id="familyRole" name="familyRole" >
                                     <%
                                         Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
-                                        for (int i = 0; i < familyRoleTypes.length; i++) {
+                                        for (int i = 0; i < familyRoleTypes.length-1; i++) {
                                             out.println("<option value = '" + familyRoleTypes[i].getKey() + "'>" + familyRoleTypes[i].getValue() + "</option>");
                                         }
                                     %>
@@ -169,15 +170,19 @@
                             <div class="form-group">
                                 <label><%=CommonStorage.getText("has_physical_impairment")%></label>
                                 <select class="form-control" id="physicalImpairment" name="physicalImpairment"  >
+                                    <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                     <option value = 'false'><%=CommonStorage.getText("no")%></option>
                                     <option value = 'true'><%=CommonStorage.getText("yes")%></option>
+                                    <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label><%=CommonStorage.getText("is_orphan")%></label>
                                 <select class="form-control" id="isOrphan" name="isOrphan" >
+                                    <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                     <option value = 'false'><%=CommonStorage.getText("no")%></option>
                                     <option value = 'true'><%=CommonStorage.getText("yes")%></option>
+                                    <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
                                 </select>
                             </div>
                         </div> <!-- /.row (nested) -->

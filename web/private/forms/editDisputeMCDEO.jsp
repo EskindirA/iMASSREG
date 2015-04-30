@@ -39,6 +39,7 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("sex")%></label>
                             <select class="form-control" id="sex" name="sex" value="<%=dispute.getSex()%>" >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <option value = 'm'><%=CommonStorage.getText("male")%></option>
                                 <option value = 'f'><%=CommonStorage.getText("female")%></option>
                                 <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
@@ -47,9 +48,10 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("dispute_type")%></label>
                             <select class="form-control" id="disputeType" name="disputeType" value="<%=dispute.getDisputeType()%>" >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <%
                                     Option[] disputeTypes = MasterRepository.getInstance().getAllDisputeTypes();
-                                    for (int i = 0; i < disputeTypes.length; i++) {
+                                    for (int i = 0; i < disputeTypes.length-1; i++) {
                                         out.println("<option value = '" + disputeTypes[i].getKey() + "'>" + disputeTypes[i].getValue() + "</option>");
                                     }
                                 %>
@@ -58,9 +60,10 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("dispute_status")%></label>
                             <select class="form-control" id="disputeStatus" name="disputeStatus" value="<%=dispute.getDisputeStatus()%>" >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <%
                                     Option[] disputeStatusTypes = MasterRepository.getInstance().getAllDisputeStatusTypes();
-                                    for (int i = 0; i < disputeStatusTypes.length; i++) {
+                                    for (int i = 0; i < disputeStatusTypes.length-1; i++) {
                                         out.println("<option value = '" + disputeStatusTypes[i].getKey() + "'>" + disputeStatusTypes[i].getValue() + "</option>");
                                     }
                                 %>
@@ -78,13 +81,13 @@
 </div>
 <script type="text/javascript">
 
-    $("#editDisputeFrom select").each(function() {
+    $("#editDisputeFrom select").each(function () {
         $(this).val($(this).attr("value"));
     });
-    $("#editDisputeButton").click(function() {
+    $("#editDisputeButton").click(function () {
         editDispute("<%=request.getParameter("registeredOn")%>");
     });
-    $("#updateDisputeButton").click(function() {
+    $("#updateDisputeButton").click(function () {
         if (!validate("editDisputeFrom")) {// validate
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
             return false;
@@ -97,14 +100,14 @@
     });
     function update() {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=updateurl%>",
-            data: { "firstname": $("#editDisputeFrom #firstName").val(),
+            data: {"firstname": $("#editDisputeFrom #firstName").val(),
                 "fathersname": $("#editDisputeFrom #fathersName").val(),
                 "grandfathersname": $("#editDisputeFrom #grandFathersName").val(),
                 "sex": $("#editDisputeFrom #sex").val(),
                 "disputeType": $("#editDisputeFrom #disputeType").val(),
-                "disputeStatus" : $("#editDisputeFrom #disputeStatus").val(),
+                "disputeStatus": $("#editDisputeFrom #disputeStatus").val(),
                 "registeredOn": '<%=registeredOn%>'
             },
             error: showajaxerror,

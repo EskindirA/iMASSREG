@@ -35,6 +35,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("type")%></label>
                                     <select class="form-control" id="organizationType" name="organizationType" >
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] organizationTypes = MasterRepository.getInstance().getAllOrganizationTypes();
                                             for (int i = 0; i < organizationTypes.length; i++) {

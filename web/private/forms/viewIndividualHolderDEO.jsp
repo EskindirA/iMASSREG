@@ -37,6 +37,7 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("sex")%></label>
                             <select class="form-control" id="sex" name="sex" value="<%=holder.getSex()%>" disabled >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <option value = 'm'><%=CommonStorage.getText("male")%></option>
                                 <option value = 'f'><%=CommonStorage.getText("female")%></option>
                                 <option value = 'n'><%=CommonStorage.getText("not_available")%></option>

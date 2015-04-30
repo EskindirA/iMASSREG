@@ -52,6 +52,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("other_evidence")%></label>
                                     <select class="form-control" id="otherEvidence" name="otherEvidence" data-value="${sessionScope.currentParcel.otherEvidence}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] otherEvidenceTypes = MasterRepository.getInstance().getAllOtherEvidenceTypes();
                                             for (int i = 0; i < otherEvidenceTypes.length; i++) {
@@ -63,6 +64,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("means_of_acquisition")%> </label>
                                     <select class="form-control" id="meansOfAcquisition" name="meansOfAcquisition" data-value="${sessionScope.currentParcel.meansOfAcquisition}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] meansOfAcquisitionTypes = MasterRepository.getInstance().getAllMeansOfAcquisitionTypes();
                                             for (int i = 0; i < meansOfAcquisitionTypes.length; i++) {
@@ -74,8 +76,9 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("acquisition_year")%></label>
                                     <select class="form-control" name="acquisitionYear" id = "acquisitionYear" value="${sessionScope.currentParcel.acquisitionYear}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
-                                            for (int i = 1963; i <= 2007; i++) {
+                                            for (int i = 1900; i <= 2007; i++) {
                                                 out.println("<option value = '" + i + "'>" + i + "</option>");
                                             }
                                         %>
@@ -87,6 +90,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("current_land_use")%></label>
                                     <select class="form-control" id="currentLandUse" name="currentLandUse" value="${sessionScope.currentParcel.currentLandUse}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] currentLandUseTypes = MasterRepository.getInstance().getAllCurrentLandUseTypes();
                                             for (int i = 0; i < currentLandUseTypes.length; i++) {
@@ -98,6 +102,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("soil_fertility")%> </label>
                                     <select class="form-control" id="soilFertility" name="soilFertility" value="${sessionScope.currentParcel.soilFertility}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] soilFertilityTypes = MasterRepository.getInstance().getAllSoilFertilityTypes();
                                             for (int i = 0; i < soilFertilityTypes.length; i++) {
@@ -109,6 +114,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("holding_type")%></label>
                                     <select class="form-control" id="holdingType" name="holdingType" value="${sessionScope.currentParcel.holding}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] holdingTypes = MasterRepository.getInstance().getAllHoldingTypes();
                                             for (int i = 0; i < holdingTypes.length; i++) {
@@ -120,6 +126,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("encumbrance")%> </label>
                                     <select class="form-control" id="encumbrance" name="encumbrance" value="${sessionScope.currentParcel.encumbrance}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] encumbranceTypes = MasterRepository.getInstance().getAllEncumbranceTypes();
                                             for (int i = 0; i < encumbranceTypes.length; i++) {
@@ -135,6 +142,7 @@
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("has_dispute")%> ?:</label>
                                     <select class="form-control" id="hasDispute" name="hasDispute" value="${sessionScope.currentParcel.hasDispute}">
+                                        <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <option value = 'false'><%=CommonStorage.getText("no")%></option>
                                         <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                                     </select>
@@ -162,7 +170,7 @@
         $("#currentLandUse").toggleClass("error-field", false);
         $("#soilFertility").toggleClass("error-field", false);
         $("#holdingType").toggleClass("error-field", false);
-        $("#Encumbrance").toggleClass("error-field", false);
+        $("#encumbrance").toggleClass("error-field", false);
         $("#hasDispute").toggleClass("error-field", false);
         if ($("#mapsheetno").val() === "") {
             returnValue = false;
@@ -196,19 +204,14 @@
             returnValue = false;
             $("#holdingType").toggleClass("error-field", true);
         }
-        if ($("#Encumbrance").val() === "") {
+        if ($("#encumbrance").val() === "") {
             returnValue = false;
-            $("#Encumbrance").toggleClass("error-field", true);
+            $("#encumbrance").toggleClass("error-field", true);
         }
         if ($("#hasDispute").val() === "") {
             returnValue = false;
             $("#hasDispute").toggleClass("error-field", true);
         }
-        //if (!$("#surveyDate").val().match(dateReg)) {
-        //    returnValue = false;
-        //    $("#surveyDate").toggleClass("error-field",true);
-        //}
-
         return returnValue;
     }
     function save() {
