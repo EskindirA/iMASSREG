@@ -52,8 +52,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi")%> - ${sessionScope.upi}
-                        <%=reviewMode && parcelDifference.isIndividualHolderDetails()
-                            ? "<span style='margin-left: 3em' class='discrepancy-field'>" + CommonStorage.getText("there_is_a_discrepancy_in_holder_details") + "</span>" : ""%>
+                    <%=reviewMode && parcelDifference.isIndividualHolderDetails()
+                                ? "<span style='margin-left: 3em' class='discrepancy-field'>" + CommonStorage.getText("there_is_a_discrepancy_in_holder_details") + "</span>" : ""%>
                     <span style='float:right' class='<%= reviewMode
                             && parcelDifference.isHoldersCount()
                                     ? "discrepancy-field" : ""%>'><%=CommonStorage.getText("holders_count")%>:<%=currentParcel.getHolderCount()%></span>
@@ -118,11 +118,11 @@
                         <div class="row">
                             <%
                                 if (editable) {
-                                    out.println("<button type='submit' id = 'addHolderButton' name = 'addHolderButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >"+CommonStorage.getText("add")+"</button>");
+                                    out.println("<button type='submit' id = 'addHolderButton' name = 'addHolderButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >" + CommonStorage.getText("add") + "</button>");
                                 } else {
                                     out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                 }
-                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>"+CommonStorage.getText("next")+"</button>");
+                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>" + CommonStorage.getText("next") + "</button>");
                             %>
                         </div>                        
                     </div>
@@ -164,6 +164,7 @@
                                 <select class="form-control" id="sex" name="sex">
                                     <option value = 'm'><%=CommonStorage.getText("male")%></option>
                                     <option value = 'f'><%=CommonStorage.getText("female")%></option>
+                                    <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -218,55 +219,55 @@
         $("#viewModal").hide();
         $("#viewModal").html("");
     }
-    function validate(formId){
-        return true;
-    }
-    /*
     function validate(formId) {
         var returnValue = true;
         $("#" + formId + " #holderId").toggleClass("error-field", false);
-        $("#" + formId + " #firstName").toggleClass("error-field", false);
-        $("#" + formId + " #fathersName").toggleClass("error-field", false);
-        $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
-        $("#" + formId + " #sex").toggleClass("error-field", false);
-        $("#" + formId + " #familyRole").toggleClass("error-field", false);
-        $("#" + formId + " #physicalImpairment").toggleClass("error-field", false);
-        $("#" + formId + " #isOrphan").toggleClass("error-field", false);
+        /*
+         $("#" + formId + " #firstName").toggleClass("error-field", false);
+         $("#" + formId + " #fathersName").toggleClass("error-field", false);
+         $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
+         $("#" + formId + " #sex").toggleClass("error-field", false);
+         $("#" + formId + " #familyRole").toggleClass("error-field", false);
+         $("#" + formId + " #physicalImpairment").toggleClass("error-field", false);
+         $("#" + formId + " #isOrphan").toggleClass("error-field", false);
+         */
         if ($("#" + formId + " #holderId").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #holderId").toggleClass("error-field", true);
         }
-        if ($("#" + formId + " #firstName").val().trim() === "") {
-            returnValue = false;
-            $("#" + formId + " #firstName").toggleClass("error-field", true);
-        }
-        if ($("#" + formId + " #fathersName").val().trim() === "") {
-            returnValue = false;
-            $("#" + formId + " #fathersName").toggleClass("error-field", true);
-        }
-        if ($("#" + formId + " #grandFathersName").val().trim() === "") {
-            returnValue = false;
-            $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
-        }
-        if ($("#" + formId + " #sex").val().trim() === "") {
-            returnValue = false;
-            $("#" + formId + " #sex").toggleClass("error-field", true);
-        }
-        if ($("#" + formId + " #familyRole").val().trim() === "") {
-            returnValue = false;
-            $("#" + formId + " #familyRole").toggleClass("error-field", true);
-        }
-        if ($("#" + formId + " #physicalImpairment").val().trim() === "") {
-            returnValue = false;
-            $("#" + formId + " #physicalImpairment").toggleClass("error-field", true);
-        }
-        if ($("#" + formId + " #isOrphan").val().trim() === "") {
-            returnValue = false;
-            $("#" + formId + " #isOrphan").toggleClass("error-field", true);
-        }
+        /*
+         if ($("#" + formId + " #firstName").val().trim() === "") {
+         returnValue = false;
+         $("#" + formId + " #firstName").toggleClass("error-field", true);
+         }
+         if ($("#" + formId + " #fathersName").val().trim() === "") {
+         returnValue = false;
+         $("#" + formId + " #fathersName").toggleClass("error-field", true);
+         }
+         if ($("#" + formId + " #grandFathersName").val().trim() === "") {
+         returnValue = false;
+         $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
+         }
+         if ($("#" + formId + " #sex").val().trim() === "") {
+         returnValue = false;
+         $("#" + formId + " #sex").toggleClass("error-field", true);
+         }
+         if ($("#" + formId + " #familyRole").val().trim() === "") {
+         returnValue = false;
+         $("#" + formId + " #familyRole").toggleClass("error-field", true);
+         }
+         if ($("#" + formId + " #physicalImpairment").val().trim() === "") {
+         returnValue = false;
+         $("#" + formId + " #physicalImpairment").toggleClass("error-field", true);
+         }
+         if ($("#" + formId + " #isOrphan").val().trim() === "") {
+         returnValue = false;
+         $("#" + formId + " #isOrphan").toggleClass("error-field", true);
+         }
+         
+         */
         return returnValue;
     }
-    */
     function loadViewHolder(result) {
         $("#editModal").html("").hide();
         $("#viewModal").html(result).modal();
@@ -276,7 +277,7 @@
         $("#editModal").html(result);
     }
     function deleteHolder(holderId, regOn) {
-        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_holder")%> ?", function(result) {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_holder")%> ?", function (result) {
             if (result) {
                 $.ajax({
                     type: 'POST',
@@ -336,19 +337,19 @@
         });
     }
     $('#dataTables-example').dataTable({"bPaginate": false});
-    $('.editButton').click(function() {
+    $('.editButton').click(function () {
         editHolder($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
         return false;
     });
-    $('.viewButton').click(function() {
+    $('.viewButton').click(function () {
         viewHolder($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
         return false;
     });
-    $('.deleteButton').click(function() {
+    $('.deleteButton').click(function () {
         deleteHolder($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
         return false;
     });
-    $("#saveHolderButton").click(function() {
+    $("#saveHolderButton").click(function () {
         if (!validate("addHolderForm")) {// validate
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
@@ -357,7 +358,7 @@
         }
         return false;
     });
-    $("#nextButton").click(function() {
+    $("#nextButton").click(function () {
         if (validateHolderList()) {
             $.ajax({
                 type: 'POST',
@@ -368,8 +369,8 @@
         }
         return false;
     });
-    $("#backButton").click(function() {
-        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function(result) {
+    $("#backButton").click(function () {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function (result) {
             if (result) {
                 $.ajax({
                     url: "<%=backurl%>",

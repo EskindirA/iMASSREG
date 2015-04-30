@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.dto.Change;
+import org.lift.massreg.util.CommonStorage;
 
 /**
  *
@@ -95,11 +96,13 @@ public class Guardian implements Entity {
     }
 
     public String getSexText() {
-        String returnValue = "";
+        String returnValue;
         if (sex.equalsIgnoreCase("m")) {
-            returnValue = "Male";
-        } else {
-            returnValue = "Female";
+            returnValue = CommonStorage.getText("male");
+        } else if (sex.equalsIgnoreCase("f")) {
+            returnValue = CommonStorage.getText("female");
+        }else {
+            returnValue = CommonStorage.getText("not_available");
         }
         return returnValue;
     }

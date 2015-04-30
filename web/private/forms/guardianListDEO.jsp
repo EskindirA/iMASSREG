@@ -147,6 +147,7 @@
                                 <select class="form-control" id="sex" name="sex">
                                     <option value = 'm'><%=CommonStorage.getText("male")%></option>
                                     <option value = 'f'><%=CommonStorage.getText("female")%></option>
+                                    <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
                                 </select>
                             </div>
                             <div class="form-group">
