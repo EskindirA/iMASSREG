@@ -3,19 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/MainFilter.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dao/MasterRepository.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/welcomeAdministrator.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/CommonStorage.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/ReportUtil.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/WoredaCorrdinator.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/cpCheckList.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/publicDisplay.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/welcomeWC.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/en_us.properties</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/Administrator.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/Constants.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/disputeListMCO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/editParcelMCO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/editParcelMCSupervisor.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/editParcelDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelMCDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/editParcelMCDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelMCO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelWC.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelMCSupervisor.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/addParcelMCDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelPDC.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelSupervisor.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/addParcelDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/editParcelSupervisor.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -31,7 +31,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"> 
                     <%= CommonStorage.getText("parcel") + ":" + CommonStorage.getText("administrative_upi") + "-" + request.getParameter("upi")%>
-                        <span style='float:right' class=''><%=CommonStorage.getText("holders_count")%>:<%=currentParcel.getHolderCount()%></span>
+                    <span style='float:right' class=''><%=CommonStorage.getText("holders_count")%>:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -66,14 +66,14 @@
                                                 + "data-registeredOn = '" + holders.get(i).getRegisteredOn() + "' "
                                                 + "data-holderId = '" + holders.get(i).getId() + "'>" + CommonStorage.getText("view") + "</a>");
 
-                                            out.println("|");
-                                            out.println("<a href = '#' class='editButton' data-holderId='"
-                                                    + holders.get(i).getId() + "' data-registeredOn='"
-                                                    + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("edit") + "</a>");
-                                            out.println("|");
-                                            out.println("<a href = '#' class='deleteButton' data-holderId='"
-                                                    + holders.get(i).getId() + "' data-registeredOn='"
-                                                    + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
+                                        out.println("|");
+                                        out.println("<a href = '#' class='editButton' data-holderId='"
+                                                + holders.get(i).getId() + "' data-registeredOn='"
+                                                + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("edit") + "</a>");
+                                        out.println("|");
+                                        out.println("<a href = '#' class='deleteButton' data-holderId='"
+                                                + holders.get(i).getId() + "' data-registeredOn='"
+                                                + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
 
                                         out.println("</td>");
                                         out.println("</tr>");
@@ -90,9 +90,9 @@
                     <div class="col-lg-6">
                         <div class="row">
                             <%
-                                out.println("<button type='submit' id = 'addHolderButton' name = 'addHolderButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >"+CommonStorage.getText("add")+"</button>");
-                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>"+CommonStorage.getText("next")+"</button>");
-                                
+                                out.println("<button type='submit' id = 'addHolderButton' name = 'addHolderButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >" + CommonStorage.getText("add") + "</button>");
+                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>" + CommonStorage.getText("next") + "</button>");
+
                             %>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                                 <select class="form-control" id="familyRole" name="familyRole" >
                                     <%
                                         Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
-                                        for (int i = 0; i < familyRoleTypes.length-1; i++) {
+                                        for (int i = 0; i < familyRoleTypes.length - 1; i++) {
                                             out.println("<option value = '" + familyRoleTypes[i].getKey() + "'>" + familyRoleTypes[i].getValue() + "</option>");
                                         }
                                     %>
@@ -194,53 +194,49 @@
         $("#viewModal").hide();
         $("#viewModal").html("");
     }
-        function validate(formId) {
+    function validate(formId) {
         var returnValue = true;
         $("#" + formId + " #holderId").toggleClass("error-field", false);
-        /*
-         $("#" + formId + " #firstName").toggleClass("error-field", false);
-         $("#" + formId + " #fathersName").toggleClass("error-field", false);
-         $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
-         $("#" + formId + " #sex").toggleClass("error-field", false);
-         $("#" + formId + " #familyRole").toggleClass("error-field", false);
-         $("#" + formId + " #physicalImpairment").toggleClass("error-field", false);
-         $("#" + formId + " #isOrphan").toggleClass("error-field", false);
-         */
+        $("#" + formId + " #firstName").toggleClass("error-field", false);
+        $("#" + formId + " #fathersName").toggleClass("error-field", false);
+        $("#" + formId + " #grandFathersName").toggleClass("error-field", false);
+        $("#" + formId + " #sex").toggleClass("error-field", false);
+        $("#" + formId + " #familyRole").toggleClass("error-field", false);
+        $("#" + formId + " #physicalImpairment").toggleClass("error-field", false);
+        $("#" + formId + " #isOrphan").toggleClass("error-field", false);
         if ($("#" + formId + " #holderId").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #holderId").toggleClass("error-field", true);
         }
-        /*
-         if ($("#" + formId + " #firstName").val().trim() === "") {
-         returnValue = false;
-         $("#" + formId + " #firstName").toggleClass("error-field", true);
-         }
-         if ($("#" + formId + " #fathersName").val().trim() === "") {
-         returnValue = false;
-         $("#" + formId + " #fathersName").toggleClass("error-field", true);
-         }
-         if ($("#" + formId + " #grandFathersName").val().trim() === "") {
-         returnValue = false;
-         $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
-         }
-         if ($("#" + formId + " #sex").val().trim() === "") {
-         returnValue = false;
-         $("#" + formId + " #sex").toggleClass("error-field", true);
-         }
-         if ($("#" + formId + " #familyRole").val().trim() === "") {
-         returnValue = false;
-         $("#" + formId + " #familyRole").toggleClass("error-field", true);
-         }
-         if ($("#" + formId + " #physicalImpairment").val().trim() === "") {
-         returnValue = false;
-         $("#" + formId + " #physicalImpairment").toggleClass("error-field", true);
-         }
-         if ($("#" + formId + " #isOrphan").val().trim() === "") {
-         returnValue = false;
-         $("#" + formId + " #isOrphan").toggleClass("error-field", true);
-         }
-         
-         */
+        if ($("#" + formId + " #firstName").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #firstName").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #fathersName").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #fathersName").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #grandFathersName").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #grandFathersName").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #sex").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #sex").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #familyRole").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #familyRole").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #physicalImpairment").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #physicalImpairment").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #isOrphan").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #isOrphan").toggleClass("error-field", true);
+        }
+
         return returnValue;
     }
     function loadViewHolder(result) {
@@ -340,7 +336,7 @@
         if (validateHolderList()) {
             $.ajax({
                 type: 'POST',
-                data:{"upi": '<%=request.getParameter("upi")%>'},
+                data: {"upi": '<%=request.getParameter("upi")%>'},
                 url: "<%=nexturl%>",
                 error: showajaxerror,
                 success: loadForward
@@ -353,8 +349,8 @@
             if (result) {
                 $.ajax({
                     url: "<%=backurl%>",
-                    type:"post",
-                    data:{"upi": '<%=request.getParameter("upi")%>'},
+                    type: "post",
+                    data: {"upi": '<%=request.getParameter("upi")%>'},
                     error: showajaxerror,
                     success: loadBackward
                 });

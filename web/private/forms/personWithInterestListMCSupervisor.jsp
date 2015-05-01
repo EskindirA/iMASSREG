@@ -171,7 +171,6 @@
         return true;
     }
     
-    /*
     function validate(formId) {
         var returnValue = true;
         $("#" + formId + " #firstName").toggleClass("error-field",false);
@@ -196,7 +195,6 @@
         }        
         return returnValue;
     }
-    */
     function loadViewPersonWithInterest(result) {
         $("#editModal").html("").hide();
         $("#viewModal").html(result).modal();

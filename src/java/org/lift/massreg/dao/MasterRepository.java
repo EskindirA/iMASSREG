@@ -6276,7 +6276,7 @@ public class MasterRepository {
                         if (parcels.getLong("landusetype") == 13) {
                             hasMissingValue = true;
                         }
-                        if (parcels.getLong("soilfertilitytype") == 4) {
+                        if (parcels.getLong("soilfertilitytype") == 5) {
                             hasMissingValue = true;
                         }
                         if (parcels.getLong("acquisitiontype") == 9) {
@@ -6403,7 +6403,7 @@ public class MasterRepository {
                     if (parcels.getLong("landusetype") == 13) {
                         hasMissingValue = true;
                     }
-                    if (parcels.getLong("soilfertilitytype") == 4) {
+                    if (parcels.getLong("soilfertilitytype") == 5) {
                         hasMissingValue = true;
                     }
                     if (parcels.getLong("acquisitiontype") == 9) {
@@ -6451,7 +6451,7 @@ public class MasterRepository {
                 if (rs.getLong("landusetype") == 13) {
                     hasMissingValue = true;
                 }
-                if (rs.getLong("soilfertilitytype") == 4) {
+                if (rs.getLong("soilfertilitytype") == 5) {
                     hasMissingValue = true;
                 }
                 if (rs.getLong("acquisitiontype") == 9) {
