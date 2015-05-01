@@ -11,7 +11,6 @@ import org.lift.massreg.dto.*;
 import org.apache.commons.fileupload.*;
 import org.apache.commons.fileupload.disk.*;
 import org.apache.commons.fileupload.servlet.*;
-import org.apache.commons.io.output.*;
 
 /**
  * @author Yoseph Berhanu <yoseph@bayeth.com>
@@ -30,6 +29,17 @@ public class WoredaCorrdinator {
      */
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(request.getSession().getAttribute("areaCalculated")==null){
+            String kebele = request.getSession().getAttribute("kebele").toString();
+            if(kebele==null || kebele.equalsIgnoreCase("ALL")){
+                Option[] opt = MasterRepository.getInstance().getAllKebeles();
+                for (int i = 0; i < opt.length; i++) {
+                    MasterRepository.getInstance().updateParcelArea(Long.parseLong(opt[i].getKey()));
+                }
+            }
+            MasterRepository.getInstance().updateParcelArea(Long.parseLong(kebele));
+            request.getSession().setAttribute("areaCalculated",true);
+        }
         ArrayList<Parcel> parcels = MasterRepository.getInstance().getALLParcels(request.getSession().getAttribute("kebele").toString(), request.getSession().getAttribute("status").toString());
         request.setAttribute("parcels", parcels);
         request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_WC));
