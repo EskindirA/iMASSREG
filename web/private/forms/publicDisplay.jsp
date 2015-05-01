@@ -68,7 +68,7 @@
 
                     for (int j = 0; j < holdersList.get(i).getParcels().size(); j++) {
                         out.println("<td>" + holdersList.get(i).getParcels().get(j).getParcelId() + "</td>");
-                        out.println("<td>" + holdersList.get(i).getParcels().get(j).hasDispute() + "</td>");
+                        out.println("<td>" + holdersList.get(i).getParcels().get(j).hasDisputeText() + "</td>");
                         out.println("<td>" + holdersList.get(i).getParcels().get(j).getArea() + "</td>");
                         String guardiansList = "";
                         for (String guardian : holdersList.get(i).getParcels().get(j).getGuardians()) {

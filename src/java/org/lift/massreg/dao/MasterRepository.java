@@ -876,8 +876,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean update(Guardian oldGuardian,
-            Guardian newGuardian) {
+    public boolean update(Guardian oldGuardian, Guardian newGuardian) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE Guardian SET firstname=?, "

@@ -8,7 +8,6 @@ import org.lift.massreg.util.CommonStorage;
  * @version 2.0
  * @since 2.0
  */
-
 public class ParcelPublicDisplayDTO {
 
     private boolean hasMissingValue = false;
@@ -54,6 +53,10 @@ public class ParcelPublicDisplayDTO {
         return hasDispute;
     }
 
+    public String hasDisputeText() {
+        return hasDispute ? CommonStorage.getText("yes") : CommonStorage.getText("no");
+    }
+
     public void hasDispute(boolean hasDispute) {
         this.hasDispute = hasDispute;
     }
@@ -76,14 +79,14 @@ public class ParcelPublicDisplayDTO {
 
     public ArrayList<String> getOtherHolders() {
         if (coHolders.isEmpty()) {
-            coHolders.add(CommonStorage.getText("dose_not_exist"));
+            coHolders.add(CommonStorage.getText("does_not_exist"));
         }
         return coHolders;
     }
 
     public ArrayList<String> getGuardians() {
         if (guardians.isEmpty()) {
-            guardians.add(CommonStorage.getText("dose_not_exist"));
+            guardians.add(CommonStorage.getText("does_not_exist"));
         }
         return guardians;
     }
@@ -104,10 +107,6 @@ public class ParcelPublicDisplayDTO {
         this.hasMissingValue = hasMissingValue;
     }
 
-    public String hasDisputeText() {
-        return hasDispute ? CommonStorage.getText("yes") : CommonStorage.getText("no");
-    }
-    
     public String hasMissingValueText() {
         return hasMissingValue ? CommonStorage.getText("yes") : CommonStorage.getText("no");
     }
