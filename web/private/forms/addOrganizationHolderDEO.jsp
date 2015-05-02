@@ -29,8 +29,16 @@
                         <div class="col-lg-12">
                             <form role="form" action="#" method="action">
                                 <div class="form-group">
-                                    <label><%=CommonStorage.getText("name")%></label>
-                                    <input class="form-control " id="organizationName" name="organizationName" placeholder="Name of the holding organization" autocomplete="off"/>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <label><%=CommonStorage.getText("name")%></label>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <input type="checkbox" id="notavailablechkbox" name="notavailablechkbox"/>
+                                            <label><%=CommonStorage.getText("not_available")%></label>
+                                        </div>
+                                    </div>
+                                    <input class="form-control " id="organizationName" name="organizationName" placeholder="Name of the holding organization" autocomplete="off"/> 
                                 </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("type")%></label>
@@ -51,9 +59,9 @@
                                     <div class="col-lg-6">
                                         <%
                                             if (currentParcel.hasDispute()) {
-                                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-5' style='float:right'>"+CommonStorage.getText("next")+"</button>");
+                                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-5' style='float:right'>" + CommonStorage.getText("next") + "</button>");
                                             } else {
-                                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-5' style='float:right'>"+CommonStorage.getText("finish")+"</button>");
+                                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-5' style='float:right'>" + CommonStorage.getText("finish") + "</button>");
                                             }
                                         %>
                                     </div>
@@ -75,21 +83,21 @@
 <script type="text/javascript">
     function validate() {
         var returnValue = true;
-        $("#organizationName").toggleClass("error-field",false);
-        $("#organizationType").toggleClass("error-field",false);
+        $("#organizationName").toggleClass("error-field", false);
+        $("#organizationType").toggleClass("error-field", false);
         if ($("#organizationName").val().trim() === "") {
             returnValue = false;
-            $("#organizationName").toggleClass("error-field",true);
+            $("#organizationName").toggleClass("error-field", true);
         }
         if ($("#organizationType").val().trim() === "") {
             returnValue = false;
-            $("#organizationType").toggleClass("error-field",true);
+            $("#organizationType").toggleClass("error-field", true);
         }
         return returnValue;
     }
     function save() {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=saveurl%>",
             data: {
                 "organizationName": $("#organizationName").val(),
@@ -99,7 +107,7 @@
             success: loadForward
         });
     }
-    $("#nextButton").click(function() {
+    $("#nextButton").click(function () {
         if (!validate()) {// validate
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
@@ -107,11 +115,11 @@
         }
         return false;
     });
-    $("#backButton").click(function() {
-        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function(result) {
+    $("#backButton").click(function () {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function (result) {
             if (result) {
                 $.ajax({
-                    type:'POST',
+                    type: 'POST',
                     url: "<%=backurl%>",
                     error: showajaxerror,
                     success: loadBackward
@@ -120,4 +128,15 @@
         });
         return false;
     });
+
+    $("#notavailablechkbox").click(function() {
+        if ($(this).is(':checked')){
+            $("#organizationName").val("<%=CommonStorage.getText("not_available")%>");
+            $("#organizationName").attr("disabled", "disabled");
+        } else {
+            $("#organizationName").val("");
+            $("#organizationName").removeAttr("disabled");
+        }
+    });
+
 </script>

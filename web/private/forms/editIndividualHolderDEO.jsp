@@ -24,7 +24,15 @@
                 <div class="panel-body">         
                     <div class="row">
                         <div class="form-group">
-                            <label><%=CommonStorage.getText("holder_id")%></label>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <label><%=CommonStorage.getText("holder_id")%></label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="checkbox" id="notavailablechkbox" name="notavailablechkbox"/>
+                                    <label><%=CommonStorage.getText("not_available")%></label>
+                                </div>
+                            </div>
                             <input class="form-control " type="text" id="holderId" name="holderId" value="<%=holder.getId()%>" />
                         </div>
                         <div class="form-group">
@@ -91,27 +99,27 @@
     </div>
 </div>
 <script type="text/javascript">
-    var calendarview = $.calendars.instance("ethiopian","am"); 
+    var calendarview = $.calendars.instance("ethiopian", "am");
     $("#editHolderFrom #dateOfBirth").calendarsPicker({calendar: calendarview});
-    $("#updateHolderButton").click(function() {
+    $("#updateHolderButton").click(function () {
         if (!validate("editHolderFrom")) {// validate
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
             update();// save
             closeModals();
         }
-        
+
         return false;
     });
-    $("#editHolderFrom select").each(function() {
+    $("#editHolderFrom select").each(function () {
         $(this).val($(this).attr("value"));
     });
-    $("#editHolderButton").click(function() {
+    $("#editHolderButton").click(function () {
         editDispute("<%=request.getParameter("holderId")%>", "<%=request.getParameter("registeredOn")%>");
     });
     function update() {
         $.ajax({
-            type:'POST',
+            type: 'POST',
             url: "<%=updateurl%>",
             data: {
                 "dateofbirth": $("#editHolderFrom #dateOfBirth").val(),
@@ -130,4 +138,13 @@
             success: loadForward
         });
     }
+    $("#notavailablechkbox").click(function () {
+        if ($(this).is(':checked')) {
+            $("#holderId").val("<%=CommonStorage.getText("not_available")%>");
+            $("#holderId").attr("disabled", "disabled");
+        } else {
+            $("#holderId").val("");
+            $("#holderId").removeAttr("disabled");
+        }
+    });
 </script>

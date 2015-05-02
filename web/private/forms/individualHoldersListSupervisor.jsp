@@ -40,7 +40,7 @@
                     %>
 
                           <span style='float:right' class='<%= parcelDifference.isHoldersCount()
-                            ? "discrepancy-field" : ""%>'><%=CommonStorage.getText("holders_count")%>:<%=currentParcel.getHolderCount()%></span>
+                                  ? "discrepancy-field" : ""%>'><%=CommonStorage.getText("holders_count")%>:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -102,11 +102,11 @@
                         <div class="row">
                             <%
                                 if (editable) {
-                                    out.println("<button type='submit' id = 'addHolderButton' name = 'addHolderButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >"+CommonStorage.getText("add")+"</button>");
+                                    out.println("<button type='submit' id = 'addHolderButton' name = 'addHolderButton' class='btn btn-default col-lg-2 col-lg-offset-6' data-toggle='modal' data-target='#addModal' >" + CommonStorage.getText("add") + "</button>");
                                 } else {
                                     out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
                                 }
-                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>"+CommonStorage.getText("next")+"</button>");
+                                out.println("<button type='submit' id = 'nextButton' name = 'nextButton' class='btn btn-default col-lg-2' style='margin-left: 1em'>" + CommonStorage.getText("next") + "</button>");
                             %>
                         </div>
                     </div>
@@ -128,7 +128,15 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                                <label><%=CommonStorage.getText("holder_id")%></label>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <label><%=CommonStorage.getText("holder_id")%></label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="checkbox" id="notavailablechkbox" name="notavailablechkbox"/>
+                                        <label><%=CommonStorage.getText("not_available")%></label>
+                                    </div>
+                                </div>
                                 <input class="form-control " type="text" id="holderId" name="holderId" />
                             </div>
                             <div class="form-group">
@@ -370,5 +378,14 @@
             }
         });
         return false;
+    });
+    $("#notavailablechkbox").click(function () {
+        if ($(this).is(':checked')) {
+            $("#holderId").val("<%=CommonStorage.getText("not_available")%>");
+            $("#holderId").attr("disabled", "disabled");
+        } else {
+            $("#holderId").val("");
+            $("#holderId").removeAttr("disabled");
+        }
     });
 </script>

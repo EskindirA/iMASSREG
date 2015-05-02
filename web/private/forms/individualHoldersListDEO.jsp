@@ -53,7 +53,7 @@
                 <div class="panel-heading"> 
                     <%=CommonStorage.getText("parcel")%>: <%=CommonStorage.getText("administrative_upi")%> - ${sessionScope.upi}
                     <%=reviewMode && parcelDifference.isIndividualHolderDetails()
-                                ? "<span style='margin-left: 3em' class='discrepancy-field'>" + CommonStorage.getText("there_is_a_discrepancy_in_holder_details") + "</span>" : ""%>
+                            ? "<span style='margin-left: 3em' class='discrepancy-field'>" + CommonStorage.getText("there_is_a_discrepancy_in_holder_details") + "</span>" : ""%>
                     <span style='float:right' class='<%= reviewMode
                             && parcelDifference.isHoldersCount()
                                     ? "discrepancy-field" : ""%>'><%=CommonStorage.getText("holders_count")%>:<%=currentParcel.getHolderCount()%></span>
@@ -144,7 +144,15 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                                <label><%=CommonStorage.getText("holder_id")%></label>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <label><%=CommonStorage.getText("holder_id")%></label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="checkbox" id="notavailablechkbox" name="notavailablechkbox"/>
+                                        <label><%=CommonStorage.getText("not_available")%></label>
+                                    </div>
+                                </div>
                                 <input class="form-control " type="text" id="holderId" name="holderId" />
                             </div>
                             <div class="form-group">
@@ -177,7 +185,7 @@
                                 <select class="form-control" id="familyRole" name="familyRole" >
                                     <%
                                         Option[] familyRoleTypes = MasterRepository.getInstance().getAllfamilyRoleTypes();
-                                        for (int i = 0; i < familyRoleTypes.length-1; i++) {
+                                        for (int i = 0; i < familyRoleTypes.length - 1; i++) {
                                             out.println("<option value = '" + familyRoleTypes[i].getKey() + "'>" + familyRoleTypes[i].getValue() + "</option>");
                                         }
                                     %>
@@ -385,5 +393,14 @@
             }
         });
         return false;
+    });
+    $("#notavailablechkbox").click(function () {
+        if ($(this).is(':checked')) {
+            $("#holderId").val("<%=CommonStorage.getText("not_available")%>");
+            $("#holderId").attr("disabled", "disabled");
+        } else {
+            $("#holderId").val("");
+            $("#holderId").removeAttr("disabled");
+        }
     });
 </script>

@@ -48,7 +48,15 @@
                         <div class="col-lg-12">
                             <form role="form" action="#" id="editHolderFrom" name="editHolderFrom" method="action">
                                 <div class="form-group">
-                                    <label><%=CommonStorage.getText("name")%></label>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <label><%=CommonStorage.getText("name")%></label>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <input type="checkbox" id="notavailablechkbox" name="notavailablechkbox"/>
+                                            <label><%=CommonStorage.getText("not_available")%></label>
+                                        </div>
+                                    </div>
                                     <input class="form-control <%= reviewMode &&
                                             holderDifference.isName()
                                             ?"discrepancy-field":""%>" id="organizationName" name="organizationName" placeholder="Name of the holding organization" value="<%=holder.getName()%>" />
@@ -147,5 +155,14 @@
             save();// save
         }
         return false;
+    });
+    $("#notavailablechkbox").click(function() {
+    if ($(this).is(':checked')){
+            $("#organizationName").val("<%=CommonStorage.getText("not_available")%>");
+            $("#organizationName").attr("disabled", "disabled");
+        } else {
+            $("#organizationName").val("");
+            $("#organizationName").removeAttr("disabled");
+        }
     });
 </script>

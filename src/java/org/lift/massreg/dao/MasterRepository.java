@@ -6472,6 +6472,14 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public ArrayList<String> getParcelsWithoutTextualData(long kebele){
+        ArrayList<String>returnValue = new ArrayList<>();
+        // TODO
+        returnValue.add("One");
+        returnValue.add("Two");
+        return returnValue;
+    }
+
     public ArrayList<Parcel> getALLParcelsInCommitted(String kebele) {
         ArrayList<Parcel> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
