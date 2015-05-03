@@ -410,7 +410,7 @@ public class Administrator {
                 request.setAttribute("holdersList", MasterRepository.getInstance().getPublicDisplayReport(kebeleId));
                 request.setAttribute("parcelList", MasterRepository.getInstance().getParcelsWithoutHolder(kebeleId));
                 request.setAttribute("missingParcels", MasterRepository.getInstance().getParcelsWithoutTextualData(kebeleId));
-                
+
                 request.setAttribute("kebeleName", MasterRepository.getInstance().getKebeleName(kebeleId, CommonStorage.getCurrentLanguage()));
                 RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
                 rd.forward(request, response);
@@ -425,6 +425,19 @@ public class Administrator {
             rd.forward(request, response);
         }
 
+    }
+
+    public static void dailyReport(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Date date = Date.valueOf(request.getParameter("reportDate"));
+        if (date == null) {
+            response.getOutputStream().println("Please specfiey a date for the report ");
+            response.getOutputStream().close();
+        } else {
+            request.setAttribute("report", ReportUtil.generateDailyReport(date));
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DAILY_REPORT_ADMINISTRATOR));
+            rd.forward(request, response);
+        }
     }
 
 }

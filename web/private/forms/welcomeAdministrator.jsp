@@ -14,6 +14,7 @@
     String periodicalReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERIODICAL_REPORT_ADMINISTRATOR;
     String kebeleReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR;
     String publicDisplayurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PUBLIC_DISPLAY;
+    String dailyReportURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_DAILY_REPORT_ADMINISTRATOR;
 
 %>
 <div class="col-lg-12">
@@ -28,6 +29,8 @@
             <li><a href="#settings" data-toggle="tab"><%=CommonStorage.getText("settings")%></a></li>
             <li><a href="#publicDisplay" data-toggle="tab"><%=CommonStorage.getText("public_display")%></a></li>
             <li><a href="#report" data-toggle="tab" id="reportLink"><%=CommonStorage.getText("report")%></a></li>
+            <li><a href="#dailyReport" data-toggle="tab" id="reportLink"><%=CommonStorage.getText("daily_report")%></a></li>
+
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active in" id="users">
@@ -216,6 +219,28 @@
                 </div>
                 <div id="publicDisplayDetail"></div>
             </div>
+            <div class="tab-pane fade" id="dailyReport">
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <div class="panel panel-default" >
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="dailyReprotForm" name="dailyReprotForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label><%=CommonStorage.getText("date")%></label>
+                                        <input class="form-control" id="dailyReprotDate" name="dailyReprotDate" type="date" value="<%=CommonStorage.getCurrentDate()%>">
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'dailyReprotButton' name = 'dailyReprotButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+                <div id="dailyReprotDetail"></div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -383,6 +408,15 @@
         }
         return returnValue;
     }
+    function validateDailyReport() {
+        var returnValue = true;
+        $("#dailyReprotForm #dailyReprotDate").toggleClass("error-field", false);
+        if ($("#dailyReprotForm #dailyReprotDate").val().trim() === "") {
+            returnValue = false;
+            $("#dailyReprotForm #dailyReprotDate").toggleClass("error-field", true);
+        }
+        return returnValue;
+    }
     function validateGenerateReport() {
         var returnValue = true;
         $("#report #fromDate").toggleClass("error-field", false);
@@ -406,7 +440,6 @@
         }
         return returnValue;
     }
-
     function closeModals() {
         $("#editModal").hide();
         $("#editModal").html("");
@@ -531,6 +564,7 @@
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
             $.ajax({
+                type: 'POST',
                 url: "<%=periodicalReporturl%>",
                 data: {
                     fromDate: $("#report #fromDate").val(),
@@ -550,6 +584,7 @@
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
         } else {
             $.ajax({
+                type: 'POST',
                 url: "<%=kebeleReporturl%>",
                 data: {
                     kebele: $("#kebeleReportForm #kebele").val()
@@ -571,6 +606,7 @@
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_public_display_printout")%>");
         } else {
             $.ajax({
+                type: 'POST',
                 url: "<%=publicDisplayurl%>",
                 data: {
                     kebele: $("#publicDisplayForm #publicDisplayKebele").val()
@@ -589,6 +625,25 @@
                     mywindow.print();
                     mywindow.close();
                     //$("#publicDisplayDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
+
+    $("#dailyReprotButton").click(function () {
+        if (!validateDailyReport()) {
+            showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: "<%=dailyReportURL%>",
+                data: {
+                    reportDate: $("#dailyReprotForm #dailyReprotDate").val()
+                },
+                error: showajaxerror,
+                success: function (data) {
+                    $("#dailyReprotDetail").html(data);
                 }
             });
         }

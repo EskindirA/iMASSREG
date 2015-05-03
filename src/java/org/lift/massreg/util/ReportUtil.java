@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.xssf.usermodel.*;
 import org.lift.massreg.dao.*;
+import org.lift.massreg.dto.DailyPerformance;
 
 /**
  *
@@ -994,5 +995,9 @@ public class ReportUtil {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
         return wb;
+    }
+
+    public static ArrayList<DailyPerformance> generateDailyReport(Date date){
+        return MasterRepository.getInstance().getDailyReport(date);
     }
 }

@@ -324,6 +324,8 @@ public interface Constants {
     public static final String ACTION_PRINT_CHEACKLIST_WC="PRINT_CHEACKLIST_WC";
     public static final String ACTION_UPDATE_SETTINGS_WC="UPDATE_SETTINGS_WC";
     public static final String ACTION_GET_IMAGE_WC="GET_IMAGE_WC";
+    public static final String ACTION_DAILY_REPORT_ADMINISTRATOR="DAILY_REPORT_ADMINISTRATOR";
+    
     // pages
     public static final int INDEX_ERROR = 0;
     public static final int INDEX_WELCOME_FEO = 1;
@@ -490,6 +492,7 @@ public interface Constants {
     public static final int INDEX_VIEW_PARCEL_WC = 130;
     public static final int INDEX_PRINT_CERTIFCATE_WC = 131;
     public static final int INDEX_CERTIFICATE_PRINTING_CHECKLIST_WC = 132;
+    public static final int INDEX_DAILY_REPORT_ADMINISTRATOR = 133;
 
     public enum ROLE {
 

@@ -7521,4 +7521,29 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public ArrayList<DailyPerformance> getDailyReport(Date date){
+        ArrayList<DailyPerformance> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT *, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=1 AND Parcel.registeredOn = ? ) as firstEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=2 AND Parcel.registeredOn = ? ) as secondEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=4 AND Parcel.registeredOn = ? ) as supervisor FROM Users u WHERE u.status='active' AND (u.role = 'FEO' OR u.role = 'SEO' OR u.role = 'SUPERVISOR' )");
+            stmnt.setDate(1, date);
+            stmnt.setDate(2, date);
+            stmnt.setDate(3, date);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                DailyPerformance performance = new DailyPerformance();
+                performance.setUser(rs.getString("firstName") + " " + rs.getString("fathersName") + " " + rs.getString("grandfathersName"));
+                performance.setDate(date);
+                performance.setFirstEntry(rs.getInt("firstEntry"));
+                performance.setFirstEntry(rs.getInt("firstEntry"));
+                performance.setSupervisor(rs.getInt("supervisor"));
+                returnValue.add(performance);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
 }

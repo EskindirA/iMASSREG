@@ -612,6 +612,8 @@ public class MainFilter extends HttpServlet {
             Administrator.publicDisplay(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {
             Administrator.exportReport(request, response);
+        }  else if (action.equalsIgnoreCase(Constants.ACTION_DAILY_REPORT_ADMINISTRATOR)) {
+            Administrator.dailyReport(request, response);
         } // For PDC
         else if (action.equalsIgnoreCase(Constants.ACTION_MINOR_CORRECTION_PDC)) {
             PostPDCoordinator.sendToMinorCorrection(request, response);
