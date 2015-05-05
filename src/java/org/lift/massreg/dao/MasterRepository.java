@@ -7525,7 +7525,7 @@ public class MasterRepository {
         ArrayList<DailyPerformance> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT *, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=1 AND Parcel.registeredOn = ? ) as firstEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=2 AND Parcel.registeredOn = ? ) as secondEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=4 AND Parcel.registeredOn = ? ) as supervisor FROM Users u WHERE u.status='active' AND (u.role = 'FEO' OR u.role = 'SEO' OR u.role = 'SUPERVISOR' )");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT *, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=1 AND Parcel.registeredOn::DATE = ? ) as firstEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=2 AND Parcel.registeredOn::DATE = ? ) as secondEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=4 AND Parcel.registeredOn::DATE = ? ) as supervisor FROM Users u WHERE u.status='active' AND (u.role = 'FEO' OR u.role = 'SEO' OR u.role = 'SUPERVISOR' )");
             stmnt.setDate(1, date);
             stmnt.setDate(2, date);
             stmnt.setDate(3, date);
