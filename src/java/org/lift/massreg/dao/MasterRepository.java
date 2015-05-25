@@ -2202,6 +2202,60 @@ public class MasterRepository {
         return returnValue;
     }
 
+    
+    public String getWoredaName(long woredaId, String language) {
+        String returnValue = "";
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT woreda." + language + " as woredaName FROM woreda WHERE woreda.code = ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setLong(1, woredaId);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getString("woredaName");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+    
+    public String getZoneName(long woredaId, String language) {
+        String returnValue = "";
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT zone." + language + " as zoneName FROM zone,woreda WHERE woreda.zonecode=Zone.code and woreda.code = ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setLong(1, woredaId);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getString("zoneName");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+    
+    public String getRegionName(long woredaId, String language) {
+        String returnValue = "";
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT region." + language + " as regionName FROM region,zone,woreda WHERE zone.regioncode=Region.code and woreda.zonecode=Zone.code and woreda.code = ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setLong(1, woredaId);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getString("regionName");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
     public String getWoredaIdForUPI(long woredaId) {
         String returnValue = "";
         Connection connection = CommonStorage.getConnection();
@@ -6427,43 +6481,20 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public ArrayList<ParcelPublicDisplayDTO> getParcelsWithoutHolder(long kebele) {
-        ArrayList<ParcelPublicDisplayDTO> returnValue = new ArrayList<>();
+    public ArrayList<String> getParcelsWithoutHolder(long kebele) {
+        ArrayList<String> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT * FROM Parcel WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND UPI NOT IN (SELECT UPI FROM individualholder WHERE stage=4 and status='active')";
+            String query = "SELECT * FROM dblink("
+                    + getDBLinkString() + " ,'SELECT parcel_id FROM " + getKebeleTable(kebele)
+                    + "') as P2(parcelId integer) EXCEPT SELECT parcelId FROM "
+                    + "Parcel WHERE status='active' AND stage=4 AND UPI LIKE '" + kebele + "/%'";
+
+            connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
-                boolean hasMissingValue = false;
-                ParcelPublicDisplayDTO parcel = new ParcelPublicDisplayDTO();
-                parcel.setHolding(rs.getByte("holdingtype"));
-                parcel.setMapSheetNo(rs.getString("mapsheetno"));
-                parcel.setParcelId(rs.getInt("parcelid"));
-                parcel.setUpi(rs.getString("upi"));
-                parcel.setArea(rs.getDouble("area"));
-                parcel.hasDispute(rs.getBoolean("hasdispute"));
-
-                if (rs.getLong("otherevidence") == 5) {
-                    hasMissingValue = true;
-                }
-                if (rs.getLong("landusetype") == 13) {
-                    hasMissingValue = true;
-                }
-                if (rs.getLong("soilfertilitytype") == 5) {
-                    hasMissingValue = true;
-                }
-                if (rs.getLong("acquisitiontype") == 9) {
-                    hasMissingValue = true;
-                }
-                if (rs.getLong("acquisitionyear") < 1000) {
-                    hasMissingValue = true;
-                }
-                if (rs.getLong("encumbrancetype") == 7) {
-                    hasMissingValue = true;
-                }
-                parcel.hasMissingValue(hasMissingValue);
-                returnValue.add(parcel);
+                returnValue.add(rs.getString("parcelId"));
             }
             connection.close();
         } catch (Exception ex) {
@@ -6472,8 +6503,8 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public ArrayList<String> getParcelsWithoutTextualData(long kebele){
-        ArrayList<String>returnValue = new ArrayList<>();
+    public ArrayList<String> getParcelsWithoutTextualData(long kebele) {
+        ArrayList<String> returnValue = new ArrayList<>();
         // TODO
         returnValue.add("One");
         returnValue.add("Two");
@@ -6521,6 +6552,747 @@ public class MasterRepository {
                     parcel.setOrganaizationHolder(getOrganaizationHolder(parcel.getUpi(), parcel.getStage()));
                 }
                 returnValue.add(parcel);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    // Missing Data
+    public long getCountOfHoldersWithMissingFirstName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and (firstName=null OR firstName='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingFirstName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM individualholder WHERE stage=4 and status='active' and (firstName=null OR firstName='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersWithMissingFathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and (fathersname=null OR fathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingFathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM individualholder WHERE stage=4 and status='active' and (fathersname=null OR fathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersWithMissingGrandfathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and (grandfathersname=null OR grandfathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingGrandfathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM individualholder WHERE stage=4 and status='active' and (grandfathersname=null OR grandfathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersWithMissingSex(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and sex='n' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingSex(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM individualholder WHERE stage=4 and status='active' and sex='n' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersWithMissingFamilyRole(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and familyrole=13 and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingFamilyRole(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM individualholder WHERE stage=4 and status='active' and familyrole=13 and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersWithMissingDateOfBirth(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and (dateofbirth=null OR dateofbirth='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingDateOfBirth(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM individualholder WHERE stage=4 and status='active' and (dateofbirth=null OR dateofbirth='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingCertificateNo(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and (certificateno=null OR certificateno='') and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingCertificateNo(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and (certificateno=null OR certificateno='') and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingHoldingNo(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and (holdingno=null OR holdingno='') and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingHoldingNo(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and (holdingno=null OR holdingno='') and UPI LIKE '" + kebele + "/%')";
+
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingOtherEvidence(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and otherevidence=5 and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingOtherEvidence(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and otherevidence=5 and UPI LIKE '" + kebele + "/%')";
+
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingLandUseType(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and landusetype = 14 and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingLandUseType(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and landusetype = 14 and UPI LIKE '" + kebele + "/%')";
+
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingSoilFertility(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and soilfertilitytype = 5 and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingSoilFertility(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and soilfertilitytype = 5 and UPI LIKE '" + kebele + "/%')";
+
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingAcquisitionType(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and acquisitiontype = 9 and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingAcquisitionType(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and acquisitiontype = 9 and UPI LIKE '" + kebele + "/%')";
+
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingAcquisitionYear(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and acquisitionyear < 1000 and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingAcquisitionYear(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and acquisitionyear < 1000 and UPI LIKE '" + kebele + "/%')";
+
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfHoldersInParcelsWithMissingEncumbranceType(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and encumbrancetype = 7 and  UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingEncumbranceType(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and encumbrancetype = 7 and UPI LIKE '" + kebele + "/%')";
+
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    
+    public long getCountOfParcelsWithMissingDisputantsFirstName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM dispute WHERE stage=4 and status='active' and (firstName=null OR firstName='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingDisputantsFathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM dispute WHERE stage=4 and status='active' and (fathersname=null OR fathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingDisputantsGrandfathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM dispute WHERE stage=4 and status='active' and (grandfathersname=null OR grandfathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingDisputantsSex(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM dispute WHERE stage=4 and status='active' and (sex=null OR sex='n') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingDisputeType(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM dispute WHERE stage=4 and status='active' and disputetype=5 AND UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+    
+    public long getCountOfParcelsWithMissingDisputeStatus(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM dispute WHERE stage=4 and status='active' and disputestatus=8 and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingData(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM ( (SELECT upi FROM individualholder WHERE stage=4 and status='active' and (firstName=null OR firstName='' OR fathersname=null OR fathersname=''OR grandfathersname=null OR grandfathersname='' OR sex=null OR sex='n' OR familyrole=13 OR dateofbirth=null OR dateofbirth='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')) UNION (SELECT upi FROM Parcel WHERE stage=4 and status='active' and (certificateno=null OR certificateno='' OR holdingno=null OR holdingno='' OR otherevidence=5 OR landusetype = 14 OR soilfertilitytype = 5 OR acquisitiontype = 9 OR acquisitionyear < 1000 OR encumbrancetype = 7 ) and UPI LIKE '" + kebele + "/%') UNION (SELECT upi  FROM dispute WHERE stage=4 and status='active' AND (firstName=null OR firstName='' OR fathersname=null OR fathersname=''OR grandfathersname=null OR grandfathersname='' OR sex=null OR sex='n' OR  disputetype=5 OR disputestatus=8) AND UPI in (SELECT UPI FROM Parcel WHERE stage=4 AND status='active' AND UPI LIKE '" + kebele + "/%')) UNION (SELECT upi  FROM guardian WHERE stage=4 and status='active' and (firstName=null OR firstName='' OR fathersname=null OR fathersname=''OR grandfathersname=null OR grandfathersname='' OR sex=null OR sex='n') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ) UNION (SELECT upi  FROM personwithinterest WHERE stage=4 and status='active' and (firstName=null OR firstName='' OR fathersname=null OR fathersname=''OR grandfathersname=null OR grandfathersname='' OR sex=null OR sex='n') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%'))) T;";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    
+    public long getCountOfParcelsWithMissingPersonWithInterestsFirstName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM personwithinterest WHERE stage=4 and status='active' and (firstName=null OR firstName='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingPersonWithInterestsFathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM personwithinterest WHERE stage=4 and status='active' and (fathersname=null OR fathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingPersonWithInterestsGrandfathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM personwithinterest WHERE stage=4 and status='active' and (grandfathersname=null OR grandfathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingPersonWithInterestsSex(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM personwithinterest WHERE stage=4 and status='active' and (sex=null OR sex='n') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingGuardiansFirstName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Guardian WHERE stage=4 and status='active' and (firstName=null OR firstName='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingGuardiansFathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Guardian WHERE stage=4 and status='active' and (fathersname=null OR fathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingGuardiansGrandfathersName(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Guardian WHERE stage=4 and status='active' and (grandfathersname=null OR grandfathersname='') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfParcelsWithMissingGuardiansSex(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Guardian WHERE stage=4 and status='active' and (sex=null OR sex='n') and UPI in (SELECT UPI FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
             }
             connection.close();
         } catch (Exception ex) {
@@ -7253,7 +8025,7 @@ public class MasterRepository {
         ArrayList<PublicDisplayCheckList> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT a.UPI, stages."+CommonStorage.getCurrentLanguage()+" as status FROM (SELECT upi, max(stage) as stage FROM Parcel group by upi) a, stages Where stages.code = a.stage and UPI LIKE '" + kebele + "/%'");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT a.UPI, stages." + CommonStorage.getCurrentLanguage() + " as status FROM (SELECT upi, max(stage) as stage FROM Parcel group by upi) a, stages Where stages.code = a.stage and UPI LIKE '" + kebele + "/%'");
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 PublicDisplayCheckList displayCheckList = new PublicDisplayCheckList();
@@ -7272,7 +8044,7 @@ public class MasterRepository {
         ArrayList<CertificatePrintingCheckList> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT parcel.UPI, stages."+CommonStorage.getCurrentLanguage()+" as status FROM Parcel, stages Where parcel.status='active' AND stage="+CommonStorage.getApprovedStage()+" and stages.code = Parcel.stage and UPI LIKE '" + kebele + "/%'");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT parcel.UPI, stages." + CommonStorage.getCurrentLanguage() + " as status FROM Parcel, stages Where parcel.status='active' AND stage=" + CommonStorage.getApprovedStage() + " and stages.code = Parcel.stage and UPI LIKE '" + kebele + "/%'");
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 CertificatePrintingCheckList checkList = new CertificatePrintingCheckList();
@@ -7480,7 +8252,7 @@ public class MasterRepository {
         ArrayList<Parcel> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE stage = "+CommonStorage.getApprovedStage()+" and status='active' and hasdispute='false' and UPI LIKE '" + kebele + "/%'");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE stage = " + CommonStorage.getApprovedStage() + " and status='active' and hasdispute='false' and UPI LIKE '" + kebele + "/%'");
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 Parcel parcel = new Parcel();
@@ -7521,7 +8293,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public ArrayList<DailyPerformance> getDailyReport(Date date){
+    public ArrayList<DailyPerformance> getDailyReport(Date date) {
         ArrayList<DailyPerformance> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {

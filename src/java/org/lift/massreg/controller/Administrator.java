@@ -347,23 +347,38 @@ public class Administrator {
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
      */
-    public static void exportReport(HttpServletRequest request, HttpServletResponse response) {
+    public static void exportReport(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String file = request.getParameter("file");
         File f = new File(file);
         try {
             ReportUtil.sign(file);
+            System.err.println("0");
             FileInputStream in = new FileInputStream(f);
             byte[] data = new byte[(int) f.length()];
+            System.err.println("1");
             in.read(data);
+            System.err.println("2");
             in.close();
+            System.err.println("3");
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-Disposition", "attachment; filename=" + file);
             response.setHeader("Cache-Control", "no cache");
+            System.err.println("4");
             OutputStream out = response.getOutputStream();
+            System.err.println("5");
             out.write(data);
+            System.err.println("6");
             out.flush();
+            System.err.println("7");
             out.close();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
         }
     }
 
@@ -371,7 +386,8 @@ public class Administrator {
             throws ServletException, IOException {
         Date fromDate = Date.valueOf(request.getParameter("fromDate"));
         Date toDate = Date.valueOf(request.getParameter("toDate"));
-        String fileName = CommonStorage.getCurrentWoredaName() + " Timebound report - " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+        String fileName = CommonStorage.getCurrentWoredaName() + " Timebound report " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+
         if (fromDate == null || toDate == null) {
             response.getOutputStream().println("Please specfiey valide report dates");
         } else {
@@ -411,6 +427,9 @@ public class Administrator {
                 request.setAttribute("parcelList", MasterRepository.getInstance().getParcelsWithoutHolder(kebeleId));
                 request.setAttribute("missingParcels", MasterRepository.getInstance().getParcelsWithoutTextualData(kebeleId));
 
+                request.setAttribute("regionName", MasterRepository.getInstance().getRegionName(CommonStorage.getCurrentWoredaId(), CommonStorage.getCurrentLanguage()));
+                request.setAttribute("zoneName", MasterRepository.getInstance().getZoneName(CommonStorage.getCurrentWoredaId(), CommonStorage.getCurrentLanguage()));
+                request.setAttribute("woredaName", MasterRepository.getInstance().getWoredaName(CommonStorage.getCurrentWoredaId(), CommonStorage.getCurrentLanguage()));
                 request.setAttribute("kebeleName", MasterRepository.getInstance().getKebeleName(kebeleId, CommonStorage.getCurrentLanguage()));
                 RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PUBLIC_DISPLAY));
                 rd.forward(request, response);

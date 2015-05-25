@@ -989,6 +989,148 @@ public class ReportUtil {
                 //for (int x = 0; x < 14/*Number of columns*/; x++) {
                 //    disputeSheet.autoSizeColumn(x, true);
                 //}
+                
+                
+                /// Missing Data report
+                Sheet missingDataSheet = wb.createSheet("Missing Data");
+                row0 = missingDataSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString("Missing Data"));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString("Number of Holders"));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString("Number of Parcels"));
+                
+                row1 = missingDataSheet.createRow((short) 1);
+                row1.createCell(0).setCellValue(createHelper.createRichTextString("Holder's First Name"));
+                row1.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersWithMissingFirstName(kebele));
+                row1.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingFirstName(kebele));
+                
+                row2 = missingDataSheet.createRow((short) 2);
+                row2.createCell(0).setCellValue(createHelper.createRichTextString("Holder's Father's Name"));
+                row2.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersWithMissingFathersName(kebele));
+                row2.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingFathersName(kebele));
+                
+                row3 = missingDataSheet.createRow((short) 3);
+                row3.createCell(0).setCellValue(createHelper.createRichTextString("Holder's Grandfather's Name"));
+                row3.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersWithMissingGrandfathersName(kebele));
+                row3.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingGrandfathersName(kebele));
+                
+                row4 = missingDataSheet.createRow((short) 4);
+                row4.createCell(0).setCellValue(createHelper.createRichTextString("Holder's Sex"));
+                row4.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersWithMissingSex(kebele));
+                row4.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingSex(kebele));
+                
+                row5 = missingDataSheet.createRow((short) 5);
+                row5.createCell(0).setCellValue(createHelper.createRichTextString("Holder's Family Role"));
+                row5.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersWithMissingFamilyRole(kebele));
+                row5.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingFamilyRole(kebele));
+                
+                row6 = missingDataSheet.createRow((short) 6);
+                row6.createCell(0).setCellValue(createHelper.createRichTextString("Holder's Date of Birth"));
+                row6.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersWithMissingDateOfBirth(kebele));
+                row6.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingDateOfBirth(kebele));
+                
+                row7 = missingDataSheet.createRow((short) 7);
+                row7.createCell(0).setCellValue(createHelper.createRichTextString("Certificate No."));
+                row7.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingCertificateNo(kebele));
+                row7.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingCertificateNo(kebele));
+                
+                row8 = missingDataSheet.createRow((short) 8);
+                row8.createCell(0).setCellValue(createHelper.createRichTextString("Holding No."));
+                row8.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingHoldingNo(kebele));
+                row8.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingHoldingNo(kebele));
+                
+                row9 = missingDataSheet.createRow((short) 9);
+                row9.createCell(0).setCellValue(createHelper.createRichTextString("Other Evidence"));
+                row9.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingOtherEvidence(kebele));
+                row9.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingOtherEvidence(kebele));
+                
+                row10 = missingDataSheet.createRow((short) 10);
+                row10.createCell(0).setCellValue(createHelper.createRichTextString("Land Use"));
+                row10.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingLandUseType(kebele));
+                row10.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingLandUseType(kebele));
+                
+                Row row11 = missingDataSheet.createRow((short) 11);
+                row11.createCell(0).setCellValue(createHelper.createRichTextString("Soil Fertility"));
+                row11.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingSoilFertility(kebele));
+                row11.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingSoilFertility(kebele));
+                
+                Row row12 = missingDataSheet.createRow((short) 12);
+                row12.createCell(0).setCellValue(createHelper.createRichTextString("Means of Acquisition"));
+                row12.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingAcquisitionType(kebele));
+                row12.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingAcquisitionType(kebele));
+                
+                Row row13 = missingDataSheet.createRow((short) 13);
+                row13.createCell(0).setCellValue(createHelper.createRichTextString("Acquisition Year"));
+                row13.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingAcquisitionYear(kebele));
+                row13.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingAcquisitionYear(kebele));
+                
+                Row row14 = missingDataSheet.createRow((short) 14);
+                row14.createCell(0).setCellValue(createHelper.createRichTextString("Encumbrance"));
+                row14.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfHoldersInParcelsWithMissingEncumbranceType(kebele));
+                row14.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingEncumbranceType(kebele));
+                
+                Row row15 = missingDataSheet.createRow((short) 15);
+                row15.createCell(0).setCellValue(createHelper.createRichTextString("Disputant's First Name"));
+                row15.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingDisputantsFirstName(kebele));
+                
+                Row row16 = missingDataSheet.createRow((short) 16);
+                row16.createCell(0).setCellValue(createHelper.createRichTextString("Disputant's Father's Name"));
+                row16.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingDisputantsFathersName(kebele));
+                
+                Row row17 = missingDataSheet.createRow((short) 17);
+                row17.createCell(0).setCellValue(createHelper.createRichTextString("Disputant's Grandfather's Name"));
+                row17.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingDisputantsGrandfathersName(kebele));
+                
+                Row row18 = missingDataSheet.createRow((short) 18);
+                row18.createCell(0).setCellValue(createHelper.createRichTextString("Disputant's Sex"));
+                row18.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingDisputantsSex(kebele));
+                
+                Row row19 = missingDataSheet.createRow((short) 19);
+                row19.createCell(0).setCellValue(createHelper.createRichTextString("Dispute Type"));
+                row19.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingDisputeType(kebele));
+                
+                Row row20 = missingDataSheet.createRow((short) 20);
+                row20.createCell(0).setCellValue(createHelper.createRichTextString("Form Where the dispute is handled"));
+                row20.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingDisputeStatus(kebele));
+                
+                Row row21 = missingDataSheet.createRow((short) 21);
+                row21.createCell(0).setCellValue(createHelper.createRichTextString("Person With Interest's First Name"));
+                row21.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingPersonWithInterestsFirstName(kebele));
+                
+                Row row22 = missingDataSheet.createRow((short) 22);
+                row22.createCell(0).setCellValue(createHelper.createRichTextString("Person With Interest's Father's Name"));
+                row22.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingPersonWithInterestsFathersName(kebele));
+                
+                Row row23 = missingDataSheet.createRow((short) 23);
+                row23.createCell(0).setCellValue(createHelper.createRichTextString("Person With Interest's Grandfather's Name"));
+                row23.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingPersonWithInterestsGrandfathersName(kebele));
+                
+                Row row24 = missingDataSheet.createRow((short) 24);
+                row24.createCell(0).setCellValue(createHelper.createRichTextString("Person With Interest's Sex"));
+                row24.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingPersonWithInterestsSex(kebele));
+                
+                Row row25 = missingDataSheet.createRow((short) 25);
+                row25.createCell(0).setCellValue(createHelper.createRichTextString("Guardian's First Name"));
+                row25.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingGuardiansFirstName(kebele));
+                
+                Row row26 = missingDataSheet.createRow((short) 26);
+                row26.createCell(0).setCellValue(createHelper.createRichTextString("Guardian's Father's Name"));
+                row26.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingGuardiansFathersName(kebele));
+                
+                Row row27 = missingDataSheet.createRow((short) 27);
+                row27.createCell(0).setCellValue(createHelper.createRichTextString("Guardian's Grandfather's Name"));
+                row27.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingGuardiansGrandfathersName(kebele));
+                
+                Row row28 = missingDataSheet.createRow((short) 28);
+                row28.createCell(0).setCellValue(createHelper.createRichTextString("Guardian's Sex"));
+                row28.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingGuardiansSex(kebele));
+                
+                Row row29 = missingDataSheet.createRow((short) 29);
+                row29.createCell(0).setCellValue(createHelper.createRichTextString("Missing Any Data"));
+                row29.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithMissingData(kebele));
+                
+                for (int x = 0; x < 2; x++) {
+                   missingDataSheet.autoSizeColumn(x, true);
+                }
                 wb.write(fileOut);
             }
         } catch (Exception ex) {

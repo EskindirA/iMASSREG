@@ -1,6 +1,7 @@
 package org.lift.massreg.util;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -168,7 +169,7 @@ public class CommonStorage {
             prop.store(new FileOutputStream(new File(url.toURI())), null);
             language = newLanguage;
             loadTextValues();
-        } catch (Exception ex) {
+        } catch (IOException | URISyntaxException ex) {
             ex.printStackTrace(getLogger().getErrorStream());
         }
     }
