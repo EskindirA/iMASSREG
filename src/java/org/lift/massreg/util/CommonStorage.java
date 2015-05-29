@@ -139,7 +139,7 @@ public class CommonStorage {
     }
 
     public static char[] getKeyStorePassword() {
-        return keyStorePassword;
+        return "pass4this".toCharArray();
     }
 
     public static void setWoreda(long newWoredaId, String newWoredaName, String newWoredaIdForUPI) {
@@ -155,7 +155,7 @@ public class CommonStorage {
             woredaId = newWoredaId;
             woredaName = newWoredaName;
             woredaIDForUPI = newWoredaIdForUPI;
-        } catch (Exception ex) {
+        } catch (IOException | URISyntaxException ex) {
             ex.printStackTrace(getLogger().getErrorStream());
         }
     }

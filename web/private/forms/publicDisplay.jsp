@@ -69,7 +69,7 @@
                 <th><%=CommonStorage.getText("area")%></th>
                 <th><%=CommonStorage.getText("guardian")%></th>
                 <th><%=CommonStorage.getText("other_holders")%></th>
-                <th><%=CommonStorage.getText("has_missing_value")%>?</th>
+                <th><%=CommonStorage.getText("incomplete")%>?</th>
             </tr>
         </thead>
         <tbody>
@@ -79,7 +79,7 @@
                     int parcelCount = holdersList.get(i).getParcels().size();
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersList.get(i).getId() + "</td>");
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersList.get(i).getName() + "</td>");
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersList.get(i).getSex() + "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersList.get(i).getSexText()+ "</td>");
 
                     for (int j = 0; j < holdersList.get(i).getParcels().size(); j++) {
                         out.println(String.format("<td> %05d</td>", holdersList.get(i).getParcels().get(j).getParcelId()));

@@ -2276,7 +2276,7 @@ public class MasterRepository {
 
     private String getKebeleTable(long kebele) {
         return getKebeleName(kebele, "english").toLowerCase().replace(" ", "_")
-                + "_" + kebele;
+                + "_" + String.format("%09d", kebele);
     }
 
     private String getDBLinkString() {
@@ -2643,7 +2643,7 @@ public class MasterRepository {
         long returnValue = 0;
         try {
             String query = "SELECT P2.c as c FROM dblink(" + getDBLinkString()
-                    + ",'SELECT count (gid) as c FROM " + getKebeleTable(kebele)
+                    + ",'SELECT count (parcel_id) as c FROM " + getKebeleTable(kebele)
                     + "') as P2(c bigint)";
             Connection connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
@@ -8297,7 +8297,7 @@ public class MasterRepository {
         ArrayList<DailyPerformance> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT *, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=1 AND Parcel.registeredOn::DATE = ? ) as firstEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=2 AND Parcel.registeredOn::DATE = ? ) as secondEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=4 AND Parcel.registeredOn::DATE = ? ) as supervisor FROM Users u WHERE u.status='active' AND (u.role = 'FEO' OR u.role = 'SEO' OR u.role = 'SUPERVISOR' )");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT *, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=1 AND Parcel.registeredOn::DATE = ? ) as firstEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=2 AND Parcel.registeredOn::DATE = ? ) as secondEntry, (SELECT count(*) FROM Parcel WHERE Parcel.status='active' AND Parcel.registeredBy=u.userId AND Parcel.stage=3 AND Parcel.registeredOn::DATE = ? ) as supervisor FROM Users u WHERE u.status='active' AND (u.role = 'FEO' OR u.role = 'SEO' OR u.role = 'SUPERVISOR' )");
             stmnt.setDate(1, date);
             stmnt.setDate(2, date);
             stmnt.setDate(3, date);

@@ -2,6 +2,7 @@ package org.lift.massreg.dto;
 
 import java.util.ArrayList;
 import org.lift.massreg.dto.ParcelPublicDisplayDTO;
+import org.lift.massreg.util.CommonStorage;
 
 /**
  *
@@ -51,6 +52,9 @@ public class HolderPublicDisplayDTO {
 
     public String getSex() {
         return sex == null ? "" : sex;
+    }
+    public String getSexText() {
+        return sex == null ? "" : CommonStorage.getText(sex.toLowerCase());
     }
 
     public void setSex(String sex) {

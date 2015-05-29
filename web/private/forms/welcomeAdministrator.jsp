@@ -282,7 +282,6 @@
                                     <option value = 'CFEO'><%=CommonStorage.getText("correction_first_entry_operator")%></option>
                                     <option value = 'CSEO'><%=CommonStorage.getText("correction_second_entry_operator")%></option>
                                     <option value = 'CSUPER'><%=CommonStorage.getText("correction_supervisor")%></option>
-                                    <option value = 'WC'><%=CommonStorage.getText("woreda_coordinator")%></option>
                                 </select>
                             </div>
                             <div class="form-group">

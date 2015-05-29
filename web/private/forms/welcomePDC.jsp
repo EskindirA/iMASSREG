@@ -232,13 +232,6 @@
                         sendToMajorCorrection(upi);
                     }
                 },
-                missing: {
-                    label: "<%=CommonStorage.getText("missing_data")%>",
-                    className: "btn-default",
-                    callback: function () {
-                        sendToMajorCorrection(upi);
-                    }
-                },
                 confirm: {
                     label: "<%=CommonStorage.getText("confirm_as_correct")%>",
                     className: "btn-default",

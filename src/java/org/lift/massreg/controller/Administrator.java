@@ -352,24 +352,16 @@ public class Administrator {
         File f = new File(file);
         try {
             ReportUtil.sign(file);
-            System.err.println("0");
             FileInputStream in = new FileInputStream(f);
             byte[] data = new byte[(int) f.length()];
-            System.err.println("1");
             in.read(data);
-            System.err.println("2");
             in.close();
-            System.err.println("3");
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-Disposition", "attachment; filename=" + file);
             response.setHeader("Cache-Control", "no cache");
-            System.err.println("4");
             OutputStream out = response.getOutputStream();
-            System.err.println("5");
             out.write(data);
-            System.err.println("6");
             out.flush();
-            System.err.println("7");
             out.close();
         } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
@@ -386,7 +378,8 @@ public class Administrator {
             throws ServletException, IOException {
         Date fromDate = Date.valueOf(request.getParameter("fromDate"));
         Date toDate = Date.valueOf(request.getParameter("toDate"));
-        String fileName = CommonStorage.getCurrentWoredaName() + " Timebound report " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+        //String fileName = CommonStorage.getCurrentWoredaName() + " Timebound report " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+        String fileName = Instant.now().toEpochMilli() + ".xlsx";
 
         if (fromDate == null || toDate == null) {
             response.getOutputStream().println("Please specfiey valide report dates");
