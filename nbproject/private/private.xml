@@ -2,21 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dao/MasterRepository.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/om_et.properties</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/HolderPublicDisplayDTO.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/welcomeAdministrator.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/CommonStorage.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/ReportUtil.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/ParcelPublicDisplayDTO.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/ti_et.properties</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/welcomePDC.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/publicDisplay.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/en_us.properties</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewUser.jsp</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/Administrator.java</file>
-            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/editUser.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
