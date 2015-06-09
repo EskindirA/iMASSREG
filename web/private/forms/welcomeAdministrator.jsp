@@ -238,7 +238,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="dailyReprotDetail"></div>
+                <div id="dailyReprotDetail"> </div>
             </div>
 
         </div>
@@ -562,6 +562,7 @@
         if (!validateGenerateReport()) {
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
         } else {
+            $("#reportDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
             $.ajax({
                 type: 'POST',
                 url: "<%=periodicalReporturl%>",
@@ -582,6 +583,7 @@
         if ($("#kebeleReportForm #kebele").val().trim() === "") {
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
         } else {
+            $("#reportDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
             $.ajax({
                 type: 'POST',
                 url: "<%=kebeleReporturl%>",
@@ -648,5 +650,4 @@
         }
         return false;
     });
-
 </script>
