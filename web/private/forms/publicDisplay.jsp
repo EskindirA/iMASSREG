@@ -3,8 +3,9 @@
 <%@page import="org.lift.massreg.dto.*"%>
 <%@page import="org.lift.massreg.entity.*"%>
 <%
-    ArrayList<HolderPublicDisplayDTO> holdersList = (ArrayList<HolderPublicDisplayDTO>) request.getAttribute("holdersList");
-    ArrayList<String> parcels = (ArrayList<String>) request.getAttribute("parcelList");
+    ArrayList<HolderPublicDisplayDTO> holdersListI = (ArrayList<HolderPublicDisplayDTO>) request.getAttribute("holdersListI");
+    ArrayList<HolderPublicDisplayDTO> holdersListO = (ArrayList<HolderPublicDisplayDTO>) request.getAttribute("holdersListO");
+    ArrayList<String> parcels = (ArrayList<String>) request.getAttribute("missingParcels");
 
 %>
 <style>
@@ -51,14 +52,6 @@
 </style>
 <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover" >
-        <caption>
-            <h4>
-                <%=CommonStorage.getText("region")%> - <%=request.getAttribute("regionName")%>
-                <%=CommonStorage.getText("zone")%> - <%=request.getAttribute("zoneName")%>
-                <%=CommonStorage.getText("woreda")%> - <%=request.getAttribute("woredaName")%>
-                <%=CommonStorage.getText("kebele")%> - <%=request.getAttribute("kebeleName")%>
-            </h4>
-        </caption>
         <thead>
             <tr>
                 <th><%=CommonStorage.getText("holder_id")%></th>
@@ -74,29 +67,76 @@
         </thead>
         <tbody>
             <%
-                for (int i = 0; i < holdersList.size(); i++) {
+                for (int i = 0; i < holdersListI.size(); i++) {
                     out.println("<tr>");
-                    int parcelCount = holdersList.get(i).getParcels().size();
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersList.get(i).getId() + "</td>");
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersList.get(i).getName() + "</td>");
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersList.get(i).getSexText()+ "</td>");
+                    int parcelCount = holdersListI.get(i).getParcels().size();
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getId() + "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getName() + "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getSexText()+ "</td>");
 
-                    for (int j = 0; j < holdersList.get(i).getParcels().size(); j++) {
-                        out.println(String.format("<td> %05d</td>", holdersList.get(i).getParcels().get(j).getParcelId()));
-                        out.println("<td>" + holdersList.get(i).getParcels().get(j).hasDisputeText() + "</td>");
-                        out.println("<td>" + String.format("%.5f", holdersList.get(i).getParcels().get(j).getArea()) + "</td>");
+                    for (int j = 0; j < holdersListI.get(i).getParcels().size(); j++) {
+                        out.println(String.format("<td> %05d</td>", holdersListI.get(i).getParcels().get(j).getParcelId()));
+                        out.println("<td>" + holdersListI.get(i).getParcels().get(j).hasDisputeText() + "</td>");
+                        out.println("<td>" + String.format("%.5f", holdersListI.get(i).getParcels().get(j).getArea()) + "</td>");
                         String guardiansList = "";
-                        for (String guardian : holdersList.get(i).getParcels().get(j).getGuardians()) {
+                        for (String guardian : holdersListI.get(i).getParcels().get(j).getGuardians()) {
                             guardiansList += guardian + ",";
                         }
                         out.println("<td>" + guardiansList.substring(0, guardiansList.length() - 1) + "</td>");
                         String coholdersList = "";
-                        for (String holder : holdersList.get(i).getParcels().get(j).getOtherHolders()) {
+                        for (String holder : holdersListI.get(i).getParcels().get(j).getOtherHolders()) {
                             coholdersList += holder + ",";
                         }
                         out.println("<td>" + coholdersList.substring(0, coholdersList.length() - 1) + "</td>");
-                        boolean missing = holdersList.get(i).getParcels().get(j).hasMissingValue();
-                        out.println("<td " + (missing ? "class='warning'" : "") + " >" + holdersList.get(i).getParcels().get(j).hasMissingValueText() + "</td>");
+                        boolean missing = holdersListI.get(i).getParcels().get(j).hasMissingValue();
+                        out.println("<td " + (missing ? "class='warning'" : "") + " >" + holdersListI.get(i).getParcels().get(j).hasMissingValueText() + "</td>");
+                        out.print("</tr><tr>");
+                    }
+                    out.println("</tr>");
+                }
+            %>
+        </tbody>
+    </table>
+   
+        <table class="table table-striped table-bordered table-hover" >
+        <thead>
+            <tr>
+                <th><%=CommonStorage.getText("holder_id")%></th>
+                <th><%=CommonStorage.getText("name")%></th>
+                <th><%=CommonStorage.getText("sex")%></th>
+                <th><%=CommonStorage.getText("parcel_number")%></th>
+                <th><%=CommonStorage.getText("has_dispute")%></th>
+                <th><%=CommonStorage.getText("area")%></th>
+                <th><%=CommonStorage.getText("guardian")%></th>
+                <th><%=CommonStorage.getText("other_holders")%></th>
+                <th><%=CommonStorage.getText("incomplete")%>?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                for (int i = 0; i < holdersListO.size(); i++) {
+                    out.println("<tr>");
+                    int parcelCount = holdersListO.get(i).getParcels().size();
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListO.get(i).getId() + "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListO.get(i).getName() + "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListO.get(i).getSexText()+ "</td>");
+
+                    for (int j = 0; j < holdersListO.get(i).getParcels().size(); j++) {
+                        out.println(String.format("<td> %05d</td>", holdersListO.get(i).getParcels().get(j).getParcelId()));
+                        out.println("<td>" + holdersListO.get(i).getParcels().get(j).hasDisputeText() + "</td>");
+                        out.println("<td>" + String.format("%.5f", holdersListO.get(i).getParcels().get(j).getArea()) + "</td>");
+                        String guardiansList = "";
+                        for (String guardian : holdersListO.get(i).getParcels().get(j).getGuardians()) {
+                            guardiansList += guardian + ",";
+                        }
+                        out.println("<td>" + guardiansList.substring(0, guardiansList.length() - 1) + "</td>");
+                        String coholdersList = "";
+                        for (String holder : holdersListO.get(i).getParcels().get(j).getOtherHolders()) {
+                            coholdersList += holder + ",";
+                        }
+                        out.println("<td>" + coholdersList.substring(0, coholdersList.length() - 1) + "</td>");
+                        boolean missing = holdersListO.get(i).getParcels().get(j).hasMissingValue();
+                        out.println("<td " + (missing ? "class='warning'" : "") + " >" + holdersListO.get(i).getParcels().get(j).hasMissingValueText() + "</td>");
                         out.print("</tr><tr>");
                     }
                     out.println("</tr>");

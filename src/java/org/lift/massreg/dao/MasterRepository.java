@@ -6284,7 +6284,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public ArrayList<HolderPublicDisplayDTO> getPublicDisplayReport(long kebele) {
+    public ArrayList<HolderPublicDisplayDTO> getPublicDisplayReportI(long kebele) {
         ArrayList<HolderPublicDisplayDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
@@ -6428,9 +6428,19 @@ public class MasterRepository {
                 returnValue.add(holder);
 
             }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
 
+    public ArrayList<HolderPublicDisplayDTO> getPublicDisplayReportO(long kebele) {
+        ArrayList<HolderPublicDisplayDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
             /// Organizational Holder
-            query = "SELECT * FROM organizationholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT * FROM organizationholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt4 = connection.prepareStatement(query);
             ResultSet organizationholder = stmnt4.executeQuery();
             while (organizationholder.next()) {
@@ -6480,7 +6490,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-
+    
     public ArrayList<String> getParcelsWithoutHolder(long kebele) {
         ArrayList<String> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();

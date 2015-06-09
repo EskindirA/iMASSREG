@@ -416,8 +416,8 @@ public class Administrator {
             } else {
                 long kebeleId = Long.parseLong(request.getParameter("kebele"));
                 MasterRepository.getInstance().updateParcelArea(kebeleId);
-                request.setAttribute("holdersList", MasterRepository.getInstance().getPublicDisplayReport(kebeleId));
-                request.setAttribute("parcelList", MasterRepository.getInstance().getParcelsWithoutHolder(kebeleId));
+                request.setAttribute("holdersListI", MasterRepository.getInstance().getPublicDisplayReportI(kebeleId));
+                request.setAttribute("holdersListO", MasterRepository.getInstance().getPublicDisplayReportO(kebeleId));
                 request.setAttribute("missingParcels", MasterRepository.getInstance().getParcelsWithoutTextualData(kebeleId));
 
                 request.setAttribute("regionName", MasterRepository.getInstance().getRegionName(CommonStorage.getCurrentWoredaId(), CommonStorage.getCurrentLanguage()));
