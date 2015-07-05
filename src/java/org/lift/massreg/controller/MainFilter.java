@@ -38,7 +38,8 @@ public class MainFilter extends HttpServlet {
         if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath());
-        } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
+        }
+        else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
             switch (CommonStorage.getCurrentUser(request).getRole()) {
                 case FIRST_ENTRY_OPERATOR:
                     FirstEntry.welcomePage(request, response);
@@ -214,6 +215,9 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateIndividualHolder(request, response);
+        } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_CO)){
+            getUPI(request);
+            FirstEntry.updatePhotoID(request,response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateOrganizationHolder(request, response);

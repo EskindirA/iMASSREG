@@ -101,6 +101,10 @@
                                                     + holders.get(i).getId() + "' data-registeredOn='"
                                                     + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
 
+                                        }else{
+                                           out.println("| <a href = '#' class='changeIDButton' data-holderId='"
+                                                    + holders.get(i).getId() + "' data-registeredOn='"
+                                                    + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("change_photo_id") + "</a>"); 
                                         }
                                         out.println("</td>");
                                         out.println("</tr>");
@@ -289,6 +293,44 @@
         $("#viewModal").html("").hide();
         $("#editModal").html(result);
     }
+    function changePhotoId(holderId, regOn) {
+        var action = "<%=request.getContextPath()%>" + "/Index?action=" + "<%=Constants.ACTION_UPDATE_PHOTO_ID_CO%>";
+        bootbox.dialog({
+            title: "Update Photo ID",
+            message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal" method=\'POST\' id="editPhotoIdForm"' +
+                    'action = \'' + action + '\'> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="paymentDate">New Photo ID</label> ' +
+                    '<div class="col-md-4"> ' +
+                    '<input id="newHolderId" name="newHolderId" type="text" class="form-control input-md"> ' +
+                    '</div> </div> ' +
+                    '</form> </div>  </div>',
+            buttons: {
+                success: {
+                    label: "Post",
+                    className: "btn-success",
+                    callback: function () {
+                        $.ajax({
+                            type: 'POST',
+                            url: action,
+                            data: {"registeredOn": regOn, "holderId": holderId, "newholderId":$("#editPhotoIdForm #newHolderId").val()},
+                            error: showajaxerror,
+                            success: loadInPlace
+                        });
+                    }
+                },
+                cancel: {
+                    label: "Cancel",
+                    className: "btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+
+        });
+    }
     function deleteHolder(holderId, regOn) {
         bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_holder")%> ?", function (result) {
             if (result) {
@@ -360,6 +402,10 @@
     });
     $('.deleteButton').click(function () {
         deleteHolder($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
+        return false;
+    });
+    $('.changeIDButton').click(function () {
+        changePhotoId($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
         return false;
     });
     $("#saveHolderButton").click(function () {

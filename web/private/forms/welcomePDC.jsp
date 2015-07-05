@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="form-group error" id="someId">
                                             <label><%=CommonStorage.getText("parcel_id")%></label>
-                                            <input class="form-control" name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" required />
+                                            <input class="form-control" name = "parcelNo" id = "parcelNo" type="text" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" />
                                         </div>
                                         <div class="form-group">
                                             <label><%=CommonStorage.getText("administrative_upi")%></label>

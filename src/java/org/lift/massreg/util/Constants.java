@@ -89,6 +89,8 @@ public interface Constants {
     public static final String ACTION_EDIT_GUARDIAN_SEO = "EDIT_GUARDIAN_SEO";
     public static final String ACTION_UPDATE_GUARDIAN_FEO = "UPDATE_GUARDIAN_FEO";
     public static final String ACTION_UPDATE_GUARDIAN_SEO = "UPDATE_GUARDIAN_SEO";
+    
+    public static final String ACTION_UPDATE_PHOTO_ID_CO = "UPDATE_PHOTO_ID_CO";
 
     public static final String ACTION_FINISH_DISPUTE_FEO = "FINISH_DISPUTE_FEO";
     public static final String ACTION_FINISH_DISPUTE_SEO = "FINISH_DISPUTE_SEO";

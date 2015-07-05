@@ -1,11 +1,14 @@
 package org.lift.massreg.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import static org.lift.massreg.controller.FirstEntry.viewHolder;
 import org.lift.massreg.dao.MasterRepository;
 import org.lift.massreg.dto.CurrentUserDTO;
-import org.lift.massreg.entity.User;
+import org.lift.massreg.entity.IndividualHolder;
+import org.lift.massreg.entity.Parcel;
 import org.lift.massreg.util.*;
 
 /**
@@ -72,4 +75,5 @@ public class All {
             rd.forward(request, response);
         }
     }
+
 }

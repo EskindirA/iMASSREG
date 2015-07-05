@@ -9,39 +9,21 @@
 
 %>
 <style>
-    @media print{
-
-        tbody{
-            page-break-inside: auto;
-            display: table-header-group;
-        }
-        table{
-            page-break-after: auto;
-        }
-        tr{
-            page-break-inside: avoid;    
-            page-break-after: auto;
-        }
-        td,th{
-            border-left-style:solid;
-            border-left-color: #555 ; 
-            border-left-width: 1px;  
-            border-bottom-style:solid;
-            border-bottom-color: #555 ; 
-            border-bottom-width: 1px;  
-            page-break-inside: avoid;
-            page-break-after: auto;
-        }
+    @media print
+    {
+        table { page-break-after:auto }
+        tr    { page-break-inside:avoid; page-break-after:auto;clear:both!important;}
+        td    { page-break-inside:avoid; page-break-after:auto; }
+        thead { display: table-header-group;}
+        tfoot { display:table-footer-group; }
+        tbody{ page-break-inside: auto; display: table-header-group; }
+        td,th{ border-left-style:solid; border-left-color: #555 ; 
+               border-left-width: 1px; border-bottom-style:solid;
+               border-bottom-color: #555 ; border-bottom-width: 1px;
+               page-break-inside: avoid; page-break-after: auto;}
     }
-    table{
-        border-right-style:solid;
-        border-right-color: #555 ; 
-        border-right-width: 1px;
-        border-top-style:solid;
-        border-top-color: #555 ; 
-        border-top-width: 1px;
-        page-break-after: auto;
-    }
+    table{ border-right-style:solid; border-right-color: #555 ; border-right-width: 1px;
+           border-top-style:solid; border-top-color: #555 ; border-top-width: 1px; page-break-after: auto;}
     .warning{
         float: right;
         text-align: right;
@@ -167,8 +149,8 @@
                     }
                     out.println("<tr>");
                     for (int i = parcels.size() - last; i < parcels.size(); i++) {
-                        if (!parcels.get(i).equalsIgnoreCase("null") && !parcels.get(i).isEmpty()) {
-                            out.println(String.format("<td style='text-align:center'> %04d</td>", Integer.parseInt(parcels.get(i))));
+                            if (!parcels.get(i).equalsIgnoreCase("null") && !parcels.get(i).isEmpty()) {
+                            out.println(String.format("<td style='text-align:center'>"+parcels.get(i))+"</td>");
                         } else {
                             out.println("<td></td>");
                         }
