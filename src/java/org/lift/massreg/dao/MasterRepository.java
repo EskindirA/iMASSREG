@@ -2012,7 +2012,11 @@ public class MasterRepository {
         ArrayList<Parcel> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM Parcel WHERE stage = 3 and status='active' and upi not in (SELECT upi FROM Parcel WHERE stage = 4 and status='active')");
+            String query = "SELECT *, (SELECT max(stage) FROM Parcel P2 WHERE"
+                    + " P2.UPI=P.UPI AND P2.status='active') as maxstage  FROM "
+                    + " Parcel P WHERE P.stage = 3 AND P.status='active' AND "
+                    + " P.UPI not in (SELECT upi FROM Parcel WHERE stage = 4 and status='active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 Parcel parcel = new Parcel();
@@ -2035,6 +2039,8 @@ public class MasterRepository {
                 parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
                 parcel.hasDispute(rs.getBoolean("hasdispute"));
                 parcel.setTeamNo(rs.getByte("teamNo"));
+                parcel.setMaxStage(rs.getByte("maxStage"));
+                
                 if (parcel.hasDispute()) {
                     parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
                 }
@@ -7990,6 +7996,7 @@ public class MasterRepository {
             if (!kebele.equalsIgnoreCase("all")) {
                 query += " and UPI LIKE '" + kebele + "/%'";
             }
+            System.err.println(query);
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {

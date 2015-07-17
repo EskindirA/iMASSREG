@@ -210,6 +210,11 @@
                                     </div>
                                     <div class="form-group ">
                                         <label>&nbsp;</label>
+                                        <input id = 'holdingBased' name = 'holdingBased' type='checkbox'/>
+                                        <%=CommonStorage.getText("holding_based")%>
+                                    </div>    
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
                                         <button id = 'publicDisplayButton' name = 'publicDisplayButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
                                     </div>
                                 </form>

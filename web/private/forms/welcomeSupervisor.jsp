@@ -1,3 +1,4 @@
+<%@page import="org.lift.massreg.dto.CurrentUserDTO"%>
 <%@page import="org.lift.massreg.dao.MasterRepository"%>
 <%@page import="org.lift.massreg.util.*"%>
 <%@page import="org.lift.massreg.entity.Parcel"%>
@@ -9,6 +10,7 @@
     String viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SUPERVISOR;
     String deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_PARCEL_SUPERVISOR;
     String findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_SUPERVISOR;
+    CurrentUserDTO user = CommonStorage.getCurrentUser(request);
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -58,7 +60,7 @@
                                                     out.print("<td>");
                                                     out.print("<a href = '#' class='viewButton' "
                                                             + "data-upi='" + parcelsInCorrection.get(i).getUpi() + "'>" + CommonStorage.getText("view") + "</a>");
-                                                    if (parcelsInCorrection.get(i).canEdit(CommonStorage.getCurrentUser(request))) {
+                                                    if (parcelsInCorrection.get(i).canEdit(user.getRole())) {
                                                         out.print("|");
                                                         out.print("<a href = '#' class='editButton' "
                                                                 + "data-upi='" + parcelsInCorrection.get(i).getUpi() + "'>" + CommonStorage.getText("edit") + "</a>");

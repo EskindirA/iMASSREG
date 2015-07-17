@@ -44,6 +44,7 @@ public class Parcel implements Entity {
     private byte encumbrance;
     private String encumbranceText;
     private boolean hasDispute;
+    private byte maxStage;
     private OrganizationHolder organaizationHolder;
     private ArrayList<IndividualHolder> individualHolders = new ArrayList<>();
     private ArrayList<PersonWithInterest> personsWithInterest= new ArrayList<>();
@@ -446,8 +447,46 @@ public class Parcel implements Entity {
         return count;
     }
 
+    public boolean canEdit(Constants.ROLE role) {
+        boolean returnValue = true;
+        switch (role) {
+            case FIRST_ENTRY_OPERATOR:
+                if (maxStage > CommonStorage.getFEStage()) {
+                    returnValue = false;
+                }
+                break;
+            case SECOND_ENTRY_OPERATOR:
+                if (maxStage > CommonStorage.getSEStage()) {
+                    returnValue = false;
+                }
+                break;
+            case SUPERVISOR:
+                if (maxStage > CommonStorage.getCorrectionStage()) {
+                    returnValue = false;
+                }
+                break;
+            case MINOR_CORRECTION_OFFICER:
+                if (maxStage > CommonStorage.getMinorCorrectionStage()) {
+                    returnValue = false;
+                }
+            case CORRECTION_FIRST_ENTRY_OPERATOR:
+                if (maxStage > CommonStorage.getMajorCorrectionFEStage()) {
+                    returnValue = false;
+                }
+            case CORRECTION_SECOND_ENTRY_OPERATOR:
+                if (maxStage > CommonStorage.getMajorCorrectionSEStage()) {
+                    returnValue = false;
+                }
+            case CORRECTION_SUPERVISOR:
+                if (maxStage > CommonStorage.getMajorCorrectionSupervisorStage()) {
+                    returnValue = false;
+                }
+        }
+        return returnValue;
+    }
     public boolean canEdit(CurrentUserDTO cudto) {
         boolean returnValue = true;
+        
         boolean firstentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getFEStage());
         boolean secondentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getSEStage());
         boolean supervisor = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getCorrectionStage());
@@ -458,6 +497,7 @@ public class Parcel implements Entity {
         boolean majorcorrectionSE = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionSEStage());
         boolean majorcorrectionSupervisor = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionSupervisorStage());
         boolean confirmed = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getConfirmedStage());
+        
         switch (cudto.getRole()) {
             case FIRST_ENTRY_OPERATOR:
                 if (secondentry || supervisor || commited) {
@@ -492,6 +532,14 @@ public class Parcel implements Entity {
                 }
         }
         return returnValue;
+    }
+
+    public byte getMaxStage() {
+        return maxStage;
+    }
+
+    public void setMaxStage(byte maxStage) {
+        this.maxStage = maxStage;
     }
 
     public Dispute getDispute(byte stage, Timestamp registeredOn) {
@@ -561,12 +609,12 @@ public class Parcel implements Entity {
     public void commit() {
         MasterRepository.getInstance().commit(this);
         if (this.getHolding() == 1) {
-            for (IndividualHolder individualHolder : individualHolders) {
+            individualHolders.stream().forEach((individualHolder) -> {
                 individualHolder.commit();
-            }
-            for (PersonWithInterest personsWithInterest1 : personsWithInterest) {
+            });
+            personsWithInterest.stream().forEach((personsWithInterest1) -> {
                 personsWithInterest1.commit();
-            }
+            });
             if (guardians != null) {
                 for (Guardian guardians1 : guardians) {
                     guardians1.commit();
@@ -1016,52 +1064,52 @@ public class Parcel implements Entity {
     public void submitForMinorCorrection() {
         MasterRepository.getInstance().submitForMinorCorrection(this);
         if (this.getHolding() == 1) {
-            for (IndividualHolder individualHolder : individualHolders) {
+            individualHolders.stream().forEach((individualHolder) -> {
                 individualHolder.submitForMinorCorrection();
-            }
+            });
             if (personsWithInterest != null) {
-                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                personsWithInterest.stream().forEach((personWithInterest) -> {
                     personWithInterest.submitForMinorCorrection();
-                }
+                });
             }
             if (guardians != null) {
-                for (Guardian guardian : guardians) {
+                guardians.stream().forEach((guardian) -> {
                     guardian.submitForMinorCorrection();
-                }
+                });
             }
         } else if (organaizationHolder != null) {
             organaizationHolder.submitForMinorCorrection();
         }
         if (disputes != null) {
-            for (Dispute dispute : disputes) {
+            disputes.stream().forEach((dispute) -> {
                 dispute.submitForMinorCorrection();
-            }
+            });
         }
     }
 
     public void submitForMajorCorrection() {
         MasterRepository.getInstance().submitForMajorCorrection(this);
         if (this.getHolding() == 1) {
-            for (IndividualHolder individualHolder : individualHolders) {
+            individualHolders.stream().forEach((individualHolder) -> {
                 individualHolder.submitForMajorCorrection();
-            }
+            });
             if (personsWithInterest != null) {
-                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                personsWithInterest.stream().forEach((personWithInterest) -> {
                     personWithInterest.submitForMajorCorrection();
-                }
+                });
             }
             if (guardians != null) {
-                for (Guardian guardian : guardians) {
+                guardians.stream().forEach((guardian) -> {
                     guardian.submitForMajorCorrection();
-                }
+                });
             }
         } else if (organaizationHolder != null) {
             organaizationHolder.submitForMajorCorrection();
         }
         if (disputes != null) {
-            for (Dispute dispute : disputes) {
+            disputes.stream().forEach((dispute) -> {
                 dispute.submitForMajorCorrection();
-            }
+            });
         }
     }
 
