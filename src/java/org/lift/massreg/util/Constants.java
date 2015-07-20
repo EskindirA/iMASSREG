@@ -91,6 +91,7 @@ public interface Constants {
     public static final String ACTION_UPDATE_GUARDIAN_SEO = "UPDATE_GUARDIAN_SEO";
     
     public static final String ACTION_UPDATE_PHOTO_ID_CO = "UPDATE_PHOTO_ID_CO";
+    public static final String ACTION_UPDATE_HOLDING_NUMBER_CO = "UPDATE_HOLDING_NUMBER_CO";
 
     public static final String ACTION_FINISH_DISPUTE_FEO = "FINISH_DISPUTE_FEO";
     public static final String ACTION_FINISH_DISPUTE_SEO = "FINISH_DISPUTE_SEO";
@@ -416,7 +417,10 @@ public interface Constants {
     public static final int INDEX_EDIT_GUARDIAN_SUPERVISOR = 64;
     public static final int INDEX_VIEW_GUARDIAN_SUPERVISOR = 65;
     public static final int INDEX_GUARDIANS_LIST_SUPERVISOR = 66;
-    public static final int INDEX_PUBLIC_DISPLAY = 67;
+    public static final int INDEX_PUBLIC_DISPLAY_HOLDING = 67;
+    public static final int INDEX_PUBLIC_DISPLAY_HOLDER = 68;
+    
+    
 
     public static final int INDEX_WELCOME_PDC = 70;
     public static final int INDEX_VIEW_PARCEL_PDC = 71;

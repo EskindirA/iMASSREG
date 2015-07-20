@@ -1478,11 +1478,11 @@ public class FirstEntry {
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DISPUTE_LIST_FEO));
         rd.forward(request, response);
     }
-    
+
     protected static void updatePhotoID(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel currentParcel = MasterRepository.getInstance().getParcel(
-                request.getSession().getAttribute("upi").toString(), (byte) 1);
+                request.getSession().getAttribute("upi").toString(), CommonStorage.getCommitedStage());
         request.setAttribute("currentParcel", currentParcel);
         IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
                 request.getParameter("holderId"), currentParcel.getStage(),
@@ -1502,6 +1502,77 @@ public class FirstEntry {
                 request.getSession().setAttribute("message", "Sorry, there was a validation error ");
                 request.getSession().setAttribute("returnTitle", "Go back to holder list");
                 request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
+    protected static void updateHoldingNumber(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel oldParcel1 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 1);
+        Parcel newParcel1 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 1);
+
+        Parcel oldParcel2 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel newParcel2 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 2);
+
+        Parcel oldParcel3 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 3);
+        Parcel newParcel3 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 3);
+
+        Parcel oldParcel4 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 4);
+        Parcel newParcel4 = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 4);
+        try {
+            if (newParcel1 != null) {
+                newParcel1.setHoldingNumber(request.getParameter("newHoldingNumber"));
+            }
+            if (newParcel2 != null) {
+                newParcel2.setHoldingNumber(request.getParameter("newHoldingNumber"));
+            }
+            if (newParcel3 != null) {
+                newParcel3.setHoldingNumber(request.getParameter("newHoldingNumber"));
+            }
+            if (newParcel4 != null) {
+                newParcel4.setHoldingNumber(request.getParameter("newHoldingNumber"));
+            }
+
+            if (newParcel1.validateForUpdate()) {
+                //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
+                MasterRepository.getInstance().update(oldParcel1, newParcel1);
+                if (newParcel2 != null) {
+                    MasterRepository.getInstance().update(oldParcel2, newParcel2);
+                }
+                if (newParcel3 != null) {
+                    MasterRepository.getInstance().update(oldParcel3, newParcel3);
+                }
+                if (newParcel4 != null) {
+                    MasterRepository.getInstance().update(oldParcel4, newParcel4);
+                }
+                request.setAttribute("currentParcel", newParcel1);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PARCEL_FEO));
+                rd.forward(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_PARCEL_FEO);
                 RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
                 rd.forward(request, response);
             }

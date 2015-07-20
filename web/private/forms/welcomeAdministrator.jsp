@@ -615,7 +615,8 @@
                 type: 'POST',
                 url: "<%=publicDisplayurl%>",
                 data: {
-                    kebele: $("#publicDisplayForm #publicDisplayKebele").val()
+                    kebele: $("#publicDisplayForm #publicDisplayKebele").val(),
+                    holdingBased:$("#publicDisplayForm #holdingBased").is(':checked')
                 },
                 error: showajaxerror,
                 success: function (data) {
@@ -628,8 +629,8 @@
                     mywindow.document.write('</body></html>');
                     mywindow.document.close();
                     mywindow.focus();
-                    mywindow.print();
-                    mywindow.close();
+                    //mywindow.print();
+                    //mywindow.close();
                     //$("#publicDisplayDetail").html(data);
                 }
             });

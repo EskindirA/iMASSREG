@@ -2,6 +2,27 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/MainFilter.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dao/MasterRepository.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/viewParcelDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/welcomeSupervisor.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/HoldingHolderDTO.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/addOrganizationHolderDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/welcomeAdministrator.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/individualHoldersListDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/FirstEntry.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/ReportUtil.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/Correction.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/publicDisplayHolding.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/entity/Guardian.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/index.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/entity/Parcel.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/CorrectionSecondEntry.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/HoldingParcelPublicDisplayDTO.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/HoldingPublicDisplayDTO.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/Administrator.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/Constants.java</file>
+        </group>
     </open-files>
 </project-private>

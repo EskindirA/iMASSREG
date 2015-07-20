@@ -484,6 +484,7 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
+    
     public boolean canEdit(CurrentUserDTO cudto) {
         boolean returnValue = true;
         
@@ -533,7 +534,7 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
-
+    
     public byte getMaxStage() {
         return maxStage;
     }

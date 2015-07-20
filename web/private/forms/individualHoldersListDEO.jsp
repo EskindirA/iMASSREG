@@ -101,10 +101,10 @@
                                                     + holders.get(i).getId() + "' data-registeredOn='"
                                                     + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
 
-                                        }else{
-                                           out.println("| <a href = '#' class='changeIDButton' data-holderId='"
+                                        } else {
+                                            out.println("| <a href = '#' class='changeIDButton' data-holderId='"
                                                     + holders.get(i).getId() + "' data-registeredOn='"
-                                                    + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("change_photo_id") + "</a>"); 
+                                                    + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("change_photo_id") + "</a>");
                                         }
                                         out.println("</td>");
                                         out.println("</tr>");
@@ -312,13 +312,19 @@
                     label: "Post",
                     className: "btn-success",
                     callback: function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: action,
-                            data: {"registeredOn": regOn, "holderId": holderId, "newholderId":$("#editPhotoIdForm #newHolderId").val()},
-                            error: showajaxerror,
-                            success: loadInPlace
-                        });
+                        $("#editPhotoIdForm #newHolderId").toggleClass("error-field", false);
+                        if ($("#editPhotoIdForm #newHolderId").val().trim() === "") {
+                            $("#editPhotoIdForm #newHolderId").toggleClass("error-field", true);
+                            return false;
+                        } else {
+                            $.ajax({
+                                type: 'POST',
+                                url: action,
+                                data: {"registeredOn": regOn, "holderId": holderId, "newholderId": $("#editPhotoIdForm #newHolderId").val()},
+                                error: showajaxerror,
+                                success: loadInPlace
+                            });
+                        }
                     }
                 },
                 cancel: {

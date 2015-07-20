@@ -1473,7 +1473,7 @@ public class CorrectionSecondEntry {
         Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getMajorCorrectionFEStage());
         Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getMajorCorrectionSEStage());
 
-        if (!seoParcel.canEdit(CommonStorage.getCurrentUser(request))) {
+        if (!seoParcel.canEdit(CommonStorage.getCurrentUser(request).getRole())) {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_MCDEO));
             rd.forward(request, response);
         } else if (seoParcel.equalsParcel(feoParcel)) {

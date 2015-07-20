@@ -95,7 +95,8 @@ public class IOC {
         pages.put(Constants.INDEX_VIEW_GUARDIAN_SEO, "viewGuardianDEO.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_FEO, "editGuardianDEO.jsp");
         pages.put(Constants.INDEX_EDIT_GUARDIAN_SEO, "editGuardianDEO.jsp");
-        pages.put(Constants.INDEX_PUBLIC_DISPLAY, "publicDisplay.jsp");
+        pages.put(Constants.INDEX_PUBLIC_DISPLAY_HOLDER, "publicDisplayHolder.jsp");
+        pages.put(Constants.INDEX_PUBLIC_DISPLAY_HOLDING, "publicDisplayHolding.jsp");
 
         pages.put(Constants.INDEX_WELCOME_PDC, "welcomePDC.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_PDC, "viewParcelPDC.jsp");

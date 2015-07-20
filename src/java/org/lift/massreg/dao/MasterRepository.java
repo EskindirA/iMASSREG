@@ -1,5 +1,6 @@
 package org.lift.massreg.dao;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -2040,7 +2041,7 @@ public class MasterRepository {
                 parcel.hasDispute(rs.getBoolean("hasdispute"));
                 parcel.setTeamNo(rs.getByte("teamNo"));
                 parcel.setMaxStage(rs.getByte("maxStage"));
-                
+
                 if (parcel.hasDispute()) {
                     parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
                 }
@@ -2208,7 +2209,6 @@ public class MasterRepository {
         return returnValue;
     }
 
-    
     public String getWoredaName(long woredaId, String language) {
         String returnValue = "";
         Connection connection = CommonStorage.getConnection();
@@ -2226,7 +2226,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public String getZoneName(long woredaId, String language) {
         String returnValue = "";
         Connection connection = CommonStorage.getConnection();
@@ -2244,7 +2244,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public String getRegionName(long woredaId, String language) {
         String returnValue = "";
         Connection connection = CommonStorage.getConnection();
@@ -2262,6 +2262,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
+
     public String getWoredaIdForUPI(long woredaId) {
         String returnValue = "";
         Connection connection = CommonStorage.getConnection();
@@ -6290,6 +6291,27 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public ArrayList<String> getHoldingNumbers(long kebele, byte type) {
+        ArrayList<String> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT distinct holdingno FROM Parcel WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holdingtype=? ORDER BY holdingno";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet holdings = stmnt.executeQuery();
+            while (holdings.next()) {
+                String holding = holdings.getString("holdingno");
+                if (!holding.trim().isEmpty()) {
+                    returnValue.add(holding);
+                }
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
     public ArrayList<HolderPublicDisplayDTO> getPublicDisplayReportI(long kebele) {
         ArrayList<HolderPublicDisplayDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
@@ -6496,10 +6518,419 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
+    public ArrayList<HoldingPublicDisplayDTO> getPublicDisplayReportI2(long kebele) {
+        ArrayList<HoldingPublicDisplayDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT distinct holdingno FROM Parcel WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' ORDER BY holdingno";
+            PreparedStatement holdingsStmnt = connection.prepareStatement(query);
+            ResultSet holdings = holdingsStmnt.executeQuery();
+            ArrayList<String> holdingNos = new ArrayList<>();
+            while (holdings.next()) {
+                String holding = holdings.getString("holdingno");
+                if (!holding.trim().isEmpty()) {
+                    holdingNos.add(holding);
+                }
+            }
+            for (String h : holdingNos) {
+                HoldingPublicDisplayDTO hpd = new HoldingPublicDisplayDTO();
+                hpd.setHoldingNumber(h);
+
+                // Get UPIs under this holding number
+                query = "SELECT distinct upi,* FROM parcel WHERE stage=4 and status='active' AND holdingno = ?";
+                PreparedStatement parcelsStmnt = connection.prepareStatement(query);
+                parcelsStmnt.setString(1, h);
+                ResultSet parcelsRS = parcelsStmnt.executeQuery();
+                while (parcelsRS.next()) {
+                    boolean hasMissingValue = false;
+                    HoldingParcelPublicDisplayDTO parcel = new HoldingParcelPublicDisplayDTO();
+                    parcel.setHolding(parcelsRS.getByte("holdingtype"));
+                    parcel.setMapSheetNo(parcelsRS.getString("mapsheetno"));
+                    parcel.setParcelId(parcelsRS.getInt("parcelid"));
+                    parcel.setUpi(parcelsRS.getString("upi"));
+                    parcel.setArea(parcelsRS.getDouble("area"));
+                    parcel.hasDispute(parcelsRS.getBoolean("hasdispute"));
+                    if (parcelsRS.getLong("otherevidence") == 5) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("landusetype") == 13) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("soilfertilitytype") == 5) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("acquisitiontype") == 9) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("acquisitionyear") < 1000) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("encumbrancetype") == 7) {
+                        hasMissingValue = true;
+                    }
+                    String upi = parcelsRS.getString("upi");
+                    query = "SELECT * FROM guardian WHERE stage=4 and status='active' AND UPI = ?";
+                    connection = CommonStorage.getConnection();
+                    PreparedStatement guardianStmnt = connection.prepareStatement(query);
+                    guardianStmnt.setString(1, parcel.getUpi());
+                    ResultSet guardianRS = guardianStmnt.executeQuery();
+                    while (guardianRS.next()) {
+                        parcel.addGuardian(guardianRS.getString("firstname") + " " + guardianRS.getString("fathersname") + " " + guardianRS.getString("grandfathersname"));
+                        if (guardianRS.getString("firstname") == null || guardianRS.getString("firstname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (guardianRS.getString("fathersname") == null || guardianRS.getString("fathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (guardianRS.getString("grandfathersname") == null || guardianRS.getString("grandfathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if ("n".equalsIgnoreCase(guardianRS.getString("sex"))) {
+                            hasMissingValue = true;
+                        }
+                    }
+                    query = "SELECT * FROM personwithinterest WHERE stage=4 and status='active' AND UPI = ?";
+                    connection = CommonStorage.getConnection();
+                    PreparedStatement pwiStmnt = connection.prepareStatement(query);
+                    pwiStmnt.setString(1, parcel.getUpi());
+                    ResultSet pwiRS = pwiStmnt.executeQuery();
+
+                    while (pwiRS.next()) {
+                        if (pwiRS.getString("firstname") == null || pwiRS.getString("firstname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (pwiRS.getString("fathersname") == null || pwiRS.getString("fathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (pwiRS.getString("grandfathersname") == null || pwiRS.getString("grandfathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if ("n".equalsIgnoreCase(pwiRS.getString("sex"))) {
+                            hasMissingValue = true;
+                        }
+                    }
+                    query = "SELECT * FROM dispute WHERE stage=4 and status='active' AND UPI = ?";
+                    connection = CommonStorage.getConnection();
+                    PreparedStatement disputeStmnt = connection.prepareStatement(query);
+                    disputeStmnt.setString(1, parcel.getUpi());
+                    ResultSet disputeRS = disputeStmnt.executeQuery();
+
+                    while (disputeRS.next()) {
+                        if (disputeRS.getString("firstname") == null || disputeRS.getString("firstname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getString("fathersname") == null || disputeRS.getString("fathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getString("grandfathersname") == null || disputeRS.getString("grandfathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if ("n".equalsIgnoreCase(disputeRS.getString("sex"))) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getLong("disputetype") == 5) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getLong("disputestatus") == 8) {
+                            hasMissingValue = true;
+                        }
+
+                    }
+                    parcel.hasMissingValue(hasMissingValue);
+                    hpd.addParcel(parcel);
+                    // Get holders list
+                    query = "SELECT distinct holderid, firstname, fathersname, grandfathersname,"
+                            + " sex FROM individualholder WHERE stage=4 AND status='active' "
+                            + "AND upi= ?";
+                    connection = CommonStorage.getConnection();
+                    PreparedStatement holdersStmnt = connection.prepareStatement(query);
+                    holdersStmnt.setString(1, upi);
+                    ResultSet holdersRS = holdersStmnt.executeQuery();
+                    while (holdersRS.next()) {
+                        HoldingHolderDTO holder = new HoldingHolderDTO();
+                        holder.setName(holdersRS.getString("firstname") + " " + holdersRS.getString("fathersname") + " " + holdersRS.getString("grandfathersname"));
+                        holder.setSex(holdersRS.getString("sex"));
+                        hpd.addHolder(holder);
+                    }
+                }
+
+                returnValue.add(hpd);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        System.err.println("3..");
+        return returnValue;
+    }
+
+    public ArrayList<HoldingPublicDisplayDTO> getPublicDisplayReportO2(long kebele) {
+        System.err.println("4..");
+
+        ArrayList<HoldingPublicDisplayDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT distinct holdingno FROM Parcel WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' ORDER BY holdingno";
+            PreparedStatement holdingsStmnt = connection.prepareStatement(query);
+            ResultSet holdings = holdingsStmnt.executeQuery();
+            ArrayList<String> holdingNos = new ArrayList<>();
+            while (holdings.next()) {
+                String holding = holdings.getString("holdingno");
+                if (!holding.trim().isEmpty()) {
+                    holdingNos.add(holding);
+                }
+            }
+            for (String h : holdingNos) {
+                HoldingPublicDisplayDTO hpd = new HoldingPublicDisplayDTO();
+                hpd.setHoldingNumber(h);
+
+                // Get UPIs under this holding number
+                query = "SELECT distinct upi,* FROM parcel WHERE stage=4 and status='active' AND holdingno = ?";
+                PreparedStatement parcelsStmnt = connection.prepareStatement(query);
+                parcelsStmnt.setString(1, h);
+                ResultSet parcelsRS = parcelsStmnt.executeQuery();
+                while (parcelsRS.next()) {
+                    boolean hasMissingValue = false;
+                    HoldingParcelPublicDisplayDTO parcel = new HoldingParcelPublicDisplayDTO();
+                    parcel.setHolding(parcelsRS.getByte("holdingtype"));
+                    parcel.setMapSheetNo(parcelsRS.getString("mapsheetno"));
+                    parcel.setParcelId(parcelsRS.getInt("parcelid"));
+                    parcel.setUpi(parcelsRS.getString("upi"));
+                    parcel.setArea(parcelsRS.getDouble("area"));
+                    parcel.hasDispute(parcelsRS.getBoolean("hasdispute"));
+                    if (parcelsRS.getLong("otherevidence") == 5) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("landusetype") == 13) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("soilfertilitytype") == 5) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("acquisitiontype") == 9) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("acquisitionyear") < 1000) {
+                        hasMissingValue = true;
+                    }
+                    if (parcelsRS.getLong("encumbrancetype") == 7) {
+                        hasMissingValue = true;
+                    }
+                    String upi = parcelsRS.getString("upi");
+
+                    query = "SELECT * FROM dispute WHERE stage=4 and status='active' AND UPI = ?";
+                    connection = CommonStorage.getConnection();
+                    PreparedStatement disputeStmnt = connection.prepareStatement(query);
+                    disputeStmnt.setString(1, parcel.getUpi());
+                    ResultSet disputeRS = disputeStmnt.executeQuery();
+
+                    while (disputeRS.next()) {
+                        if (disputeRS.getString("firstname") == null || disputeRS.getString("firstname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getString("fathersname") == null || disputeRS.getString("fathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getString("grandfathersname") == null || disputeRS.getString("grandfathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if ("n".equalsIgnoreCase(disputeRS.getString("sex"))) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getLong("disputetype") == 5) {
+                            hasMissingValue = true;
+                        }
+                        if (disputeRS.getLong("disputestatus") == 8) {
+                            hasMissingValue = true;
+                        }
+
+                    }
+                    parcel.hasMissingValue(hasMissingValue);
+                    hpd.addParcel(parcel);
+                    // Get holders list
+                    query = "SELECT distinct organizationname"
+                            + "  FROM organizationholder WHERE stage=4 AND status='active' "
+                            + "AND upi= ?";
+                    PreparedStatement holdersStmnt = connection.prepareStatement(query);
+                    holdersStmnt.setString(1, upi);
+                    ResultSet holdersRS = holdersStmnt.executeQuery();
+                    while (holdersRS.next()) {
+                        HoldingHolderDTO holder = new HoldingHolderDTO();
+                        holder.setName(holdersRS.getString("organizationname"));
+                        hpd.addHolder(holder);
+                    }
+                }
+
+                returnValue.add(hpd);
+            }
+            //}
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        System.err.println("5..");
+        return returnValue;
+
+    }
+
+    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberIH(String holdingNo) {
+        HoldingPublicDisplayDTO returnValue = new HoldingPublicDisplayDTO();
+        returnValue.setHoldingNumber(holdingNo);
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT distinct upi,area,parcelid,holdingtype,mapsheetno,hasdispute, "
+                    + "otherevidence,landusetype,soilfertilitytype,acquisitiontype,acquisitionyear,encumbrancetype FROM parcel WHERE stage=4 AND status='active' AND holdingno=? ORDER BY upi";
+            PreparedStatement parcelsStmnt = connection.prepareStatement(query);
+            parcelsStmnt.setString(1, holdingNo);
+            ResultSet parcelsRS = parcelsStmnt.executeQuery();
+            ArrayList<HoldingParcelPublicDisplayDTO> parcels = new ArrayList<>();
+            ArrayList<String> upis = new ArrayList<>();
+            // Get Parcel Detail
+            while (parcelsRS.next()) {
+                boolean hasMissingValue = false;
+                HoldingParcelPublicDisplayDTO parcel = new HoldingParcelPublicDisplayDTO();
+                parcel.setUpi(parcelsRS.getString("upi"));
+                upis.add(parcelsRS.getString("upi"));
+                parcel.setArea(parcelsRS.getDouble("area"));
+                parcel.setHolding(parcelsRS.getByte("holdingtype"));
+                parcel.setMapSheetNo(parcelsRS.getString("mapsheetno"));
+                parcel.setParcelId(parcelsRS.getInt("parcelid"));
+                parcel.hasDispute(parcelsRS.getBoolean("hasdispute"));
+
+                if (parcelsRS.getLong("otherevidence") == 5) {
+                    hasMissingValue = true;
+                }
+                if (parcelsRS.getLong("landusetype") == 13) {
+                    hasMissingValue = true;
+                }// 
+                if (parcelsRS.getLong("soilfertilitytype") == 5) {
+                    hasMissingValue = true;
+                }
+                if (parcelsRS.getLong("acquisitiontype") == 9) {
+                    hasMissingValue = true;
+                }
+                if (parcelsRS.getLong("acquisitionyear") < 1000) {
+                    hasMissingValue = true;
+                }
+                if (parcelsRS.getLong("encumbrancetype") == 7) {
+                    hasMissingValue = true;
+                }
+                query = "SELECT 'dispute' as tablename, firstname, fathersname, "
+                        + "grandfathersname, disputetype, disputestatus, 'n' as "
+                        + "sex FROM dispute WHERE upi=? AND status='active' AND "
+                        + "stage=4 UNION SELECT 'personwithinterest' as tablename, "
+                        + "firstname, fathersname, grandfathersname, -1 as disputetype, "
+                        + "-1 as disputestatus,sex FROM personwithinterest WHERE "
+                        + "upi=? AND status='active' AND stage=4 UNION SELECT "
+                        + "'guardian' as tablename, firstname, fathersname, "
+                        + "grandfathersname, -1 as disputetype, -1 as disputestatus, "
+                        + "sex FROM guardian WHERE upi=? AND status='active' AND stage=4 ";
+                PreparedStatement stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, parcel.getUpi());
+                stmnt.setString(2, parcel.getUpi());
+                stmnt.setString(3, parcel.getUpi());
+                ResultSet rs = stmnt.executeQuery();
+
+                while (rs.next()) {
+                    String tbl = rs.getString("tablename");
+                    if (tbl.equalsIgnoreCase("dispute")) {
+                        if (rs.getString("firstname") == null || rs.getString("firstname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getString("fathersname") == null || rs.getString("fathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getString("grandfathersname") == null || rs.getString("grandfathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if ("n".equalsIgnoreCase(rs.getString("sex"))) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getLong("disputetype") == 5) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getLong("disputestatus") == 8) {
+                            hasMissingValue = true;
+                        }
+                    } else if (tbl.equalsIgnoreCase("personwithinterest")) {
+                        if (rs.getString("firstname") == null || rs.getString("firstname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getString("fathersname") == null || rs.getString("fathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getString("grandfathersname") == null || rs.getString("grandfathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if ("n".equalsIgnoreCase(rs.getString("sex"))) {
+                            hasMissingValue = true;
+                        }
+
+                    } else if (tbl.equalsIgnoreCase("guardian")) {
+                        parcel.addGuardian(rs.getString("firstname") + " " + rs.getString("fathersname") + " " + rs.getString("grandfathersname"));
+                        if (rs.getString("firstname") == null || rs.getString("firstname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getString("fathersname") == null || rs.getString("fathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if (rs.getString("grandfathersname") == null || rs.getString("grandfathersname").isEmpty()) {
+                            hasMissingValue = true;
+                        }
+                        if ("n".equalsIgnoreCase(rs.getString("sex"))) {
+                            hasMissingValue = true;
+                        }
+                    }
+                }
+
+                parcel.hasMissingValue(hasMissingValue);
+                parcels.add(parcel);
+            }
+            ArrayList<HoldingHolderDTO> holders;
+            for (String upi : upis) {
+                holders = new ArrayList<>();
+                query = "SELECT distinct firstname ||' ' || fathersname ||' ' || grandfathersname as name, sex FROM individualholder WHERE status='active' AND stage=4 AND upi=? ORDER BY name";
+                PreparedStatement stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, upi);
+                ResultSet rs = stmnt.executeQuery();
+                while (rs.next()) {
+
+                    HoldingHolderDTO holder = new HoldingHolderDTO();
+                    holder.setName(rs.getString("name"));
+                    holder.setSex(rs.getString("sex"));
+                    holders.add(holder);
+                }
+                returnValue.setHolders(holders);
+                returnValue.setParcels(parcels);
+            }
+
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberOH(String holdingNo) {
+        HoldingPublicDisplayDTO returnValue = null;
+        /// TODO:
+        return returnValue;
+    }
+
+    public HolderPublicDisplayDTO getPublicDisplayInfoByPhotoIDIH(String photoId) {
+        HolderPublicDisplayDTO returnValue = null;
+        /// TODO:
+        return returnValue;
+    }
+
+    public HolderPublicDisplayDTO getPublicDisplayInfoByNameOH(String name) {
+        HolderPublicDisplayDTO returnValue = null;
+        /// TODO:
+        return returnValue;
+    }
+
     public ArrayList<String> getParcelsWithoutHolder(long kebele) {
         ArrayList<String> returnValue = new ArrayList<>();
-        Connection connection = CommonStorage.getConnection();
+        Connection connection;
         try {
             String query = "SELECT * FROM dblink("
                     + getDBLinkString() + " ,'SELECT parcel_id FROM " + getKebeleTable(kebele)
@@ -7060,7 +7491,6 @@ public class MasterRepository {
         return returnValue;
     }
 
-    
     public long getCountOfParcelsWithMissingDisputantsFirstName(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -7145,7 +7575,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
     public long getCountOfParcelsWithMissingDisputeStatus(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -7180,7 +7610,6 @@ public class MasterRepository {
         return returnValue;
     }
 
-    
     public long getCountOfParcelsWithMissingPersonWithInterestsFirstName(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -7996,7 +8425,6 @@ public class MasterRepository {
             if (!kebele.equalsIgnoreCase("all")) {
                 query += " and UPI LIKE '" + kebele + "/%'";
             }
-            System.err.println(query);
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {

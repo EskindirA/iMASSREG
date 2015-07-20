@@ -1,7 +1,6 @@
 package org.lift.massreg.dto;
 
 import java.util.ArrayList;
-import org.lift.massreg.dto.ParcelPublicDisplayDTO;
 import org.lift.massreg.util.CommonStorage;
 
 /**

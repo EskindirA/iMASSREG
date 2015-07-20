@@ -153,13 +153,14 @@
                                     <%
                                         if (cParcel.canEdit(CommonStorage.getCurrentUser(request))) {
                                             out.println("<input type='submit' id = 'deleteButton' name = 'deleteButton' class='btn btn-danger col-lg-2 col-lg-offset-3' value='" + CommonStorage.getText("delete") + "' />");
-                                            out.println("<input type='submit' id = 'editButton' name = 'editButton' class='btn btn-default col-lg-2' style='margin-left:1em' value='"+CommonStorage.getText("edit") +"' />");
+                                            out.println("<input type='submit' id = 'editButton' name = 'editButton' class='btn btn-default col-lg-2' style='margin-left:1em' value='" + CommonStorage.getText("edit") + "' />");
                                         } else {
-                                            out.println("<span class='col-lg-2 col-lg-offset-6'></span>");
+                                            out.println("<input type='submit' id = 'editHoldingNumberButton' name = 'editHoldingNumberButton' class='btn btn-primary col-lg-5' style='margin-left:1em' value='" + CommonStorage.getText("update_holding_number") + "' />");
+                                            out.println("<span class='col-lg-2 col-lg-offset-2'></span>");
                                         }
                                     %>
 
-                                    <input type="submit" id = "nextButton" name = "nextButton" class="btn btn-default col-lg-3" style="margin-left: 1em" value="<%=CommonStorage.getText("next")%>" />
+                                    <input type="submit" id = "nextButton" name = "nextButton" class="btn btn-default col-lg-3" style="margin-right: 1em;float:right" value="<%=CommonStorage.getText("next")%>" />
                                 </div>
                             </div> <!-- /.col-lg-6 (nested) -->
                         </div> <!-- /.row (nested) -->
@@ -172,47 +173,93 @@
 <script type="text/javascript">
     var calendar = $.calendars.instance("ethiopian", "am");
     $("#surveyDate").calendarsPicker({calendar: calendar});
-        $("#addParcelForm select").each(function () {
-    $(this).val($(this).attr("value"));
+    $("#addParcelForm select").each(function () {
+        $(this).val($(this).attr("value"));
     });
-        $("#editButton").click(function () {
-            $.ajax({
-                        url: "<%=editurl%>",
-                        error: showajaxerror,
-                    success: loadInPlace
-                    });
-                return false;
+    $("#editButton").click(function () {
+        $.ajax({
+            url: "<%=editurl%>",
+            error: showajaxerror,
+            success: loadInPlace
+        });
+        return false;
+    });
+    $("#deleteButton").click(function () {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_parcel")%> ?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=deleteurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
                 });
-                    $("#deleteButton").click(function () {
-                        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_delete_this_parcel")%> ?", function (result) {
-                            if (result) {
-                                $.ajax({
-                                        url: "<%=deleteurl%>",
-                                        error: showajaxerror,
-                                    success: loadBackward
-                                });
-                            }
-                            });
-                        return false;
-                        });
-                            $("#nextButton").click(function () {
-                                $.ajax({
-                        url: "<%=nexturl%>",
-                        error: showajaxerror,
-                    success: loadForward
-                    });
-                return false;
+            }
+        });
+        return false;
+    });
+    $("#nextButton").click(function () {
+        $.ajax({
+            url: "<%=nexturl%>",
+            error: showajaxerror,
+            success: loadForward
+        });
+        return false;
+    });
+    $("#backButton").click(function () {
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "<%=backurl%>",
+                    error: showajaxerror,
+                    success: loadBackward
                 });
-                    $("#backButton").click(function () {
-                        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_go_back")%>?", function (result) {
-                            if (result) {
-                                $.ajax({
-                                        url: "<%=backurl%>",
-                                        error: showajaxerror,
-                                    success: loadBackward
-                                });
-                            }
+            }
+        });
+        return false;
+    });
+    
+    $("#editHoldingNumberButton").click(function () {
+        var action = "<%=request.getContextPath()%>" + "/Index?action=" + "<%=Constants.ACTION_UPDATE_HOLDING_NUMBER_CO%>";
+        bootbox.dialog({
+            title: "Update Holding Number",
+            message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal" method=\'POST\' id="editHoldingNumberForm"' +
+                    'action = \'' + action + '\'> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="newHoldingNumber">New Holding Number</label> ' +
+                    '<div class="col-md-4"> ' +
+                    '<input id="newHoldingNumber" name="newHoldingNumber" type="text" class="form-control input-md"> ' +
+                    '</div> </div> ' +
+                    '</form> </div>  </div>',
+            buttons: {
+                success: {
+                    label: "Post",
+                    className: "btn-success",
+                    callback: function () {
+                        $("#editHoldingNumberForm #newHoldingNumber").toggleClass("error-field", false);
+                        if ($("#editHoldingNumberForm #newHoldingNumber").val().trim() === "") {
+                            $("#editHoldingNumberForm #newHoldingNumber").toggleClass("error-field", true);
+                            return false;
+                        } else {
+                            $.ajax({
+                                type: 'POST',
+                                url: action,
+                                data: {"newHoldingNumber": $("#editHoldingNumberForm #newHoldingNumber").val()},
+                                error: showajaxerror,
+                                success: loadInPlace
                             });
-                        return false;
+                        }
+                    }
+                },
+                cancel: {
+                    label: "Cancel",
+                    className: "btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+
+        });
+        return false;
     });
 </script>

@@ -218,6 +218,9 @@ public class MainFilter extends HttpServlet {
         } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_CO)){
             getUPI(request);
             FirstEntry.updatePhotoID(request,response);
+        } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_HOLDING_NUMBER_CO)){
+            getUPI(request);
+            FirstEntry.updateHoldingNumber(request,response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateOrganizationHolder(request, response);
@@ -613,7 +616,7 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR)) {
             Administrator.kebeleReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_PUBLIC_DISPLAY)) {
-            Administrator.publicDisplay(request, response);
+            Administrator.publicDisplay2(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {
             Administrator.exportReport(request, response);
         }  else if (action.equalsIgnoreCase(Constants.ACTION_DAILY_REPORT_ADMINISTRATOR)) {
