@@ -606,32 +606,37 @@
     $("#reportLink").click(function () {
         $("#reportDetail").html("");
     });
-
     $("#publicDisplayButton").click(function () {
         if ($("#publicDisplayForm #publicDisplayKebele").val().trim() === "") {
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_public_display_printout")%>");
         } else {
+            $("#publicDisplayDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
             $.ajax({
                 type: 'POST',
                 url: "<%=publicDisplayurl%>",
                 data: {
                     kebele: $("#publicDisplayForm #publicDisplayKebele").val(),
-                    holdingBased:$("#publicDisplayForm #holdingBased").is(':checked')
+                    holdingBased: $("#publicDisplayForm #holdingBased").is(':checked')
                 },
                 error: showajaxerror,
                 success: function (data) {
-                    var mywindow = window.open('#', 'Public Display');
-                    mywindow.document.write('<html><head>');
-                    mywindow.document.write('<title>Public Display - Printout</title>');
-                    mywindow.document.write('</head>');
-                    mywindow.document.write('<body>');
-                    mywindow.document.write(data);
-                    mywindow.document.write('</body></html>');
-                    mywindow.document.close();
-                    mywindow.focus();
-                    //mywindow.print();
-                    //mywindow.close();
-                    //$("#publicDisplayDetail").html(data);
+                    if ($("#publicDisplayForm #holdingBased").is(':checked')) {
+                        $("#publicDisplayDetail").html(data);
+                    } else {
+                        $("#publicDisplayDetail").html("Ready");
+                        var mywindow = window.open('#', 'Public Display');
+                        mywindow.document.write('<html><head>');
+                        mywindow.document.write('<title>Public Display - Printout</title>');
+                        mywindow.document.write('</head>');
+                        mywindow.document.write('<body>');
+                        mywindow.document.write(data);
+                        mywindow.document.write('</body></html>');
+                        mywindow.document.close();
+                        mywindow.focus();
+                        mywindow.print();
+                        mywindow.close();
+                        $("#publicDisplayDetail").html("");
+                    }
                 }
             });
         }

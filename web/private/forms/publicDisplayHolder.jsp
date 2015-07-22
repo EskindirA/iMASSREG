@@ -15,7 +15,6 @@
         tr    { page-break-inside:avoid; page-break-after:auto;clear:both!important;}
         td    { page-break-inside:avoid; page-break-after:auto; }
         thead { display: table-header-group;}
-        tfoot { display:table-footer-group; }
         tbody{ page-break-inside: auto; display: table-header-group; }
         td,th{ border-left-style:solid; border-left-color: #555 ; 
                border-left-width: 1px; border-bottom-style:solid;

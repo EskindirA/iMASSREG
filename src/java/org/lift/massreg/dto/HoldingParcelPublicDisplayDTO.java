@@ -101,14 +101,14 @@ public class HoldingParcelPublicDisplayDTO {
     }
 
     public String getGuardiansText() {
-        String returnValue = "Does not exist";
+        String returnValue = "";
         if (getGuardians().size() > 0) {
             returnValue = "";
         }
         returnValue = guardians.stream().map((guardian) -> guardian + ",").reduce(returnValue, String::concat);
 
         if (returnValue.trim().length() > 0) {
-            returnValue = returnValue.substring(0, returnValue.length());
+            returnValue = returnValue.substring(0, returnValue.length()-1);
         }
 
         return returnValue;

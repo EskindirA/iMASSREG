@@ -273,7 +273,6 @@ public class ReportUtil {
                 row1.createCell(55).setCellValue(createHelper.createRichTextString("Female"));
                 row1.createCell(56).setCellValue(createHelper.createRichTextString("Date Kebele commenced entry"));
                 row1.createCell(57).setCellValue(createHelper.createRichTextString("Date Kebele completed entry"));
-
                 row2.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getCurrentWoredaName()));
                 row2.createCell(1).setCellValue(createHelper.createRichTextString(kebeleName));
                 row2.createCell(2).setCellValue(kebele);
@@ -299,7 +298,6 @@ public class ReportUtil {
                 row8.createCell(4).setCellValue(MasterRepository.getInstance().getNumberOfPeopleAllDisputes(kebele));
                 row9.createCell(4).setCellValue(createHelper.createRichTextString("--")/*Data Not available*/);
                 row10.createCell(4).setCellValue(createHelper.createRichTextString("--")/*Data Not available*/);
-
                 // Total Parcels Demarcated
                 row2.createCell(5).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
                 row3.createCell(5).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
@@ -310,7 +308,6 @@ public class ReportUtil {
                 row8.createCell(5).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
                 row9.createCell(5).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
                 row10.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfDemarcatedParcels(kebele));
-                
                 // Average Number of Parcels
                 row2.createCell(6).setCellValue(MasterRepository.getInstance().getAverageNumberOfParcelsPerMarriedCoupleHolder(kebele));
                 row3.createCell(6).setCellValue(MasterRepository.getInstance().getAverageNumberOfParcelsPerSingleFemaleHolder(kebele));
@@ -355,7 +352,6 @@ public class ReportUtil {
                 row8.createCell(9).setCellValue(MasterRepository.getInstance().getTotalAreaOfParcelsUnderDispute(kebele));
                 row9.createCell(9).setCellValue(MasterRepository.getInstance().getTotalAreaOfParcelsWithNoData(kebele));
                 row10.createCell(9).setCellValue(MasterRepository.getInstance().getTotalAreaOfAllParcels(kebele));
-                
                 // Average area
                 row2.createCell(10).setCellValue(MasterRepository.getInstance().getAverageAreaOfParcelsUnderMarriedCoupleHolders(kebele));
                 row3.createCell(10).setCellValue(MasterRepository.getInstance().getAverageAreaOfParcelsUnderSingleFemaleHolders(kebele));
@@ -393,119 +389,118 @@ public class ReportUtil {
                 
                 
                 //Rain fed annual crops
-                row2.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
-                row3.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
-                row4.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
-                row5.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
-                row6.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
-                row7.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
-                row8.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
+                row2.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
+                row3.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
+                row4.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
+                row5.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
+                row6.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
+                row7.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
+                row8.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
                 row9.createCell(13).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 11 /*Rain fed annual crops*/));
+                row10.createCell(13).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 1 /*Rain fed annual crops*/));
                 
                 
-                row2.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
-                row3.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
-                row4.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
-                row5.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
-                row6.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
-                row7.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
-                row8.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
+                row2.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
+                row3.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
+                row4.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
+                row5.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
+                row6.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
+                row7.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
+                row8.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
                 row9.createCell(14).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 10 /*Rain fed Perennial crops*/));
+                row10.createCell(14).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 2 /*Rain fed Perennial crops*/));
                 
-                row2.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
-                row3.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
-                row4.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
-                row5.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
-                row6.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
-                row7.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
-                row8.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
+                row2.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
+                row3.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
+                row4.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
+                row5.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
+                row6.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
+                row7.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
+                row8.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
                 row9.createCell(15).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 9 /*Irrigated annual crops*/));
-
+                row10.createCell(15).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 3 /*Irrigated annual crops*/));
 
                 
-                row2.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
-                row3.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
-                row4.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
-                row5.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
-                row6.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
-                row7.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
-                row8.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
+                row2.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
+                row3.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
+                row4.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
+                row5.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
+                row6.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
+                row7.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
+                row8.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
                 row9.createCell(16).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 8 /*Irrigated perennial crops*/));
+                row10.createCell(16).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 4 /*Irrigated perennial crops*/));
                 
                 
-                row2.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
-                row3.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
-                row4.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
-                row5.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
-                row6.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
-                row7.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
-                row8.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
+                row2.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
+                row3.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
+                row4.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
+                row5.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
+                row6.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
+                row7.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
+                row8.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
                 row9.createCell(17).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 1 /*Grazing Land*/));
+                row10.createCell(17).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 5 /*Grazing Land*/));
                
-                row2.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
-                row3.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
-                row4.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
-                row5.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
-                row6.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
-                row7.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
-                row8.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
+                row2.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
+                row3.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
+                row4.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
+                row5.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
+                row6.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
+                row7.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
+                row8.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
                 row9.createCell(18).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 2 /*Shrubland/Woodland*/));
+                row10.createCell(18).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 7 /*Shrubland/Woodland*/));
                 
-                row2.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
-                row3.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
-                row4.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
-                row5.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
-                row6.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
-                row7.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
-                row8.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
+                row2.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
+                row3.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
+                row4.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
+                row5.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
+                row6.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
+                row7.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
+                row8.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
                 row9.createCell(19).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 3 /*Natural Forest*/));
+                row10.createCell(19).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 8 /*Natural Forest*/));
 
-                row2.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
-                row3.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
-                row4.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
-                row5.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
-                row6.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
-                row7.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
-                row8.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
+                row2.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
+                row3.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
+                row4.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
+                row5.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
+                row6.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
+                row7.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
+                row8.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
                 row9.createCell(20).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 4 /*Artificial Forest*/));
+                row10.createCell(20).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 9 /*Artificial Forest*/));
 
-                row2.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 5 /*Wetland*/));
-                row3.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 5 /*Wetland*/));
-                row4.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 5 /*Wetland*/));
-                row5.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 5 /*Wetland*/));
-                row6.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 5 /*Wetland*/));
-                row7.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 5 /*Wetland*/));
-                row8.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 5 /*Wetland*/));
+                row2.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 10 /*Wetland*/));
+                row3.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 10 /*Wetland*/));
+                row4.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 10 /*Wetland*/));
+                row5.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 10 /*Wetland*/));
+                row6.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 10 /*Wetland*/));
+                row7.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 10 /*Wetland*/));
+                row8.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 10 /*Wetland*/));
                 row9.createCell(21).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 5 /*Wetland*/));
+                row10.createCell(21).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 10 /*Wetland*/));
 
-                row2.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
-                row3.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
-                row4.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
-                row5.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
-                row6.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
-                row7.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
-                row8.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
+                row2.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
+                row3.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
+                row4.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
+                row5.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
+                row6.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
+                row7.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
+                row8.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
                 row9.createCell(22).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 7 /*Built-Up Areas*/));
+                row10.createCell(22).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 11 /*Built-Up Areas*/));
 
-                row2.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 6 /*Bareland*/));
-                row3.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 6 /*Bareland*/));
-                row4.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 6 /*Bareland*/));
-                row5.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 6 /*Bareland*/));
-                row6.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 6 /*Bareland*/));
-                row7.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 6 /*Bareland*/));
-                row8.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 6 /*Bareland*/));
+                row2.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(kebele, (byte) 12 /*Bareland*/));
+                row3.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(kebele, (byte) 12 /*Bareland*/));
+                row4.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleMaleHoldersByLandUseType(kebele, (byte) 12 /*Bareland*/));
+                row5.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOrphanHoldersByLandUseType(kebele, (byte) 12 /*Bareland*/));
+                row6.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByLandUseType(kebele, (byte) 12 /*Bareland*/));
+                row7.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderOtherHoldingTypesByLandUseType(kebele, (byte) 12 /*Bareland*/));
+                row8.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDisputeByLandUseType(kebele, (byte) 12 /*Bareland*/));
                 row9.createCell(23).setCellValue(createHelper.createRichTextString("---")/*Data Not available*/);
-                row10.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 6 /*Bareland*/));
+                row10.createCell(23).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsByLandUseType(kebele, (byte) 12 /*Bareland*/));
                 
                 row2.createCell(24).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderMarriedCoupleHoldersBySoilFertility(kebele, (byte) 1 /*High/Good*/));
                 row3.createCell(24).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderSingleFemaleHoldersBySoilFertility(kebele, (byte) 1 /*High/Good*/));
@@ -597,7 +592,6 @@ public class ReportUtil {
                 row3.createCell(48).setCellValue(MasterRepository.getInstance().getAverageNumberOfPIPerParcelsUnderSingleFemaleHolders(kebele));
                 row3.createCell(49).setCellValue(MasterRepository.getInstance().getCountOfMalePersonsWithInterestUnderSingleFemaleHolders(kebele));
                 row3.createCell(50).setCellValue(MasterRepository.getInstance().getCountOfFemalePersonsWithInterestUnderSingleFemaleHolders(kebele));
-
                 row3.createCell(51).setCellValue(MasterRepository.getInstance().getCountOfParcelsWithGuardiansUnderSingleFemaleHolders(kebele));
                 row3.createCell(52).setCellValue(MasterRepository.getInstance().getCountOfGuardiansForParcelsUnderSingleFemaleHolders(kebele));
                 row3.createCell(53).setCellValue(MasterRepository.getInstance().getAverageNumberOfGuardiansPerParcelsUnderSingleFemaleHolders(kebele));
@@ -673,8 +667,7 @@ public class ReportUtil {
                 row5.createCell(55).setCellValue(MasterRepository.getInstance().getCountOfFemaleGuardiansForParcelsUnderOrphanHolders(kebele));
                 row5.createCell(56).setCellValue(MasterRepository.getInstance().getFirstDataEntryDateInKebeleForOrphanHolders(kebele));
                 row5.createCell(57).setCellValue(MasterRepository.getInstance().getLastDataEntryDateInKebeleForOrphanHolders(kebele));
-
-
+                
                 row6.createCell(27).setCellValue(createHelper.createRichTextString("---")/*Does not make sense*/);
                 row6.createCell(28).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByHoldingType(kebele, (byte) 2 /*Communal*/));
                 row6.createCell(29).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderNonNaturalHoldersByHoldingType(kebele, (byte) 3 /*Public/Instituional*/));
@@ -828,7 +821,7 @@ public class ReportUtil {
                 row10.createCell(48).setCellValue(MasterRepository.getInstance().getAverageNumberOfPIPerParcelForAllParcels(kebele));
                 row10.createCell(49).setCellValue(MasterRepository.getInstance().getCountOfMalePersonsWithInterestForAllParcels(kebele));
                 row10.createCell(50).setCellValue(MasterRepository.getInstance().getCountOfFemalePersonsWithInterestForAllParcels(kebele));
-
+    
                 row10.createCell(51).setCellValue(MasterRepository.getInstance().getCountOfAllParcelsWithGuardians(kebele));
                 row10.createCell(52).setCellValue(MasterRepository.getInstance().getCountOfGuardiansForAllParcels(kebele));
                 row10.createCell(53).setCellValue(MasterRepository.getInstance().getAverageNumberOfGuardiansPerParcelForAllParcels(kebele));

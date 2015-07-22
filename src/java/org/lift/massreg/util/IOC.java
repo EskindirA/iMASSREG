@@ -168,6 +168,7 @@ public class IOC {
         pages.put(Constants.INDEX_CERTIFICATE_PRINTING_CHECKLIST_WC,"cpCheckList.jsp");
         pages.put(Constants.INDEX_PRINT_CERTIFCATE_WC,"certificateWC.jsp");
         pages.put(Constants.INDEX_DAILY_REPORT_ADMINISTRATOR,"dailyReportAdmin.jsp");
+        pages.put(Constants.INDEX_DOWNLOAD_PUBLIC_DISPLAY,"downloadReport.jsp");
 
     }
 
