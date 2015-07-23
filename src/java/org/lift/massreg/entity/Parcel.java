@@ -47,8 +47,8 @@ public class Parcel implements Entity {
     private byte maxStage;
     private OrganizationHolder organaizationHolder;
     private ArrayList<IndividualHolder> individualHolders = new ArrayList<>();
-    private ArrayList<PersonWithInterest> personsWithInterest= new ArrayList<>();
-    private ArrayList<Guardian> guardians= new ArrayList<>();
+    private ArrayList<PersonWithInterest> personsWithInterest = new ArrayList<>();
+    private ArrayList<Guardian> guardians = new ArrayList<>();
 
     private ArrayList<Dispute> disputes;
 
@@ -484,10 +484,10 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
-    
+
     public boolean canEdit(CurrentUserDTO cudto) {
         boolean returnValue = true;
-        
+
         boolean firstentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getFEStage());
         boolean secondentry = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getSEStage());
         boolean supervisor = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getCorrectionStage());
@@ -498,7 +498,7 @@ public class Parcel implements Entity {
         boolean majorcorrectionSE = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionSEStage());
         boolean majorcorrectionSupervisor = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getMajorCorrectionSupervisorStage());
         boolean confirmed = MasterRepository.getInstance().parcelExists(upi, CommonStorage.getConfirmedStage());
-        
+
         switch (cudto.getRole()) {
             case FIRST_ENTRY_OPERATOR:
                 if (secondentry || supervisor || commited) {
@@ -534,7 +534,7 @@ public class Parcel implements Entity {
         }
         return returnValue;
     }
-    
+
     public byte getMaxStage() {
         return maxStage;
     }

@@ -1482,19 +1482,19 @@ public class FirstEntry {
     protected static void updatePhotoID(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel currentParcel = MasterRepository.getInstance().getParcel(
-                request.getSession().getAttribute("upi").toString(), CommonStorage.getCommitedStage());
+                request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
+
         request.setAttribute("currentParcel", currentParcel);
-        IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
-                request.getParameter("holderId"), currentParcel.getStage(),
-                Timestamp.valueOf(request.getParameter("registeredOn")));
-        IndividualHolder newIndividualHolder = currentParcel.getIndividualHolder(
-                request.getParameter("holderId"), currentParcel.getStage(),
-                Timestamp.valueOf(request.getParameter("registeredOn")));
+        Timestamp registeredOn = Timestamp.valueOf(request.getParameter("registeredOn"));
+        IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(request.getParameter("holderId"), currentParcel.getStage(), registeredOn);
+
+        IndividualHolder newIndividualHolder = currentParcel.getIndividualHolder(request.getParameter("holderId"), currentParcel.getStage(), registeredOn);
+
         try {
             newIndividualHolder.setId(request.getParameter("newholderId"));
             if (newIndividualHolder.validateForUpdate()) {
                 //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
-                MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
+                MasterRepository.getInstance().updatePhotoID(oldIndividualHolder, newIndividualHolder);
                 viewHolder(request, response);
             } else {
                 // if the parcel fails to validate show error message

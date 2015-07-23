@@ -1,6 +1,5 @@
 package org.lift.massreg.dao;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -820,6 +819,28 @@ public class MasterRepository {
                 if (result < 1) {
                     returnValue = false;
                 }
+            }
+            connection.close();
+        } catch (SQLException | NumberFormatException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean updatePhotoID(IndividualHolder oldIndividualHolder,
+            IndividualHolder newIndividualHolder) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE individualholder SET holderId=? WHERE upi=?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newIndividualHolder.getId());
+            stmnt.setString(2, oldIndividualHolder.getUpi());
+
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
             }
             connection.close();
         } catch (SQLException | NumberFormatException ex) {
@@ -6680,7 +6701,6 @@ public class MasterRepository {
         } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
-        System.err.println("3..");
         return returnValue;
     }
 
