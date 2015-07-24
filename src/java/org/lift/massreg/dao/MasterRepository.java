@@ -829,19 +829,20 @@ public class MasterRepository {
     }
 
     public boolean updatePhotoID(IndividualHolder oldIndividualHolder,
-            IndividualHolder newIndividualHolder) {
+            String newId) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
-        String query = "UPDATE individualholder SET holderId=? WHERE upi=?";
+        String query = "UPDATE individualholder SET holderId=? WHERE holderId=? AND upi=? LIMIT 1";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setString(1, newIndividualHolder.getId());
-            stmnt.setString(2, oldIndividualHolder.getUpi());
-
+            stmnt.setString(1, newId);
+            stmnt.setString(2, oldIndividualHolder.getId());
+            stmnt.setString(3, oldIndividualHolder.getUpi());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
             }
+            System.err.println("UPDATE individualholder SET holderId="+newId+" WHERE holderId="+oldIndividualHolder.getId()+" AND upi="+oldIndividualHolder.getUpi());
             connection.close();
         } catch (SQLException | NumberFormatException ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());

@@ -8,12 +8,18 @@
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dao/MasterRepository.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/HoldingHolderDTO.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/welcomeAdministrator.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/individualHoldersListDEO.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/entity/IndividualHolder.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/FirstEntry.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/util/ReportUtil.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/Correction.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/downloadPD.jsp</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/ti_et.properties</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/web/private/forms/individualHoldersListSupervisor.jsp</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/entity/Parcel.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/am_et.properties</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/HoldingParcelPublicDisplayDTO.java</file>
+            <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/SecondEntry.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/en_us.properties</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/dto/HoldingPublicDisplayDTO.java</file>
             <file>file:/Users/user/Work/Projects/LIFT/iMASSREG/massreg/src/java/org/lift/massreg/controller/Administrator.java</file>

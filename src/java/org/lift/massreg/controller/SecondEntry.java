@@ -1633,4 +1633,44 @@ public class SecondEntry {
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SEO));
         rd.forward(request, response);
     }
+
+    protected static void updatePhotoId(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(
+                request.getSession().getAttribute("upi").toString(), (byte) 2);
+        request.setAttribute("currentParcel", currentParcel);
+
+        IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
+                request.getParameter("holderId"), currentParcel.getStage(),
+                Timestamp.valueOf(request.getParameter("registeredOn")));
+        IndividualHolder newIndividualHolder =  currentParcel.getIndividualHolder(
+                request.getParameter("holderId"), currentParcel.getStage(),
+                Timestamp.valueOf(request.getParameter("registeredOn")));
+        try {
+            newIndividualHolder.setId(request.getParameter("newHolderId"));
+            if (newIndividualHolder.validateForUpdate()) {
+                //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
+                MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
+                viewHolder(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
+
 }

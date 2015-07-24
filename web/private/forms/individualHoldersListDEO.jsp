@@ -16,13 +16,14 @@
         parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
     }
 
-    String saveurl, viewurl, editurl, deleteurl, backurl, nexturl;
+    String saveurl, viewurl, editurl, deleteurl, backurl, nexturl, updateid;
     if (CommonStorage.getCurrentUser(request).getRole() == Constants.ROLE.FIRST_ENTRY_OPERATOR) {
         saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_FEO;
         viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_FEO;
         editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_FEO;
         deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_FEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_FEO;
+        updateid = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PHOTO_ID_FEO;
         if (currentParcel.hasOrphanHolder()) {
             nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_GUARDIANS_LIST_FEO;
         } else {
@@ -34,6 +35,7 @@
         editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SEO;
         deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO;
         backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SEO;
+        updateid = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PHOTO_ID_SEO;
         if (currentParcel.hasOrphanHolder()) {
             nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_GUARDIANS_LIST_SEO;
         } else {
@@ -294,7 +296,7 @@
         $("#editModal").html(result);
     }
     function changePhotoId(holderId, regOn) {
-        var action = "<%=request.getContextPath()%>" + "/Index?action=" + "<%=Constants.ACTION_UPDATE_PHOTO_ID_CO%>";
+        var action = "<%=updateid%>";
         bootbox.dialog({
             title: "Update Photo ID",
             message: '<div class="row">  ' +
@@ -309,7 +311,7 @@
                     '</form> </div>  </div>',
             buttons: {
                 success: {
-                    label: "Post",
+                    label: "Update",
                     className: "btn-success",
                     callback: function () {
                         $("#editPhotoIdForm #newHolderId").toggleClass("error-field", false);
@@ -317,10 +319,11 @@
                             $("#editPhotoIdForm #newHolderId").toggleClass("error-field", true);
                             return false;
                         } else {
+
                             $.ajax({
                                 type: 'POST',
                                 url: action,
-                                data: {"registeredOn": regOn, "holderId": holderId, "newholderId": $("#editPhotoIdForm #newHolderId").val()},
+                                data: {"registeredOn": regOn, "holderId": holderId, "newHolderId": $("#editPhotoIdForm #newHolderId").val()},
                                 error: showajaxerror,
                                 success: loadInPlace
                             });

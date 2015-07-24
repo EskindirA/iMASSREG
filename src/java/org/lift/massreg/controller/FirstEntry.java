@@ -1479,22 +1479,23 @@ public class FirstEntry {
         rd.forward(request, response);
     }
 
-    protected static void updatePhotoID(HttpServletRequest request, HttpServletResponse response)
+    protected static void updatePhotoId(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel currentParcel = MasterRepository.getInstance().getParcel(
-                request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
-
+                request.getSession().getAttribute("upi").toString(), (byte) 1);
         request.setAttribute("currentParcel", currentParcel);
-        Timestamp registeredOn = Timestamp.valueOf(request.getParameter("registeredOn"));
-        IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(request.getParameter("holderId"), currentParcel.getStage(), registeredOn);
 
-        IndividualHolder newIndividualHolder = currentParcel.getIndividualHolder(request.getParameter("holderId"), currentParcel.getStage(), registeredOn);
-
+        IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
+                request.getParameter("holderId"), currentParcel.getStage(),
+                Timestamp.valueOf(request.getParameter("registeredOn")));
+        IndividualHolder newIndividualHolder = currentParcel.getIndividualHolder(
+                request.getParameter("holderId"), currentParcel.getStage(),
+                Timestamp.valueOf(request.getParameter("registeredOn")));
         try {
-            newIndividualHolder.setId(request.getParameter("newholderId"));
+            newIndividualHolder.setId(request.getParameter("newHolderId"));
             if (newIndividualHolder.validateForUpdate()) {
                 //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
-                MasterRepository.getInstance().updatePhotoID(oldIndividualHolder, newIndividualHolder);
+                MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
                 viewHolder(request, response);
             } else {
                 // if the parcel fails to validate show error message

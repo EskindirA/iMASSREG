@@ -90,7 +90,9 @@ public interface Constants {
     public static final String ACTION_UPDATE_GUARDIAN_FEO = "UPDATE_GUARDIAN_FEO";
     public static final String ACTION_UPDATE_GUARDIAN_SEO = "UPDATE_GUARDIAN_SEO";
     
-    public static final String ACTION_UPDATE_PHOTO_ID_CO = "UPDATE_PHOTO_ID_CO";
+    public static final String ACTION_UPDATE_PHOTO_ID_FEO = "UPDATE_PHOTO_ID_FEO";
+    public static final String ACTION_UPDATE_PHOTO_ID_SEO = "UPDATE_PHOTO_ID_SEO";
+    public static final String ACTION_UPDATE_PHOTO_ID_SUPERVISOR = "UPDATE_PHOTO_ID_SUPERVISOR";
     public static final String ACTION_UPDATE_HOLDING_NUMBER_CO = "UPDATE_HOLDING_NUMBER_CO";
 
     public static final String ACTION_FINISH_DISPUTE_FEO = "FINISH_DISPUTE_FEO";

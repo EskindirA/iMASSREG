@@ -129,7 +129,7 @@ public class Correction {
                 //Parcel.getLogStatment(oldParcel,newParcel);
                 MasterRepository.getInstance().update(oldParcel, newParcel);
                 if (newParcel.getHolding() == 1 && oldParcel.getHolding() != 1) {
-                    OrganizationHolder.delete(request,oldParcel.getUpi(), oldParcel.getStage());
+                    OrganizationHolder.delete(request, oldParcel.getUpi(), oldParcel.getStage());
                 }
                 if (newParcel.getHolding() != 1 && oldParcel.getHolding() == 1) {
                     ArrayList<IndividualHolder> holders = oldParcel.getIndividualHolders();
@@ -212,10 +212,15 @@ public class Correction {
      */
     protected static void viewHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
+        Parcel parcel;
+        if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getCommitedStage())) {
+            parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCommitedStage());
+        } else {
+            parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
+        }
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
-        parcel = (Parcel) request.getAttribute("currentParcel");
+        //parcel = (Parcel) request.getAttribute("currentParcel");
         if (parcel != null) {
             if (parcel.getHolding() == 1) {
                 individualHolderList(request, response);
@@ -244,7 +249,12 @@ public class Correction {
      */
     protected static void individualHolderList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
+        Parcel currentParcel;
+        if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getCommitedStage())) {
+            currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCommitedStage());
+        } else {
+            currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
+        }
         request.setAttribute("currentParcel", currentParcel);
         Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
         Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
@@ -252,7 +262,6 @@ public class Correction {
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_SUPERVISOR));
         rd.forward(request, response);
     }
-
 
     /**
      * Handlers request to view list of guardians holders by the supervisor
@@ -633,13 +642,14 @@ public class Correction {
             throws ServletException, IOException {
         request.getSession().setAttribute("reviewMode", false);
         Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
-        currentParcel.commit();
+        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getCommitedStage())) {
+            currentParcel.commit();
+        }
         request.getSession().setAttribute("upi", null);
         request.getSession().setAttribute("parcelNo", null);
         welcomeFrom(request, response);
     }
 
-    
     /**
      * Handlers request to save a person with interest by the supervisor
      *
@@ -692,7 +702,6 @@ public class Correction {
 
     }
 
-    
     /**
      * Handlers request to save a person with interest by the supervisor
      *
@@ -744,7 +753,6 @@ public class Correction {
         }
 
     }
-
 
     /**
      * Handlers request for viewing a person with interest by the supervisor
@@ -798,7 +806,6 @@ public class Correction {
         }
     }
 
-
     /**
      * Handlers request for getting the edit person with form by the supervisor
      *
@@ -850,7 +857,6 @@ public class Correction {
             rd.forward(request, response);
         }
     }
-
 
     /**
      * Handlers request to update person with interest information by the
@@ -955,7 +961,6 @@ public class Correction {
         }
     }
 
-    
     /**
      * Handlers request to delete a person with interest by the supervisor
      *
@@ -966,7 +971,7 @@ public class Correction {
      */
     protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (PersonWithInterest.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
+        if (PersonWithInterest.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
             personsWithInterestList(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -989,7 +994,7 @@ public class Correction {
      */
     protected static void deleteGuardian(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (Guardian.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
+        if (Guardian.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
             guardiansList(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -1002,7 +1007,6 @@ public class Correction {
         }
     }
 
-    
     /**
      * Handlers request to delete an individual holder by the supervisor
      *
@@ -1013,7 +1017,7 @@ public class Correction {
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (IndividualHolder.delete(request,request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
+        if (IndividualHolder.delete(request, request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
             request.setAttribute("currentParcel", parcel);
             individualHolderList(request, response);
@@ -1220,7 +1224,7 @@ public class Correction {
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (Dispute.delete(request,Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
+        if (Dispute.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage())) {
             Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
             request.setAttribute("currentParcel", parcel);
             viewDisputeList(request, response);
@@ -1292,9 +1296,9 @@ public class Correction {
             Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
             if (feoParcel.getHolding() > 1 && seoParcel.getHolding() > 1) {
                 request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), seoParcel.getOrganizationHolder()));
-                request.getSession().setAttribute("ignoreReviewMode",false);
-            }else{
-                request.getSession().setAttribute("ignoreReviewMode",true);
+                request.getSession().setAttribute("ignoreReviewMode", false);
+            } else {
+                request.getSession().setAttribute("ignoreReviewMode", true);
             }
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_EDIT_ORGANIZATION_HOLDER_SUPERVISOR));
             rd.forward(request, response);
@@ -1379,7 +1383,7 @@ public class Correction {
             rd.forward(request, response);
             return;
         }
-         // Delete all disputes of the parcel, if any
+        // Delete all disputes of the parcel, if any
         if (parcel.hasDispute()) {
             ArrayList<Dispute> allDisputes = parcel.getDisputes();
             for (int i = 0; i < allDisputes.size(); i++) {
@@ -1423,6 +1427,51 @@ public class Correction {
 
         // Forward to the welcome page
         welcomeFrom(request, response);
+    }
+
+    protected static void updatePhotoId(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel currentParcel;
+        if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getCommitedStage())) {
+            currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCommitedStage());
+            request.setAttribute("currentParcel", currentParcel);
+        } else {
+            currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getCorrectionStage());
+            request.setAttribute("currentParcel", currentParcel);
+        }
+        request.setAttribute("currentParcel", currentParcel);
+
+        IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
+                request.getParameter("holderId"), currentParcel.getStage(),
+                Timestamp.valueOf(request.getParameter("registeredOn")));
+        IndividualHolder newIndividualHolder = currentParcel.getIndividualHolder(
+                request.getParameter("holderId"), currentParcel.getStage(),
+                Timestamp.valueOf(request.getParameter("registeredOn")));
+        try {
+            newIndividualHolder.setId(request.getParameter("newHolderId"));
+            if (newIndividualHolder.validateForUpdate()) {
+                //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
+                MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
+                viewHolder(request, response);
+            } else {
+                // if the parcel fails to validate show error message
+                request.getSession().setAttribute("title", "Validation Error");
+                request.getSession().setAttribute("message", "Sorry, there was a validation error ");
+                request.getSession().setAttribute("returnTitle", "Go back to holder list");
+                request.getSession().setAttribute("returnAction", Constants.ACTION_VIEW_HOLDER_FEO);
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+                rd.forward(request, response);
+            }
+
+        } catch (NumberFormatException | ServletException | IOException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Parcel");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_ADD_PARCEL_FEO);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
     }
 
 }

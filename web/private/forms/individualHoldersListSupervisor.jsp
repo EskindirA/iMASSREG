@@ -10,12 +10,14 @@
     ArrayList<IndividualHolder> holders = currentParcel.getIndividualHolders();
     ParcelDifference parcelDifference = (ParcelDifference) request.getAttribute("currentParcelDifference");
 
-    String saveurl, viewurl, editurl, deleteurl, backurl, nexturl;
+    String saveurl, viewurl, editurl, deleteurl, backurl, nexturl, updateid;
     saveurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_SAVE_HOLDER_SUPERVISOR;
     viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SUPERVISOR;
     editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_INDIVIDUAL_HOLDER_SUPERVISOR;
     deleteurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SUPERVISOR;
     backurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SUPERVISOR;
+    updateid = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PHOTO_ID_SUPERVISOR;
+
     if (currentParcel.hasOrphanHolder()) {
         nexturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_GUARDIANS_LIST_SUPERVISOR;
     } else {
@@ -39,7 +41,7 @@
                         }
                     %>
 
-                          <span style='float:right' class='<%= parcelDifference.isHoldersCount()
+                    <span style='float:right' class='<%= parcelDifference.isHoldersCount()
                                   ? "discrepancy-field" : ""%>'><%=CommonStorage.getText("holders_count")%>:<%=currentParcel.getHolderCount()%></span>
                 </div>
                 <div class="panel-body">
@@ -85,6 +87,10 @@
                                                     + holders.get(i).getId() + "' data-registeredOn='"
                                                     + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("delete") + "</a>");
 
+                                        } else {
+                                            out.println("| <a href = '#' class='changeIDButton' data-holderId='"
+                                                    + holders.get(i).getId() + "' data-registeredOn='"
+                                                    + holders.get(i).getRegisteredOn() + "'>" + CommonStorage.getText("change_photo_id") + "</a>");
                                         }
                                         out.println("</td>");
                                         out.println("</tr>");
@@ -388,4 +394,53 @@
             $("#holderId").removeAttr("disabled");
         }
     });
+    $('.changeIDButton').click(function () {
+        changePhotoId($(this).attr("data-holderId"), $(this).attr("data-registeredOn"));
+        return false;
+    });
+    function changePhotoId(holderId, regOn) {
+        var action = "<%=updateid%>";
+        bootbox.dialog({
+            title: "Update Photo ID",
+            message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal" method=\'POST\' id="editPhotoIdForm"' +
+                    'action = \'' + action + '\'> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="paymentDate">New Photo ID</label> ' +
+                    '<div class="col-md-4"> ' +
+                    '<input id="newHolderId" name="newHolderId" type="text" class="form-control input-md"> ' +
+                    '</div> </div> ' +
+                    '</form> </div>  </div>',
+            buttons: {
+                success: {
+                    label: "Update",
+                    className: "btn-success",
+                    callback: function () {
+                        $("#editPhotoIdForm #newHolderId").toggleClass("error-field", false);
+                        if ($("#editPhotoIdForm #newHolderId").val().trim() === "") {
+                            $("#editPhotoIdForm #newHolderId").toggleClass("error-field", true);
+                            return false;
+                        } else {
+
+                            $.ajax({
+                                type: 'POST',
+                                url: action,
+                                data: {"registeredOn": regOn, "holderId": holderId, "newHolderId": $("#editPhotoIdForm #newHolderId").val()},
+                                error: showajaxerror,
+                                success: loadInPlace
+                            });
+                        }
+                    }
+                },
+                cancel: {
+                    label: "Cancel",
+                    className: "btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+
+        });
+    }
 </script>

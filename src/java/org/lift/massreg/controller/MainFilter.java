@@ -215,9 +215,9 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateIndividualHolder(request, response);
-        } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_CO)){
+        } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_FEO)){
             getUPI(request);
-            FirstEntry.updatePhotoID(request,response);
+            FirstEntry.updatePhotoId(request,response);
         } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_HOLDING_NUMBER_CO)){
             getUPI(request);
             FirstEntry.updateHoldingNumber(request,response);
@@ -306,6 +306,9 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_SEO)) {
             getUPI(request);
             SecondEntry.updateIndividualHolder(request, response);
+        }else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_SEO)){
+            getUPI(request);
+            SecondEntry.updatePhotoId(request,response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO)) {
             getUPI(request);
             SecondEntry.deleteIndividualHolder(request, response);
@@ -533,6 +536,15 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_SUPERVISOR)) {
             getUPI(request);
             Correction.deleteDispute(request, response);
+        }else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_SUPERVISOR)){
+            getUPI(request);
+            if (request.getParameter("upi") != null) {
+                request.setAttribute("upi", request.getParameter("upi").trim());
+                request.getSession().setAttribute("upi", request.getParameter("upi").trim());
+            } else {
+                request.setAttribute("upi", request.getSession().getAttribute("upi"));
+            }
+            Correction.updatePhotoId(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_FINISH_ORGANIZATION_HOLDER_SUPERVISOR)) {
             if (request.getParameter("upi") != null) {
                 request.setAttribute("upi", request.getParameter("upi").trim());
