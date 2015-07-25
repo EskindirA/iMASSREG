@@ -20,11 +20,11 @@
     </div>
     <div class="bs-example">
         <ul class="nav nav-tabs" style="margin-bottom: 15px;">
-            <li class="active"><a href="#correctionParcels" data-toggle="tab"><%=CommonStorage.getText("corrections")%></a></li>
-            <li><a href="#findParcel" data-toggle="tab"><%=CommonStorage.getText("find_a_parcel")%></a></li>
+            <li class="active"><a href="#findParcel" data-toggle="tab"><%=CommonStorage.getText("find_a_parcel")%></a></li>
             <!--li class="disabled"><a>Disabled</a></li-->
         </ul>
         <div id="myTabContent" class="tab-content">
+            <%--
             <div class="tab-pane fade active in" id="correctionParcels">
                 <div class="row">
                     <div class="col-lg-12">
@@ -80,7 +80,9 @@
                     </div> <!-- /.col-lg-12 -->
                 </div>
             </div>
-            <div class="tab-pane fade" id="findParcel">
+            
+                                        --%>
+                <div class="tab-pane fade active in" id="findParcel">
                 <div class="row">
                     <div class="col-lg-4 col-lg-offset-4">
                         <div class="panel panel-default" >
@@ -104,7 +106,7 @@
                                         </div>
                                         <div class="form-group error" id="someId">
                                             <label><%=CommonStorage.getText("parcel_id")%></label>
-                                            <input class="form-control" name = "parcelNo" id = "parcelNo" type="type" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" required />
+                                            <input class="form-control" name = "parcelNo" id = "parcelNo" type="text" size="5" maxlength="5" required value="${sessionScope.parcelNo}" autocomplete="off" required />
                                         </div>
                                         <div class="form-group">
                                             <label><%=CommonStorage.getText("administrative_upi")%></label>
@@ -121,7 +123,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     function editParcel(upi) {
