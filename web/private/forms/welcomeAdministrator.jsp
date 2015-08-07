@@ -634,7 +634,7 @@
                         mywindow.document.close();
                         mywindow.focus();
                         mywindow.print();
-                        mywindow.close();
+                        //mywindow.close();
                         $("#publicDisplayDetail").html("");
                     }
                 }

@@ -639,9 +639,10 @@ public class Administrator {
         int sexCol = 2;
         int parcelNoCol = 3;
         int areaCol = 4;
-        int disputeCol = 5;
-        int guardianCol = 6;
-        int incompleteCol = 7;
+        int mapsheetNoCol = 5;
+        int disputeCol = 6;
+        int guardianCol = 7;
+        int incompleteCol = 8;
 
         Font hSSFFont = wb.createFont();
         hSSFFont.setFontName("Abyssinica SIL");
@@ -678,6 +679,7 @@ public class Administrator {
             headerRow.createCell(sexCol).setCellValue(CommonStorage.getText("sex"));
             headerRow.createCell(parcelNoCol).setCellValue(CommonStorage.getText("parcel_number"));
             headerRow.createCell(areaCol).setCellValue(CommonStorage.getText("area"));
+            headerRow.createCell(mapsheetNoCol).setCellValue(CommonStorage.getText("orthograph_map_sheet_no"));
             headerRow.createCell(disputeCol).setCellValue(CommonStorage.getText("has_dispute"));
             headerRow.createCell(guardianCol).setCellValue(CommonStorage.getText("guardian"));
             headerRow.createCell(incompleteCol).setCellValue(CommonStorage.getText("incomplete"));
@@ -686,71 +688,76 @@ public class Administrator {
                 iterator.next().setCellStyle(headerStyle);
             }
             ArrayList<String> individualHoldingNumbers = MasterRepository.getInstance().getHoldingNumbers(kebele, (byte) 1);
+            // Individual Holders
             for (String holdingNo : individualHoldingNumbers) {
-                // Individual Holders
-                HoldingPublicDisplayDTO item = MasterRepository.getInstance().getPublicDisplayInfoByHoldingNumberIH(holdingNo);
+                HoldingPublicDisplayDTO item = MasterRepository.getInstance().getPublicDisplayInfoByHoldingNumberIH(kebele, holdingNo);
                 if (item == null) {
-                    continue;  // Unlikely to happen
-                }
-                Row[] rows = new Row[Math.max(item.getHolders().size(), item.getParcels().size())];
-                for (int j = 0; j < rows.length; j++) {
-                    rows[j] = individualSheet.createRow(totalRows + j);
-                }
+                    continue;
+                }  // assert
 
-                // Writeout the holding number on the first row, first cell
-                rows[0].createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
+                int holderCount = item.getHolders().size();
+                int parcelCount = item.getParcels().size();
+                int maxCount = Math.max(holderCount, parcelCount);
 
-                // Writeout holder details for this holding
-                int i = 0;
-                for (; i < item.getHolders().size(); i++) {
-                    HoldingHolderDTO holder = item.getHolders().get(i);
-                    rows[i].createCell(namesCol).setCellValue(holder.getName());
-                    Cell sexCell = rows[i].createCell(sexCol);
+                // Write out the first row
+                Row row = individualSheet.createRow(totalRows++);
+                row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
+                HoldingParcelPublicDisplayDTO parcel;
+                HoldingHolderDTO holder;
+                Cell incompleteCell,sexCell;
+                if (holderCount > 0) {
+                    holder = item.getHolders().get(0);
+                    row.createCell(namesCol).setCellValue(holder.getName());
+                    sexCell = row.createCell(sexCol);
                     sexCell.setCellValue(holder.getSexText());
                 }
-
-                // If the number of holders is greater than the number of parcels 
-                // continue to add cells for styling purpose
-//                for (; i < item.getHolders().size() - item.getParcels().size(); i++) {
-//                    rows[i].createCell(sexCol).setCellStyle(rightBorderStyle);
-//                }
-                // Writeout holder details for this holding
-                int j = 0;
-                for (; j < item.getParcels().size(); j++) {
-                    HoldingParcelPublicDisplayDTO parcel = item.getParcels().get(j);
-                    rows[j].createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
-                    rows[j].createCell(disputeCol).setCellValue(parcel.hasDisputeText());
-                    rows[j].createCell(areaCol).setCellValue(parcel.getArea());
-                    rows[j].createCell(guardianCol).setCellValue(parcel.getGuardiansText());
-                    Cell incompleteCell = rows[j].createCell(incompleteCol);
+                if (parcelCount > 0) {
+                    parcel = item.getParcels().get(0);
+                    row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                    row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                    row.createCell(areaCol).setCellValue(parcel.getArea());
+                    row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                    row.createCell(guardianCol).setCellValue(parcel.getGuardiansText());
+                    incompleteCell = row.createCell(incompleteCol);
                     incompleteCell.setCellValue(parcel.hasMissingValueText());
-                    //incompleteCell.setCellStyle(rightBorderStyle);
                 }
-
-                // If the number of parcels is greater than the number of holders 
-                // continue to add cells for styling purpose
-//                for (; i < item.getParcels().size() - item.getHolders().size(); i++) {
-//                    rows[i].createCell(incompleteCol).setCellStyle(rightBorderStyle);
-//                }
-                // Add border to the Bottom each holding row by iterating over the first row 
-                // with in the holding
-                for (Iterator<Cell> iterator = rows[0].cellIterator(); iterator.hasNext();) {
+                // Add border to every cell in the first row    
+                for (Iterator<Cell> iterator = row.cellIterator(); iterator.hasNext();) {
                     iterator.next().setCellStyle(rowBoarder);
                 }
 
-                ///TODO: Merge those rows under the same holding
-                totalRows += rows.length - 1;
+                for (int j = 1; j < maxCount; j++) {
+                    row = individualSheet.createRow(totalRows++);
+                    // add holder information
+                    if (holderCount > j) {
+                        holder = item.getHolders().get(j);
+                        row.createCell(namesCol).setCellValue(holder.getName());
+                        sexCell = row.createCell(sexCol);
+                        sexCell.setCellValue(holder.getSexText());
+                    }
+                    if (parcelCount > j) {
+                        parcel = item.getParcels().get(j);
+                        row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                        row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                        row.createCell(areaCol).setCellValue(parcel.getArea());
+                        row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                        row.createCell(guardianCol).setCellValue(parcel.getGuardiansText());
+                        incompleteCell = row.createCell(incompleteCol);
+                        incompleteCell.setCellValue(parcel.hasMissingValueText());
+                    }
+                }
             }
 
             // Organizational Holdings
             Sheet organizationalSheet = wb.createSheet(CommonStorage.getText("organizational_holdings"));
-            
+
             totalRows = 1;
             parcelNoCol = 2;
             areaCol = 3;
-            disputeCol = 4;
-            incompleteCol = 5;
-            
+            mapsheetNoCol = 4;
+            disputeCol = 5;
+            incompleteCol = 6;
+
             // Writeout Header for the excel
             headerRow = organizationalSheet.createRow(0);
             headerRow.createCell(holdingNoCol).setCellValue(CommonStorage.getText("holding_number"));
@@ -758,6 +765,7 @@ public class Administrator {
             //headerRow.createCell(sexCol).setCellValue(CommonStorage.getText("sex"));
             headerRow.createCell(parcelNoCol).setCellValue(CommonStorage.getText("parcel_number"));
             headerRow.createCell(areaCol).setCellValue(CommonStorage.getText("area"));
+            headerRow.createCell(mapsheetNoCol).setCellValue(CommonStorage.getText("orthograph_map_sheet_no"));
             headerRow.createCell(disputeCol).setCellValue(CommonStorage.getText("has_dispute"));
             //headerRow.createCell(guardianCol).setCellValue(CommonStorage.getText("guardian"));
             headerRow.createCell(incompleteCol).setCellValue(CommonStorage.getText("incomplete"));
@@ -766,60 +774,63 @@ public class Administrator {
                 iterator.next().setCellStyle(headerStyle);
             }
             ArrayList<String> organizationalHoldingNumbers = MasterRepository.getInstance().getHoldingNumbers(kebele);
+                        
+            // Organizational Holding
             for (String holdingNo : organizationalHoldingNumbers) {
-                // Organizational Holders
                 HoldingPublicDisplayDTO item = MasterRepository.getInstance().getPublicDisplayInfoByHoldingNumberOH(holdingNo, kebele);
                 if (item == null) {
-                    continue;  // Unlikely to happen
-                }
-                Row[] rows = new Row[Math.max(item.getHolders().size(), item.getParcels().size())];
-                for (int j = 0; j < rows.length; j++) {
-                    rows[j] = organizationalSheet.createRow(totalRows + j);
-                }
+                    continue;
+                }  // assert
 
-                // Writeout the holding number on the first row, first cell
-                rows[0].createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
+                int holderCount = item.getHolders().size();
+                int parcelCount = item.getParcels().size();
+                int maxCount = Math.max(holderCount, parcelCount);
 
-                // Writeout holder details for this holding
-                int i = 0;
-                for (; i < item.getHolders().size(); i++) {
-                    HoldingHolderDTO holder = item.getHolders().get(i);
-                    Cell namesCell = rows[i].createCell(namesCol);
-                    namesCell.setCellValue(holder.getName());
+                // Write out the first row
+                Row row = organizationalSheet.createRow(totalRows++);
+                row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
+                HoldingParcelPublicDisplayDTO parcel;
+                HoldingHolderDTO holder;
+                Cell incompleteCell,nameCell;
+                if (holderCount > 0) {
+                    holder = item.getHolders().get(0);
+                    nameCell = row.createCell(namesCol);
+                    nameCell.setCellValue(holder.getName());
                 }
-
-                // If the number of holders is greater than the number of parcels 
-                // continue to add cells for styling purpose
-//                for (; i < item.getHolders().size() - item.getParcels().size(); i++) {
-//                    rows[i].createCell(sexCol).setCellStyle(rightBorderStyle);
-//                }
-                // Writeout holder details for this holding
-                int j = 0;
-                for (; j < item.getParcels().size(); j++) {
-                    HoldingParcelPublicDisplayDTO parcel = item.getParcels().get(j);
-                    rows[j].createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
-                    rows[j].createCell(disputeCol).setCellValue(parcel.hasDisputeText());
-                    rows[j].createCell(areaCol).setCellValue(parcel.getArea());
-                    //rows[j].createCell(guardianCol).setCellValue(parcel.getGuardiansText());
-                    Cell incompleteCell = rows[j].createCell(incompleteCol);
+                if (parcelCount > 0) {
+                    parcel = item.getParcels().get(0);
+                    row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                    row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                    row.createCell(areaCol).setCellValue(parcel.getArea());
+                    row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                    incompleteCell = row.createCell(incompleteCol);
                     incompleteCell.setCellValue(parcel.hasMissingValueText());
-                    //incompleteCell.setCellStyle(rightBorderStyle);
                 }
-
-                // If the number of parcels is greater than the number of holders 
-                // continue to add cells for styling purpose
-//                for (; i < item.getParcels().size() - item.getHolders().size(); i++) {
-//                    rows[i].createCell(incompleteCol).setCellStyle(rightBorderStyle);
-//                }
-                // Add border to the Bottom each holding row by iterating over the first row 
-                // with in the holding
-                for (Iterator<Cell> iterator = rows[0].cellIterator(); iterator.hasNext();) {
+                // Add border to every cell in the first row    
+                for (Iterator<Cell> iterator = row.cellIterator(); iterator.hasNext();) {
                     iterator.next().setCellStyle(rowBoarder);
                 }
 
-                ///TODO: Merge those rows under the same holding
-                totalRows += rows.length - 1;
+                for (int j = 1; j < maxCount; j++) {
+                    row = organizationalSheet.createRow(totalRows++);
+                    // add holder information
+                    if (holderCount > j) {
+                        holder = item.getHolders().get(j);
+                        nameCell = row.createCell(namesCol);
+                        nameCell.setCellValue(holder.getName());
+                    }
+                    if (parcelCount > j) {
+                        parcel = item.getParcels().get(j);
+                        row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                        row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                        row.createCell(areaCol).setCellValue(parcel.getArea());
+                        row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                        incompleteCell = row.createCell(incompleteCol);
+                        incompleteCell.setCellValue(parcel.hasMissingValueText());
+                    }
+                }
             }
+            
             /// TODO: Missing parcels Sheet
             Sheet missingSheet = wb.createSheet(CommonStorage.getText("parcels_with_no_textual_information"));
             totalRows = 0;

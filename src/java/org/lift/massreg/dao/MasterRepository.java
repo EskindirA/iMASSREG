@@ -2320,6 +2320,7 @@ public class MasterRepository {
                     + getDBLinkString() + " ,'SELECT parcel_id, "
                     + "round ((ST_Area(the_geom)/10000)::numeric,5) as area FROM " + getKebeleTable(kebele)
                     + "') as P2(parcel_id integer, area double precision) WHERE Parcel.parcelid = P2.parcel_id";
+            System.err.println(query);
             Connection connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.executeUpdate();
@@ -6810,13 +6811,13 @@ public class MasterRepository {
 
     }
 
-    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberIH(String holdingNo) {
+    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberIH(long kebele,String holdingNo) {
         HoldingPublicDisplayDTO returnValue = new HoldingPublicDisplayDTO();
         returnValue.setHoldingNumber(holdingNo);
         Connection connection = CommonStorage.getConnection();
         try {
             String query = "SELECT distinct upi,area,parcelid,holdingtype,mapsheetno,hasdispute, "
-                    + "otherevidence,landusetype,soilfertilitytype,acquisitiontype,acquisitionyear,encumbrancetype FROM parcel WHERE stage=4 AND status='active' AND holdingno=? ORDER BY upi";
+                    + "otherevidence,landusetype,soilfertilitytype,acquisitiontype,acquisitionyear,encumbrancetype FROM parcel WHERE stage=4 AND status='active' AND holdingno=? AND UPI LIKE '" + kebele + "/%' ORDER BY upi";
             PreparedStatement parcelsStmnt = connection.prepareStatement(query);
             parcelsStmnt.setString(1, holdingNo);
             ResultSet parcelsRS = parcelsStmnt.executeQuery();

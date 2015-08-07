@@ -53,7 +53,7 @@
                     int parcelCount = holdersListI.get(i).getParcels().size();
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getId() + "</td>");
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getName() + "</td>");
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getSexText()+ "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getSex()+ "</td>");
 
                     for (int j = 0; j < holdersListI.get(i).getParcels().size(); j++) {
                         out.println(String.format("<td> %05d</td>", holdersListI.get(i).getParcels().get(j).getParcelId()));
