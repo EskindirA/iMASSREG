@@ -842,7 +842,6 @@ public class MasterRepository {
             if (result < 1) {
                 returnValue = false;
             }
-            System.err.println("UPDATE individualholder SET holderId="+newId+" WHERE holderId="+oldIndividualHolder.getId()+" AND upi="+oldIndividualHolder.getUpi());
             connection.close();
         } catch (SQLException | NumberFormatException ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
@@ -2320,7 +2319,6 @@ public class MasterRepository {
                     + getDBLinkString() + " ,'SELECT parcel_id, "
                     + "round ((ST_Area(the_geom)/10000)::numeric,5) as area FROM " + getKebeleTable(kebele)
                     + "') as P2(parcel_id integer, area double precision) WHERE Parcel.parcelid = P2.parcel_id";
-            System.err.println(query);
             Connection connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.executeUpdate();
@@ -6368,23 +6366,24 @@ public class MasterRepository {
             }
 
             for (String h : holderIds) {
-                query = "SELECT * FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holderid=?";
+                query = "SELECT distinct holderid, upi, stage, firstname,  fathersname, grandfathersname, sex, dateofbirth, familyrole, physicalimpairment, status, isorphan FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holderid=?";
                 PreparedStatement stmnt1 = connection.prepareStatement(query);
                 stmnt1.setString(1, h);
                 ResultSet holderrs = stmnt1.executeQuery();
                 HolderPublicDisplayDTO holder = null;
                 while (holderrs.next()) {
+                    // if the holder is not registered already add it
                     if (holder == null) {
                         holder = new HolderPublicDisplayDTO();
                         holder.setId(holderrs.getString("holderid"));
                         holder.setName(holderrs.getString("firstname") + " " + holderrs.getString("fathersname") + " " + holderrs.getString("grandfathersname"));
                         holder.setSex("f".equalsIgnoreCase(holderrs.getString("sex")) ? CommonStorage.getText("female") : CommonStorage.getText("male"));
                     }
-                    query = "SELECT * FROM parcel WHERE stage=4 and status='active' AND UPI = ?";
+                    query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status FROM parcel WHERE stage=4 and status='active' AND UPI = ?";
                     PreparedStatement stmnt2 = connection.prepareStatement(query);
                     stmnt2.setString(1, holderrs.getString("upi"));
                     ResultSet parcels = stmnt2.executeQuery();
-                    while (parcels.next()) {
+                    if (parcels.next()) {
                         boolean hasMissingValue = false;
                         ParcelPublicDisplayDTO parcel = new ParcelPublicDisplayDTO();
                         parcel.setHolding(parcels.getByte("holdingtype"));
@@ -6811,7 +6810,7 @@ public class MasterRepository {
 
     }
 
-    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberIH(long kebele,String holdingNo) {
+    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberIH(long kebele, String holdingNo) {
         HoldingPublicDisplayDTO returnValue = new HoldingPublicDisplayDTO();
         returnValue.setHoldingNumber(holdingNo);
         Connection connection = CommonStorage.getConnection();
@@ -6949,7 +6948,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberOH(String holdingNo,long kebele) {
+    public HoldingPublicDisplayDTO getPublicDisplayInfoByHoldingNumberOH(String holdingNo, long kebele) {
         HoldingPublicDisplayDTO returnValue = new HoldingPublicDisplayDTO();
         returnValue.setHoldingNumber(holdingNo);
         Connection connection = CommonStorage.getConnection();

@@ -51,9 +51,9 @@
                 for (int i = 0; i < holdersListI.size(); i++) {
                     out.println("<tr>");
                     int parcelCount = holdersListI.get(i).getParcels().size();
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getId() + "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getId() + "(" + holdersListI.get(i).getParcels().size() + ")</td>");
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getName() + "</td>");
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getSex()+ "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getSex() + "</td>");
 
                     for (int j = 0; j < holdersListI.get(i).getParcels().size(); j++) {
                         out.println(String.format("<td> %05d</td>", holdersListI.get(i).getParcels().get(j).getParcelId()));
@@ -78,8 +78,8 @@
             %>
         </tbody>
     </table>
-   
-        <table class="table table-striped table-bordered table-hover" >
+
+    <table class="table table-striped table-bordered table-hover" >
         <thead>
             <tr>
                 <th><%=CommonStorage.getText("holder_id")%></th>
@@ -100,7 +100,7 @@
                     int parcelCount = holdersListO.get(i).getParcels().size();
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersListO.get(i).getId() + "</td>");
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersListO.get(i).getName() + "</td>");
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListO.get(i).getSexText()+ "</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListO.get(i).getSexText() + "</td>");
 
                     for (int j = 0; j < holdersListO.get(i).getParcels().size(); j++) {
                         out.println(String.format("<td> %05d</td>", holdersListO.get(i).getParcels().get(j).getParcelId()));
@@ -148,8 +148,8 @@
                     }
                     out.println("<tr>");
                     for (int i = parcels.size() - last; i < parcels.size(); i++) {
-                            if (!parcels.get(i).equalsIgnoreCase("null") && !parcels.get(i).isEmpty()) {
-                            out.println(String.format("<td style='text-align:center'>"+parcels.get(i))+"</td>");
+                        if (!parcels.get(i).equalsIgnoreCase("null") && !parcels.get(i).isEmpty()) {
+                            out.println(String.format("<td style='text-align:center'>" + parcels.get(i)) + "</td>");
                         } else {
                             out.println("<td></td>");
                         }
