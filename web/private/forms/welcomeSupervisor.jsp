@@ -4,7 +4,7 @@
 <%@page import="org.lift.massreg.entity.Parcel"%>
 <%@page import="java.util.ArrayList"%>
 <%
-    ArrayList<Parcel> parcelsInCorrection = (ArrayList<Parcel>) request.getAttribute("parcelsInCorrection");
+    //ArrayList<Parcel> parcelsInCorrection = (ArrayList<Parcel>) request.getAttribute("parcelsInCorrection");
     
     String editurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_EDIT_PARCEL_SUPERVISOR;
     String viewurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_VIEW_PARCEL_SUPERVISOR;

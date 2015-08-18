@@ -51,7 +51,7 @@
                 for (int i = 0; i < holdersListI.size(); i++) {
                     out.println("<tr>");
                     int parcelCount = holdersListI.get(i).getParcels().size();
-                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getId() + "(" + holdersListI.get(i).getParcels().size() + ")</td>");
+                    out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getId() +"</td>");
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getName() + "</td>");
                     out.println("<td rowspan='" + parcelCount + "' >" + holdersListI.get(i).getSex() + "</td>");
 
