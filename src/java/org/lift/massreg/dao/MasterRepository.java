@@ -2543,7 +2543,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon between ? and ? and UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM Parcel WHERE stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon between ? and ? and UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2631,7 +2631,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct organizationname) as c FROM OrganizationHolder,Parcel WHERE OrganizationHolder.UPI LIKE '" + kebele + "/%'  AND Parcel.stage=4 AND Parcel.status='active' AND Parcel.hasDispute=false AND OrganizationHolder.stage=4 AND OrganizationHolder.status='active'";
+            String query = "SELECT count(distinct organizationname) as c FROM OrganizationHolder,Parcel WHERE  OrganizationHolder.upi=parcel.upi AND OrganizationHolder.UPI LIKE '" + kebele + "/%'  AND Parcel.stage=4 AND Parcel.status='active' AND Parcel.hasDispute=false AND OrganizationHolder.stage=4 AND OrganizationHolder.status='active' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2759,7 +2759,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM Parcel WHERE stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -8881,4 +8881,13 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public void refreshView(String viewName) {
+        try (Connection connection = CommonStorage.getConnection()) {
+            String query = "REFRESH MATERIALIZED VIEW " + viewName;
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+    }
 }
