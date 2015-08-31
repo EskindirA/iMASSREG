@@ -858,4 +858,39 @@ public class Administrator {
         publicDisplay(request, response);
     }
 
+    
+    protected static void timeBoundPerformanceReport(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Date fromDate = Date.valueOf(request.getParameter("fromDate"));
+        Date toDate = Date.valueOf(request.getParameter("toDate"));
+        //String fileName = CommonStorage.getCurrentWoredaName() + " Timebound report " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+        String fileName = Instant.now().toEpochMilli() + ".xlsx";
+
+        if (fromDate == null || toDate == null) {
+            response.getOutputStream().println("Please specfiey valide report dates");
+        } else {
+            ReportUtil.generateTimeBoundPerformanceReport(fromDate, toDate, fileName);
+            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
+            rd.forward(request, response);
+        }
+    }
+
+    public static void kebelePerformanceReport(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String kebele = request.getParameter("kebele");
+        if (kebele.isEmpty()) {
+            response.getOutputStream().println("Please specfiey kebele for the report ");
+        } else {
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
+            String fileName = "Kebele Performance Report " + kebeleName + " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+            ReportUtil.generateKebelePerformanceReport(kebeleId, kebeleName, fileName);
+            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
+            rd.forward(request, response);
+        }
+    }
+
+    
 }

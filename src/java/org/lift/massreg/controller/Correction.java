@@ -381,7 +381,7 @@ public class Correction {
             newIndividualHolder.setFathersName(request.getParameter("fathersname"));
             newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
             newIndividualHolder.setId(request.getParameter("newHolderId"));
-
+            newIndividualHolder.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));

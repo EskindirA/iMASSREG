@@ -330,6 +330,9 @@ public interface Constants {
     public static final String ACTION_UPDATE_SETTINGS_WC="UPDATE_SETTINGS_WC";
     public static final String ACTION_GET_IMAGE_WC="GET_IMAGE_WC";
     public static final String ACTION_DAILY_REPORT_ADMINISTRATOR="DAILY_REPORT_ADMINISTRATOR";
+    public static final String ACTION_PERIODICAL_PERFORMANCE_REPORT_ADMINISTRATOR="PERIODICAL_PERFORMANCE_REPORT_ADMINISTRATOR";
+    public static final String ACTION_KEBELE_PERFORMANCE_REPORT_ADMINISTRATOR="KEBELE_PERFORMANCE_REPORT_ADMINISTRATOR";
+    
     
     // pages
     public static final int INDEX_ERROR = 0;

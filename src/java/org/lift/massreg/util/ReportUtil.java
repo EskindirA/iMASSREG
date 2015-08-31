@@ -16,7 +16,9 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.xssf.usermodel.*;
 import org.lift.massreg.dao.*;
+import org.lift.massreg.dto.DEOPeformanceDetailDTO;
 import org.lift.massreg.dto.DailyPerformance;
+import org.lift.massreg.dto.ParcelStatusDetailDTO;
 
 /**
  *
@@ -63,13 +65,13 @@ public class ReportUtil {
         MasterRepository.getInstance().refreshView("malecoholdings");
         MasterRepository.getInstance().refreshView("husbandholders");
         MasterRepository.getInstance().refreshView("singlemaleholder");
-        
+
         MasterRepository.getInstance().refreshView("femalecoholdings");
         MasterRepository.getInstance().refreshView("wifeholders");
         MasterRepository.getInstance().refreshView("singlefemaleholder");
-        
+
         MasterRepository.getInstance().refreshView("committedparcels");
-        
+
         MasterRepository.getInstance().refreshView("marriedfemale");
         MasterRepository.getInstance().refreshView("marriedcouple");
     }
@@ -823,7 +825,6 @@ public class ReportUtil {
                 row10.createCell(56).setCellValue(MasterRepository.getInstance().getFirstDataEntryDateInKebeleForAllParcels(kebele));
                 row10.createCell(57).setCellValue(MasterRepository.getInstance().getLastDataEntryDateInKebeleForAllParcels(kebele));
 
-                
                 // Format the sheet
                 CellStyle cellStyle = wb.createCellStyle();
                 Font hSSFFont = wb.createFont();
@@ -1124,4 +1125,123 @@ public class ReportUtil {
     public static ArrayList<DailyPerformance> generateDailyReport(Date date) {
         return MasterRepository.getInstance().getDailyReport(date);
     }
+
+    /// TODO
+    public static Workbook generateTimeBoundPerformanceReport(Date fromDate, Date toDate, String fileName) {
+        Workbook wb = new XSSFWorkbook();
+        try {
+            CreationHelper createHelper = wb.getCreationHelper();
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
+                ArrayList<ParcelStatusDetailDTO> results = MasterRepository.getInstance().getParcelsStatus(fromDate, toDate);
+                Sheet parcelsSheet = wb.createSheet("Parcels");
+                Row row0 = parcelsSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("administrative_upi")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("first_entry_operator")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("second_entry_operator")));
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
+                row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("committed")));
+
+                for (int i = 1; i < results.size(); i++) {
+                    Row tempRow = parcelsSheet.createRow(i);
+                    tempRow.createCell(0).setCellValue(results.get(i).getUpi());
+                    tempRow.createCell(1).setCellValue(results.get(i).getFirstEntry());
+                    tempRow.createCell(2).setCellValue(results.get(i).getSecondEntry());
+                    tempRow.createCell(3).setCellValue(results.get(i).isCorrection());
+                    tempRow.createCell(4).setCellValue(results.get(i).isCorrection());
+
+                }
+                CellStyle cellStyle = wb.createCellStyle();
+                Font hSSFFont = wb.createFont();
+                hSSFFont.setFontName("Calibri");
+                hSSFFont.setFontHeightInPoints((short) 11);
+                cellStyle.setWrapText(true);
+                cellStyle.setFont(hSSFFont);
+                hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+                hSSFFont.setBold(true);
+                row0.setRowStyle(cellStyle);
+                
+                ArrayList<DEOPeformanceDetailDTO> deos = MasterRepository.getInstance().getDEOPerformance(fromDate,toDate);
+                Sheet deosSheet = wb.createSheet("DEOs' performance ");
+                row0 = deosSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("first_entry_operator")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("second_entry_operator")));
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
+                row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("total")));
+
+                for (int i = 1; i < deos.size(); i++) {
+                    Row tempRow = deosSheet.createRow(i);
+                    tempRow.createCell(0).setCellValue(deos.get(i).getName());
+                    tempRow.createCell(1).setCellValue(deos.get(i).getFirstEntry());
+                    tempRow.createCell(2).setCellValue(deos.get(i).getSecondEntry());
+                    tempRow.createCell(3).setCellValue(deos.get(i).getCorrection());
+                    tempRow.createCell(4).setCellValue(deos.get(i).getTotal());
+
+                }
+                wb.write(fileOut);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return wb;
+    }
+    public static Workbook generateKebelePerformanceReport(long kebele, String kebeleName, String fileName) {
+        Workbook wb = new XSSFWorkbook();
+        try {
+            CreationHelper createHelper = wb.getCreationHelper();
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
+                ArrayList<ParcelStatusDetailDTO> parcels = MasterRepository.getInstance().getParcelsStatus(kebele);
+                Sheet parcelsSheet = wb.createSheet("Parcels in " + kebeleName);
+                Row row0 = parcelsSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("administrative_upi")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("first_entry_operator")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("second_entry_operator")));
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
+                row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("committed")));
+
+                for (int i = 1; i < parcels.size(); i++) {
+                    Row tempRow = parcelsSheet.createRow(i);
+                    tempRow.createCell(0).setCellValue(parcels.get(i).getUpi());
+                    tempRow.createCell(1).setCellValue(parcels.get(i).getFirstEntry());
+                    tempRow.createCell(2).setCellValue(parcels.get(i).getSecondEntry());
+                    tempRow.createCell(3).setCellValue(parcels.get(i).isCorrection());
+                    tempRow.createCell(4).setCellValue(parcels.get(i).isCommitted());
+
+                }
+                CellStyle cellStyle = wb.createCellStyle();
+                Font hSSFFont = wb.createFont();
+                hSSFFont.setFontName("Calibri");
+                hSSFFont.setFontHeightInPoints((short) 11);
+                cellStyle.setWrapText(true);
+                cellStyle.setFont(hSSFFont);
+                hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+                hSSFFont.setBold(true);
+                row0.setRowStyle(cellStyle);
+                
+                ArrayList<DEOPeformanceDetailDTO> deos = MasterRepository.getInstance().getDEOPerformance(kebele);
+                Sheet deosSheet = wb.createSheet("DEOs' performance " + kebeleName);
+                row0 = deosSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("first_entry_operator")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("second_entry_operator")));
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
+                row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("total")));
+
+                for (int i = 1; i < deos.size(); i++) {
+                    Row tempRow = deosSheet.createRow(i);
+                    tempRow.createCell(0).setCellValue(deos.get(i).getName());
+                    tempRow.createCell(1).setCellValue(deos.get(i).getFirstEntry());
+                    tempRow.createCell(2).setCellValue(deos.get(i).getSecondEntry());
+                    tempRow.createCell(3).setCellValue(deos.get(i).getCorrection());
+                    tempRow.createCell(4).setCellValue(deos.get(i).getTotal());
+
+                }
+                wb.write(fileOut);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return wb;
+    }
+
 }

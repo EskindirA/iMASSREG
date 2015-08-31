@@ -2341,7 +2341,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2366,7 +2366,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlefemaleholder)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlefemaleholder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2391,7 +2391,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlemaleholder)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlemaleholder)";
 
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
@@ -2417,7 +2417,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2443,7 +2443,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and holdingtype!=1 and registeredon between ? and ? and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and holdingtype!=1 and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2469,7 +2469,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2494,7 +2494,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2517,7 +2517,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and registeredon between ? and ? and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2543,7 +2543,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon between ? and ? and UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels)";
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -8889,5 +8889,109 @@ public class MasterRepository {
         } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
         }
+    }
+
+    public ArrayList<ParcelStatusDetailDTO> getParcelsStatus(Date from, Date to) {
+        ArrayList<ParcelStatusDetailDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT first_stage.upi, first_stage.registeredby as firstEntery, second_stage.registeredby as secondEntery, correction_stage.correction as inCorrection, committed_stage.committed as committed FROM ( ( (SELECT upi, firstname || ' ' || fathersname as registeredby FROM parcel , users WHERE parcel.status = 'active' AND parcel.stage = 1 AND  registeredby=userid AND registeredon::DATE between ? AND ? ORDER BY upi ) first_stage LEFT JOIN (SELECT upi, firstname || ' ' || fathersname as registeredby FROM parcel , users WHERE parcel.status = 'active' AND parcel.stage = 2 AND  registeredby=userid AND registeredon::DATE between::DATE ? AND ? ) second_stage ON (first_stage.upi=second_stage.upi) ) LEFT JOIN (SELECT upi, true as correction FROM parcel WHERE status = 'active' AND parcel.stage = 3 AND registeredon::DATE between ? AND ? ) correction_stage ON (first_stage.upi=correction_stage.upi) ) LEFT JOIN (SELECT upi, true as committed FROM parcel WHERE status = 'active' AND parcel.stage = 4 AND registeredon::DATE between ? AND ? ) committed_stage ON (first_stage.upi=committed_stage.upi) ORDER BY upi";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            stmnt.setDate(3, from);
+            stmnt.setDate(4, to);
+            stmnt.setDate(5, from);
+            stmnt.setDate(6, to);
+            stmnt.setDate(7, from);
+            stmnt.setDate(8, to);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                ParcelStatusDetailDTO parcel = new ParcelStatusDetailDTO();
+                parcel.setUpi(rs.getString("upi"));
+                parcel.setFirstEntry(rs.getString("firstEntery"));
+                parcel.setSecondEntry(rs.getString("secondEntery"));
+                parcel.isCorrection(rs.getBoolean("inCorrection"));
+                parcel.isCommitted(rs.getBoolean("committed"));
+                returnValue.add(parcel);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public ArrayList<ParcelStatusDetailDTO> getParcelsStatus(long kebele) {
+        ArrayList<ParcelStatusDetailDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT first_stage.upi, first_stage.registeredby as firstEntery, second_stage.registeredby as secondEntery, correction_stage.correction as inCorrection, committed_stage.committed as committed FROM ( ( (SELECT upi, firstname || ' ' || fathersname as registeredby FROM parcel , users WHERE parcel.status = 'active' AND parcel.stage = 1 AND  registeredby=userid AND UPI LIKE '" + kebele + "/%' ORDER BY upi ) first_stage LEFT JOIN (SELECT upi, firstname || ' ' || fathersname as registeredby FROM parcel , users WHERE parcel.status = 'active' AND parcel.stage = 2 AND  registeredby=userid AND UPI LIKE '" + kebele + "/%' ) second_stage ON (first_stage.upi=second_stage.upi) ) LEFT JOIN (SELECT upi, true as correction FROM parcel WHERE status = 'active' AND parcel.stage = 3 AND UPI LIKE '" + kebele + "/%' ) correction_stage ON (first_stage.upi=correction_stage.upi) ) LEFT JOIN (SELECT upi, true as committed FROM parcel WHERE status = 'active' AND parcel.stage = 4 AND UPI LIKE '" + kebele + "/%' ) committed_stage ON (first_stage.upi=committed_stage.upi) ORDER BY upi";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                ParcelStatusDetailDTO parcel = new ParcelStatusDetailDTO();
+                parcel.setUpi(rs.getString("upi"));
+                parcel.setFirstEntry(rs.getString("firstEntery"));
+                parcel.setSecondEntry(rs.getString("secondEntery"));
+                parcel.isCorrection(rs.getBoolean("inCorrection"));
+                parcel.isCommitted(rs.getBoolean("committed"));
+                returnValue.add(parcel);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public ArrayList<DEOPeformanceDetailDTO> getDEOPerformance(Date from, Date to) {
+        ArrayList<DEOPeformanceDetailDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT firstname || ' ' || fathersname || ' ' || grandfathersname as name, (SELECT count(*) FROM Parcel WHERE status='active' AND registeredBy=u.userId AND stage=1  AND registeredon::DATE between ? AND ? ) as firstEntry, (SELECT count(*) FROM Parcel WHERE status='active' AND registeredBy=u.userId AND stage=2  AND registeredon::DATE between ? AND ? ) as secondEntry, (SELECT count(*) FROM Parcel WHERE status='active' AND registeredBy=u.userId AND stage=3  AND registeredon::DATE between ? AND ? ) as supervisor FROM Users u WHERE u.status='active' AND (u.role = 'FEO' OR u.role = 'SEO' OR u.role = 'SUPERVISOR' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            stmnt.setDate(3, from);
+            stmnt.setDate(4, to);
+            stmnt.setDate(5, from);
+            stmnt.setDate(6, to);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                DEOPeformanceDetailDTO deo = new DEOPeformanceDetailDTO();
+                deo.setName(rs.getString("name"));
+                deo.setFirstEntry(rs.getLong("firstEntry"));
+                deo.setSecondEntry(rs.getLong("secondEntry"));
+                deo.setCorrection(rs.getLong("supervisor"));
+                returnValue.add(deo);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public ArrayList<DEOPeformanceDetailDTO> getDEOPerformance(long kebele) {
+        ArrayList<DEOPeformanceDetailDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT firstname || ' ' || fathersname || ' ' || grandfathersname as name, (SELECT count(*) FROM Parcel WHERE status='active' AND registeredBy=u.userId AND stage=1  AND UPI LIKE '" + kebele + "/%' ) as firstEntry, (SELECT count(*) FROM Parcel WHERE status='active' AND registeredBy=u.userId AND stage=2  AND UPI LIKE '" + kebele + "/%' ) as secondEntry, (SELECT count(*) FROM Parcel WHERE status='active' AND registeredBy=u.userId AND stage=3  AND UPI LIKE '" + kebele + "/%' ) as supervisor FROM Users u WHERE u.status='active' AND (u.role = 'FEO' OR u.role = 'SEO' OR u.role = 'SUPERVISOR' )";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                DEOPeformanceDetailDTO deo = new DEOPeformanceDetailDTO();
+                deo.setName(rs.getString("name"));
+                deo.setFirstEntry(rs.getLong("firstEntry"));
+                deo.setSecondEntry(rs.getLong("secondEntry"));
+                deo.setCorrection(rs.getLong("supervisor"));
+                returnValue.add(deo);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
     }
 }
