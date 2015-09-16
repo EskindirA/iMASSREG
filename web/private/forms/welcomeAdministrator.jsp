@@ -15,9 +15,12 @@
     String kebeleReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR;
     String publicDisplayurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PUBLIC_DISPLAY;
     String dailyReportURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_DAILY_REPORT_ADMINISTRATOR;
-    
+
     String performanceReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERIODICAL_PERFORMANCE_REPORT_ADMINISTRATOR;;
     String kebelePerformanceReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_PERFORMANCE_REPORT_ADMINISTRATOR;
+    String approvalReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_APPROVAL_REPORT_ADMINISTRATOR;
+    String approvalChecklisturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_APPROVAL_CHECKLIST_ADMINISTRATOR;
+    
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -33,6 +36,7 @@
             <li><a href="#report" data-toggle="tab" id="reportLink"><%=CommonStorage.getText("report")%></a></li>
             <!--li><a href="#dailyReport" data-toggle="tab" id="reportLink">< %=CommonStorage.getText("performance_report")%></a></li-->
             <li><a href="#performanceReport" data-toggle="tab" id="performanceReportLink"><%=CommonStorage.getText("performance_report")%></a></li>
+            <li><a href="#approvalReport" data-toggle="tab" id="approvalReportLink"><%=CommonStorage.getText("approval")%></a></li>
 
         </ul>
         <div id="myTabContent" class="tab-content">
@@ -104,7 +108,7 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <label><%=CommonStorage.getText("woreda")%></label>
-                                            <select class="form-control" id="woreda" name="woreda" value="<%= CommonStorage.getCurrentWoredaId()%>">
+                                            <select class="form-control" id="woreda" name="woreda" value="<%=CommonStorage.getCurrentWoredaId()%>">
                                                 <%
                                                     Option[] regions = MasterRepository.getInstance().getAllRegions();
                                                     for (int i = 0; i < regions.length; i++) {
@@ -227,27 +231,6 @@
                 </div>
                 <div id="publicDisplayDetail"></div>
             </div>
-            <!--div class="tab-pane fade" id="dailyReport">
-                <div class="row">
-                    <div class="col-lg-4 col-lg-offset-4">
-                        <div class="panel panel-default" >
-                            <div class="panel-body" id="panelBody" >
-                                <form role="form" action="#" method="POST" id="dailyReprotForm" name="dailyReprotForm" style="padding-left: 1em;padding-right: 1em">
-                                    <div class="form-group">
-                                        <label>< %=CommonStorage.getText("date")%></label>
-                                        <input class="form-control" id="dailyReprotDate" name="dailyReprotDate" type="date" value="<%=CommonStorage.getCurrentDate()%>">
-                                    </div>
-                                    <div class="form-group ">
-                                        <label>&nbsp;</label>
-                                        <button id = 'dailyReprotButton' name = 'dailyReprotButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
-                                    </div>
-                                </form>
-                            </div> <!-- /.panel-body - ->
-                        </div>
-                    </div>
-                </div>
-                <div id="dailyReprotDetail"> </div>
-            </div-->
             <div class="tab-pane fade" id="performanceReport">
                 <div class="row">
                     <div class="col-lg-5 col-lg-offset-1">
@@ -305,6 +288,67 @@
                     </div>
                 </div>
                 <div id="performanceReportDetail"></div>
+            </div>
+            <div class="tab-pane fade" id="approvalReport">
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-2">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <%=CommonStorage.getText("approval_report")%>
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="approvalReportForm" name="approvalReportForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label><%=CommonStorage.getText("kebele")%></label>
+                                        <select class="form-control" id="kebele" name="kebele">
+                                            <%
+                                                //kebeles = MasterRepository.getInstance().getAllKebeles();
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>"
+                                                            + kebeles[i].getValue()
+                                                            + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'approvalReportButton' name = 'approvalReportButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-lg-offset-2">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <%=CommonStorage.getText("approval_checklist")%>
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="approvalChecklistForm" name="approvalChecklistForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label><%=CommonStorage.getText("kebele")%></label>
+                                        <select class="form-control" id="kebele" name="kebele">
+                                            <%
+                                                //kebeles = MasterRepository.getInstance().getAllKebeles();
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>"
+                                                            + kebeles[i].getValue()
+                                                            + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'approvalChecklistButton' name = 'approvalChecklistButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+                <div id="approvalReportDetail"></div>
             </div>
         </div>
     </div>
@@ -742,7 +786,7 @@
         }
         return false;
     });
-    
+
     $("#performanceReportButton").click(function () {
         if (!validatePerformanceGenerateReport()) {
             showError("<%=CommonStorage.getText("please_input_appropriate_values_in_the_highlighted_fields")%>");
@@ -782,5 +826,66 @@
         }
         return false;
     });
+
+    $("#approvalReportButton").click(function () {
+        if ($("#approvalReportForm #kebele").val().trim() === "") {
+            showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
+        } else {
+            $("#approvalReportDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
+            $.ajax({
+                type: 'POST',
+                url: "<%=approvalReporturl%>",
+                data: {
+                    kebele: $("#approvalReportForm #kebele").val()
+                },
+                error: showajaxerror,
+                success: function (data) {
+                    $("#approvalReportDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
+    
+    $("#approvalChecklistButton").click(function () {
+        if ($("#approvalChecklistForm #kebele").val().trim() === "") {
+            showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
+        } else {
+            $("#approvalReportDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
+            $.ajax({
+                type: 'POST',
+                url: "<%=approvalChecklisturl%>",
+                data: {
+                    kebele: $("#approvalChecklistForm #kebele").val()
+                },
+                error: showajaxerror,
+                success: function (data) {
+                    $("#approvalReportDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
+
+
+    function validateApprovalGenerateReport() {
+        var returnValue = true;
+        $("#approvalReport #approvalReportForm #kebele").toggleClass("error-field", false);
+        if ($("#approvalReport #approvalReportForm #kebele").val().trim() === "") {
+            returnValue = false;
+            $("#approvalReport #approvalReportForm #kebele").toggleClass("error-field", true);
+        }
+        return returnValue;
+    }
+
+    function validateApprovalChecklist() {
+        var returnValue = true;
+        $("#approvalReport #approvalChecklistForm #kebele").toggleClass("error-field", false);
+        if ($("#approvalReport #approvalChecklistForm #kebele").val().trim() === "") {
+            returnValue = false;
+            $("#approvalReport #approvalChecklistForm #kebele").toggleClass("error-field", true);
+        }
+        return returnValue;
+    }
 
 </script>

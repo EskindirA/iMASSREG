@@ -16,9 +16,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.xssf.usermodel.*;
 import org.lift.massreg.dao.*;
-import org.lift.massreg.dto.DEOPeformanceDetailDTO;
-import org.lift.massreg.dto.DailyPerformance;
-import org.lift.massreg.dto.ParcelStatusDetailDTO;
+import org.lift.massreg.dto.*;
 
 /**
  *
@@ -1122,11 +1120,103 @@ public class ReportUtil {
         return wb;
     }
 
+    public static Workbook generateApprovalReport(long kebele, String kebeleName, String fileName) {
+        MasterRepository.getInstance().updateParcelArea(kebele);
+        //refreshViews();
+        Workbook wb = new XSSFWorkbook();
+        try {
+            CreationHelper createHelper = wb.getCreationHelper();
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
+
+                // Kebele report sheet
+                Sheet kebeleSheet = wb.createSheet(kebeleName);
+                // level 1 headers 
+                Row titleRow = kebeleSheet.createRow((short) 0);
+                Row dataRow = kebeleSheet.createRow((short) 1);
+
+                CellStyle alignmentStyleRight = wb.createCellStyle();
+                alignmentStyleRight.setAlignment(CellStyle.ALIGN_RIGHT);
+                alignmentStyleRight.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+
+                titleRow.createCell(0).setCellValue(createHelper.createRichTextString("Kebele"));
+                titleRow.createCell(1).setCellValue(createHelper.createRichTextString("Approved"));
+                titleRow.createCell(2).setCellValue(createHelper.createRichTextString("Not approved"));
+                titleRow.createCell(3).setCellValue(createHelper.createRichTextString("Total"));
+
+                // level 2 headers  
+                dataRow.createCell(0).setCellValue(createHelper.createRichTextString(kebeleName));
+
+                dataRow.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfApprovedParcels(kebele));
+                dataRow.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfNotApprovedParcels(kebele));
+                dataRow.createCell(3).setCellValue(MasterRepository.getInstance().getCountOfAllParcels(kebele));
+
+                // Format the sheet
+                CellStyle boldCellStyle = wb.createCellStyle();
+                Font hSSFFont = wb.createFont();
+                hSSFFont.setFontName("Calibri");
+                hSSFFont.setFontHeightInPoints((short) 11);
+                hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+                hSSFFont.setBold(true);
+                boldCellStyle.setWrapText(true);
+                boldCellStyle.setFont(hSSFFont);
+                for (int x = 0; x < 3; x++) {
+                    kebeleSheet.autoSizeColumn(x, true);
+                }
+
+                wb.write(fileOut);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return wb;
+    }
+
+    public static Workbook generateApprovalChecklist(long kebele, String kebeleName, String fileName) {
+        Workbook wb = new XSSFWorkbook();
+        try {
+            CreationHelper createHelper = wb.getCreationHelper();
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
+                ArrayList<ParcelApprovalDetailDTO> parcels = MasterRepository.getInstance().getParcelsForApproval(kebele);
+                Sheet parcelsSheet = wb.createSheet("Parcels in " + kebeleName);
+                Row row0 = parcelsSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("administrative_upi")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("area")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("has_dispute")));
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("incomplete")));
+                
+                for (int i = 1; i < parcels.size(); i++) {
+                    Row tempRow = parcelsSheet.createRow(i);
+                    tempRow.createCell(0).setCellValue(parcels.get(i).getUpi());
+                    tempRow.createCell(1).setCellValue(parcels.get(i).getArea());
+                    tempRow.createCell(2).setCellValue(parcels.get(i).hasDispute());
+                    tempRow.createCell(3).setCellValue(parcels.get(i).hasMissingValue());
+
+                }
+                CellStyle cellStyle = wb.createCellStyle();
+                Font hSSFFont = wb.createFont();
+                hSSFFont.setFontName("Calibri");
+                hSSFFont.setFontHeightInPoints((short) 11);
+                cellStyle.setWrapText(true);
+                cellStyle.setFont(hSSFFont);
+                hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+                hSSFFont.setBold(true);
+                row0.setRowStyle(cellStyle);
+
+                for (int x = 0; x < 2; x++) {
+                    parcelsSheet.autoSizeColumn(x, true);
+                }
+                wb.write(fileOut);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return wb;
+    }
+
     public static ArrayList<DailyPerformance> generateDailyReport(Date date) {
         return MasterRepository.getInstance().getDailyReport(date);
     }
 
-    /// TODO
     public static Workbook generateTimeBoundPerformanceReport(Date fromDate, Date toDate, String fileName) {
         Workbook wb = new XSSFWorkbook();
         try {
@@ -1159,8 +1249,8 @@ public class ReportUtil {
                 hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
                 hSSFFont.setBold(true);
                 row0.setRowStyle(cellStyle);
-                
-                ArrayList<DEOPeformanceDetailDTO> deos = MasterRepository.getInstance().getDEOPerformance(fromDate,toDate);
+
+                ArrayList<DEOPeformanceDetailDTO> deos = MasterRepository.getInstance().getDEOPerformance(fromDate, toDate);
                 Sheet deosSheet = wb.createSheet("DEOs' performance ");
                 row0 = deosSheet.createRow((short) 0);
                 row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
@@ -1185,6 +1275,7 @@ public class ReportUtil {
         }
         return wb;
     }
+
     public static Workbook generateKebelePerformanceReport(long kebele, String kebeleName, String fileName) {
         Workbook wb = new XSSFWorkbook();
         try {
@@ -1217,7 +1308,7 @@ public class ReportUtil {
                 hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
                 hSSFFont.setBold(true);
                 row0.setRowStyle(cellStyle);
-                
+
                 ArrayList<DEOPeformanceDetailDTO> deos = MasterRepository.getInstance().getDEOPerformance(kebele);
                 Sheet deosSheet = wb.createSheet("DEOs' performance " + kebeleName);
                 row0 = deosSheet.createRow((short) 0);

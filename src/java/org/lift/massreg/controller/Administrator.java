@@ -415,6 +415,38 @@ public class Administrator {
         }
     }
 
+    public static void approvalReport(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String kebele = request.getParameter("kebele");
+        if (kebele.isEmpty()) {
+            response.getOutputStream().println("Please specfiey kebele for the report ");
+        } else {
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
+            String fileName = "Approval Report " + kebeleName + " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+            ReportUtil.generateApprovalReport(kebeleId, kebeleName, fileName);
+            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
+            rd.forward(request, response);
+        }
+    }
+    
+    public static void approvalChecklist(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String kebele = request.getParameter("kebele");
+        if (kebele.isEmpty()) {
+            response.getOutputStream().println("Please specfiey kebele for the report ");
+        } else {
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
+            String fileName = "Approval Checklist " + kebeleName + " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+            ReportUtil.generateApprovalChecklist(kebeleId, kebeleName, fileName);
+            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
+            rd.forward(request, response);
+        }
+    }
+    
     public static void publicDisplay(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {

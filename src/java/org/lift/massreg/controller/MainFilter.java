@@ -38,8 +38,7 @@ public class MainFilter extends HttpServlet {
         if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath());
-        }
-        else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_WELCOME)) {
             switch (CommonStorage.getCurrentUser(request).getRole()) {
                 case FIRST_ENTRY_OPERATOR:
                     FirstEntry.welcomePage(request, response);
@@ -215,12 +214,12 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateIndividualHolder(request, response);
-        } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_FEO)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_FEO)) {
             getUPI(request);
-            FirstEntry.updatePhotoId(request,response);
-        } else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_HOLDING_NUMBER_CO)){
+            FirstEntry.updatePhotoId(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_HOLDING_NUMBER_CO)) {
             getUPI(request);
-            FirstEntry.updateHoldingNumber(request,response);
+            FirstEntry.updateHoldingNumber(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_ORGANIZATION_HOLDER_FEO)) {
             getUPI(request);
             FirstEntry.updateOrganizationHolder(request, response);
@@ -306,9 +305,9 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_INDIVIDUAL_HOLDER_SEO)) {
             getUPI(request);
             SecondEntry.updateIndividualHolder(request, response);
-        }else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_SEO)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_SEO)) {
             getUPI(request);
-            SecondEntry.updatePhotoId(request,response);
+            SecondEntry.updatePhotoId(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_INDIVIDUAL_HOLDER_SEO)) {
             getUPI(request);
             SecondEntry.deleteIndividualHolder(request, response);
@@ -536,7 +535,7 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_DELETE_DISPUTE_SUPERVISOR)) {
             getUPI(request);
             Correction.deleteDispute(request, response);
-        }else if(action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_SUPERVISOR)){
+        } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_PHOTO_ID_SUPERVISOR)) {
             getUPI(request);
             if (request.getParameter("upi") != null) {
                 request.setAttribute("upi", request.getParameter("upi").trim());
@@ -627,6 +626,10 @@ public class MainFilter extends HttpServlet {
             Administrator.timeBoundReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR)) {
             Administrator.kebeleReport(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_APPROVAL_REPORT_ADMINISTRATOR)) {
+            Administrator.approvalReport(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_APPROVAL_CHECKLIST_ADMINISTRATOR)) {
+            Administrator.approvalChecklist(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_PERIODICAL_PERFORMANCE_REPORT_ADMINISTRATOR)) {
             Administrator.timeBoundPerformanceReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_KEBELE_PERFORMANCE_REPORT_ADMINISTRATOR)) {
@@ -635,7 +638,7 @@ public class MainFilter extends HttpServlet {
             Administrator.publicDisplay2(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {
             Administrator.exportReport(request, response);
-        }  else if (action.equalsIgnoreCase(Constants.ACTION_DAILY_REPORT_ADMINISTRATOR)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_DAILY_REPORT_ADMINISTRATOR)) {
             Administrator.dailyReport(request, response);
         } // For PDC
         else if (action.equalsIgnoreCase(Constants.ACTION_MINOR_CORRECTION_PDC)) {
@@ -1176,11 +1179,11 @@ public class MainFilter extends HttpServlet {
         } // for all unknown requests
         else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_PARCEL_WC)) {
             WoredaCorrdinator.viewParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_APPROVE_WC)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_APPROVE_WC)) {
             WoredaCorrdinator.approveParcel(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_PRINT_CERTIFCATE_WC)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PRINT_CERTIFCATE_WC)) {
             WoredaCorrdinator.printCertificate(request, response);
-        }else if (action.equalsIgnoreCase(Constants.ACTION_PRINT_CHEACKLIST_WC)) {
+        } else if (action.equalsIgnoreCase(Constants.ACTION_PRINT_CHEACKLIST_WC)) {
             WoredaCorrdinator.printCheckList(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_UPDATE_SETTINGS_WC)) {
             WoredaCorrdinator.updateSettings(request, response);
