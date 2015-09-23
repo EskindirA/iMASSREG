@@ -1335,4 +1335,39 @@ public class ReportUtil {
         return wb;
     }
 
+    public static Workbook generateHolderList(long kebele, String kebeleName, String fileName) {
+        Workbook wb = new XSSFWorkbook();
+        try {
+            CreationHelper createHelper = wb.getCreationHelper();
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
+                ArrayList<HolderListDTO> indvidualHolders = MasterRepository.getInstance().getIndividualHolderList(kebele);
+                Sheet indvidualSheet = wb.createSheet("Indvidual Holders in " + kebeleName);
+                Row row0 = indvidualSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("holder_id")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
+
+                for (int i = 1; i < indvidualHolders.size(); i++) {
+                    Row tempRow = indvidualSheet.createRow(i);
+                    tempRow.createCell(0).setCellValue(indvidualHolders.get(i).getPhotoId());
+                    tempRow.createCell(1).setCellValue(indvidualHolders.get(i).getFullNume());
+                }
+                
+                CellStyle cellStyle = wb.createCellStyle();
+                Font hSSFFont = wb.createFont();
+                hSSFFont.setFontName("Calibri");
+                hSSFFont.setFontHeightInPoints((short) 11);
+                cellStyle.setWrapText(true);
+                cellStyle.setFont(hSSFFont);
+                hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+                hSSFFont.setBold(true);
+                row0.setRowStyle(cellStyle);
+
+                wb.write(fileOut);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return wb;
+    }
+
 }

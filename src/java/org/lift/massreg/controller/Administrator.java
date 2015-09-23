@@ -890,6 +890,233 @@ public class Administrator {
         publicDisplay(request, response);
     }
 
+    public static void holderBasedPublicDisplay2(HttpServletRequest request, HttpServletResponse response, long kebele) throws ServletException, IOException {
+        String fileName = kebele + ".xlsx";
+
+        ////////////////////////////////////////////////
+        Workbook wb = new XSSFWorkbook();
+
+        int holdingNoCol = 0;
+        int namesCol = 1;
+        int sexCol = 2;
+        int parcelNoCol = 3;
+        int areaCol = 4;
+        int mapsheetNoCol = 5;
+        int disputeCol = 6;
+        int guardianCol = 7;
+        int incompleteCol = 8;
+
+        Font hSSFFont = wb.createFont();
+        hSSFFont.setFontName("Abyssinica SIL");
+        hSSFFont.setFontHeightInPoints((short) 11);
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setWrapText(true);
+        cellStyle.setFont(hSSFFont);
+
+        CellStyle boarderStyle = wb.createCellStyle();
+        boarderStyle.setBorderTop(HSSFCellStyle.BORDER_THICK);
+
+        CellStyle headerStyle = wb.createCellStyle();
+        headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        hSSFFont.setBold(true);
+        cellStyle.setFont(hSSFFont);
+
+        CellStyle rightBorderStyle = wb.createCellStyle();
+        rightBorderStyle.setBorderRight(HSSFCellStyle.BORDER_THICK);
+
+        CellStyle rowBoarder = wb.createCellStyle();
+        rowBoarder.setBorderTop(HSSFCellStyle.BORDER_THICK);
+        try {
+
+            FileOutputStream fileOut = new FileOutputStream(fileName);
+
+            // Indvidual Holdings
+            Sheet individualSheet = wb.createSheet(CommonStorage.getText("individual_holdings"));
+            int totalRows = 1;
+            // Writeout Header for the excel
+            Row headerRow = individualSheet.createRow(0);
+            headerRow.createCell(holdingNoCol).setCellValue(CommonStorage.getText("holding_number"));
+            headerRow.createCell(namesCol).setCellValue(CommonStorage.getText("name"));
+            headerRow.createCell(sexCol).setCellValue(CommonStorage.getText("sex"));
+            headerRow.createCell(parcelNoCol).setCellValue(CommonStorage.getText("parcel_number"));
+            headerRow.createCell(areaCol).setCellValue(CommonStorage.getText("area"));
+            headerRow.createCell(mapsheetNoCol).setCellValue(CommonStorage.getText("orthograph_map_sheet_no"));
+            headerRow.createCell(disputeCol).setCellValue(CommonStorage.getText("has_dispute"));
+            headerRow.createCell(guardianCol).setCellValue(CommonStorage.getText("guardian"));
+            headerRow.createCell(incompleteCol).setCellValue(CommonStorage.getText("incomplete"));
+
+            for (Iterator<Cell> iterator = headerRow.cellIterator(); iterator.hasNext();) {
+                iterator.next().setCellStyle(headerStyle);
+            }
+            ArrayList<String> individualHoldingNumbers = MasterRepository.getInstance().getHoldingNumbers(kebele, (byte) 1);
+            // Individual Holders
+            for (String holdingNo : individualHoldingNumbers) {
+                HoldingPublicDisplayDTO item = MasterRepository.getInstance().getPublicDisplayInfoByHoldingNumberIH(kebele, holdingNo);
+                if (item == null) {
+                    continue;
+                }  // assert
+
+                int holderCount = item.getHolders().size();
+                int parcelCount = item.getParcels().size();
+                int maxCount = Math.max(holderCount, parcelCount);
+
+                // Write out the first row
+                Row row = individualSheet.createRow(totalRows++);
+                row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
+                HoldingParcelPublicDisplayDTO parcel;
+                HoldingHolderDTO holder;
+                Cell incompleteCell,sexCell;
+                if (holderCount > 0) {
+                    holder = item.getHolders().get(0);
+                    row.createCell(namesCol).setCellValue(holder.getName());
+                    sexCell = row.createCell(sexCol);
+                    sexCell.setCellValue(holder.getSexText());
+                }
+                if (parcelCount > 0) {
+                    parcel = item.getParcels().get(0);
+                    row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                    row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                    row.createCell(areaCol).setCellValue(parcel.getArea());
+                    row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                    row.createCell(guardianCol).setCellValue(parcel.getGuardiansText());
+                    incompleteCell = row.createCell(incompleteCol);
+                    incompleteCell.setCellValue(parcel.hasMissingValueText());
+                }
+                // Add border to every cell in the first row    
+                for (Iterator<Cell> iterator = row.cellIterator(); iterator.hasNext();) {
+                    iterator.next().setCellStyle(rowBoarder);
+                }
+
+                for (int j = 1; j < maxCount; j++) {
+                    row = individualSheet.createRow(totalRows++);
+                    // add holder information
+                    if (holderCount > j) {
+                        holder = item.getHolders().get(j);
+                        row.createCell(namesCol).setCellValue(holder.getName());
+                        sexCell = row.createCell(sexCol);
+                        sexCell.setCellValue(holder.getSexText());
+                    }
+                    if (parcelCount > j) {
+                        parcel = item.getParcels().get(j);
+                        row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                        row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                        row.createCell(areaCol).setCellValue(parcel.getArea());
+                        row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                        row.createCell(guardianCol).setCellValue(parcel.getGuardiansText());
+                        incompleteCell = row.createCell(incompleteCol);
+                        incompleteCell.setCellValue(parcel.hasMissingValueText());
+                    }
+                }
+            }
+
+            // Organizational Holdings
+            Sheet organizationalSheet = wb.createSheet(CommonStorage.getText("organizational_holdings"));
+
+            totalRows = 1;
+            parcelNoCol = 2;
+            areaCol = 3;
+            mapsheetNoCol = 4;
+            disputeCol = 5;
+            incompleteCol = 6;
+
+            // Writeout Header for the excel
+            headerRow = organizationalSheet.createRow(0);
+            headerRow.createCell(holdingNoCol).setCellValue(CommonStorage.getText("holding_number"));
+            headerRow.createCell(namesCol).setCellValue(CommonStorage.getText("name"));
+            //headerRow.createCell(sexCol).setCellValue(CommonStorage.getText("sex"));
+            headerRow.createCell(parcelNoCol).setCellValue(CommonStorage.getText("parcel_number"));
+            headerRow.createCell(areaCol).setCellValue(CommonStorage.getText("area"));
+            headerRow.createCell(mapsheetNoCol).setCellValue(CommonStorage.getText("orthograph_map_sheet_no"));
+            headerRow.createCell(disputeCol).setCellValue(CommonStorage.getText("has_dispute"));
+            //headerRow.createCell(guardianCol).setCellValue(CommonStorage.getText("guardian"));
+            headerRow.createCell(incompleteCol).setCellValue(CommonStorage.getText("incomplete"));
+
+            for (Iterator<Cell> iterator = headerRow.cellIterator(); iterator.hasNext();) {
+                iterator.next().setCellStyle(headerStyle);
+            }
+            ArrayList<String> organizationalHoldingNumbers = MasterRepository.getInstance().getHoldingNumbers(kebele);
+                        
+            // Organizational Holding
+            for (String holdingNo : organizationalHoldingNumbers) {
+                HoldingPublicDisplayDTO item = MasterRepository.getInstance().getPublicDisplayInfoByHoldingNumberOH(holdingNo, kebele);
+                if (item == null) {
+                    continue;
+                }  // assert
+
+                int holderCount = item.getHolders().size();
+                int parcelCount = item.getParcels().size();
+                int maxCount = Math.max(holderCount, parcelCount);
+
+                // Write out the first row
+                Row row = organizationalSheet.createRow(totalRows++);
+                row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
+                HoldingParcelPublicDisplayDTO parcel;
+                HoldingHolderDTO holder;
+                Cell incompleteCell,nameCell;
+                if (holderCount > 0) {
+                    holder = item.getHolders().get(0);
+                    nameCell = row.createCell(namesCol);
+                    nameCell.setCellValue(holder.getName());
+                }
+                if (parcelCount > 0) {
+                    parcel = item.getParcels().get(0);
+                    row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                    row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                    row.createCell(areaCol).setCellValue(parcel.getArea());
+                    row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                    incompleteCell = row.createCell(incompleteCol);
+                    incompleteCell.setCellValue(parcel.hasMissingValueText());
+                }
+                // Add border to every cell in the first row    
+                for (Iterator<Cell> iterator = row.cellIterator(); iterator.hasNext();) {
+                    iterator.next().setCellStyle(rowBoarder);
+                }
+
+                for (int j = 1; j < maxCount; j++) {
+                    row = organizationalSheet.createRow(totalRows++);
+                    // add holder information
+                    if (holderCount > j) {
+                        holder = item.getHolders().get(j);
+                        nameCell = row.createCell(namesCol);
+                        nameCell.setCellValue(holder.getName());
+                    }
+                    if (parcelCount > j) {
+                        parcel = item.getParcels().get(j);
+                        row.createCell(parcelNoCol).setCellValue(String.format("%05d", parcel.getParcelId()));
+                        row.createCell(disputeCol).setCellValue(parcel.hasDisputeText());
+                        row.createCell(areaCol).setCellValue(parcel.getArea());
+                        row.createCell(mapsheetNoCol).setCellValue(parcel.getMapSheetNo());
+                        incompleteCell = row.createCell(incompleteCol);
+                        incompleteCell.setCellValue(parcel.hasMissingValueText());
+                    }
+                }
+            }
+            
+            /// TODO: Missing parcels Sheet
+            Sheet missingSheet = wb.createSheet(CommonStorage.getText("parcels_with_no_textual_information"));
+            totalRows = 0;
+            for (Iterator<Cell> iterator = headerRow.cellIterator(); iterator.hasNext();) {
+                iterator.next().setCellStyle(headerStyle);
+            }
+            ArrayList<String> missingParcels = MasterRepository.getInstance().getParcelsWithoutHolder(kebele);
+            for (String parcel : missingParcels) {
+                missingSheet.createRow(totalRows++).createCell(0).setCellValue(String.format("%05d", Integer.parseInt(parcel)));
+            }
+
+            wb.write(fileOut);
+        } catch (NumberFormatException | IOException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        ////////////////////////////////////////////////
+
+        request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_PUBLIC_DISPLAY));
+
+        rd.forward(request, response);
+
+    }
+
     
     protected static void timeBoundPerformanceReport(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -924,5 +1151,19 @@ public class Administrator {
         }
     }
 
-    
+    public static void holderList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String kebele = request.getParameter("kebele");
+        if (kebele.isEmpty()) {
+            response.getOutputStream().println("Please specfiey kebele for the report ");
+        } else {
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
+            String fileName = "Holders in " + kebeleName + " Kebele - " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+            ReportUtil.generateHolderList(kebeleId, kebeleName, fileName);
+            request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
+            rd.forward(request, response);
+        }
+    }
 }

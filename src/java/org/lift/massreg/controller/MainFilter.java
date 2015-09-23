@@ -610,6 +610,8 @@ public class MainFilter extends HttpServlet {
             Correction.finishPersonWithInterest(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_SAVE_USER_ADMINISTRATOR)) {
             Administrator.saveUser(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_HOLDER_LIST_ADMINISTRATOR)) {
+            Administrator.holderList(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_USER_ADMINISTRATOR)) {
             Administrator.viewUser(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EDIT_USER_ADMINISTRATOR)) {

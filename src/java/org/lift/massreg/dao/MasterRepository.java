@@ -9185,4 +9185,27 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public ArrayList<HolderListDTO> getIndividualHolderList(long kebele) {
+        ArrayList<HolderListDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage()+ " and status='active'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet holders = stmnt.executeQuery();
+            while (holders.next()) {
+                HolderListDTO holder = new HolderListDTO();
+                holder.setFathersName(holders.getString("fathersname"));
+                holder.setFirstName(holders.getString("firstname"));
+                holder.setGrandFathersName(holders.getString("grandfathersname"));
+                holder.setPhotoId(holders.getString("holderid"));
+                
+                returnValue.add(holder);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+    
 }

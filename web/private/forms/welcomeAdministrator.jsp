@@ -20,7 +20,8 @@
     String kebelePerformanceReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_PERFORMANCE_REPORT_ADMINISTRATOR;
     String approvalReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_APPROVAL_REPORT_ADMINISTRATOR;
     String approvalChecklisturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_APPROVAL_CHECKLIST_ADMINISTRATOR;
-    
+    String holderlisturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_HOLDER_LIST_ADMINISTRATOR;
+
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -199,8 +200,11 @@
             </div>
             <div class="tab-pane fade" id="publicDisplay">
                 <div class="row">
-                    <div class="col-lg-4 col-lg-offset-4">
+                    <div class="col-lg-5 col-lg-offset-1">
                         <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <%=CommonStorage.getText("public_display")%>
+                            </div> 
                             <div class="panel-body" id="panelBody" >
                                 <form role="form" action="#" method="POST" id="publicDisplayForm" name="publicDisplayForm" style="padding-left: 1em;padding-right: 1em">
                                     <div class="form-group">
@@ -223,6 +227,33 @@
                                     <div class="form-group ">
                                         <label>&nbsp;</label>
                                         <button id = 'publicDisplayButton' name = 'publicDisplayButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <%=CommonStorage.getText("holder_list")%>
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="holderListForm" name="holderListForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label><%=CommonStorage.getText("kebele")%></label>
+                                        <select class="form-control" id="holderListKebele" name="holderListKebele">
+                                            <%
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>"
+                                                            + kebeles[i].getValue()
+                                                            + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'holderListButton' name = 'holderListButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
                                     </div>
                                 </form>
                             </div> <!-- /.panel-body -->
@@ -846,7 +877,7 @@
         }
         return false;
     });
-    
+
     $("#approvalChecklistButton").click(function () {
         if ($("#approvalChecklistForm #kebele").val().trim() === "") {
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
@@ -866,8 +897,27 @@
         }
         return false;
     });
-
-
+    
+    $("#holderListButton").click(function () {
+        if ($("#holderListForm #holderListKebele").val().trim() === "") {
+            showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
+        } else {
+            $("#approvalReportDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
+            $.ajax({
+                type: 'POST',
+                url: "<%=holderlisturl%>",
+                data: {
+                    kebele: $("#holderListForm #holderListKebele").val()
+                },
+                error: showajaxerror,
+                success: function (data) {
+                    $("#publicDisplayDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
+    
     function validateApprovalGenerateReport() {
         var returnValue = true;
         $("#approvalReport #approvalReportForm #kebele").toggleClass("error-field", false);
