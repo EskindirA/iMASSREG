@@ -1405,6 +1405,26 @@ public class MasterRepository {
     }
 
     /**
+     * @return a hash table of all the kebele values
+     */
+    public Option[] getAllKebelesTextValue() {
+        ArrayList<Option> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM kebele WHERE woredacode=? ORDER BY code");
+            stmnt.setLong(1, CommonStorage.getCurrentWoredaId());
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                returnValue.add(new Option(rs.getInt("code") + "", rs.getString("textvalue")));
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue.toArray(new Option[0]);
+    }
+
+    /**
      * @return a hash table of all the woredas
      */
     public Option[] getAllWoredas() {

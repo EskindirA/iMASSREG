@@ -80,7 +80,7 @@ public class ReportUtil {
         try {
             CreationHelper createHelper = wb.getCreationHelper();
             try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
-                Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
+                Option[] kebeles = MasterRepository.getInstance().getAllKebelesTextValue();
                 for (Option kebele : kebeles) {
                     long result = MasterRepository.getInstance().getCountOfAllCommittedParcels(fromDate, toDate, kebele.getKey());
                     if (result > 0) {
