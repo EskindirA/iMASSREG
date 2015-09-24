@@ -1566,7 +1566,7 @@ public class FirstEntry {
                     MasterRepository.getInstance().update(oldParcel4, newParcel4);
                 }
                 request.setAttribute("currentParcel", newParcel1);
-                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_VIEW_PARCEL_FEO));
+                RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_FEO));
                 rd.forward(request, response);
             } else {
                 // if the parcel fails to validate show error message
