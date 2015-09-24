@@ -7108,9 +7108,13 @@ public class MasterRepository {
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 Parcel parcel = new Parcel();
-                parcel.setAcquisition(rs.getByte("acquisitiontype"));
-                parcel.setAcquisitionYear(rs.getInt("acquisitionyear"));
+                parcel.setUpi(rs.getString("upi"));
                 parcel.setCertificateNumber(rs.getString("certificateno"));
+                parcel.hasDispute(rs.getBoolean("hasdispute"));
+                parcel.setAcquisition(rs.getByte("acquisitiontype"));
+                parcel.setSurveyDate(rs.getString("surveydate"));
+
+                /*parcel.setAcquisitionYear(rs.getInt("acquisitionyear"));
                 parcel.setCurrentLandUse(rs.getByte("landusetype"));
                 parcel.setEncumbrance(rs.getByte("encumbrancetype"));
                 parcel.setHolding(rs.getByte("holdingtype"));
@@ -7122,10 +7126,9 @@ public class MasterRepository {
                 parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
                 parcel.setStage(rs.getByte("stage"));
                 parcel.setStatus(rs.getString("status"));
-                parcel.setSurveyDate(rs.getString("surveydate"));
-                parcel.setUpi(rs.getString("upi"));
+                
                 parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
-                parcel.hasDispute(rs.getBoolean("hasdispute"));
+                
                 parcel.setTeamNo(rs.getByte("teamNo"));
                 if (parcel.hasDispute()) {
                     parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
@@ -7136,6 +7139,7 @@ public class MasterRepository {
                 } else {
                     parcel.setOrganaizationHolder(getOrganaizationHolder(parcel.getUpi(), parcel.getStage()));
                 }
+                */
                 returnValue.add(parcel);
             }
             connection.close();

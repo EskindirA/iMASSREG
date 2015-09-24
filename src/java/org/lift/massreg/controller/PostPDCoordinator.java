@@ -30,9 +30,16 @@ public class PostPDCoordinator {
      */
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Parcel> parcelsInCommitted = MasterRepository.getInstance().getALLParcelsInCommitted(request.getSession().getAttribute("kebele").toString());
-        request.setAttribute("parcelsInCommitted", parcelsInCommitted);
-        request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_PDC));
+        String kebele = request.getSession().getAttribute("kebele").toString();
+        if (kebele == null || kebele.equalsIgnoreCase("all")) {
+            request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_KEBELE_PDC));
+        } else {
+            request.getSession().setAttribute("kebele", kebele);
+            ArrayList<Parcel> parcelsInCommitted = MasterRepository.getInstance().getALLParcelsInCommitted(request.getSession().getAttribute("kebele").toString());
+            request.setAttribute("parcelsInCommitted", parcelsInCommitted);
+            request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_PDC));
+        }
+
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }

@@ -99,6 +99,7 @@ public class IOC {
         pages.put(Constants.INDEX_PUBLIC_DISPLAY_HOLDING, "publicDisplayHolding.jsp");
 
         pages.put(Constants.INDEX_WELCOME_PDC, "welcomePDC.jsp");
+        pages.put(Constants.INDEX_WELCOME_KEBELE_PDC, "welcomeKebelePDC.jsp");
         pages.put(Constants.INDEX_VIEW_PARCEL_PDC, "viewParcelPDC.jsp");
 
         pages.put(Constants.INDEX_WELCOME_MCO, "welcomeMCO.jsp");

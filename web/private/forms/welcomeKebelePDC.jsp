@@ -32,13 +32,13 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <div class="row">
-                                    <div class="col-lg-7"><%=CommonStorage.getText("committed_parcels")%></div>
+                                    <div class="col-lg-7"><%=CommonStorage.getText("please_select_a_value")%></div>
                                     <div class="col-lg-2" style="vertical-align: middle"><label style="float: right"><%=CommonStorage.getText("kebele")%></label></div>
                                     <div class="col-lg-3" style="vertical-align: middle">
                                         <select class="form-control" id="displayKebele" name="displayKebele">
                                             <%
                                                 Option[] kebeles = MasterRepository.getInstance().getAllKebeles();
-                                                //out.println("<option value = 'all'>" + CommonStorage.getText("select_a_kebele") + "</option>");
+                                                out.println("<option value = 'all'>" + CommonStorage.getText("select_a_kebele") + "</option>");
                                                 for (int i = 0; i < kebeles.length; i++) {
                                                     out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
                                                 }
@@ -48,42 +48,6 @@
                                 </div>
                             </div>
                             <div class="panel-body" >
-                                <div>
-                                    <table class="table table-striped table-bordered table-hover" id="dataTables" >
-                                        <thead>
-                                            <tr>
-                                                <th><%=CommonStorage.getText("administrative_upi")%></th>
-                                                <th><%=CommonStorage.getText("certificate_number")%></th>
-                                                <th><%=CommonStorage.getText("has_dispute")%></th>
-                                                <th><%=CommonStorage.getText("means_of_acquisition")%></th>
-                                                <th><%=CommonStorage.getText("survey_date")%></th>
-                                                <th><%=CommonStorage.getText("fix")%></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <%
-                                                for (int i = 0; i < parcelsInCommitted.size(); i++) {
-                                                    if (i % 2 == 0) {
-                                                        out.println("<tr class='odd gradeA'>");
-                                                    } else {
-                                                        out.println("<tr class='even gradeA'>");
-                                                    }
-                                                    out.println("<td>" + parcelsInCommitted.get(i).getUpi() + "</td>");
-                                                    out.println("<td>" + parcelsInCommitted.get(i).getCertificateNumber() + "</td>");
-                                                    out.println("<td>" + parcelsInCommitted.get(i).hasDisputeText() + "</td>");
-                                                    out.println("<td>" + parcelsInCommitted.get(i).getMeansOfAcquisition() + "</td>");
-                                                    out.println("<td>" + parcelsInCommitted.get(i).getSurveyDate() + "</td>");
-
-                                                    out.print("<td>");
-                                                    out.print("<a href = '#' class='takeActionButton' "
-                                                            + "data-upi='" + parcelsInCommitted.get(i).getUpi() + "'>" + CommonStorage.getText("take_action") + "</a>");
-                                                    out.println("</td>");
-                                                }
-
-                                            %>
-                                        </tbody>
-                                    </table>
-                                </div> <!-- /.table-responsive -->
                             </div> <!-- /.panel-body -->
                         </div> <!-- /.panel -->
                     </div> <!-- /.col-lg-12 -->
@@ -162,12 +126,12 @@
 
 <script>
     function sendToMinorCorrection(upi) {
-        alert("holdingLot:" + $("#holdingLot").val());
+        alert("holdingLot:"+$("#holdingLot").val());
         return;
         $.ajax({
             type: 'POST',
             url: "<%=minorCorrectionURL%>",
-            data: {"upi": upi, "holdingLot": $("#holdingLot").val()},
+            data: {"upi": upi,"holdingLot":$("#holdingLot").val()},
             error: showajaxerror,
             success: loadInPlace
         });
@@ -176,7 +140,7 @@
         $.ajax({
             type: 'POST',
             url: "<%=majorCorrectionURL%>",
-            data: {"upi": upi, "holdingLot": $("#holdingLot").val()},
+            data: {"upi": upi,"holdingLot":$("#holdingLot").val()},
             error: showajaxerror,
             success: loadInPlace
         });
@@ -185,7 +149,7 @@
         $.ajax({
             type: 'POST',
             url: "<%=confirmedURL%>",
-            data: {"upi": upi, "holdingLot": $("#holdingLot").val()},
+            data: {"upi": upi,"holdingLot":$("#holdingLot").val()},
             error: showajaxerror,
             success: loadInPlace
         });
@@ -217,8 +181,8 @@
         bootbox.dialog({
             onEscape: function () {
             },
-            message: "<center>" +
-                    "Holding Lot #: (optional) <input name='holdingLot' id='holdingLot'/> <br/><%=CommonStorage.getText("what_sort_action_do_you_wish_to_take_on_this_parcel") + "? <br/> (" + CommonStorage.getText("administrative_upi")%>" + upi + ")</center>",
+            message: "<center>"+
+                "Holding Lot #: (optional) <input name='holdingLot' id='holdingLot'/> <br/><%=CommonStorage.getText("what_sort_action_do_you_wish_to_take_on_this_parcel") + "? <br/> (" + CommonStorage.getText("administrative_upi")%>" + upi + ")</center>",
             title: "<%=CommonStorage.getText("take_action")%>",
             buttons: {
                 minor: {
@@ -250,11 +214,6 @@
         });
         return false;
     });
-    <%
-        if (request.getSession().getAttribute("kebele") != null && !request.getSession().getAttribute("kebele").toString().equalsIgnoreCase("all")) {
-            out.println("$('#displayKebele').val(" + request.getSession().getAttribute("kebele") + ")");
-        }
-    %>
     $("#findParcel #findParcelButton").click(function () {
         updateUPI();
         if ($("#kebele").val() === "") {
@@ -302,6 +261,7 @@
                 url: '<%=checkListurl%>',
                 data: {
                     "kebele": $("#checkList #checkListKebele").val()},
+                
             });
         }
         return false;

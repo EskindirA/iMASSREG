@@ -429,6 +429,7 @@ public interface Constants {
     public static final int INDEX_PUBLIC_DISPLAY_HOLDING = 67;
     public static final int INDEX_PUBLIC_DISPLAY_HOLDER = 68;
 
+    public static final int INDEX_WELCOME_KEBELE_PDC = 69;
     public static final int INDEX_WELCOME_PDC = 70;
     public static final int INDEX_VIEW_PARCEL_PDC = 71;
 

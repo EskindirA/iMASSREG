@@ -55,7 +55,7 @@ public class MainFilter extends HttpServlet {
                 case POSTPDCOORDINATOR:
                     if (request.getParameter("kebele") != null) {
                         request.getSession().setAttribute("kebele", request.getParameter("kebele").trim());
-                    } else {
+                    } else if (request.getSession().getAttribute("kebele") == null) {
                         request.getSession().setAttribute("kebele", "all");
                     }
                     PostPDCoordinator.welcomePage(request, response);
