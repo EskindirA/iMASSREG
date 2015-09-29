@@ -70,9 +70,13 @@ public class PostPDCoordinator {
      */
     protected static void sendToMinorCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
-        parcel.submitForMinorCorrection();
+        if (request.getParameter("upi") != null && !request.getParameter("upi").trim().isEmpty()) {
+            int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
+            parcel.submitForMinorCorrection(holdingLot);
+        }else{
+            parcel.submitForMinorCorrection();
+        }
         welcomeForm(request, response);
     }
 
@@ -86,9 +90,13 @@ public class PostPDCoordinator {
      */
     protected static void sendToMajorCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
-        parcel.submitForMajorCorrection();
+        if (request.getParameter("upi") != null && !request.getParameter("upi").trim().isEmpty()) {
+            int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
+            parcel.submitForMajorCorrection(holdingLot);
+        }else{
+            parcel.submitForMajorCorrection();
+        }
         welcomeForm(request, response);
     }
 
@@ -104,7 +112,12 @@ public class PostPDCoordinator {
             throws ServletException, IOException {
 
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
-        parcel.submitToConfirmed();
+        if (request.getParameter("upi") != null && !request.getParameter("upi").trim().isEmpty()) {
+            int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
+            parcel.submitToConfirmed(holdingLot);
+        }else{
+            parcel.submitToConfirmed();
+        }
         welcomeForm(request, response);
     }
 

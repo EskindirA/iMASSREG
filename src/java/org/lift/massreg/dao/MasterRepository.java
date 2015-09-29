@@ -7115,31 +7115,31 @@ public class MasterRepository {
                 parcel.setSurveyDate(rs.getString("surveydate"));
 
                 /*parcel.setAcquisitionYear(rs.getInt("acquisitionyear"));
-                parcel.setCurrentLandUse(rs.getByte("landusetype"));
-                parcel.setEncumbrance(rs.getByte("encumbrancetype"));
-                parcel.setHolding(rs.getByte("holdingtype"));
-                parcel.setHoldingNumber(rs.getString("holdingno"));
-                parcel.setMapSheetNo(rs.getString("mapsheetno"));
-                parcel.setOtherEvidence(rs.getByte("otherevidence"));
-                parcel.setParcelId(rs.getInt("parcelid"));
-                parcel.setRegisteredBy(rs.getLong("registeredby"));
-                parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
-                parcel.setStage(rs.getByte("stage"));
-                parcel.setStatus(rs.getString("status"));
+                 parcel.setCurrentLandUse(rs.getByte("landusetype"));
+                 parcel.setEncumbrance(rs.getByte("encumbrancetype"));
+                 parcel.setHolding(rs.getByte("holdingtype"));
+                 parcel.setHoldingNumber(rs.getString("holdingno"));
+                 parcel.setMapSheetNo(rs.getString("mapsheetno"));
+                 parcel.setOtherEvidence(rs.getByte("otherevidence"));
+                 parcel.setParcelId(rs.getInt("parcelid"));
+                 parcel.setRegisteredBy(rs.getLong("registeredby"));
+                 parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
+                 parcel.setStage(rs.getByte("stage"));
+                 parcel.setStatus(rs.getString("status"));
                 
-                parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
+                 parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
                 
-                parcel.setTeamNo(rs.getByte("teamNo"));
-                if (parcel.hasDispute()) {
-                    parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
-                }
-                if (parcel.getHolding() == 1) {
-                    parcel.setIndividualHolders(getAllIndividualHolders(parcel.getUpi(), parcel.getStage()));
-                    parcel.setPersonsWithInterest(getAllPersonsWithInterest(parcel.getUpi(), parcel.getStage()));
-                } else {
-                    parcel.setOrganaizationHolder(getOrganaizationHolder(parcel.getUpi(), parcel.getStage()));
-                }
-                */
+                 parcel.setTeamNo(rs.getByte("teamNo"));
+                 if (parcel.hasDispute()) {
+                 parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
+                 }
+                 if (parcel.getHolding() == 1) {
+                 parcel.setIndividualHolders(getAllIndividualHolders(parcel.getUpi(), parcel.getStage()));
+                 parcel.setPersonsWithInterest(getAllPersonsWithInterest(parcel.getUpi(), parcel.getStage()));
+                 } else {
+                 parcel.setOrganaizationHolder(getOrganaizationHolder(parcel.getUpi(), parcel.getStage()));
+                 }
+                 */
                 returnValue.add(parcel);
             }
             connection.close();
@@ -7930,6 +7930,47 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean submitForMinorCorrection(Parcel parcel, int holdingLot) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
+                + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
+                + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute,teamNo, holding_lot) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?,?, ?)";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, parcel.getUpi());
+            stmnt.setByte(2, CommonStorage.getMinorCorrectionStage());
+            stmnt.setLong(3, parcel.getRegisteredBy());
+            stmnt.setTimestamp(4, Timestamp.from(Instant.now()));
+            stmnt.setInt(5, parcel.getParcelId());
+            stmnt.setString(6, parcel.getCertificateNumber());
+            stmnt.setString(7, parcel.getHoldingNumber());
+            stmnt.setByte(8, parcel.getOtherEvidence());
+            stmnt.setByte(9, parcel.getCurrentLandUse());
+            stmnt.setByte(10, parcel.getSoilFertility());
+            stmnt.setByte(11, parcel.getHolding());
+            stmnt.setByte(12, parcel.getMeansOfAcquisition());
+            stmnt.setInt(13, parcel.getAcquisitionYear());
+            stmnt.setString(14, parcel.getSurveyDate());
+            stmnt.setString(15, parcel.getMapSheetNo());
+            stmnt.setString(16, parcel.getStatus());
+            stmnt.setByte(17, parcel.getEncumbrance());
+            stmnt.setBoolean(18, parcel.hasDispute());
+            stmnt.setByte(19, parcel.getTeamNo());
+            stmnt.setByte(20, (byte) holdingLot);
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
+        }
+        return returnValue;
+    }
     public boolean submitForMinorCorrection(OrganizationHolder holder) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -8119,6 +8160,48 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean submitForMajorCorrection(Parcel parcel, int holdingLot) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
+                + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
+                + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute,teamNo, holding_lot) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?,?, ?)";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, parcel.getUpi());
+            stmnt.setByte(2, CommonStorage.getMajorCorrectionStage());
+            stmnt.setLong(3, parcel.getRegisteredBy());
+            stmnt.setTimestamp(4, Timestamp.from(Instant.now()));
+            stmnt.setInt(5, parcel.getParcelId());
+            stmnt.setString(6, parcel.getCertificateNumber());
+            stmnt.setString(7, parcel.getHoldingNumber());
+            stmnt.setByte(8, parcel.getOtherEvidence());
+            stmnt.setByte(9, parcel.getCurrentLandUse());
+            stmnt.setByte(10, parcel.getSoilFertility());
+            stmnt.setByte(11, parcel.getHolding());
+            stmnt.setByte(12, parcel.getMeansOfAcquisition());
+            stmnt.setInt(13, parcel.getAcquisitionYear());
+            stmnt.setString(14, parcel.getSurveyDate());
+            stmnt.setString(15, parcel.getMapSheetNo());
+            stmnt.setString(16, parcel.getStatus());
+            stmnt.setByte(17, parcel.getEncumbrance());
+            stmnt.setBoolean(18, parcel.hasDispute());
+            stmnt.setByte(19, parcel.getTeamNo());
+            stmnt.setByte(20, (byte) holdingLot);
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
     public boolean submitForMajorCorrection(OrganizationHolder holder) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -8296,6 +8379,48 @@ public class MasterRepository {
             stmnt.setByte(17, parcel.getEncumbrance());
             stmnt.setBoolean(18, parcel.hasDispute());
             stmnt.setByte(19, parcel.getTeamNo());
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
+        }
+        return returnValue;
+    }
+
+    public boolean submitToConfirmed(Parcel parcel, int holdingLot) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
+                + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
+                + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute,teamNo, holding_lot) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?,?, ?)";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, parcel.getUpi());
+            stmnt.setByte(2, CommonStorage.getConfirmedStage());
+            stmnt.setLong(3, parcel.getRegisteredBy());
+            stmnt.setTimestamp(4, Timestamp.from(Instant.now()));
+            stmnt.setInt(5, parcel.getParcelId());
+            stmnt.setString(6, parcel.getCertificateNumber());
+            stmnt.setString(7, parcel.getHoldingNumber());
+            stmnt.setByte(8, parcel.getOtherEvidence());
+            stmnt.setByte(9, parcel.getCurrentLandUse());
+            stmnt.setByte(10, parcel.getSoilFertility());
+            stmnt.setByte(11, parcel.getHolding());
+            stmnt.setByte(12, parcel.getMeansOfAcquisition());
+            stmnt.setInt(13, parcel.getAcquisitionYear());
+            stmnt.setString(14, parcel.getSurveyDate());
+            stmnt.setString(15, parcel.getMapSheetNo());
+            stmnt.setString(16, parcel.getStatus());
+            stmnt.setByte(17, parcel.getEncumbrance());
+            stmnt.setBoolean(18, parcel.hasDispute());
+            stmnt.setByte(19, parcel.getTeamNo());
+            stmnt.setByte(20, (byte) holdingLot);
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -9122,7 +9247,7 @@ public class MasterRepository {
                         hasMissingValue = true;
                     }
                 }
-                
+
                 query = "SELECT * FROM organizationholder WHERE stage=" + CommonStorage.getConfirmedStage() + " and status='active' AND UPI = ?";
                 stmnt3 = connection.prepareStatement(query);
                 stmnt3.setString(1, parcel.getUpi());
@@ -9213,7 +9338,7 @@ public class MasterRepository {
         ArrayList<HolderListDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage()+ " and status='active'";
+            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " and status='active'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet holders = stmnt.executeQuery();
             while (holders.next()) {
@@ -9222,7 +9347,7 @@ public class MasterRepository {
                 holder.setFirstName(holders.getString("firstname"));
                 holder.setGrandFathersName(holders.getString("grandfathersname"));
                 holder.setPhotoId(holders.getString("holderid"));
-                
+
                 returnValue.add(holder);
             }
             connection.close();
@@ -9231,5 +9356,5 @@ public class MasterRepository {
         }
         return returnValue;
     }
-    
+
 }

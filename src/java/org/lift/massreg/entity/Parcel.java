@@ -1140,6 +1140,84 @@ public class Parcel implements Entity {
         }
     }
 
+    public void submitForMinorCorrection(int holdingLot) {
+        MasterRepository.getInstance().submitForMinorCorrection(this,holdingLot);
+        if (this.getHolding() == 1) {
+            individualHolders.stream().forEach((individualHolder) -> {
+                individualHolder.submitForMinorCorrection();
+            });
+            if (personsWithInterest != null) {
+                personsWithInterest.stream().forEach((personWithInterest) -> {
+                    personWithInterest.submitForMinorCorrection();
+                });
+            }
+            if (guardians != null) {
+                guardians.stream().forEach((guardian) -> {
+                    guardian.submitForMinorCorrection();
+                });
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitForMinorCorrection();
+        }
+        if (disputes != null) {
+            disputes.stream().forEach((dispute) -> {
+                dispute.submitForMinorCorrection();
+            });
+        }
+    }
+
+    public void submitForMajorCorrection(int holdingLot) {
+        MasterRepository.getInstance().submitForMajorCorrection(this,holdingLot);
+        if (this.getHolding() == 1) {
+            individualHolders.stream().forEach((individualHolder) -> {
+                individualHolder.submitForMajorCorrection();
+            });
+            if (personsWithInterest != null) {
+                personsWithInterest.stream().forEach((personWithInterest) -> {
+                    personWithInterest.submitForMajorCorrection();
+                });
+            }
+            if (guardians != null) {
+                guardians.stream().forEach((guardian) -> {
+                    guardian.submitForMajorCorrection();
+                });
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitForMajorCorrection();
+        }
+        if (disputes != null) {
+            disputes.stream().forEach((dispute) -> {
+                dispute.submitForMajorCorrection();
+            });
+        }
+    }
+
+    public void submitToConfirmed(int holdingLot) {
+        MasterRepository.getInstance().submitToConfirmed(this, holdingLot);
+        if (this.getHolding() == 1) {
+            for (IndividualHolder individualHolder : individualHolders) {
+                individualHolder.submitToConfirmed();
+            }
+            if (personsWithInterest != null) {
+                for (PersonWithInterest personWithInterest : personsWithInterest) {
+                    personWithInterest.submitToConfirmed();
+                }
+            }
+            if (guardians != null) {
+                for (Guardian guardian : guardians) {
+                    guardian.submitToConfirmed();
+                }
+            }
+        } else if (organaizationHolder != null) {
+            organaizationHolder.submitToConfirmed();
+        }
+        if (disputes != null) {
+            for (Dispute dispute : disputes) {
+                dispute.submitToConfirmed();
+            }
+        }
+    }
+
     public void approve() {
         MasterRepository.getInstance().approve(this);
         if (this.getHolding() == 1) {

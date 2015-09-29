@@ -162,8 +162,6 @@
 
 <script>
     function sendToMinorCorrection(upi) {
-        alert("holdingLot:" + $("#holdingLot").val());
-        return;
         $.ajax({
             type: 'POST',
             url: "<%=minorCorrectionURL%>",
