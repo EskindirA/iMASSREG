@@ -134,6 +134,9 @@ public class CorrectionFirstEntry {
             p.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
+            if (request.getParameter("holdingLotNumber") != null && !"".equals(request.getParameter("holdingLotNumber").trim())) {
+                p.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             p.setMapSheetNo(request.getParameter("mapsheetNumber"));
             p.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
             p.setAcquisitionYear(Integer.parseInt(request.getParameter("acquisitionYear")));
@@ -837,7 +840,9 @@ public class CorrectionFirstEntry {
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
-
+            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+                newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             newParcel.setMapSheetNo(request.getParameter("mapsheetNumber"));
             newParcel.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
             newParcel.setAcquisitionYear(Integer.parseInt(request.getParameter("acquisitionYear")));
@@ -856,15 +861,15 @@ public class CorrectionFirstEntry {
                 }
                 if (newParcel.getHolding() != 1 && oldParcel.getHolding() == 1) {
                     ArrayList<IndividualHolder> holders = oldParcel.getIndividualHolders();
-                    for (int i = 0; i < holders.size(); i++) {
-                        holders.get(i).remove(request);
-                    }
+                    holders.stream().forEach((holder) -> {
+                        holder.remove(request);
+                    });
                 }
                 if (!newParcel.hasDispute() && oldParcel.hasDispute()) {
                     ArrayList<Dispute> disputes = oldParcel.getDisputes();
-                    for (int i = 0; i < disputes.size(); i++) {
-                        disputes.get(i).remove(request);
-                    }
+                    disputes.stream().forEach((dispute) -> {
+                        dispute.remove(request);
+                    });
                 }
                 viewParcel(request, response);
             } else {

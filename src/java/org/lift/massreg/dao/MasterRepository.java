@@ -32,8 +32,8 @@ public class MasterRepository {
         String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
                 + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
                 + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
-                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute, teamNo) VALUES (?,?,?,"
-                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?, ?)";
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute, teamNo,holding_lot) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, parcel.getUpi());
@@ -55,6 +55,7 @@ public class MasterRepository {
             stmnt.setByte(17, parcel.getEncumbrance());
             stmnt.setBoolean(18, parcel.hasDispute());
             stmnt.setByte(19, parcel.getTeamNo());
+            stmnt.setInt(20, parcel.getHoldingLotNumber());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -342,6 +343,7 @@ public class MasterRepository {
                 returnValue.setRegisteredOn(rs.getTimestamp("registeredon"));
                 returnValue.hasDispute(rs.getBoolean("hasdispute"));
                 returnValue.setTeamNo(rs.getByte("teamNo"));
+                returnValue.setHoldingLotNumber(rs.getInt("holding_lot"));
                 if (returnValue.hasDispute()) {
                     returnValue.setDisputes(getAllDisputes(upi, stage));
                 }

@@ -123,6 +123,9 @@ public class CorrectionSupervisor {
             newParcel.setOtherEvidence(Byte.parseByte(request.getParameter("otherEvidence")));
             newParcel.setSoilFertility(Byte.parseByte(request.getParameter("soilFertility")));
             newParcel.setSurveyDate(request.getParameter("surveyDate"));
+            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+                newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             newParcel.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             if (newParcel.validateForUpdate()) {

@@ -130,6 +130,9 @@ public class MinorCorrections {
             newParcel.setSurveyDate(request.getParameter("surveyDate"));
             newParcel.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
+            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+                newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             if (newParcel.validateForUpdate()) {
                 //Parcel.getLogStatment(oldParcel,newParcel);
                 MasterRepository.getInstance().update(oldParcel, newParcel);

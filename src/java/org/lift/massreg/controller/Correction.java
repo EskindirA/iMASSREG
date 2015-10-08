@@ -122,6 +122,9 @@ public class Correction {
             newParcel.setHolding(Byte.parseByte(request.getParameter("holdingType")));
             newParcel.setOtherEvidence(Byte.parseByte(request.getParameter("otherEvidence")));
             newParcel.setSoilFertility(Byte.parseByte(request.getParameter("soilFertility")));
+            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+                newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             newParcel.setSurveyDate(request.getParameter("surveyDate"));
             newParcel.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));

@@ -13,6 +13,7 @@ public class ParcelDifference {
     private String upi;
     private boolean certificateNumber;
     private boolean holdingNumber;
+    private boolean holdingLotNumber;
     private boolean otherEvidence;
     private boolean currentLandUse;
     private boolean teamNo;
@@ -63,6 +64,14 @@ public class ParcelDifference {
 
     public void setHoldingNumber(boolean holdingNumber) {
         this.holdingNumber = holdingNumber;
+    }
+    
+    public boolean isHoldingLotNumber() {
+        return holdingLotNumber;
+    }
+
+    public void setHoldingLotNumber(boolean holdingLotNumber) {
+        this.holdingLotNumber = holdingLotNumber;
     }
 
     public boolean isOtherEvidence() {

@@ -61,7 +61,7 @@ public class SecondEntry {
         // Remove the currentParcel from request
         request.setAttribute("currentParcel", null);
         // If the pacel is not registerd by the FEO operator SEO cann't add it 
-        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 1)) {
+        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getFEStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", CommonStorage.getText("parcel_not_registered"));
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
@@ -69,7 +69,7 @@ public class SecondEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         } // if the parcel is not complete in the first stage show error
-        else if (!MasterRepository.getInstance().isParcelComplete(request.getAttribute("upi").toString(), (byte) 1)) {
+        else if (!MasterRepository.getInstance().isParcelComplete(request.getAttribute("upi").toString(), CommonStorage.getFEStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The parcel you are trying to add is not compelet on the first stage, you can should wait until the FEO finishs entry of this parcel.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
@@ -78,7 +78,7 @@ public class SecondEntry {
             rd.forward(request, response);
         } // If the parcel exists in the second entry stage forward error, the parcel
         // already exists
-        else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 2)) {
+        else if (MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getSEStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The parcel you are trying to add already exists in the database, use find button to view the parcel details.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
@@ -100,7 +100,7 @@ public class SecondEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
             rd.forward(request, response);
         }// A user can not add a parcel at both FE and SE stages
-        else if (MasterRepository.getInstance().getParcel(request.getAttribute("upi").toString(), (byte) 1).getRegisteredBy() == CommonStorage.getCurrentUser(request).getUserId()) {
+        else if (MasterRepository.getInstance().getParcel(request.getAttribute("upi").toString(), CommonStorage.getFEStage()).getRegisteredBy() == CommonStorage.getCurrentUser(request).getUserId()) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The parcel you are trying to add was registed at the first entry stage by yourself, that is not permitted.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
@@ -125,10 +125,10 @@ public class SecondEntry {
      */
     protected static void editParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
         // if the parcel does not exit in the database 
-        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 1)) {
+        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getFEStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The parcel you are trying to edit does not exist in the database, use the add button to register it.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
@@ -141,7 +141,7 @@ public class SecondEntry {
                 reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
             }
             if (reviewMode) {
-                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
                 request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, currentParcel));
             }
             request.setAttribute("page", IOC.getPage(Constants.INDEX_EDIT_PARCEL_SEO));
@@ -160,7 +160,7 @@ public class SecondEntry {
      */
     protected static void deleteParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") == null) {
@@ -228,7 +228,7 @@ public class SecondEntry {
      */
     protected static void viewParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -269,7 +269,9 @@ public class SecondEntry {
 
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
-
+            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+                p.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             p.setMapSheetNo(request.getParameter("mapsheetNumber"));
 
             p.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
@@ -323,13 +325,16 @@ public class SecondEntry {
      */
     protected static void updateParcel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel oldParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel oldParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         Parcel newParcel = new Parcel();
         try {
             newParcel.setStatus(Constants.STATUS[0]);
 
             newParcel.setCertificateNumber(request.getParameter("certificateNumber"));
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
+            if (request.getParameter("holdingLotNumber") != null && !"".equals(request.getParameter("holdingLotNumber").trim())) {
+                newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             newParcel.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
@@ -412,8 +417,8 @@ public class SecondEntry {
             reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
         }
         if (reviewMode) {
-            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
-            Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
+            Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
             request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, seoParcel));
         }
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_INDIVIDUAL_HOLDERS_LIST_SEO));
@@ -430,7 +435,7 @@ public class SecondEntry {
      */
     protected static void saveHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (parcel != null) {
@@ -459,7 +464,7 @@ public class SecondEntry {
      */
     protected static void viewHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         parcel = (Parcel) request.getAttribute("currentParcel");
@@ -545,7 +550,7 @@ public class SecondEntry {
      */
     protected static void editOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -554,7 +559,7 @@ public class SecondEntry {
                 reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
             }
             if (reviewMode) {
-                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
                 if (feoParcel.getHolding() > 1 && parcel.getHolding() > 1) {
                     request.setAttribute("currentOrganizationHolderDifference", OrganizationHolder.difference(feoParcel.getOrganizationHolder(), parcel.getOrganizationHolder()));
                     request.getSession().setAttribute("ignoreReviewMode", false);
@@ -588,7 +593,7 @@ public class SecondEntry {
             HttpServletResponse response)
             throws ServletException, IOException {
         Parcel currentParcel = MasterRepository.getInstance().getParcel(
-                request.getSession().getAttribute("upi").toString(), (byte) 2);
+                request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
 
         try {
@@ -692,7 +697,7 @@ public class SecondEntry {
      */
     protected static void viewIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -721,7 +726,7 @@ public class SecondEntry {
             HttpServletResponse response)
             throws ServletException, IOException {
         Parcel currentParcel = MasterRepository.getInstance().getParcel(
-                request.getSession().getAttribute("upi").toString(), (byte) 2);
+                request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
 
         IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
@@ -778,8 +783,8 @@ public class SecondEntry {
      */
     protected static void deleteIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (IndividualHolder.delete(request, request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
-            Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        if (IndividualHolder.delete(request, request.getParameter("holderId"), Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage())) {
+            Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
             request.setAttribute("currentParcel", parcel);
             individualHolderList(request, response);
         } else {
@@ -803,7 +808,7 @@ public class SecondEntry {
      */
     protected static void viewOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -825,10 +830,10 @@ public class SecondEntry {
      */
     protected static void editIndividualHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
         // if the parcel does not exit in the database 
-        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 2)) {
+        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getSEStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The holder you are trying to edit does not exist in the database, use the add button to register it.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
@@ -853,7 +858,7 @@ public class SecondEntry {
      */
     protected static void personsWithInterestList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         parcel = (Parcel) request.getAttribute("currentParcel");
@@ -863,7 +868,7 @@ public class SecondEntry {
                 reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
             }
             if (reviewMode) {
-                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+                Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
                 request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, parcel));
             }
 
@@ -916,7 +921,7 @@ public class SecondEntry {
      */
     protected static void savePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         if (parcel != null) {
             PersonWithInterest pwi = new PersonWithInterest();
@@ -969,7 +974,7 @@ public class SecondEntry {
      */
     protected static void viewPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -996,7 +1001,7 @@ public class SecondEntry {
      */
     protected static void editPersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
         // if the parcel does not exit in the database 
         if (currentParcel == null) {
@@ -1052,7 +1057,7 @@ public class SecondEntry {
             HttpServletResponse response)
             throws ServletException, IOException {
         Parcel currentParcel = MasterRepository.getInstance().getParcel(
-                request.getSession().getAttribute("upi").toString(), (byte) 2);
+                request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
 
         PersonWithInterest oldPersonWithInterest = currentParcel.getPersonWithInterest(
@@ -1103,7 +1108,7 @@ public class SecondEntry {
      */
     protected static void deletePersonWithInterest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (PersonWithInterest.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
+        if (PersonWithInterest.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage())) {
             personsWithInterestList(request, response);
         } else {
             // if the parcel fails to validate show error message
@@ -1126,13 +1131,13 @@ public class SecondEntry {
      */
     protected static void viewDisputeList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         boolean reviewMode = false;
         if (request.getSession().getAttribute("reviewMode") != null) {
             reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
         }
         if (reviewMode) {
-            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
+            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
             request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, parcel));
         }
         request.setAttribute("currentParcel", parcel);
@@ -1150,7 +1155,7 @@ public class SecondEntry {
      */
     protected static void saveDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (parcel != null) {
@@ -1209,7 +1214,7 @@ public class SecondEntry {
      */
     protected static void viewDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -1236,10 +1241,10 @@ public class SecondEntry {
      */
     protected static void editDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
         // if the parcel does not exit in the database 
-        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), (byte) 2)) {
+        if (!MasterRepository.getInstance().parcelExists(request.getAttribute("upi").toString(), CommonStorage.getSEStage())) {
             request.getSession().setAttribute("title", "Error");
             request.getSession().setAttribute("message", "The dispute you are trying to edit does not exist in the database, use the add button to register it.");
             request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
@@ -1264,7 +1269,7 @@ public class SecondEntry {
      */
     protected static void updateDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel currentParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
         // if the parcel does not exit in the database 
         Dispute oldDispute = currentParcel.getDispute(currentParcel.getStage(), Timestamp.valueOf(request.getParameter("registeredOn")));
@@ -1315,8 +1320,8 @@ public class SecondEntry {
      */
     protected static void deleteDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (Dispute.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), (byte) 2)) {
-            Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        if (Dispute.delete(request, Timestamp.valueOf(request.getParameter("registeredOn")), request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage())) {
+            Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
             request.setAttribute("currentParcel", parcel);
             viewDisputeList(request, response);
         } else {
@@ -1340,7 +1345,7 @@ public class SecondEntry {
      */
     protected static void finishOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -1392,7 +1397,7 @@ public class SecondEntry {
      */
     protected static void finishDispute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", parcel);
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
@@ -1471,8 +1476,8 @@ public class SecondEntry {
     protected static void commit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getSession().setAttribute("reviewMode", false);
-        Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
-        Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
+        Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
 
         if (!seoParcel.canEdit(CommonStorage.getCurrentUser(request).getRole())) {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SEO));
@@ -1504,8 +1509,8 @@ public class SecondEntry {
             reviewMode = Boolean.parseBoolean(request.getSession().getAttribute("reviewMode").toString());
         }
         if (reviewMode) {
-            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 1);
-            Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+            Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getFEStage());
+            Parcel seoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
             request.setAttribute("currentParcelDifference", Parcel.difference(feoParcel, seoParcel));
         }
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
@@ -1625,7 +1630,7 @@ public class SecondEntry {
      */
     protected static void submitForCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), (byte) 2);
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         parcel.submitForCorrection();
         request.getSession().setAttribute("reviewMode", false);
         request.getSession().setAttribute("upi", null);
@@ -1637,13 +1642,13 @@ public class SecondEntry {
     protected static void updatePhotoId(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel currentParcel = MasterRepository.getInstance().getParcel(
-                request.getSession().getAttribute("upi").toString(), (byte) 2);
+                request.getSession().getAttribute("upi").toString(), CommonStorage.getSEStage());
         request.setAttribute("currentParcel", currentParcel);
 
         IndividualHolder oldIndividualHolder = currentParcel.getIndividualHolder(
                 request.getParameter("holderId"), currentParcel.getStage(),
                 Timestamp.valueOf(request.getParameter("registeredOn")));
-        IndividualHolder newIndividualHolder =  currentParcel.getIndividualHolder(
+        IndividualHolder newIndividualHolder = currentParcel.getIndividualHolder(
                 request.getParameter("holderId"), currentParcel.getStage(),
                 Timestamp.valueOf(request.getParameter("registeredOn")));
         try {

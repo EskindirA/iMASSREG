@@ -42,9 +42,9 @@
                                 <div class="row">
                                     <div class="form-group col-lg-5">
                                         <label><%=CommonStorage.getText("team")%></label>
-                                                <select class="form-control <%= reviewMode
-                                                        && parcelDifference.isTeamNo()
-                                                                ? "discrepancy-field" : ""%>" name = "teamNo" id = "teamNo" value="${requestScope.currentParcel.teamNo}">
+                                        <select class="form-control <%= reviewMode
+                                                && parcelDifference.isTeamNo()
+                                                        ? "discrepancy-field" : ""%>" name = "teamNo" id = "teamNo" value="${requestScope.currentParcel.teamNo}">
                                             <%
                                                 int[] teamNumbers = CommonStorage.getTeamNumbers();
                                                 for (int i = 0; i < teamNumbers.length; i++) {
@@ -61,12 +61,20 @@
                                                id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" />
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label><%=CommonStorage.getText("holding_number")%></label>
-                                    <input class="form-control  <%= reviewMode
-                                            && parcelDifference.isHoldingNumber()
-                                                    ? "discrepancy-field" : ""%>" id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" />
-                                </div>                                
+                                <div class="row">
+                                    <div class="form-group col-lg-8">
+                                        <label><%=CommonStorage.getText("holding_number")%></label>
+                                        <input class="form-control  <%= reviewMode
+                                                && parcelDifference.isHoldingNumber()
+                                                        ? "discrepancy-field" : ""%>" id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" />
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label><%=CommonStorage.getText("holding_lot_number")%></label>
+                                        <input class="form-control  <%= reviewMode
+                                                && parcelDifference.isHoldingLotNumber()
+                                                        ? "discrepancy-field" : ""%>" id="holdingLotNumber" name="holdingLotNumber" value="${requestScope.currentParcel.holdingLotNumber}" />
+                                    </div> 
+                                </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("other_evidence")%></label>
                                     <select class="form-control  <%= reviewMode
@@ -217,6 +225,7 @@
         $("#holdingType").toggleClass("error-field", false);
         $("#encumbrance").toggleClass("error-field", false);
         $("#hasDispute").toggleClass("error-field", false);
+        $("#holdingLotNumber").toggleClass("error-field", false);
         if ($("#mapsheetno").val() === "") {
             returnValue = false;
             $("#mapsheetno").toggleClass("error-field", true);
@@ -257,6 +266,10 @@
             returnValue = false;
             $("#hasDispute").toggleClass("error-field", true);
         }
+        if ($("#holdingLotNumber").val() !== "" && isNaN($("#holdingLotNumber").val())) {
+            returnValue = false;
+            $("#holdingLotNumber").toggleClass("error-field", true);
+        }
         return returnValue;
     }
     function update() {
@@ -266,6 +279,7 @@
             data: {
                 "certificateNumber": $("#certificateNumber").val(),
                 "holdingNumber": $("#holdingNumber").val(),
+                "holdingLotNumber": $("#holdingLotNumber").val(),
                 "otherEvidence": $("#otherEvidence").val(),
                 "meansOfAcquisition": $("#meansOfAcquisition").val(),
                 "acquisitionYear": $("#acquisitionYear").val(),

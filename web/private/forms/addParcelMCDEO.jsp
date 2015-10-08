@@ -45,10 +45,16 @@
                                     <label><%=CommonStorage.getText("certificate_number")%></label>
                                     <input class="form-control " id="certificateNumber" name="certificateNumber" value="${sessionScope.currentParcel.certificateNumber}" autocomplete="off"/>
                                 </div>
-                                <div class="form-group">
-                                    <label><%=CommonStorage.getText("holding_number")%></label>
-                                    <input class="form-control " id="holdingNumber" name="holdingNumber" value="${sessionScope.currentParcel.holdingNumber}" autocomplete="off"/>
-                                </div>                                
+                                <div class="row">
+                                    <div class="form-group col-lg-8">
+                                        <label><%=CommonStorage.getText("holding_number")%></label>
+                                        <input class="form-control " id="holdingNumber" name="holdingNumber" value="${sessionScope.currentParcel.holdingNumber}" autocomplete="off"/>
+                                    </div> 
+                                    <div class="form-group col-lg-4">
+                                        <label><%=CommonStorage.getText("holding_lot_number")%></label>
+                                        <input class="form-control " id="holdingLotNumber" name="holdingLotNumber" value="${sessionScope.currentParcel.holdingLotNumber}" autocomplete="off"/>
+                                    </div> 
+                                </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("other_evidence")%></label>
                                     <select class="form-control" id="otherEvidence" name="otherEvidence" data-value="${sessionScope.currentParcel.otherEvidence}">
@@ -172,6 +178,7 @@
         $("#holdingType").toggleClass("error-field", false);
         $("#encumbrance").toggleClass("error-field", false);
         $("#hasDispute").toggleClass("error-field", false);
+        $("#holdingLotNumber").toggleClass("error-field", false);
         if ($("#mapsheetno").val() === "") {
             returnValue = false;
             $("#mapsheetno").toggleClass("error-field", true);
@@ -211,6 +218,10 @@
         if ($("#hasDispute").val() === "") {
             returnValue = false;
             $("#hasDispute").toggleClass("error-field", true);
+        }
+        if ($("#holdingLotNumber").val() !== "" && isNaN($("#holdingLotNumber").val())) {
+            returnValue = false;
+            $("#holdingLotNumber").toggleClass("error-field", true);
         }
         
         return returnValue;

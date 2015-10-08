@@ -27,6 +27,7 @@ public class Parcel implements Entity {
     private int parcelId;
     private String certificateNumber;
     private String holdingNumber;
+    private int holdingLotNumber;
     private byte otherEvidence;
     private String otherEvidenceText;
     private byte currentLandUse;
@@ -167,6 +168,14 @@ public class Parcel implements Entity {
 
     public void setHoldingNumber(String holdingNumber) {
         this.holdingNumber = holdingNumber;
+    }
+
+    public int getHoldingLotNumber() {
+        return holdingLotNumber;
+    }
+
+    public void setHoldingLotNumber(int holdingLotNumber) {
+        this.holdingLotNumber = holdingLotNumber;
     }
 
     public byte getOtherEvidence() {
@@ -838,6 +847,9 @@ public class Parcel implements Entity {
         if (!firstParcel.getHoldingNumber().trim().equalsIgnoreCase(secondParcel.getHoldingNumber().trim())) {
             returnValue.setHoldingNumber(true);
         }
+        if (firstParcel.getHoldingLotNumber() != secondParcel.getHoldingLotNumber()) {
+            returnValue.setHoldingLotNumber(true);
+        }
         if (firstParcel.getCurrentLandUse() != secondParcel.getCurrentLandUse()) {
             returnValue.setCurrentLandUse(true);
         }
@@ -1025,6 +1037,9 @@ public class Parcel implements Entity {
         if (!this.getHoldingNumber().equalsIgnoreCase(newParcel.getHoldingNumber())) {
             returnValue.add(new Change("holdingno", this.getHoldingNumber(), newParcel.getHoldingNumber()));
         }
+        if (this.getHoldingLotNumber() != newParcel.getHoldingLotNumber()) {
+            returnValue.add(new Change("holding_lot", this.getHoldingLotNumber() + "", newParcel.getHoldingLotNumber() + ""));
+        }
         if (this.getSoilFertility() != newParcel.getSoilFertility()) {
             returnValue.add(new Change("soilfertilitytype", this.getSoilFertility() + "", newParcel.getSoilFertility() + ""));
         }
@@ -1141,7 +1156,7 @@ public class Parcel implements Entity {
     }
 
     public void submitForMinorCorrection(int holdingLot) {
-        MasterRepository.getInstance().submitForMinorCorrection(this,holdingLot);
+        MasterRepository.getInstance().submitForMinorCorrection(this, holdingLot);
         if (this.getHolding() == 1) {
             individualHolders.stream().forEach((individualHolder) -> {
                 individualHolder.submitForMinorCorrection();
@@ -1167,7 +1182,7 @@ public class Parcel implements Entity {
     }
 
     public void submitForMajorCorrection(int holdingLot) {
-        MasterRepository.getInstance().submitForMajorCorrection(this,holdingLot);
+        MasterRepository.getInstance().submitForMajorCorrection(this, holdingLot);
         if (this.getHolding() == 1) {
             individualHolders.stream().forEach((individualHolder) -> {
                 individualHolder.submitForMajorCorrection();

@@ -50,10 +50,16 @@
                                         <input class="form-control " id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" disabled/>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label><%=CommonStorage.getText("holding_number")%></label>
-                                    <input class="form-control " id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" disabled/>
-                                </div>     
+                                <div class="row">
+                                    <div class="form-group col-lg-8">
+                                        <label><%=CommonStorage.getText("holding_number")%></label>
+                                        <input class="form-control " id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" disabled/>
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label><%=CommonStorage.getText("holding_lot_number")%></label>
+                                        <input class="form-control " id="holdingLotNumber" name="holdingLotNumber" value="${requestScope.currentParcel.holdingLotNumber}" disabled/>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("other_evidence")%></label>
                                     <select class="form-control" id="otherEvidence" name="otherEvidence" value="${requestScope.currentParcel.otherEvidence}" disabled>
@@ -216,7 +222,7 @@
         });
         return false;
     });
-    
+
     $("#editHoldingNumberButton").click(function () {
         var action = "<%=request.getContextPath()%>" + "/Index?action=" + "<%=Constants.ACTION_UPDATE_HOLDING_NUMBER_CO%>";
         bootbox.dialog({

@@ -42,17 +42,23 @@
                                         <input class='form-control' id="certificateNumber" name="certificateNumber" value="${requestScope.currentParcel.certificateNumber}" />
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label><%=CommonStorage.getText("holding_number")%></label>
-                                    <input class="form-control" id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" />
-                                </div>                                
+                                <div class="row">
+                                    <div class="form-group col-lg-8">
+                                        <label><%=CommonStorage.getText("holding_number")%></label>
+                                        <input class="form-control" id="holdingNumber" name="holdingNumber" value="${requestScope.currentParcel.holdingNumber}" />
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label><%=CommonStorage.getText("holding_lot_number")%></label>
+                                        <input class="form-control" id="holdingLotNumber" name="holdingLotNumber" value="${requestScope.currentParcel.holdingLotNumber}" />
+                                    </div>  
+                                </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("other_evidence")%></label>
                                     <select class="form-control" id="otherEvidence" name="otherEvidence" value="${requestScope.currentParcel.otherEvidence}" >
                                         <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] otherEvidenceTypes = MasterRepository.getInstance().getAllOtherEvidenceTypes();
-                                            for (int i = 0; i < otherEvidenceTypes.length-1; i++) {
+                                            for (int i = 0; i < otherEvidenceTypes.length - 1; i++) {
                                                 out.println("<option value = '" + otherEvidenceTypes[i].getKey() + "'>" + otherEvidenceTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -64,7 +70,7 @@
                                         <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] meansOfAcquisitionTypes = MasterRepository.getInstance().getAllMeansOfAcquisitionTypes();
-                                            for (int i = 0; i < meansOfAcquisitionTypes.length-1; i++) {
+                                            for (int i = 0; i < meansOfAcquisitionTypes.length - 1; i++) {
                                                 out.println("<option value = '" + meansOfAcquisitionTypes[i].getKey() + "'>" + meansOfAcquisitionTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -94,7 +100,7 @@
                                         <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] currentLandUseTypes = MasterRepository.getInstance().getAllCurrentLandUseTypes();
-                                            for (int i = 0; i < currentLandUseTypes.length-1; i++) {
+                                            for (int i = 0; i < currentLandUseTypes.length - 1; i++) {
                                                 out.println("<option value = '" + currentLandUseTypes[i].getKey() + "'>" + currentLandUseTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -106,7 +112,7 @@
                                         <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] soilFertilityTypes = MasterRepository.getInstance().getAllSoilFertilityTypes();
-                                            for (int i = 0; i < soilFertilityTypes.length-1; i++) {
+                                            for (int i = 0; i < soilFertilityTypes.length - 1; i++) {
                                                 out.println("<option value = '" + soilFertilityTypes[i].getKey() + "'>" + soilFertilityTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -118,7 +124,7 @@
                                         <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] holdingTypes = MasterRepository.getInstance().getAllHoldingTypes();
-                                            for (int i = 0; i < holdingTypes.length-1; i++) {
+                                            for (int i = 0; i < holdingTypes.length - 1; i++) {
                                                 out.println("<option value = '" + holdingTypes[i].getKey() + "'>" + holdingTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -130,7 +136,7 @@
                                         <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             Option[] encumbranceTypes = MasterRepository.getInstance().getAllEncumbranceTypes();
-                                            for (int i = 0; i < encumbranceTypes.length-1; i++) {
+                                            for (int i = 0; i < encumbranceTypes.length - 1; i++) {
                                                 out.println("<option value = '" + encumbranceTypes[i].getKey() + "'>" + encumbranceTypes[i].getValue() + "</option>");
                                             }
                                         %>
@@ -174,6 +180,7 @@
         $("#holdingType").toggleClass("error-field", false);
         $("#encumbrance").toggleClass("error-field", false);
         $("#hasDispute").toggleClass("error-field", false);
+        $("#holdingLotNumber").toggleClass("error-field", false);
         if ($("#mapsheetno").val() === "") {
             returnValue = false;
             $("#mapsheetno").toggleClass("error-field", true);
@@ -214,6 +221,10 @@
             returnValue = false;
             $("#hasDispute").toggleClass("error-field", true);
         }
+        if ($("#holdingLotNumber").val() !== "" && isNaN($("#holdingLotNumber").val())) {
+            returnValue = false;
+            $("#holdingLotNumber").toggleClass("error-field", true);
+        }
         return returnValue;
     }
     function update() {
@@ -221,9 +232,10 @@
             type: 'POST',
             url: "<%=updateurl%>",
             data: {
-                "upi":'<%=request.getParameter("upi")%>',
+                "upi": '<%=request.getParameter("upi")%>',
                 "certificateNumber": $("#certificateNumber").val(),
                 "holdingNumber": $("#holdingNumber").val(),
+                "holdingLotNumber": $("#holdingLotNumber").val(),
                 "otherEvidence": $("#otherEvidence").val(),
                 "meansOfAcquisition": $("#meansOfAcquisition").val(),
                 "acquisitionYear": $("#acquisitionYear").val(),
@@ -247,7 +259,7 @@
         $.ajax({
             type: 'POST',
             url: "<%=cancelurl%>",
-            data: {"upi":'<%=request.getParameter("upi")%>'},
+            data: {"upi": '<%=request.getParameter("upi")%>'},
             error: showajaxerror,
             success: loadInPlace
         });

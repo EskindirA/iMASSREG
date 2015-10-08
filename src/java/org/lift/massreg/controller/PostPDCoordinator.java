@@ -71,7 +71,7 @@ public class PostPDCoordinator {
     protected static void sendToMinorCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
-        if (request.getParameter("upi") != null && !request.getParameter("upi").trim().isEmpty()) {
+        if (request.getParameter("holdingLot") != null && !request.getParameter("holdingLot").trim().isEmpty()) {
             int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
             parcel.submitForMinorCorrection(holdingLot);
         }else{
@@ -91,7 +91,7 @@ public class PostPDCoordinator {
     protected static void sendToMajorCorrection(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
-        if (request.getParameter("upi") != null && !request.getParameter("upi").trim().isEmpty()) {
+        if (request.getParameter("holdingLot") != null && !request.getParameter("holdingLot").trim().isEmpty()) {
             int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
             parcel.submitForMajorCorrection(holdingLot);
         }else{
@@ -112,7 +112,7 @@ public class PostPDCoordinator {
             throws ServletException, IOException {
 
         Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getCommitedStage());
-        if (request.getParameter("upi") != null && !request.getParameter("upi").trim().isEmpty()) {
+        if (request.getParameter("holdingLot") != null && !request.getParameter("holdingLot").trim().isEmpty()) {
             int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
             parcel.submitToConfirmed(holdingLot);
         }else{

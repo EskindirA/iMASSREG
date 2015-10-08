@@ -61,7 +61,7 @@
 
     function validateUpdate() {
         var returnValue = true;
-        $("#editUserFrom #username").toggleClass("error-field", false);
+        $("#editUserForm #username").toggleClass("error-field", false);
         $("#editUserForm #firstName").toggleClass("error-field", false);
         $("#editUserForm #fathersName").toggleClass("error-field", false);
         $("#editUserForm #grandFathersName").toggleClass("error-field", false);
@@ -84,7 +84,7 @@
         return returnValue;
     }
 
-    $("#editUserFrom select").each(function() {
+    $("#editUserForm select").each(function() {
         $(this).val($(this).attr("value"));
     });
     function update() {

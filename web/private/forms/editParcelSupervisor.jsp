@@ -52,23 +52,35 @@
                                         %>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label><%=CommonStorage.getText("holding_number")%></label>
-                                    <%
-                                        if (parcelDifference.isHoldingNumber()) {
-                                            out.println("<input class='form-control discrepancy-field ' placeholder='Does Not Exist' id='holdingNumber' name='holdingNumber' value='" + currentParcel.getHoldingNumber() + "' />");
-                                        } else {
-                                            out.println("<input class='form-control ' placeholder='Does Not Exist' id='holdingNumber' name='holdingNumber' value='" + currentParcel.getHoldingNumber() + "' disabled/>");
-                                        }
-                                    %>
-                                </div>                                
+                                <div class="row">
+                                    <div class="form-group col-lg-8">
+                                        <label><%=CommonStorage.getText("holding_number")%></label>
+                                        <%
+                                            if (parcelDifference.isHoldingNumber()) {
+                                                out.println("<input class='form-control discrepancy-field ' placeholder='Does Not Exist' id='holdingNumber' name='holdingNumber' value='" + currentParcel.getHoldingNumber() + "' />");
+                                            } else {
+                                                out.println("<input class='form-control ' placeholder='Does Not Exist' id='holdingNumber' name='holdingNumber' value='" + currentParcel.getHoldingNumber() + "' disabled/>");
+                                            }
+                                        %>
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label><%=CommonStorage.getText("holding_lot_number")%></label>
+                                        <%
+                                            if (parcelDifference.isHoldingLotNumber()) {
+                                                out.println("<input class='form-control discrepancy-field ' placeholder='Does Not Exist' id='holdingLotNumber' name='holdingLotNumber' value='" + currentParcel.getHoldingLotNumber() + "' />");
+                                            } else {
+                                                out.println("<input class='form-control ' placeholder='Does Not Exist' id='holdingLotNumber' name='holdingLotNumber' value='" + currentParcel.getHoldingLotNumber() + "' disabled/>");
+                                            }
+                                        %>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label><%=CommonStorage.getText("other_evidence")%></label>
                                     <%
                                         if (parcelDifference.isOtherEvidence()) {
                                             out.println("<select class='form-control discrepancy-field ' id='otherEvidence' name='otherEvidence' value='" + currentParcel.getOtherEvidence() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='otherEvidence' name='otherEvidence' value='" + currentParcel.getOtherEvidence() + "' disabled >");
+                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='otherEvidence' name='otherEvidence' value='" + currentParcel.;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -87,7 +99,7 @@
                                         if (parcelDifference.isMeansOfAcquisition()) {
                                             out.println("<select class='form-control discrepancy-field ' id='meansOfAcquisition' name='meansOfAcquisition' value='" + currentParcel.getMeansOfAcquisition() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='meansOfAcquisition' name='meansOfAcquisition' value='" + currentParcel.getMeansOfAcquisition() + "' disabled >");
+                                            out.println("<select class='form-control ' id='meansOfAcquisition' name='meansOfAcquisition' value='" + currentParcel.getMe;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -106,7 +118,7 @@
                                         if (parcelDifference.isAcquisitionYear()) {
                                             out.println("<select class='form-control discrepancy-field ' id='acquisitionYear' name='acquisitionYear' value='" + currentParcel.getAcquisitionYear() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='acquisitionYear' name='acquisitionYear' value='" + currentParcel.getAcquisitionYear() + "' disabled >");
+                                            out.println("<select class='form-control ' id='acquisitionYear' name='acquisitionYear' value='" + currentParcel.ge;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -138,7 +150,7 @@
                                         if (parcelDifference.isCurrentLandUse()) {
                                             out.println("<select class='form-control discrepancy-field ' id='currentLandUse' name='currentLandUse' value='" + currentParcel.getCurrentLandUse() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='currentLandUse' name='currentLandUse' value='" + currentParcel.getCurrentLandUse() + "' disabled >");
+                                            out.println("<select class='form-control ' id='currentLandUse' name='currentLandUse' value='" + currentParcel.g;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -157,7 +169,7 @@
                                         if (parcelDifference.isSoilFertility()) {
                                             out.println("<select class='form-control discrepancy-field ' id='soilFertility' name='soilFertility' value='" + currentParcel.getSoilFertility() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='soilFertility' name='soilFertility' value='" + currentParcel.getSoilFertility() + "' disabled >");
+                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='soilFertility' name='soilFertility' value='" + currentParcel.;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -176,7 +188,7 @@
                                         if (parcelDifference.isHolding()) {
                                             out.println("<select class='form-control discrepancy-field ' id='holdingType' name='holdingType' value='" + currentParcel.getHolding() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='holdingType' name='holdingType' value='" + currentParcel.getHolding() + "' disabled >");
+                                            out.println("<select class='form-control ' id='holdingType' name='holdingType' value='" + currentP;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -194,7 +206,7 @@
                                         if (parcelDifference.isEncumbrance()) {
                                             out.println("<select class='form-control discrepancy-field ' id='encumbrance' name='encumbrance' value='" + currentParcel.getEncumbrance() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='encumbrance' name='encumbrance' value='" + currentParcel.getEncumbrance() + "' disabled >");
+                                            out.println("<select class='form-control ' id='encumbrance' name='encumbrance' value='" + currentParce;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -222,7 +234,7 @@
                                         if (parcelDifference.isHasDispute()) {
                                             out.println("<select class='form-control discrepancy-field ' id='hasDispute' name='hasDispute' value='" + currentParcel.hasDispute() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='hasDispute' name='hasDispute' value='" + currentParcel.hasDispute() + "' disabled >");
+                                            out.println("<select class='form-control ' id='hasDispute' name='hasDispute' value='" + currentP;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -256,6 +268,7 @@
         $("#holdingType").toggleClass("error-field", false);
         $("#encumbrance").toggleClass("error-field", false);
         $("#hasDispute").toggleClass("error-field", false);
+        $("#holdingLotNumber").toggleClass("error-field", false);
         if ($("#mapsheetno").val() === "") {
             returnValue = false;
             $("#mapsheetno").toggleClass("error-field", true);
@@ -296,6 +309,10 @@
             returnValue = false;
             $("#hasDispute").toggleClass("error-field", true);
         }
+        if ($("#holdingLotNumber").val() !== "" && isNaN($("#holdingLotNumber").val())) {
+            returnValue = false;
+            $("#holdingLotNumber").toggleClass("error-field", true);
+        }
         return returnValue;
     }
     function update() {
@@ -305,6 +322,7 @@
             data: {
                 "certificateNumber": $("#certificateNumber").val(),
                 "holdingNumber": $("#holdingNumber").val(),
+                "holdingLotNumber": $("#holdingLotNumber").val(),
                 "otherEvidence": $("#otherEvidence").val(),
                 "meansOfAcquisition": $("#meansOfAcquisition").val(),
                 "acquisitionYear": $("#acquisitionYear").val(),

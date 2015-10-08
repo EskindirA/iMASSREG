@@ -268,7 +268,9 @@ public class CorrectionSecondEntry {
 
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
-
+            if (request.getParameter("holdingLotNumber") != null && !"".equals(request.getParameter("holdingLotNumber").trim())) {
+                p.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             p.setMapSheetNo(request.getParameter("mapsheetNumber"));
 
             p.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
@@ -340,6 +342,9 @@ public class CorrectionSecondEntry {
             newParcel.setHolding(Byte.parseByte(request.getParameter("holdingType")));
             newParcel.setOtherEvidence(Byte.parseByte(request.getParameter("otherEvidence")));
             newParcel.setSoilFertility(Byte.parseByte(request.getParameter("soilFertility")));
+            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+                newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
+            }
             newParcel.setSurveyDate(request.getParameter("surveyDate"));
             newParcel.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));
             if (newParcel.validateForUpdate()) {
