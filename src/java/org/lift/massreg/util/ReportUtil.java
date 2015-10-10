@@ -94,11 +94,15 @@ public class ReportUtil {
                         row1.createCell(1).setCellValue(createHelper.createRichTextString("Kebele Name"));
                         row1.createCell(2).setCellValue(createHelper.createRichTextString("Kebele Code"));
                         row1.createCell(3).setCellValue(createHelper.createRichTextString("Land Holder Type"));
-                        row1.createCell(4).setCellValue(createHelper.createRichTextString("Total number of non committed parcels"));
-                        row1.createCell(5).setCellValue(createHelper.createRichTextString("Total number of committed parcels"));
+                        row1.createCell(4).setCellValue(createHelper.createRichTextString("Number of non committed parcels in timeframe"));
+                        row1.createCell(5).setCellValue(createHelper.createRichTextString("Number of committed parcels in timeframe"));
                         row1.createCell(6).setCellValue(createHelper.createRichTextString("Report generated on"));
                         row1.createCell(7).setCellValue(createHelper.createRichTextString("Start"));
                         row1.createCell(8).setCellValue(createHelper.createRichTextString("End"));
+                        
+                        row1.createCell(9).setCellValue(createHelper.createRichTextString("Total number of non committed parcels"));
+                        row1.createCell(10).setCellValue(createHelper.createRichTextString("Total number of committed parcels"));
+                        
                         Row row2 = tempSheet.createRow((short) 2);
                         row2.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getCurrentWoredaName()));
                         row2.createCell(1).setCellValue(createHelper.createRichTextString(kebele.getValue()));
@@ -136,6 +140,9 @@ public class ReportUtil {
                         row9.createCell(3).setCellValue(createHelper.createRichTextString("All"));
                         row9.createCell(4).setCellValue(MasterRepository.getInstance().getCountOfAllNonCommittedParcels(fromDate, toDate, kebele.getKey()));
                         row9.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfAllCommittedParcels(fromDate, toDate, kebele.getKey()));
+                        
+                        row9.createCell(9).setCellValue(MasterRepository.getInstance().getCountOfAllNonCommittedParcels(kebele.getKey()));
+                        row9.createCell(10).setCellValue(MasterRepository.getInstance().getCountOfAllCommittedParcels(kebele.getKey()));
                         // Sheet Format
                         tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 0, 0));
                         tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 1, 1));
@@ -144,7 +151,10 @@ public class ReportUtil {
                         tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 7, 7));
                         tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 8, 8));
                         tempSheet.addMergedRegion(new CellRangeAddress(0, 0, 7, 8));
-
+                        
+                        //tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 9, 9));
+                        //tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 10, 10));
+                        
                         tempSheet.autoSizeColumn(0, true);
                         tempSheet.autoSizeColumn(1, true);
                         tempSheet.autoSizeColumn(2, true);
@@ -154,6 +164,8 @@ public class ReportUtil {
                         tempSheet.autoSizeColumn(6, true);
                         tempSheet.autoSizeColumn(7, true);
                         tempSheet.autoSizeColumn(8, true);
+                        tempSheet.autoSizeColumn(9, true);
+                        tempSheet.autoSizeColumn(10, true);
 
                         CellStyle cellStyle = wb.createCellStyle();
                         Font hSSFFont = wb.createFont();

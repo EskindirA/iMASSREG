@@ -2532,6 +2532,8 @@ public class MasterRepository {
     }
 
     /**
+     * @param from
+     * @param to
      * @return Total number of parcels entered into iMASSREG for a kebele
      * @param kebele : kebele to report on
      */
@@ -2543,6 +2545,23 @@ public class MasterRepository {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfAllCommittedParcels(String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
                 returnValue = rs.getLong("c");
@@ -2569,6 +2588,28 @@ public class MasterRepository {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    /**
+     * @return Total number of parcels entered into iMASSREG for a kebele but
+     * not committed
+     * @param kebele : kebele to report on
+     */
+    public long getCountOfAllNonCommittedParcels(String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' AND UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
                 returnValue = rs.getLong("c");
