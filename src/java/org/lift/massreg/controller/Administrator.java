@@ -430,7 +430,7 @@ public class Administrator {
             rd.forward(request, response);
         }
     }
-    
+
     public static void approvalChecklist(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String kebele = request.getParameter("kebele");
@@ -446,7 +446,7 @@ public class Administrator {
             rd.forward(request, response);
         }
     }
-    
+
     public static void publicDisplay(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -735,7 +735,7 @@ public class Administrator {
                 row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
                 HoldingParcelPublicDisplayDTO parcel;
                 HoldingHolderDTO holder;
-                Cell incompleteCell,sexCell;
+                Cell incompleteCell, sexCell;
                 if (holderCount > 0) {
                     holder = item.getHolders().get(0);
                     row.createCell(namesCol).setCellValue(holder.getName());
@@ -805,7 +805,7 @@ public class Administrator {
                 iterator.next().setCellStyle(headerStyle);
             }
             ArrayList<String> organizationalHoldingNumbers = MasterRepository.getInstance().getHoldingNumbers(kebele);
-                        
+
             // Organizational Holding
             for (String holdingNo : organizationalHoldingNumbers) {
                 HoldingPublicDisplayDTO item = MasterRepository.getInstance().getPublicDisplayInfoByHoldingNumberOH(holdingNo, kebele);
@@ -822,7 +822,7 @@ public class Administrator {
                 row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
                 HoldingParcelPublicDisplayDTO parcel;
                 HoldingHolderDTO holder;
-                Cell incompleteCell,nameCell;
+                Cell incompleteCell, nameCell;
                 if (holderCount > 0) {
                     holder = item.getHolders().get(0);
                     nameCell = row.createCell(namesCol);
@@ -861,7 +861,7 @@ public class Administrator {
                     }
                 }
             }
-            
+
             /// TODO: Missing parcels Sheet
             Sheet missingSheet = wb.createSheet(CommonStorage.getText("parcels_with_no_textual_information"));
             totalRows = 0;
@@ -966,7 +966,7 @@ public class Administrator {
                 row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
                 HoldingParcelPublicDisplayDTO parcel;
                 HoldingHolderDTO holder;
-                Cell incompleteCell,sexCell;
+                Cell incompleteCell, sexCell;
                 if (holderCount > 0) {
                     holder = item.getHolders().get(0);
                     row.createCell(namesCol).setCellValue(holder.getName());
@@ -1036,7 +1036,7 @@ public class Administrator {
                 iterator.next().setCellStyle(headerStyle);
             }
             ArrayList<String> organizationalHoldingNumbers = MasterRepository.getInstance().getHoldingNumbers(kebele);
-                        
+
             // Organizational Holding
             for (String holdingNo : organizationalHoldingNumbers) {
                 HoldingPublicDisplayDTO item = MasterRepository.getInstance().getPublicDisplayInfoByHoldingNumberOH(holdingNo, kebele);
@@ -1053,7 +1053,7 @@ public class Administrator {
                 row.createCell(holdingNoCol).setCellValue(item.getHoldingNumber());
                 HoldingParcelPublicDisplayDTO parcel;
                 HoldingHolderDTO holder;
-                Cell incompleteCell,nameCell;
+                Cell incompleteCell, nameCell;
                 if (holderCount > 0) {
                     holder = item.getHolders().get(0);
                     nameCell = row.createCell(namesCol);
@@ -1092,7 +1092,7 @@ public class Administrator {
                     }
                 }
             }
-            
+
             /// TODO: Missing parcels Sheet
             Sheet missingSheet = wb.createSheet(CommonStorage.getText("parcels_with_no_textual_information"));
             totalRows = 0;
@@ -1117,7 +1117,6 @@ public class Administrator {
 
     }
 
-    
     protected static void timeBoundPerformanceReport(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Date fromDate = Date.valueOf(request.getParameter("fromDate"));

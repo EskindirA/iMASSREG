@@ -1281,8 +1281,8 @@ public class ReportUtil {
                 row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
                 row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("total")));
 
-                for (int i = 1; i < deos.size(); i++) {
-                    Row tempRow = deosSheet.createRow(i);
+                for (int i = 0; i < deos.size(); i++) {
+                    Row tempRow = deosSheet.createRow(i+1);
                     tempRow.createCell(0).setCellValue(deos.get(i).getName());
                     tempRow.createCell(1).setCellValue(deos.get(i).getFirstEntry());
                     tempRow.createCell(2).setCellValue(deos.get(i).getSecondEntry());
@@ -1312,8 +1312,8 @@ public class ReportUtil {
                 row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
                 row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("committed")));
 
-                for (int i = 1; i < parcels.size(); i++) {
-                    Row tempRow = parcelsSheet.createRow(i);
+                for (int i = 0; i < parcels.size(); i++) {
+                    Row tempRow = parcelsSheet.createRow(i+1);
                     tempRow.createCell(0).setCellValue(parcels.get(i).getUpi());
                     tempRow.createCell(1).setCellValue(parcels.get(i).getFirstEntry());
                     tempRow.createCell(2).setCellValue(parcels.get(i).getSecondEntry());
