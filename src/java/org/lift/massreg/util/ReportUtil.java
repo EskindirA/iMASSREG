@@ -1139,16 +1139,26 @@ public class ReportUtil {
                 alignmentStyleRight.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 
                 titleRow.createCell(0).setCellValue(createHelper.createRichTextString("Kebele"));
-                titleRow.createCell(1).setCellValue(createHelper.createRichTextString("Approved"));
-                titleRow.createCell(2).setCellValue(createHelper.createRichTextString("Not approved"));
-                titleRow.createCell(3).setCellValue(createHelper.createRichTextString("Total"));
+                titleRow.createCell(1).setCellValue(createHelper.createRichTextString("Checked"));
+                titleRow.createCell(2).setCellValue(createHelper.createRichTextString("Not Checked"));
+                titleRow.createCell(3).setCellValue(createHelper.createRichTextString("Approved"));
+                titleRow.createCell(4).setCellValue(createHelper.createRichTextString("Not approved"));
+                titleRow.createCell(5).setCellValue(createHelper.createRichTextString("Printed"));
+                titleRow.createCell(6).setCellValue(createHelper.createRichTextString("Not Printed"));
+                titleRow.createCell(7).setCellValue(createHelper.createRichTextString("Total"));
 
                 // level 2 headers  
                 dataRow.createCell(0).setCellValue(createHelper.createRichTextString(kebeleName));
-
-                dataRow.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfApprovedParcels(kebele));
-                dataRow.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfNotApprovedParcels(kebele));
-                dataRow.createCell(3).setCellValue(MasterRepository.getInstance().getCountOfAllParcels(kebele));
+                dataRow.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfCheckedParcels(kebele));
+                dataRow.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfNotCheckedParcels(kebele));
+                
+                dataRow.createCell(3).setCellValue(MasterRepository.getInstance().getCountOfApprovedParcels(kebele));
+                dataRow.createCell(4).setCellValue(MasterRepository.getInstance().getCountOfNotApprovedParcels(kebele));
+                
+                dataRow.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfPrintedParcels(kebele));
+                dataRow.createCell(6).setCellValue(MasterRepository.getInstance().getCountOfNotPrintedParcels(kebele));
+                
+                dataRow.createCell(7).setCellValue(MasterRepository.getInstance().getCountOfAllParcels(kebele));
 
                 // Format the sheet
                 CellStyle boldCellStyle = wb.createCellStyle();

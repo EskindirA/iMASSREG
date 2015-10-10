@@ -260,8 +260,14 @@ public class CommonStorage {
     public static byte getConfirmedStage() {
         return 10;
     }
-    public static byte getApprovedStage() {
+    public static byte getCheckedStage() {
         return 11;
+    }
+    public static byte getApprovedStage() {
+        return 12;
+    }
+    public static byte getPrintedStage() {
+        return 13;
     }
 
     public static Logger getLogger() {

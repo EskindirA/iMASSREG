@@ -7973,6 +7973,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
+
     public boolean submitForMinorCorrection(OrganizationHolder holder) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
@@ -9146,6 +9147,40 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public long getCountOfCheckedParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='actvie' AND stage = " + CommonStorage.getCheckedStage();
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfNotCheckedParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getConfirmedStage() + " UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage = " + CommonStorage.getCheckedStage() + ")";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
     public long getCountOfApprovedParcels(long kebele) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
@@ -9167,7 +9202,41 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage = " + CommonStorage.getApprovedStage() + ")";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getCheckedStage() + " UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage = " + CommonStorage.getApprovedStage() + ")";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPrintedParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='actvie' AND stage = " + CommonStorage.getPrintedStage();
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfNotPrintedParcels(long kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getApprovedStage() + " UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage = " + CommonStorage.getPrintedStage() + ")";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9184,7 +9253,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage > " + CommonStorage.getCommitedStage();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
