@@ -269,9 +269,10 @@ public class SecondEntry {
 
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
-            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+            if (request.getParameter("holdingLotNumber") != null && !request.getParameter("holdingLotNumber").trim().isEmpty()) {
                 p.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
             }
+
             p.setMapSheetNo(request.getParameter("mapsheetNumber"));
 
             p.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
@@ -332,15 +333,17 @@ public class SecondEntry {
 
             newParcel.setCertificateNumber(request.getParameter("certificateNumber"));
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
-            if (request.getParameter("holdingLotNumber") != null && !"".equals(request.getParameter("holdingLotNumber").trim())) {
+            if (request.getParameter("holdingLotNumber") != null && !request.getParameter("holdingLotNumber").trim().isEmpty()) {
                 newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
             }
+
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             newParcel.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
             newParcel.setMapSheetNo(request.getParameter("mapsheetNumber"));
             newParcel.setAcquisition(Byte.parseByte(request.getParameter("meansOfAcquisition")));
             newParcel.setAcquisitionYear(Integer.parseInt(request.getParameter("acquisitionYear")));
+            
             newParcel.setCurrentLandUse(Byte.parseByte(request.getParameter("currentLandUse")));
             newParcel.setEncumbrance(Byte.parseByte(request.getParameter("encumbrance")));
             newParcel.setHolding(Byte.parseByte(request.getParameter("holdingType")));

@@ -637,7 +637,7 @@ public class FirstEntry {
 
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
-            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+            if (request.getParameter("holdingLotNumber") != null && !request.getParameter("holdingLotNumber").trim().isEmpty()) {
                 p.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
             }
 
@@ -816,7 +816,7 @@ public class FirstEntry {
             newParcel.setCurrentLandUse(Byte.parseByte(request.getParameter("currentLandUse")));
             newParcel.setEncumbrance(Byte.parseByte(request.getParameter("encumbrance")));
             newParcel.setHolding(Byte.parseByte(request.getParameter("holdingType")));
-            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+            if (request.getParameter("holdingLotNumber") != null && !request.getParameter("holdingLotNumber").trim().isEmpty()) {
                 newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
             }
             newParcel.setOtherEvidence(Byte.parseByte(request.getParameter("otherEvidence")));

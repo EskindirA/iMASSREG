@@ -134,7 +134,7 @@ public class CorrectionFirstEntry {
             p.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             p.setCertificateNumber(request.getParameter("certificateNumber"));
             p.setHoldingNumber(request.getParameter("holdingNumber"));
-            if (request.getParameter("holdingLotNumber") != null && !"".equals(request.getParameter("holdingLotNumber").trim())) {
+            if (request.getParameter("holdingLotNumber") != null && !request.getParameter("holdingLotNumber").trim().isEmpty()) {
                 p.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
             }
             p.setMapSheetNo(request.getParameter("mapsheetNumber"));
@@ -840,7 +840,7 @@ public class CorrectionFirstEntry {
             newParcel.setHoldingNumber(request.getParameter("holdingNumber"));
             newParcel.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
             request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
-            if (request.getParameter("holdingLotNumber") != null && request.getParameter("holdingLotNumber").trim() != "") {
+            if (request.getParameter("holdingLotNumber") != null && !request.getParameter("holdingLotNumber").trim().isEmpty()) {
                 newParcel.setHoldingLotNumber(Integer.parseInt(request.getParameter("holdingLotNumber")));
             }
             newParcel.setMapSheetNo(request.getParameter("mapsheetNumber"));
