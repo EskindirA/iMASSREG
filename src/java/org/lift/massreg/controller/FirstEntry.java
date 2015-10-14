@@ -650,6 +650,8 @@ public class FirstEntry {
             p.setHolding(Byte.parseByte(request.getParameter("holdingType")));
             p.setOtherEvidence(Byte.parseByte(request.getParameter("otherEvidence")));
             p.setSoilFertility(Byte.parseByte(request.getParameter("soilFertility")));
+            p.setCertificateNumber(request.getParameter("certificateNumber"));
+
             p.setStage(CommonStorage.getFEStage());
             p.setSurveyDate(request.getParameter("surveyDate"));
             p.hasDispute(Boolean.parseBoolean(request.getParameter("hasDispute")));

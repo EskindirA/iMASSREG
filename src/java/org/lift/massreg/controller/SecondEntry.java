@@ -264,6 +264,7 @@ public class SecondEntry {
             p.setUpi(request.getSession().getAttribute("upi").toString());
             p.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             p.setTeamNo(Byte.parseByte(request.getParameter("teamNo")));
+            p.setCertificateNumber(request.getParameter("certificateNumber"));
 
             request.getSession().setAttribute("teamNo", request.getParameter("teamNo"));
 
