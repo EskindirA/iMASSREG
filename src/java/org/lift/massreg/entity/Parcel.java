@@ -834,7 +834,7 @@ public class Parcel implements Entity {
     public static boolean delete(HttpServletRequest request, Timestamp registeredOn, String upi, byte stage) {
         return MasterRepository.getInstance().deleteParcel(request, registeredOn, upi, stage);
     }
-
+    
     public static ParcelDifference difference(Parcel firstParcel, Parcel secondParcel) {
         ParcelDifference returnValue = new ParcelDifference();
 

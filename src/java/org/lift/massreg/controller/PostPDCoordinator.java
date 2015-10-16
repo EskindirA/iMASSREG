@@ -37,6 +37,8 @@ public class PostPDCoordinator {
             request.getSession().setAttribute("kebele", kebele);
             ArrayList<Parcel> parcelsInCommitted = MasterRepository.getInstance().getALLParcelsInCommitted(request.getSession().getAttribute("kebele").toString());
             request.setAttribute("parcelsInCommitted", parcelsInCommitted);
+            ArrayList<Parcel> printedParcels = MasterRepository.getInstance().getAllPrintedParcels(request.getSession().getAttribute("kebele").toString());
+            request.setAttribute("printedParcels", printedParcels);
             request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_PDC));
         }
 
@@ -55,7 +57,9 @@ public class PostPDCoordinator {
     protected static void welcomeForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<Parcel> parcelsInCommitted = MasterRepository.getInstance().getALLParcelsInCommitted(request.getSession().getAttribute("kebele").toString());
+        ArrayList<Parcel> printedParcels = MasterRepository.getInstance().getAllPrintedParcels(request.getSession().getAttribute("kebele").toString());
         request.setAttribute("parcelsInCommitted", parcelsInCommitted);
+        request.setAttribute("printedParcels", printedParcels);
         RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_PDC));
         rd.forward(request, response);
     }
@@ -74,7 +78,7 @@ public class PostPDCoordinator {
         if (request.getParameter("holdingLot") != null && !request.getParameter("holdingLot").trim().isEmpty()) {
             int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
             parcel.submitForMinorCorrection(holdingLot);
-        }else{
+        } else {
             parcel.submitForMinorCorrection();
         }
         welcomeForm(request, response);
@@ -94,7 +98,7 @@ public class PostPDCoordinator {
         if (request.getParameter("holdingLot") != null && !request.getParameter("holdingLot").trim().isEmpty()) {
             int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
             parcel.submitForMajorCorrection(holdingLot);
-        }else{
+        } else {
             parcel.submitForMajorCorrection();
         }
         welcomeForm(request, response);
@@ -115,7 +119,7 @@ public class PostPDCoordinator {
         if (request.getParameter("holdingLot") != null && !request.getParameter("holdingLot").trim().isEmpty()) {
             int holdingLot = Integer.parseInt(request.getParameter("holdingLot"));
             parcel.submitToConfirmed(holdingLot);
-        }else{
+        } else {
             parcel.submitToConfirmed();
         }
         welcomeForm(request, response);
@@ -166,4 +170,19 @@ public class PostPDCoordinator {
 
     }
 
+    /**
+     * Handlers request for sending a parcel to correction after printout
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
+     */
+    protected static void reprintOrder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getPrintedStage());
+        MasterRepository.getInstance().reprintOrder(request, parcel.getUpi());
+        parcel.submitForMinorCorrection();
+        welcomeForm(request, response);
+    }
 }

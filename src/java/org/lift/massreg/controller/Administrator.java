@@ -870,7 +870,10 @@ public class Administrator {
             }
             ArrayList<String> missingParcels = MasterRepository.getInstance().getParcelsWithoutHolder(kebele);
             for (String parcel : missingParcels) {
-                missingSheet.createRow(totalRows++).createCell(0).setCellValue(String.format("%05d", Integer.parseInt(parcel)));
+                try {
+                    missingSheet.createRow(totalRows++).createCell(0).setCellValue(String.format("%05d", Integer.parseInt(parcel)));
+                } catch (Exception e) {
+                }
             }
 
             wb.write(fileOut);

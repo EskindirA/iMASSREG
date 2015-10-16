@@ -1099,6 +1099,32 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public boolean reprintOrder(HttpServletRequest request, String upi) {
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE Parcel SET status='reprint' WHERE upi=? and stage>"+CommonStorage.getCommitedStage());
+            stmnt.executeUpdate();
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            stmnt = connection.prepareStatement("INSERT INTO changelog(activitydate, userid, tablename,actiontype) VALUES (?, ?, ?, ?)");
+            stmnt.setTimestamp(1, Timestamp.from(Instant.now()));
+            stmnt.setLong(2, CommonStorage.getCurrentUser(request).getUserId());
+            stmnt.setString(3, "Parcel");
+            stmnt.setString(4, "REPRINT");
+            result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (Exception ex) {
+            returnValue = false;
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
     public void completeParcel(String upi, byte stage, Timestamp registeredOn) {
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE parcel SET completed=? "
@@ -7146,6 +7172,59 @@ public class MasterRepository {
             String query = "SELECT * FROM Parcel WHERE stage = 4 and status='active' and upi not in (SELECT upi FROM Parcel WHERE stage >= 5 and status='active')";
             if (!kebele.equalsIgnoreCase("all")) {
                 query += " and UPI LIKE '" + kebele + "/%'";
+            }
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                Parcel parcel = new Parcel();
+                parcel.setUpi(rs.getString("upi"));
+                parcel.setCertificateNumber(rs.getString("certificateno"));
+                parcel.hasDispute(rs.getBoolean("hasdispute"));
+                parcel.setAcquisition(rs.getByte("acquisitiontype"));
+                parcel.setSurveyDate(rs.getString("surveydate"));
+
+                /*parcel.setAcquisitionYear(rs.getInt("acquisitionyear"));
+                 parcel.setCurrentLandUse(rs.getByte("landusetype"));
+                 parcel.setEncumbrance(rs.getByte("encumbrancetype"));
+                 parcel.setHolding(rs.getByte("holdingtype"));
+                 parcel.setHoldingNumber(rs.getString("holdingno"));
+                 parcel.setMapSheetNo(rs.getString("mapsheetno"));
+                 parcel.setOtherEvidence(rs.getByte("otherevidence"));
+                 parcel.setParcelId(rs.getInt("parcelid"));
+                 parcel.setRegisteredBy(rs.getLong("registeredby"));
+                 parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
+                 parcel.setStage(rs.getByte("stage"));
+                 parcel.setStatus(rs.getString("status"));
+                
+                 parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
+                
+                 parcel.setTeamNo(rs.getByte("teamNo"));
+                 if (parcel.hasDispute()) {
+                 parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
+                 }
+                 if (parcel.getHolding() == 1) {
+                 parcel.setIndividualHolders(getAllIndividualHolders(parcel.getUpi(), parcel.getStage()));
+                 parcel.setPersonsWithInterest(getAllPersonsWithInterest(parcel.getUpi(), parcel.getStage()));
+                 } else {
+                 parcel.setOrganaizationHolder(getOrganaizationHolder(parcel.getUpi(), parcel.getStage()));
+                 }
+                 */
+                returnValue.add(parcel);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public ArrayList<Parcel> getAllPrintedParcels(String kebele) {
+        ArrayList<Parcel> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT * FROM Parcel WHERE stage = " + CommonStorage.getPrintedStage() + " AND status='active'";
+            if (!kebele.equalsIgnoreCase("all")) {
+                query += " AND UPI LIKE '" + kebele + "/%'";
             }
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();

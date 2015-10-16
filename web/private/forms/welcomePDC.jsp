@@ -4,13 +4,15 @@
 <%@page import="java.util.ArrayList"%>
 <%
     ArrayList<Parcel> parcelsInCommitted = (ArrayList<Parcel>) request.getAttribute("parcelsInCommitted");
-
+    ArrayList<Parcel> printedParcels = (ArrayList<Parcel>) request.getAttribute("printedParcels");
     String minorCorrectionURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_MINOR_CORRECTION_PDC;
     String majorCorrectionURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_MAJOR_CORRECTION_PDC;
     String confirmedURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_CONFIRMED_PARCEL_PDC;
     String findurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_FIND_PARCEL_PDC;
+    String filterprintedurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PRINTED_PARCEL_LIST_PDC;
     String filterurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PARCEL_LIST_PDC;
     String checkListurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PRINT_CHECKLIST_PDC;
+    String reprintURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_REPRINT_PARCEL_PDC;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -20,13 +22,13 @@
     </div>
     <div class="bs-example">
         <ul class="nav nav-tabs" style="margin-bottom: 15px;">
-            <li class="active"><a href="#correctionParcels" data-toggle="tab"><%=CommonStorage.getText("committed")%></a></li>
-            <!--li><a href="#findParcel" data-toggle="tab"><%=CommonStorage.getText("find_a_parcel")%></a></li-->
+            <li <%=request.getSession().getAttribute("action").toString().equalsIgnoreCase(Constants.ACTION_PRINTED_PARCEL_LIST_PDC) ? "" : "class='active'"%>><a href="#correctionParcels" data-toggle="tab"><%=CommonStorage.getText("committed")%></a></li>
+            <li <%=request.getSession().getAttribute("action").toString().equalsIgnoreCase(Constants.ACTION_PRINTED_PARCEL_LIST_PDC) ? "class='active'" : ""%>><a href="#printedParcels" data-toggle="tab"><%=CommonStorage.getText("printed")%></a></li>
             <li><a href="#checkList" data-toggle="tab"><%=CommonStorage.getText("check_list")%></a></li>
             <!--li class="disabled"><a>Disabled</a></li-->
         </ul>
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="correctionParcels">
+            <div class="tab-pane fade <%=request.getSession().getAttribute("action").toString().equalsIgnoreCase(Constants.ACTION_PRINTED_PARCEL_LIST_PDC) ? "" : "active in"%>" id="correctionParcels">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -155,6 +157,69 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade <%=request.getSession().getAttribute("action").toString().equalsIgnoreCase(Constants.ACTION_PRINTED_PARCEL_LIST_PDC) ? "active in" : ""%>" id="printedParcels">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-lg-7"><%=CommonStorage.getText("printed_parcels")%></div>
+                                    <div class="col-lg-2" style="vertical-align: middle"><label style="float: right"><%=CommonStorage.getText("kebele")%></label></div>
+                                    <div class="col-lg-3" style="vertical-align: middle">
+                                        <select class="form-control" id="printedParcelsDisplayKebele" name="printedParcelsDisplayKebele">
+                                            <%
+                                                kebeles = MasterRepository.getInstance().getAllKebeles();
+                                                //out.println("<option value = 'all'>" + CommonStorage.getText("select_a_kebele") + "</option>");
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>" + kebeles[i].getValue() + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" >
+                                <div>
+                                    <table class="table table-striped table-bordered table-hover" id="printedParcelsDataTable" >
+                                        <thead>
+                                            <tr>
+                                                <th><%=CommonStorage.getText("administrative_upi")%></th>
+                                                <th><%=CommonStorage.getText("certificate_number")%></th>
+                                                <th><%=CommonStorage.getText("has_dispute")%></th>
+                                                <th><%=CommonStorage.getText("means_of_acquisition")%></th>
+                                                <th><%=CommonStorage.getText("survey_date")%></th>
+                                                <th><%=CommonStorage.getText("fix")%></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                for (int i = 0; i < printedParcels.size(); i++) {
+                                                    if (i % 2 == 0) {
+                                                        out.println("<tr class='odd gradeA'>");
+                                                    } else {
+                                                        out.println("<tr class='even gradeA'>");
+                                                    }
+                                                    out.println("<td>" + printedParcels.get(i).getUpi() + "</td>");
+                                                    out.println("<td>" + printedParcels.get(i).getCertificateNumber() + "</td>");
+                                                    out.println("<td>" + printedParcels.get(i).hasDisputeText() + "</td>");
+                                                    out.println("<td>" + printedParcels.get(i).getMeansOfAcquisition() + "</td>");
+                                                    out.println("<td>" + printedParcels.get(i).getSurveyDate() + "</td>");
+
+                                                    out.print("<td>");
+                                                    out.print("<a href = '#' class='reprintParcelButton' "
+                                                            + "data-upi='" + printedParcels.get(i).getUpi() + "'>" + CommonStorage.getText("reprint") + "</a>");
+                                                    out.println("</td>");
+                                                }
+
+                                            %>
+                                        </tbody>
+                                    </table>
+                                </div> <!-- /.table-responsive -->
+                            </div> <!-- /.panel-body -->
+                        </div> <!-- /.panel -->
+                    </div> <!-- /.col-lg-12 -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -187,9 +252,19 @@
             error: showajaxerror,
             success: loadInPlace
         });
+    }function reprint(upi) {
+        $.ajax({
+            type: 'POST',
+            url: "<%=reprintURL%>",
+            data: {"upi": upi},
+            error: showajaxerror,
+            success: loadInPlace
+        });
     }
 
     $("#displayKebele").val('<%=request.getSession().getAttribute("kebele").toString()%>');
+
+    $("#printedParcelsDisplayKebele").val('<%=request.getSession().getAttribute("kebele").toString()%>');
 
     $("#displayKebele").change(function () {
         if ($("#displayKebele").val() === "") {
@@ -201,14 +276,41 @@
                 error: showajaxerror,
                 type: 'POST',
                 data: {
+                    "action": "<%=Constants.ACTION_PARCEL_LIST_PDC%>",
                     "kebele": $("#displayKebele").val()},
                 url: '<%=filterurl%>'
             });
         }
         return false;
     });
+
+    $("#printedParcelsDisplayKebele").change(function () {
+        if ($("#printedParcelsDisplayKebele").val() === "") {
+            showError("Please select a kebele");
+        }
+        else { // Call to the service to get the view parcel form
+            $.ajax({
+                success: loadInPlace,
+                error: showajaxerror,
+                type: 'POST',
+                data: {
+                    "action": "<%=Constants.ACTION_PRINTED_PARCEL_LIST_PDC%>",
+                    "kebele": $("#printedParcelsDisplayKebele").val()},
+                url: '<%=filterprintedurl%>'
+            });
+        }
+
+        return false;
+    });
     $('#dataTables').dataTable({
         "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
+    });
+    $('#printedParcelsDataTable').dataTable({
+        "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
+    });
+
+    $("#dataTables").on("click", ".reprintParcelButton", function () {
+        reprint($(this).attr("data-upi"));
     });
     $("#dataTables").on("click", ".takeActionButton", function () {
         var upi = $(this).attr("data-upi");

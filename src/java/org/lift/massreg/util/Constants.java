@@ -327,6 +327,8 @@ public interface Constants {
     public static final String ACTION_VIEW_PARCEL_WC = "VIEW_PARCEL_WC";
 
     public static final String ACTION_PRINT_CHECKLIST_PDC = "PRINT_CHECKLIST_PDC";
+    public static final String ACTION_PRINTED_PARCEL_LIST_PDC = "PRINTED_PARCEL_LIST_PDC";
+    public static final String ACTION_REPRINT_PARCEL_PDC = "REPRINT_PARCEL_PDC";
     public static final String ACTION_DELETE_WC = "DELETE_WC";
 
     public static final String ACTION_PRINT_CERTIFCATE_WC = "PRINT_CERTIFCATE_PART_WC";
