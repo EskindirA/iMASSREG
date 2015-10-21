@@ -1258,8 +1258,8 @@ public class ReportUtil {
                     tempRow.createCell(0).setCellValue(results.get(i).getUpi());
                     tempRow.createCell(1).setCellValue(results.get(i).getFirstEntry());
                     tempRow.createCell(2).setCellValue(results.get(i).getSecondEntry());
-                    tempRow.createCell(3).setCellValue(results.get(i).isCorrection());
-                    tempRow.createCell(4).setCellValue(results.get(i).isCorrection());
+                    tempRow.createCell(3).setCellValue(results.get(i).isCorrectionText());
+                    tempRow.createCell(4).setCellValue(results.get(i).isCorrectionText());
 
                 }
                 CellStyle cellStyle = wb.createCellStyle();
