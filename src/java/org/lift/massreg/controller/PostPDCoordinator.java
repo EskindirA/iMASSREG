@@ -180,9 +180,19 @@ public class PostPDCoordinator {
      */
     protected static void reprintOrder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getPrintedStage());
-        MasterRepository.getInstance().reprintOrder(request, parcel.getUpi());
-        parcel.submitForMinorCorrection();
-        welcomeForm(request, response);
+        if (MasterRepository.getInstance().parcelExists(request.getParameter("upi"), CommonStorage.getPrintedStage())) {
+            Parcel parcel = MasterRepository.getInstance().getParcel(request.getParameter("upi"), CommonStorage.getPrintedStage());
+            MasterRepository.getInstance().reprintOrder(request, request.getParameter("upi"));
+            parcel.submitForMinorCorrection();
+            welcomeForm(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Error");
+            request.getSession().setAttribute("message", "The parcel you are trying to fix does not exist in the database.");
+            request.getSession().setAttribute("returnTitle", "Go back to the welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+
     }
 }

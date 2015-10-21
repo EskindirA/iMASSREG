@@ -252,7 +252,8 @@
             error: showajaxerror,
             success: loadInPlace
         });
-    }function reprint(upi) {
+    }
+    function reprint(upi) {
         $.ajax({
             type: 'POST',
             url: "<%=reprintURL%>",
@@ -309,8 +310,14 @@
         "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
     });
 
-    $("#dataTables").on("click", ".reprintParcelButton", function () {
-        reprint($(this).attr("data-upi"));
+    $("#printedParcelsDataTable").on("click", ".reprintParcelButton", function () {
+        var upi = $(this).attr("data-upi");
+        bootbox.confirm("<%=CommonStorage.getText("are_you_sure_you_want_to_reprint_this_parcel")%>:" + upi + " ?", function (result) {
+            if (result) {
+                reprint(upi);
+            }
+        });
+
     });
     $("#dataTables").on("click", ".takeActionButton", function () {
         var upi = $(this).attr("data-upi");

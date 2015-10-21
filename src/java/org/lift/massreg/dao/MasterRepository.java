@@ -1104,6 +1104,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         try {
             PreparedStatement stmnt = connection.prepareStatement("UPDATE Parcel SET status='reprint' WHERE upi=? and stage>"+CommonStorage.getCommitedStage());
+            stmnt.setString(1, upi);
             stmnt.executeUpdate();
             int result = stmnt.executeUpdate();
             if (result < 1) {
