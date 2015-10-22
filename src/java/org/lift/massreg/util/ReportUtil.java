@@ -99,10 +99,10 @@ public class ReportUtil {
                         row1.createCell(6).setCellValue(createHelper.createRichTextString("Report generated on"));
                         row1.createCell(7).setCellValue(createHelper.createRichTextString("Start"));
                         row1.createCell(8).setCellValue(createHelper.createRichTextString("End"));
-                        
+
                         row1.createCell(9).setCellValue(createHelper.createRichTextString("Total number of non committed parcels"));
                         row1.createCell(10).setCellValue(createHelper.createRichTextString("Total number of committed parcels"));
-                        
+
                         Row row2 = tempSheet.createRow((short) 2);
                         row2.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getCurrentWoredaName()));
                         row2.createCell(1).setCellValue(createHelper.createRichTextString(kebele.getValue()));
@@ -140,7 +140,7 @@ public class ReportUtil {
                         row9.createCell(3).setCellValue(createHelper.createRichTextString("All"));
                         row9.createCell(4).setCellValue(MasterRepository.getInstance().getCountOfAllNonCommittedParcels(fromDate, toDate, kebele.getKey()));
                         row9.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfAllCommittedParcels(fromDate, toDate, kebele.getKey()));
-                        
+
                         row9.createCell(9).setCellValue(MasterRepository.getInstance().getCountOfAllNonCommittedParcels(kebele.getKey()));
                         row9.createCell(10).setCellValue(MasterRepository.getInstance().getCountOfAllCommittedParcels(kebele.getKey()));
                         // Sheet Format
@@ -151,10 +151,9 @@ public class ReportUtil {
                         tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 7, 7));
                         tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 8, 8));
                         tempSheet.addMergedRegion(new CellRangeAddress(0, 0, 7, 8));
-                        
+
                         //tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 9, 9));
                         //tempSheet.addMergedRegion(new CellRangeAddress(2, 9, 10, 10));
-                        
                         tempSheet.autoSizeColumn(0, true);
                         tempSheet.autoSizeColumn(1, true);
                         tempSheet.autoSizeColumn(2, true);
@@ -1163,13 +1162,13 @@ public class ReportUtil {
                 dataRow.createCell(0).setCellValue(createHelper.createRichTextString(kebeleName));
                 dataRow.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfCheckedParcels(kebele));
                 dataRow.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfNotCheckedParcels(kebele));
-                
+
                 dataRow.createCell(3).setCellValue(MasterRepository.getInstance().getCountOfApprovedParcels(kebele));
                 dataRow.createCell(4).setCellValue(MasterRepository.getInstance().getCountOfNotApprovedParcels(kebele));
-                
+
                 dataRow.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfPrintedParcels(kebele));
                 dataRow.createCell(6).setCellValue(MasterRepository.getInstance().getCountOfNotPrintedParcels(kebele));
-                
+
                 dataRow.createCell(7).setCellValue(MasterRepository.getInstance().getCountOfAllParcels(kebele));
 
                 // Format the sheet
@@ -1202,16 +1201,18 @@ public class ReportUtil {
                 Sheet parcelsSheet = wb.createSheet("Parcels in " + kebeleName);
                 Row row0 = parcelsSheet.createRow((short) 0);
                 row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("administrative_upi")));
-                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("area")));
-                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("has_dispute")));
-                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("incomplete")));
-                
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("holding_number")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("area")));
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("has_dispute")));
+                row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("incomplete")));
+
                 for (int i = 1; i < parcels.size(); i++) {
                     Row tempRow = parcelsSheet.createRow(i);
                     tempRow.createCell(0).setCellValue(parcels.get(i).getUpi());
-                    tempRow.createCell(1).setCellValue(parcels.get(i).getArea());
-                    tempRow.createCell(2).setCellValue(parcels.get(i).hasDispute());
-                    tempRow.createCell(3).setCellValue(parcels.get(i).hasMissingValue());
+                    tempRow.createCell(1).setCellValue(parcels.get(i).getHoldingNumber());
+                    tempRow.createCell(2).setCellValue(parcels.get(i).getArea());
+                    tempRow.createCell(3).setCellValue(parcels.get(i).hasDispute());
+                    tempRow.createCell(4).setCellValue(parcels.get(i).hasMissingValue());
 
                 }
                 CellStyle cellStyle = wb.createCellStyle();
@@ -1282,7 +1283,7 @@ public class ReportUtil {
                 row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("total")));
 
                 for (int i = 0; i < deos.size(); i++) {
-                    Row tempRow = deosSheet.createRow(i+1);
+                    Row tempRow = deosSheet.createRow(i + 1);
                     tempRow.createCell(0).setCellValue(deos.get(i).getName());
                     tempRow.createCell(1).setCellValue(deos.get(i).getFirstEntry());
                     tempRow.createCell(2).setCellValue(deos.get(i).getSecondEntry());
@@ -1313,7 +1314,7 @@ public class ReportUtil {
                 row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("committed")));
 
                 for (int i = 0; i < parcels.size(); i++) {
-                    Row tempRow = parcelsSheet.createRow(i+1);
+                    Row tempRow = parcelsSheet.createRow(i + 1);
                     tempRow.createCell(0).setCellValue(parcels.get(i).getUpi());
                     tempRow.createCell(1).setCellValue(parcels.get(i).getFirstEntry());
                     tempRow.createCell(2).setCellValue(parcels.get(i).getSecondEntry());
@@ -1373,7 +1374,7 @@ public class ReportUtil {
                     tempRow.createCell(0).setCellValue(indvidualHolders.get(i).getPhotoId());
                     tempRow.createCell(1).setCellValue(indvidualHolders.get(i).getFullNume());
                 }
-                
+
                 CellStyle cellStyle = wb.createCellStyle();
                 Font hSSFFont = wb.createFont();
                 hSSFFont.setFontName("Calibri");

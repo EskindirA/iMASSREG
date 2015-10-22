@@ -1103,7 +1103,7 @@ public class MasterRepository {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("UPDATE Parcel SET status='reprint' WHERE upi=? and stage>"+CommonStorage.getCommitedStage());
+            PreparedStatement stmnt = connection.prepareStatement("UPDATE Parcel SET status='reprint' WHERE upi=? and stage>" + CommonStorage.getCommitedStage());
             stmnt.setString(1, upi);
             stmnt.executeUpdate();
             int result = stmnt.executeUpdate();
@@ -1126,6 +1126,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
+
     public void completeParcel(String upi, byte stage, Timestamp registeredOn) {
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE parcel SET completed=? "
@@ -9391,13 +9392,14 @@ public class MasterRepository {
         ArrayList<ParcelApprovalDetailDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status FROM parcel WHERE stage=" + CommonStorage.getConfirmedStage() + " and status='active' AND UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status, holding_lot FROM parcel WHERE stage=" + CommonStorage.getConfirmedStage() + " and status='active' AND UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt2 = connection.prepareStatement(query);
             ResultSet parcels = stmnt2.executeQuery();
             while (parcels.next()) {
                 boolean hasMissingValue = false;
                 ParcelApprovalDetailDTO parcel = new ParcelApprovalDetailDTO();
                 parcel.setUpi(parcels.getString("upi"));
+                parcel.setHoldingNumber(parcels.getString("holdingno") + "/" + parcels.getInt("holding_lot"));
                 parcel.setArea(parcels.getDouble("area"));
                 parcel.hasDispute(parcels.getBoolean("hasdispute"));
 

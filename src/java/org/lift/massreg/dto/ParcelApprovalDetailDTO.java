@@ -5,9 +5,10 @@ package org.lift.massreg.dto;
  * @version 2.0
  * @since 2.0
  */
-
 public class ParcelApprovalDetailDTO {
-   private String upi;
+
+    private String upi;
+    private String holdingNumber;
     private double area;
     private boolean missingValue;
     private boolean hasDispute;
@@ -20,6 +21,14 @@ public class ParcelApprovalDetailDTO {
         this.upi = upi;
     }
 
+    public String getHoldingNumber() {
+        return holdingNumber;
+    }
+
+    public void setHoldingNumber(String holdingNumber) {
+        this.holdingNumber = holdingNumber;
+    }
+    
     public double getArea() {
         return area;
     }
@@ -44,6 +53,4 @@ public class ParcelApprovalDetailDTO {
         this.hasDispute = hasDispute;
     }
 
-    
-     
 }
