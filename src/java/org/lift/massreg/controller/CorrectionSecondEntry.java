@@ -48,7 +48,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for getting the add parcel form 
+     * Handlers request for getting the add parcel form
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -114,8 +114,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for getting the edit parcel form 
-     * operator
+     * Handlers request for getting the edit parcel form operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -150,7 +149,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to delete a parcel 
+     * Handlers request to delete a parcel
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -218,7 +217,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for viewing a parcel 
+     * Handlers request for viewing a parcel
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -244,7 +243,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to save parcel form 
+     * Handlers request to save parcel form
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -315,7 +314,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to update parcel details 
+     * Handlers request to update parcel details
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -387,7 +386,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to add organization holder 
+     * Handlers request to add organization holder
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -424,7 +423,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to save a holder 
+     * Handlers request to save a holder
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -454,7 +453,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to view parcel holder 
+     * Handlers request to view parcel holder
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -486,7 +485,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to save organization holder 
+     * Handlers request to save organization holder
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -514,7 +513,7 @@ public class CorrectionSecondEntry {
                     if (parcel.hasDispute()) {
                         viewDisputeList(request, response);
                     } else {
-                        commit(request, response);
+                        confirm(request, response);
                     }
                 } else {
                     // if the parcel fails to validate show error message
@@ -539,8 +538,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to edit organization holder form 
-     * operator
+     * Handlers request to edit organization holder form operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -630,7 +628,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to save an individual holder 
+     * Handlers request to save an individual holder
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -686,8 +684,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for viewing an individual holder 
-     * operator
+     * Handlers request for viewing an individual holder operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -772,8 +769,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to delete an individual holder 
-     * operator
+     * Handlers request to delete an individual holder operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -798,7 +794,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to view organization holder 
+     * Handlers request to view organization holder
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -884,7 +880,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for viewing a guardian 
+     * Handlers request for viewing a guardian
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -910,8 +906,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to save a person with interest 
-     * operator
+     * Handlers request to save a person with interest operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -963,8 +958,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for viewing a person with interest 
-     * operator
+     * Handlers request for viewing a person with interest operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1121,7 +1115,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to view dispute list 
+     * Handlers request to view dispute list
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1145,7 +1139,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to save a dispute 
+     * Handlers request to save a dispute
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1204,7 +1198,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for viewing a dispute 
+     * Handlers request for viewing a dispute
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1230,8 +1224,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request for getting the edit dispute form 
-     * operator
+     * Handlers request for getting the edit dispute form operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1258,8 +1251,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to update dispute information 
-     * operator
+     * Handlers request to update dispute information operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1310,7 +1302,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to delete a dispute 
+     * Handlers request to delete a dispute
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1335,7 +1327,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to finish data entry 
+     * Handlers request to finish data entry
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1343,25 +1335,25 @@ public class CorrectionSecondEntry {
      * @throws java.io.IOException
      */
     protected static void finishOrganizationHolder(HttpServletRequest request, HttpServletResponse response)
-                                                                                                                                                                                                                                                                    throws ServletException, IOException {
-                                                                                                                                                                                                                                                                Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getMajorCorrectionSEStage());
-                                                                                                                                                                                                                                                                request.setAttribute("currentParcel", parcel);
-                                                                                                                                                                                                                                                                // if the parcel does exist in database
-                                                                                                                                                                                                                                                                if (request.getAttribute("currentParcel") != null) {
-                                                                                                                                                                                                                                                                    parcel.complete();
-                                                                                                                                                                                                                                                                    commit(request, response);
-                                                                                                                                                                                                                                                                } else {
-                                                                                                                                                                                                                                                                    request.getSession().setAttribute("title", "Inrernal Error");
-                                                                                                                                                                                                                                                                    request.getSession().setAttribute("message", "Sorry, some internal error has happend");
-                                                                                                                                                                                                                                                                    request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
-                                                                                                                                                                                                                                                                    request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
-                                                                                                                                                                                                                                                                    RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
-                                                                                                                                                                                                                                                                    rd.forward(request, response);
-                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                            }
+            throws ServletException, IOException {
+        Parcel parcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getMajorCorrectionSEStage());
+        request.setAttribute("currentParcel", parcel);
+        // if the parcel does exist in database
+        if (request.getAttribute("currentParcel") != null) {
+            parcel.complete();
+            confirm(request, response);
+        } else {
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+    }
 
     /**
-     * Handlers request to finish data entry 
+     * Handlers request to finish data entry
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1375,7 +1367,7 @@ public class CorrectionSecondEntry {
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
             parcel.complete();
-            commit(request, response);
+            confirm(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
@@ -1387,7 +1379,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to finish data entry 
+     * Handlers request to finish data entry
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1401,7 +1393,7 @@ public class CorrectionSecondEntry {
         // if the parcel does exist in database
         if (request.getAttribute("currentParcel") != null) {
             parcel.complete();
-            commit(request, response);
+            confirm(request, response);
         } else {
             request.getSession().setAttribute("title", "Inrernal Error");
             request.getSession().setAttribute("message", "Sorry, some internal error has happend");
@@ -1413,8 +1405,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to update guardian information 
-     * operator
+     * Handlers request to update guardian information operator
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1472,7 +1463,7 @@ public class CorrectionSecondEntry {
      * @throws javax.servlet.ServletException
      * @throws java.io.IOException
      */
-    protected static void commit(HttpServletRequest request, HttpServletResponse response)
+    protected static void confirm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getSession().setAttribute("reviewMode", false);
         Parcel feoParcel = MasterRepository.getInstance().getParcel(request.getSession().getAttribute("upi").toString(), CommonStorage.getMajorCorrectionFEStage());
@@ -1482,7 +1473,7 @@ public class CorrectionSecondEntry {
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_MCDEO));
             rd.forward(request, response);
         } else if (seoParcel.equalsParcel(feoParcel)) {
-            seoParcel.commit();
+            seoParcel.submitToConfirmed();
             request.getSession().setAttribute("upi", null);
             request.getSession().setAttribute("parcelNo", null);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_MCDEO));
@@ -1494,7 +1485,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to view list of guardians 
+     * Handlers request to view list of guardians
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1531,7 +1522,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to delete a guardian 
+     * Handlers request to delete a guardian
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1554,7 +1545,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request try commit the current parcel to confirmed status
+     * Handlers request try confirm the current parcel to confirmed status
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
@@ -1568,7 +1559,7 @@ public class CorrectionSecondEntry {
     }
 
     /**
-     * Handlers request to save a guardian 
+     * Handlers request to save a guardian
      *
      * @param request request object passed from the main controller
      * @param response response object passed from the main controller
