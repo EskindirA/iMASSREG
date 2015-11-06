@@ -9532,7 +9532,7 @@ public class MasterRepository {
         ArrayList<HolderListDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " and status='active'";
+            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " AND status='active' AND upi LIKE '"+kebele+"/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet holders = stmnt.executeQuery();
             while (holders.next()) {
@@ -9551,4 +9551,22 @@ public class MasterRepository {
         return returnValue;
     }
 
+    public void copyGISDate(long kebele) {
+        try {
+            String query = "INSERT INTO gis(kebele_code,parcel_id,the_geom) SELECT kebele_code,parcel_id,the_geom FROM dblink("
+                    + getDBLinkString() + " ,'SELECT parcel_id,max(the_geom) the_geom, " + kebele + " as kebele_code "
+                    + "FROM " + getKebeleTable(kebele) + " WHERE parcel_id>0 group by parcel_id;"
+                    + "') as P2(parcel_id integer, the_geom geometry(Polygon), kebele_code integer)";
+            Connection connection = CommonStorage.getConnection();
+            String deleteQuery = "DELETE FROM gis WHERE kebele_code=?";
+            PreparedStatement stmnt = connection.prepareStatement(deleteQuery);
+            stmnt.setLong(1, kebele);
+            stmnt.executeUpdate();
+            stmnt= connection.prepareStatement(query);
+            stmnt.executeUpdate();
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+    }
 }

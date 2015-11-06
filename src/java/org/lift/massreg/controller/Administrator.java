@@ -441,6 +441,7 @@ public class Administrator {
             String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
             String fileName = "Approval Checklist " + kebeleName + " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
             ReportUtil.generateApprovalChecklist(kebeleId, kebeleName, fileName);
+            MasterRepository.getInstance().copyGISDate(kebeleId);
             request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
             rd.forward(request, response);
