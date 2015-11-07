@@ -111,7 +111,7 @@
                                         <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                         <%
                                             out.println("<option value = '1'>" + CommonStorage.getText("not_available") + "</option>");
-                                            for (int i = 1900; i <= 2007; i++) {
+                                            for (int i = 1900; i <= 2008; i++) {
                                                 out.println("<option value = '" + i + "'>" + i + "</option>");
                                             }
                                         %>
