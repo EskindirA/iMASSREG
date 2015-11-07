@@ -11,6 +11,7 @@ public class HolderListDTO {
     private String fathersName;
     private String grandFathersName;
     private String photoId;
+    private String upis;
 
     public String getFirstName() {
         return firstName;
@@ -42,6 +43,14 @@ public class HolderListDTO {
 
     public void setPhotoId(String photoId) {
         this.photoId = photoId;
+    }
+
+    public String getUpis() {
+        return upis;
+    }
+
+    public void setUpis(String upis) {
+        this.upis = upis;
     }
 
     public String getFullNume() {

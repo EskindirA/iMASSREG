@@ -9532,7 +9532,7 @@ public class MasterRepository {
         ArrayList<HolderListDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " AND status='active' AND upi LIKE '"+kebele+"/%'";
+            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname,string_agg(upi, ',') as upiList FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " AND status='active' AND upi LIKE '"+kebele+"/%' GROUP BY holderId,  firstname, fathersname, grandfathersname";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet holders = stmnt.executeQuery();
             while (holders.next()) {
@@ -9541,7 +9541,7 @@ public class MasterRepository {
                 holder.setFirstName(holders.getString("firstname"));
                 holder.setGrandFathersName(holders.getString("grandfathersname"));
                 holder.setPhotoId(holders.getString("holderid"));
-
+                holder.setUpis(holders.getString("upiList"));
                 returnValue.add(holder);
             }
             connection.close();

@@ -1368,11 +1368,13 @@ public class ReportUtil {
                 Row row0 = indvidualSheet.createRow((short) 0);
                 row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("holder_id")));
                 row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("parcels")));
 
                 for (int i = 1; i < indvidualHolders.size(); i++) {
                     Row tempRow = indvidualSheet.createRow(i);
                     tempRow.createCell(0).setCellValue(indvidualHolders.get(i).getPhotoId());
                     tempRow.createCell(1).setCellValue(indvidualHolders.get(i).getFullNume());
+                    tempRow.createCell(2).setCellValue(indvidualHolders.get(i).getUpis());
                 }
 
                 CellStyle cellStyle = wb.createCellStyle();
