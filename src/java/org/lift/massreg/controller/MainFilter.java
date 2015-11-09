@@ -652,6 +652,8 @@ public class MainFilter extends HttpServlet {
             PostPDCoordinator.sendToMajorCorrection(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_CONFIRMED_PARCEL_PDC)) {
             PostPDCoordinator.sendToConfirmed(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_PRINTED_PDC)) {
+            PostPDCoordinator.exportPrinted(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_FIND_PARCEL_PDC)) {
             if (request.getParameter("upi") != null) {
                 request.setAttribute("upi", request.getParameter("upi").trim());

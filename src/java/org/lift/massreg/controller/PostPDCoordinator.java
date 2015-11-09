@@ -12,6 +12,7 @@ import org.lift.massreg.entity.Parcel;
 import org.lift.massreg.util.CommonStorage;
 import org.lift.massreg.util.Constants;
 import org.lift.massreg.util.IOC;
+import org.lift.massreg.util.ReportUtil;
 
 /**
  * @author Yoseph Berhanu <yoseph@bayeth.com>
@@ -194,5 +195,29 @@ public class PostPDCoordinator {
             rd.forward(request, response);
         }
 
+    }
+    
+    /**
+     * Handlers request for exporting printed parcels list for a kebele
+     *
+     * @param request request object passed from the main controller
+     * @param response response object passed from the main controller
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
+     */
+    protected static void exportPrinted(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String kebele = request.getSession().getAttribute("kebele").toString();
+        if (kebele != null && !kebele.equalsIgnoreCase("all")) {
+            long kebeleId = Long.parseLong(request.getSession().getAttribute("kebele").toString());
+            String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
+            String fileName = "Printed Parcels " + kebeleName + ".xlsx";
+            ReportUtil.generatePrintedCertificateList(kebeleId, kebeleName, fileName);
+            response.sendRedirect(request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
+        } else{
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
+            rd.forward(request, response);   
+        }
     }
 }

@@ -9532,7 +9532,7 @@ public class MasterRepository {
         ArrayList<HolderListDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname,string_agg(upi, ',') as upiList FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " AND status='active' AND upi LIKE '"+kebele+"/%' GROUP BY holderId,  firstname, fathersname, grandfathersname";
+            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname,string_agg(upi, ',') as upiList FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " AND status='active' AND upi LIKE '" + kebele + "/%' GROUP BY holderId,  firstname, fathersname, grandfathersname";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet holders = stmnt.executeQuery();
             while (holders.next()) {
@@ -9542,6 +9542,57 @@ public class MasterRepository {
                 holder.setGrandFathersName(holders.getString("grandfathersname"));
                 holder.setPhotoId(holders.getString("holderid"));
                 holder.setUpis(holders.getString("upiList"));
+                returnValue.add(holder);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public ArrayList<PrintListDTO> getPrintListForIndividualHolder(long kebele) {
+        ArrayList<PrintListDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+            
+            String query = "SELECT DISTINCT parcel.upi, individualholder.firstname, "
+                    + "individualholder.fathersname, individualholder.grandfathersname, "
+                    + "individualholder.holderid FROM parcel, individualholder "
+                    + "WHERE parcel.upi=individualholder.upi AND parcel.stage=" + CommonStorage.getPrintedStage()+ " AND "
+                    + "parcel.status='active' AND individualholder.status='active' AND parcel.upi LIKE '" + kebele + "/%' ORDER BY  parcel.upi";
+            
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet holders = stmnt.executeQuery();
+            while (holders.next()) {
+                PrintListDTO holder = new PrintListDTO();
+                holder.setHolderName(holders.getString("firstname") + " " + holders.getString("fathersname") + " " + holders.getString("grandfathersname"));
+                holder.setPhotoId(holders.getString("holderid"));
+                holder.setUPI(holders.getString("upi"));
+                returnValue.add(holder);
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public ArrayList<PrintListDTO> getPrintListForOrganizationalHolder(long kebele) {
+        ArrayList<PrintListDTO> returnValue = new ArrayList<>();
+        Connection connection = CommonStorage.getConnection();
+        try {
+
+            String query = "SELECT DISTINCT parcel.upi, organizationholder.Organizationname "
+                    + "FROM parcel, organizationholder WHERE parcel.upi=organizationholder.upi "
+                    + "AND parcel.stage=" + CommonStorage.getPrintedStage()+ " AND parcel.status='active' AND organizationholder.status='active' "
+                    + "AND organizationholder.stage>9 AND parcel.upi LIKE '" + kebele + "/%' ORDER BY  parcel.upi ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet holders = stmnt.executeQuery();
+            while (holders.next()) {
+                PrintListDTO holder = new PrintListDTO();
+                holder.setHolderName(holders.getString("organizationname"));
+                holder.setUPI(holders.getString("upi"));
                 returnValue.add(holder);
             }
             connection.close();
@@ -9562,7 +9613,7 @@ public class MasterRepository {
             PreparedStatement stmnt = connection.prepareStatement(deleteQuery);
             stmnt.setLong(1, kebele);
             stmnt.executeUpdate();
-            stmnt= connection.prepareStatement(query);
+            stmnt = connection.prepareStatement(query);
             stmnt.executeUpdate();
             connection.close();
         } catch (Exception ex) {

@@ -13,6 +13,7 @@
     String filterurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PARCEL_LIST_PDC;
     String checkListurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PRINT_CHECKLIST_PDC;
     String reprintURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_REPRINT_PARCEL_PDC;
+    String exportURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_PRINTED_PDC;
 %>
 <div class="col-lg-12">
     <div class="row">
@@ -214,6 +215,7 @@
                                             %>
                                         </tbody>
                                     </table>
+                                    <a href="<%=exportURL%>" target="_blank" class="btn btn-primary col-lg-1"><%=CommonStorage.getText("export")%></a>
                                 </div> <!-- /.table-responsive -->
                             </div> <!-- /.panel-body -->
                         </div> <!-- /.panel -->

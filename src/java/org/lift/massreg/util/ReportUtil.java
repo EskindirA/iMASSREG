@@ -1206,8 +1206,8 @@ public class ReportUtil {
                 row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("has_dispute")));
                 row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("incomplete")));
 
-                for (int i = 1; i < parcels.size(); i++) {
-                    Row tempRow = parcelsSheet.createRow(i);
+                for (int i = 0; i < parcels.size(); i++) {
+                    Row tempRow = parcelsSheet.createRow(i+1);
                     tempRow.createCell(0).setCellValue(parcels.get(i).getUpi());
                     tempRow.createCell(1).setCellValue(parcels.get(i).getHoldingNumber());
                     tempRow.createCell(2).setCellValue(parcels.get(i).getArea());
@@ -1254,8 +1254,8 @@ public class ReportUtil {
                 row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
                 row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("committed")));
 
-                for (int i = 1; i < results.size(); i++) {
-                    Row tempRow = parcelsSheet.createRow(i);
+                for (int i = 0; i < results.size(); i++) {
+                    Row tempRow = parcelsSheet.createRow(i+1);
                     tempRow.createCell(0).setCellValue(results.get(i).getUpi());
                     tempRow.createCell(1).setCellValue(results.get(i).getFirstEntry());
                     tempRow.createCell(2).setCellValue(results.get(i).getSecondEntry());
@@ -1341,8 +1341,8 @@ public class ReportUtil {
                 row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("corrections")));
                 row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("total")));
 
-                for (int i = 1; i < deos.size(); i++) {
-                    Row tempRow = deosSheet.createRow(i);
+                for (int i = 0; i < deos.size(); i++) {
+                    Row tempRow = deosSheet.createRow(i+1);
                     tempRow.createCell(0).setCellValue(deos.get(i).getName());
                     tempRow.createCell(1).setCellValue(deos.get(i).getFirstEntry());
                     tempRow.createCell(2).setCellValue(deos.get(i).getSecondEntry());
@@ -1370,8 +1370,8 @@ public class ReportUtil {
                 row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
                 row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("parcels")));
 
-                for (int i = 1; i < indvidualHolders.size(); i++) {
-                    Row tempRow = indvidualSheet.createRow(i);
+                for (int i = 0; i < indvidualHolders.size(); i++) {
+                    Row tempRow = indvidualSheet.createRow(i+1);
                     tempRow.createCell(0).setCellValue(indvidualHolders.get(i).getPhotoId());
                     tempRow.createCell(1).setCellValue(indvidualHolders.get(i).getFullNume());
                     tempRow.createCell(2).setCellValue(indvidualHolders.get(i).getUpis());
@@ -1387,6 +1387,73 @@ public class ReportUtil {
                 hSSFFont.setBold(true);
                 row0.setRowStyle(cellStyle);
 
+                wb.write(fileOut);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return wb;
+    }
+
+    public static Workbook generatePrintedCertificateList(long kebele, String kebeleName, String fileName) {
+        Workbook wb = new XSSFWorkbook();
+        try {
+            CreationHelper createHelper = wb.getCreationHelper();
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
+                ArrayList<PrintListDTO> indvidualHolders = MasterRepository.getInstance().getPrintListForIndividualHolder(kebele);
+                
+                Sheet indvidualSheet = wb.createSheet("Indvidual Holders in " + kebeleName);
+                Row row0 = indvidualSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("administrative_upi")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("holder_id")));
+                
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("date")));
+                row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("signature")));
+                row0.createCell(5).setCellValue(createHelper.createRichTextString(CommonStorage.getText("date_sent_to_wc")));
+                row0.createCell(6).setCellValue(createHelper.createRichTextString(CommonStorage.getText("date_corrected")));
+                row0.createCell(7).setCellValue(createHelper.createRichTextString(CommonStorage.getText("not_collected_sent_to_ka")));
+
+                for (int i = 0; i < indvidualHolders.size(); i++) {
+                    Row tempRow = indvidualSheet.createRow(i+1);
+                    tempRow.createCell(0).setCellValue(indvidualHolders.get(i).getUPI());
+                    tempRow.createCell(1).setCellValue(indvidualHolders.get(i).getHolderName());
+                    tempRow.createCell(2).setCellValue(indvidualHolders.get(i).getPhotoId());
+                    
+                }
+
+                CellStyle cellStyle = wb.createCellStyle();
+                Font hSSFFont = wb.createFont();
+                hSSFFont.setFontName("Calibri");
+                hSSFFont.setFontHeightInPoints((short) 11);
+                cellStyle.setWrapText(true);
+                cellStyle.setFont(hSSFFont);
+                hSSFFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+                hSSFFont.setBold(true);
+                row0.setRowStyle(cellStyle);
+                
+                
+                ArrayList<PrintListDTO> organizationalolders = MasterRepository.getInstance().getPrintListForOrganizationalHolder(kebele);
+                Sheet organizationalSheet = wb.createSheet("Organizational Holders in " + kebeleName);
+                row0 = organizationalSheet.createRow((short) 0);
+                row0.createCell(0).setCellValue(createHelper.createRichTextString(CommonStorage.getText("administrative_upi")));
+                row0.createCell(1).setCellValue(createHelper.createRichTextString(CommonStorage.getText("name")));
+                row0.createCell(2).setCellValue(createHelper.createRichTextString(CommonStorage.getText("holder_id")));
+                
+                row0.createCell(3).setCellValue(createHelper.createRichTextString(CommonStorage.getText("date")));
+                row0.createCell(4).setCellValue(createHelper.createRichTextString(CommonStorage.getText("signature")));
+                row0.createCell(5).setCellValue(createHelper.createRichTextString(CommonStorage.getText("date_sent_to_wc")));
+                row0.createCell(6).setCellValue(createHelper.createRichTextString(CommonStorage.getText("date_corrected")));
+                row0.createCell(7).setCellValue(createHelper.createRichTextString(CommonStorage.getText("not_collected_sent_to_ka")));
+
+                for (int i = 0; i < organizationalolders.size(); i++) {
+                    Row tempRow = organizationalSheet.createRow(i+1);
+                    tempRow.createCell(0).setCellValue(organizationalolders.get(i).getUPI());
+                    tempRow.createCell(1).setCellValue(organizationalolders.get(i).getHolderName());
+                    
+                }
+
+                row0.setRowStyle(cellStyle);
                 wb.write(fileOut);
             }
         } catch (Exception ex) {

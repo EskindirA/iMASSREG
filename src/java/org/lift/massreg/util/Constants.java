@@ -166,6 +166,7 @@ public interface Constants {
     public static final String ACTION_FIND_PARCEL_PDC = "FIND_PARCEL_PDC";
     public static final String ACTION_VIEW_HOLDER_PDC = "VIEW_HOLDER_PDC";
     public static final String ACTION_PARCEL_LIST_PDC = "PARCEL_LIST_PDC";
+    public static final String ACTION_EXPORT_PRINTED_PDC = "EXPORT_PRINTED_PDC";
 
     public static final String ACTION_VIEW_PARCEL_MCO = "VIEW_PARCEL_MCO";
     public static final String ACTION_EDIT_PARCEL_MCO = "EDIT_PARCEL_MCO";
