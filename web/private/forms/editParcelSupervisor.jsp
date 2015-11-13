@@ -80,7 +80,7 @@
                                         if (parcelDifference.isOtherEvidence()) {
                                             out.println("<select class='form-control discrepancy-field ' id='otherEvidence' name='otherEvidence' value='" + currentParcel.getOtherEvidence() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='otherEvidence' name='otherEvidence' value='" + currentParcel.;
+                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='otherEvidence' name='otherEvidence' value='" + currentParcel.getOtherEvidence() + "' disabled >");
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -99,7 +99,7 @@
                                         if (parcelDifference.isMeansOfAcquisition()) {
                                             out.println("<select class='form-control discrepancy-field ' id='meansOfAcquisition' name='meansOfAcquisition' value='" + currentParcel.getMeansOfAcquisition() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='meansOfAcquisition' name='meansOfAcquisition' value='" + currentParcel.getMe;
+                                            out.println("<select class='form-control ' id='meansOfAcquisition' name='meansOfAcquisition' value='" + currentParcel.getMeansOfAcquisition() + "' disabled >");
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -118,7 +118,7 @@
                                         if (parcelDifference.isAcquisitionYear()) {
                                             out.println("<select class='form-control discrepancy-field ' id='acquisitionYear' name='acquisitionYear' value='" + currentParcel.getAcquisitionYear() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='acquisitionYear' name='acquisitionYear' value='" + currentParcel.ge;
+                                            out.println("<select class='form-control ' id='acquisitionYear' name='acquisitionYear' value='" + currentParcel.getAcquisitionYear() + "' disabled >");
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -150,7 +150,7 @@
                                         if (parcelDifference.isCurrentLandUse()) {
                                             out.println("<select class='form-control discrepancy-field ' id='currentLandUse' name='currentLandUse' value='" + currentParcel.getCurrentLandUse() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='currentLandUse' name='currentLandUse' value='" + currentParcel.g;
+                                            out.println("<select class='form-control ' id='currentLandUse' name='currentLandUse' value='" + currentParcel.getCurrentLandUse() + "' disabled >");
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -169,7 +169,7 @@
                                         if (parcelDifference.isSoilFertility()) {
                                             out.println("<select class='form-control discrepancy-field ' id='soilFertility' name='soilFertility' value='" + currentParcel.getSoilFertility() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='soilFertility' name='soilFertility' value='" + currentParcel.;
+                                            out.println("<select class='form-control ' placeholder='Does Not Exist' id='soilFertility' name='soilFertility' value='" + currentParcel.getCurrentLandUse() + "' disabled >");
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -188,7 +188,7 @@
                                         if (parcelDifference.isHolding()) {
                                             out.println("<select class='form-control discrepancy-field ' id='holdingType' name='holdingType' value='" + currentParcel.getHolding() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='holdingType' name='holdingType' value='" + currentP;
+                                            out.println("<select class='form-control ' id='holdingType' name='holdingType' value='" + currentParcel.getHolding() + "' disabled >");;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -206,7 +206,7 @@
                                         if (parcelDifference.isEncumbrance()) {
                                             out.println("<select class='form-control discrepancy-field ' id='encumbrance' name='encumbrance' value='" + currentParcel.getEncumbrance() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='encumbrance' name='encumbrance' value='" + currentParce;
+                                            out.println("<select class='form-control ' id='encumbrance' name='encumbrance' value='" + currentParcel.getEncumbrance() + "' disabled >");;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -234,7 +234,7 @@
                                         if (parcelDifference.isHasDispute()) {
                                             out.println("<select class='form-control discrepancy-field ' id='hasDispute' name='hasDispute' value='" + currentParcel.hasDispute() + "' >");
                                         } else {
-                                            out.println("<select class='form-control ' id='hasDispute' name='hasDispute' value='" + currentP;
+                                            out.println("<select class='form-control ' id='hasDispute' name='hasDispute' value='" + currentParcel.hasDispute() + "' disabled >");;
                                         }
                                     %>
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
