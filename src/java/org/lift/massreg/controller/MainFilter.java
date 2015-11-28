@@ -34,7 +34,7 @@ public class MainFilter extends HttpServlet {
         if (action == null || action.isEmpty()) {
             action = Constants.ACTION_WELCOME;
         }
-            request.getSession().setAttribute("action", action);
+        request.getSession().setAttribute("action", action);
         // For all users
         if (action.equalsIgnoreCase(Constants.ACTION_LOGOUT)) {
             request.getSession().invalidate();
@@ -429,6 +429,7 @@ public class MainFilter extends HttpServlet {
             } else {
                 request.setAttribute("upi", request.getSession().getAttribute("upi"));
             }
+            System.err.println(request.getSession().getAttribute("upi").toString());
             Correction.viewHolder(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_VIEW_INDIVIDUAL_HOLDER_SUPERVISOR)) {
             if (request.getParameter("upi") != null) {

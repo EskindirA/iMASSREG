@@ -1193,6 +1193,7 @@ public class ReportUtil {
     }
 
     public static Workbook generateApprovalChecklist(long kebele, String kebeleName, String fileName) {
+        MasterRepository.getInstance().updateParcelArea(kebele);
         Workbook wb = new XSSFWorkbook();
         try {
             CreationHelper createHelper = wb.getCreationHelper();

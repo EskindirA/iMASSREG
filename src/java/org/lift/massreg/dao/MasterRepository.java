@@ -553,7 +553,7 @@ public class MasterRepository {
         ArrayList<IndividualHolder> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT * FROM individualholder WHERE upi=? and stage=? and status='active'");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT distinct on(holderid) * FROM individualholder WHERE upi=? and stage=? and status='active'");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             ResultSet rs = stmnt.executeQuery();
@@ -9158,6 +9158,7 @@ public class MasterRepository {
     public void refreshView(String viewName) {
         try (Connection connection = CommonStorage.getConnection()) {
             String query = "REFRESH MATERIALIZED VIEW " + viewName;
+            System.err.println(query);
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.executeUpdate();
         } catch (Exception ex) {
@@ -9532,7 +9533,7 @@ public class MasterRepository {
         ArrayList<HolderListDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT distinct holderid, firstname, fathersname, grandfathersname,string_agg(upi, ',') as upiList FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " AND status='active' AND upi LIKE '" + kebele + "/%' GROUP BY holderId,  firstname, fathersname, grandfathersname";
+            String query = "SELECT distinct on(holderid) holderid, firstname, fathersname, grandfathersname,string_agg(upi, ',') as upiList FROM individualholder WHERE stage=" + CommonStorage.getCommitedStage() + " AND status='active' AND upi LIKE '" + kebele + "/%' GROUP BY holderId,  firstname, fathersname, grandfathersname";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet holders = stmnt.executeQuery();
             while (holders.next()) {
