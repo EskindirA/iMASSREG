@@ -1455,6 +1455,7 @@ public class Correction {
             if (newIndividualHolder.validateForUpdate()) {
                 //IndividualHolder.getLogStatment(oldIndividualHolder,newIndividualHolder);
                 MasterRepository.getInstance().update(oldIndividualHolder, newIndividualHolder);
+                MasterRepository.getInstance().updatePhotoId(oldIndividualHolder.getUpi(),request.getParameter("holderId"),request.getParameter("newHolderId"));
                 viewHolder(request, response);
             } else {
                 // if the parcel fails to validate show error message

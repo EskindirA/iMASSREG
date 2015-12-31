@@ -553,7 +553,7 @@ public class MasterRepository {
         ArrayList<IndividualHolder> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("SELECT distinct on(holderid) * FROM individualholder WHERE upi=? and stage=? and status='active'");
+            PreparedStatement stmnt = connection.prepareStatement("SELECT distinct on(holderid, firstname) * FROM individualholder WHERE upi=? and stage=? and status='active'");
             stmnt.setString(1, upi);
             stmnt.setByte(2, stage);
             ResultSet rs = stmnt.executeQuery();
@@ -830,6 +830,29 @@ public class MasterRepository {
         return returnValue;
     }
 
+    
+    public boolean updatePhotoId(String upi, String oldHolderId,String newHolderId){
+        boolean returnValue = true;
+        Connection connection = CommonStorage.getConnection();
+        String query = "UPDATE individualholder SET holderid=? "
+                + " WHERE upi=? and holderid=?";
+        try {
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, newHolderId);
+            stmnt.setString(2, upi);
+            stmnt.setString(3, oldHolderId);
+            
+            int result = stmnt.executeUpdate();
+            if (result < 1) {
+                returnValue = false;
+            }
+            connection.close();
+        } catch (SQLException | NumberFormatException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            returnValue = false;
+        }
+        return returnValue;
+    }
     public boolean updatePhotoID(IndividualHolder oldIndividualHolder,
             String newId) {
         boolean returnValue = true;
@@ -2087,7 +2110,7 @@ public class MasterRepository {
             String query = "SELECT *, (SELECT max(stage) FROM Parcel P2 WHERE"
                     + " P2.UPI=P.UPI AND P2.status='active') as maxstage  FROM "
                     + " Parcel P WHERE P.stage = 3 AND P.status='active' AND "
-                    + " P.UPI not in (SELECT upi FROM Parcel WHERE stage = 4 and status='active') LIMIT 100";
+                    + " P.UPI not in (SELECT upi FROM Parcel WHERE stage = 4 and status='active') ORDER BY P.UPI LIMIT 50";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
@@ -6448,6 +6471,8 @@ public class MasterRepository {
         ArrayList<HolderPublicDisplayDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
+            PreparedStatement stmnt = connection.prepareStatement("DELETE FROM tempupi");
+            stmnt.executeUpdate();
             String query = "SELECT distinct holderId FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' ORDER BY holderid";
             PreparedStatement stmnt0 = connection.prepareStatement(query);
             ResultSet rs = stmnt0.executeQuery();
@@ -6457,7 +6482,7 @@ public class MasterRepository {
             }
 
             for (String h : holderIds) {
-                query = "SELECT distinct holderid, upi, stage, firstname,  fathersname, grandfathersname, sex, dateofbirth, familyrole, physicalimpairment, status, isorphan FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holderid=?";
+                query = "SELECT distinct holderid, upi, stage, firstname,  fathersname, grandfathersname, sex, dateofbirth, familyrole, physicalimpairment, status, isorphan FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holderid=? AND upi NOT IN (SELECT upi from tempupi)";
                 PreparedStatement stmnt1 = connection.prepareStatement(query);
                 stmnt1.setString(1, h);
                 ResultSet holderrs = stmnt1.executeQuery();
@@ -6470,7 +6495,7 @@ public class MasterRepository {
                         holder.setName(holderrs.getString("firstname") + " " + holderrs.getString("fathersname") + " " + holderrs.getString("grandfathersname"));
                         holder.setSex("f".equalsIgnoreCase(holderrs.getString("sex")) ? CommonStorage.getText("female") : CommonStorage.getText("male"));
                     }
-                    query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status FROM parcel WHERE stage=4 and status='active' AND UPI = ?";
+                    query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status FROM parcel WHERE stage=4 and status='active' AND UPI = ? AND upi NOT IN (SELECT upi from tempupi)";
                     PreparedStatement stmnt2 = connection.prepareStatement(query);
                     stmnt2.setString(1, holderrs.getString("upi"));
                     ResultSet parcels = stmnt2.executeQuery();
@@ -6584,6 +6609,12 @@ public class MasterRepository {
                         }
                         parcel.hasMissingValue(hasMissingValue);
                         holder.addParcel(parcel);
+                        
+                        query = "INSERT INTO tempupi( upi) VALUES (?)";
+                        PreparedStatement stmnt7 = connection.prepareStatement(query);
+                        stmnt7.setString(1, holderrs.getString("upi"));
+                        stmnt7.executeUpdate();
+                        
                     }
                 }
                 returnValue.add(holder);
@@ -7169,9 +7200,10 @@ public class MasterRepository {
 
     public ArrayList<Parcel> getALLParcelsInCommitted(String kebele) {
         ArrayList<Parcel> returnValue = new ArrayList<>();
+        refreshView("postcommittedparcels");
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT * FROM Parcel WHERE stage = 4 and status='active' and upi not in (SELECT upi FROM Parcel WHERE stage >= 5 and status='active')";
+            String query = "SELECT distinct on (upi) * FROM Parcel WHERE stage = 4 and status='active' and upi not in (SELECT upi FROM postcommittedparcels where UPI LIKE '" + kebele + "/%')";
             if (!kebele.equalsIgnoreCase("all")) {
                 query += " and UPI LIKE '" + kebele + "/%'";
             }
@@ -8708,11 +8740,11 @@ public class MasterRepository {
 
     public ArrayList<Parcel> getALLParcelsInMinorCorrection() {
         ArrayList<Parcel> returnValue = new ArrayList<>();
+        refreshView("postminorcorrection");
         Connection connection = CommonStorage.getConnection();
         try {
             String query = "SELECT * FROM Parcel WHERE stage = " + CommonStorage.getMinorCorrectionStage()
-                    + " and status='active' and upi not in (SELECT upi FROM Parcel "
-                    + "WHERE stage > " + CommonStorage.getMinorCorrectionStage() + " and status='active')";
+                    + " and status='active' and upi not in (SELECT upi FROM postminorcorrection) ORDER BY upi LIMIT 10";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
@@ -9158,7 +9190,6 @@ public class MasterRepository {
     public void refreshView(String viewName) {
         try (Connection connection = CommonStorage.getConnection()) {
             String query = "REFRESH MATERIALIZED VIEW " + viewName;
-            System.err.println(query);
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.executeUpdate();
         } catch (Exception ex) {
