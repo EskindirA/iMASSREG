@@ -6471,8 +6471,6 @@ public class MasterRepository {
         ArrayList<HolderPublicDisplayDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            PreparedStatement stmnt = connection.prepareStatement("DELETE FROM tempupi");
-            stmnt.executeUpdate();
             String query = "SELECT distinct holderId FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' ORDER BY holderid";
             PreparedStatement stmnt0 = connection.prepareStatement(query);
             ResultSet rs = stmnt0.executeQuery();
@@ -6482,7 +6480,7 @@ public class MasterRepository {
             }
 
             for (String h : holderIds) {
-                query = "SELECT distinct holderid, upi, stage, firstname,  fathersname, grandfathersname, sex, dateofbirth, familyrole, physicalimpairment, status, isorphan FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holderid=? AND upi NOT IN (SELECT upi from tempupi)";
+                query = "SELECT distinct holderid, upi, stage, firstname,  fathersname, grandfathersname, sex, dateofbirth, familyrole, physicalimpairment, status, isorphan FROM individualholder WHERE stage=4 and status='active' AND UPI LIKE '" + kebele + "/%' AND holderid=?";
                 PreparedStatement stmnt1 = connection.prepareStatement(query);
                 stmnt1.setString(1, h);
                 ResultSet holderrs = stmnt1.executeQuery();
@@ -6495,7 +6493,7 @@ public class MasterRepository {
                         holder.setName(holderrs.getString("firstname") + " " + holderrs.getString("fathersname") + " " + holderrs.getString("grandfathersname"));
                         holder.setSex("f".equalsIgnoreCase(holderrs.getString("sex")) ? CommonStorage.getText("female") : CommonStorage.getText("male"));
                     }
-                    query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status FROM parcel WHERE stage=4 and status='active' AND UPI = ? AND upi NOT IN (SELECT upi from tempupi)";
+                    query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status FROM parcel WHERE stage=4 and status='active' AND UPI = ?";
                     PreparedStatement stmnt2 = connection.prepareStatement(query);
                     stmnt2.setString(1, holderrs.getString("upi"));
                     ResultSet parcels = stmnt2.executeQuery();
@@ -6610,10 +6608,6 @@ public class MasterRepository {
                         parcel.hasMissingValue(hasMissingValue);
                         holder.addParcel(parcel);
                         
-                        query = "INSERT INTO tempupi( upi) VALUES (?)";
-                        PreparedStatement stmnt7 = connection.prepareStatement(query);
-                        stmnt7.setString(1, holderrs.getString("upi"));
-                        stmnt7.executeUpdate();
                         
                     }
                 }
