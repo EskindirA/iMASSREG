@@ -830,8 +830,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    
-    public boolean updatePhotoId(String upi, String oldHolderId,String newHolderId){
+    public boolean updatePhotoId(String upi, String oldHolderId, String newHolderId) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE individualholder SET holderid=? "
@@ -841,7 +840,7 @@ public class MasterRepository {
             stmnt.setString(1, newHolderId);
             stmnt.setString(2, upi);
             stmnt.setString(3, oldHolderId);
-            
+
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -853,6 +852,7 @@ public class MasterRepository {
         }
         return returnValue;
     }
+
     public boolean updatePhotoID(IndividualHolder oldIndividualHolder,
             String newId) {
         boolean returnValue = true;
@@ -2673,11 +2673,11 @@ public class MasterRepository {
     }
 
     /// Kebele Report
-    public long getCountOfMarriedCoupleHolders(long kebele) {
+    public long getCountOfMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM MarriedCouple WHERE UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct holderId) as c FROM MarriedCouple WHERE UPI LIKE '" + kebele + "/%' AND " + stageExpression;
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2690,11 +2690,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfSingleFemaleHolders(long kebele) {
+    public long getCountOfSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%' AND " + stageExpression;
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2707,11 +2707,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfSingleMaleHolders(long kebele) {
+    public long getCountOfSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%' AND " + stageExpression;
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2724,11 +2724,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfOrphanHolders(long kebele) {
+    public long getCountOfOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder, Parcel WHERE IndividualHolder.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.hasDispute=false AND IndividualHolder.stage=Parcel.stage AND IndividualHolder.UPI=Parcel.UPI AND IndividualHolder.stage=4 AND IndividualHolder.status='active' AND IndividualHolder.isOrphan=true";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder, Parcel WHERE IndividualHolder.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.hasDispute=false AND IndividualHolder.stage=Parcel.stage AND IndividualHolder.UPI=Parcel.UPI AND IndividualHolder." + stageExpression + " AND IndividualHolder.status='active' AND IndividualHolder.isOrphan=true";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2741,11 +2741,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfNonNaturalHolders(long kebele) {
+    public long getCountOfNonNaturalHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct organizationname) as c FROM OrganizationHolder,Parcel WHERE  OrganizationHolder.upi=parcel.upi AND OrganizationHolder.UPI LIKE '" + kebele + "/%'  AND Parcel.stage=4 AND Parcel.status='active' AND Parcel.hasDispute=false AND OrganizationHolder.stage=4 AND OrganizationHolder.status='active' ";
+            String query = "SELECT count(distinct organizationname) as c FROM OrganizationHolder,Parcel WHERE  OrganizationHolder.upi=parcel.upi AND OrganizationHolder.UPI LIKE '" + kebele + "/%'  AND Parcel." + stageExpression + " AND Parcel.status='active' AND Parcel.hasDispute=false AND OrganizationHolder." + stageExpression + " AND OrganizationHolder.status='active' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2758,7 +2758,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithDispute(long kebele) {
+    public long getCountOfParcelsWithDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -2800,11 +2800,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllCommittedParcels(long kebele) {
+    public long getCountOfAllCommittedParcels(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.stage=4";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel." + stageExpression;
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2817,13 +2817,13 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsNoData(long kebele) {
+    public long getCountOfParcelsNoData(long kebele, String stageExpression) {
         long returnValue = 0;
-        returnValue = getCountOfDemarcatedParcels(kebele) - getCountOfAllCommittedParcels(kebele);
+        returnValue = getCountOfDemarcatedParcels(kebele) - getCountOfAllCommittedParcels(kebele, stageExpression);
         return returnValue;
     }
 
-    public double getAverageCountOfParcelsUnderMarriedCoupleHolders(long kebele) {
+    public double getAverageCountOfParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -2840,28 +2840,28 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfParcelsPerMarriedCoupleHolder(long kebele) {
-        return (double) getCountOfParcelsUnderMarriedCoupleHolders(kebele) / (double) getCountOfMarriedCoupleHolders(kebele);
+    public double getAverageNumberOfParcelsPerMarriedCoupleHolder(long kebele, String stageExpression) {
+        return (double) getCountOfParcelsUnderMarriedCoupleHolders(kebele, stageExpression) / (double) getCountOfMarriedCoupleHolders(kebele, stageExpression);
     }
 
-    public double getAverageNumberOfParcelsPerSingleFemaleHolder(long kebele) {
-        return (double) getCountOfParcelsUnderSingleFemaleHolders(kebele) / (double) getCountOfSingleFemaleHolders(kebele);
+    public double getAverageNumberOfParcelsPerSingleFemaleHolder(long kebele, String stageExpression) {
+        return (double) getCountOfParcelsUnderSingleFemaleHolders(kebele, stageExpression) / (double) getCountOfSingleFemaleHolders(kebele, stageExpression);
     }
 
-    public double getAverageNumberOfParcelsPerSingleMaleHolder(long kebele) {
-        return (double) getCountOfParcelsUnderSingleMaleHolders(kebele) / (double) getCountOfSingleMaleHolders(kebele);
+    public double getAverageNumberOfParcelsPerSingleMaleHolder(long kebele, String stageExpression) {
+        return (double) getCountOfParcelsUnderSingleMaleHolders(kebele, stageExpression) / (double) getCountOfSingleMaleHolders(kebele, stageExpression);
     }
 
-    public double getAverageNumberOfParcelsPerOrphanHolder(long kebele) {
-        return (double) getCountOfParcelsUnderOrphanHolders(kebele) / (double) getCountOfOrphanHolders(kebele);
+    public double getAverageNumberOfParcelsPerOrphanHolder(long kebele, String stageExpression) {
+        return (double) getCountOfParcelsUnderOrphanHolders(kebele, stageExpression) / (double) getCountOfOrphanHolders(kebele, stageExpression);
     }
 
-    public double getAverageNumberOfParcelsPerNonNaturalHolder(long kebele) {
-        return (double) getCountOfParcelsUnderNonNaturalHolders(kebele) / (double) getCountOfNonNaturalHolders(kebele);
+    public double getAverageNumberOfParcelsPerNonNaturalHolder(long kebele, String stageExpression) {
+        return (double) getCountOfParcelsUnderNonNaturalHolders(kebele, stageExpression) / (double) getCountOfNonNaturalHolders(kebele, stageExpression);
     }
 
-    public double getAverageNumberOfParcelsPerOtherHoldingType(long kebele) {
-        return (double) getCountOfParcelsUnderOtherHoldingTypes(kebele) / (double) getCountOfHoldersOfOtherHoldingTypes(kebele);
+    public double getAverageNumberOfParcelsPerOtherHoldingType(long kebele, String stageExpression) {
+        return (double) getCountOfParcelsUnderOtherHoldingTypes(kebele, stageExpression) / (double) getCountOfHoldersOfOtherHoldingTypes(kebele, stageExpression);
     }
 
     /**
@@ -2886,11 +2886,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDispute(long kebele) {
+    public long getCountOfParcelsUnderDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' and  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2903,11 +2903,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderNonNaturalHolders(long kebele) {
+    public long getCountOfParcelsUnderNonNaturalHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and " + stageExpression + " and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2920,7 +2920,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -2937,11 +2937,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOrphanHolders(long kebele) {
+    public long getCountOfParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and  " + stageExpression + " and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + " and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2954,11 +2954,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE hasDispute='false' and " + stageExpression + " and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM MarriedCouple)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2975,11 +2975,11 @@ public class MasterRepository {
      * @return Total number of parcels under single female holders for a kebele
      * @param kebele : kebele to report on
      */
-    public long getCountOfParcelsUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlefemaleholder)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlefemaleholder) AND  " + stageExpression;
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2996,11 +2996,11 @@ public class MasterRepository {
      * @return Total number of parcels under single male holders for a kebele
      * @param kebele : kebele to report on
      */
-    public long getCountOfParcelsUnderSingleMaleHolders(long kebele) {
+    public long getCountOfParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlemaleholder)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM singlemaleholder WHERE " + stageExpression + ") AND " + stageExpression;
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3013,11 +3013,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsUnderMarriedCoupleHolders(long kebele) {
+    public double getTotalAreaOfParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and UPI in (SELECT UPI FROM MarriedCouple)";
+            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel." + stageExpression + "  and UPI in (SELECT UPI FROM MarriedCouple)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3030,11 +3030,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsUnderSingleFemaleHolders(long kebele) {
+    public double getTotalAreaOfParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel." + stageExpression + "  and UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3047,11 +3047,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsUnderSingleMaleHolders(long kebele) {
+    public double getTotalAreaOfParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel.stage = 4 and UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel." + stageExpression + "  and UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3064,11 +3064,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsUnderOrphanHolders(long kebele) {
+    public double getTotalAreaOfParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and  " + stageExpression + " and status='active' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + "  and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3081,11 +3081,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsUnderNonNaturalHolders(long kebele) {
+    public double getTotalAreaOfParcelsUnderNonNaturalHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and holdingtype!=1";
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and  " + stageExpression + "  and status='active' and holdingtype!=1";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3098,11 +3098,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsUnderOtherHoldingTypes(long kebele) {
+    public double getTotalAreaOfParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and  " + stageExpression + "  and status='active' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3115,11 +3115,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsUnderDispute(long kebele) {
+    public double getTotalAreaOfParcelsUnderDispute(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) as a FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT sum(area) as a FROM Parcel WHERE hasDispute='true' and  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3132,13 +3132,13 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getTotalAreaOfParcelsWithNoData(long kebele) {
+    public double getTotalAreaOfParcelsWithNoData(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection;
         try {
             String query = "SELECT sum(area) as a FROM dblink(" + getDBLinkString()
                     + ",'SELECT parcel_id, ST_Area (the_geom) / 10000 as area FROM "
-                    + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and stage=4)";
+                    + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and  " + stageExpression + " )";
             connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
@@ -3172,11 +3172,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsUnderMarriedCoupleHolders(long kebele) {
+    public double getAverageAreaOfParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM MarriedCouple )";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  " + stageExpression + "  and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM MarriedCouple )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3189,11 +3189,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsUnderSingleFemaleHolders(long kebele) {
+    public double getAverageAreaOfParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and stage=4 and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM SingleFemaleHolder )";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  " + stageExpression + "  and status='active' and hasDispute='false' and UPI in (SELECT UPI FROM SingleFemaleHolder )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3206,11 +3206,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsUnderSingleMaleHolders(long kebele) {
+    public double getAverageAreaOfParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and stage=4 and hasDispute='false' and status='active' and UPI in (SELECT UPI FROM SingleMaleHolder )";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  " + stageExpression + "  and hasDispute='false' and status='active' and UPI in (SELECT UPI FROM SingleMaleHolder )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3223,11 +3223,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsUnderOrphanHolders(long kebele) {
+    public double getAverageAreaOfParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + "  and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3240,11 +3240,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsUnderNonNaturalHolders(long kebele) {
+    public double getAverageAreaOfParcelsUnderNonNaturalHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and holdingtype!=1";
+            String query = "SELECT avg(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and  " + stageExpression + "  and status='active' and holdingtype!=1";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3257,11 +3257,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsUnderOtherHoldingTypes(long kebele) {
+    public double getAverageAreaOfParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and stage=4 and status='active' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT sum(area) as a FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and hasDispute='false' and  " + stageExpression + "  and status='active' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3274,11 +3274,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsUnderDispute(long kebele) {
+    public double getAverageAreaOfParcelsUnderDispute(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) as a FROM Parcel WHERE hasDispute='true' and stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT sum(area) as a FROM Parcel WHERE hasDispute='true' and  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -3291,13 +3291,13 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageAreaOfParcelsWithNoData(long kebele) {
+    public double getAverageAreaOfParcelsWithNoData(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection;
         try {
             String query = "SELECT avg(area) as a FROM dblink(" + getDBLinkString()
                     + ",'SELECT parcel_id, ST_Area (the_geom)  / 10000  as area FROM "
-                    + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and stage=4)";
+                    + getKebeleTable(kebele) + "') as P2(parcel_id integer, area double precision) WHERE parcel_id NOT IN (SELECT parcelId FROM Parcel WHERE status='active' and  " + stageExpression + " )";
             connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
@@ -3332,11 +3332,11 @@ public class MasterRepository {
     }
 
     // By Other ownership evidence
-    public long getCountOfParcelsUnderMarriedCoupleHoldersByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3350,11 +3350,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleFemaleHoldersByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleFemaleHoldersByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3368,11 +3368,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleMaleHoldersByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleMaleHoldersByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND otherevidence=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3386,11 +3386,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOrphanHoldersByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfParcelsUnderOrphanHoldersByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + "  and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3404,11 +3404,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderNonNaturalHoldersByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND  " + stageExpression + "  and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3422,11 +3422,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOtherHoldingTypesByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfParcelsUnderOtherHoldingTypesByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND otherevidence=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3440,11 +3440,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfParcelsUnderDisputeByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND otherevidence=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND otherevidence=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3458,11 +3458,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByOwnershipEvidence(long kebele, byte type) {
+    public long getCountOfAllParcelsByOwnershipEvidence(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND otherevidence=? AND Parcel.status='active' AND Parcel.stage=4";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND otherevidence=? AND Parcel.status='active' AND Parcel." + stageExpression + " ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3477,11 +3477,11 @@ public class MasterRepository {
     }
 
     // By Land Use type
-    public long getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(long kebele, byte type) {
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3495,11 +3495,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleFemaleHoldersByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3513,11 +3513,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleMaleHoldersByLandUseType(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleMaleHoldersByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND landusetype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3531,11 +3531,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOrphanHoldersByLandUseType(long kebele, byte type) {
+    public long getCountOfParcelsUnderOrphanHoldersByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + "  and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3549,11 +3549,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderNonNaturalHoldersByLandUseType(long kebele, byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND  " + stageExpression + "  and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3567,11 +3567,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOtherHoldingTypesByLandUseType(long kebele, byte type) {
+    public long getCountOfParcelsUnderOtherHoldingTypesByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND landusetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3585,11 +3585,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByLandUseType(long kebele, byte type) {
+    public long getCountOfParcelsUnderDisputeByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND landusetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND landusetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3603,11 +3603,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByLandUseType(long kebele, byte type) {
+    public long getCountOfAllParcelsByLandUseType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND landusetype=? AND Parcel.status='active' AND Parcel.stage=4";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND landusetype=? AND Parcel.status='active' AND Parcel." + stageExpression + " ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3622,11 +3622,11 @@ public class MasterRepository {
     }
 
     // By Soil Fertility Status
-    public long getCountOfParcelsUnderMarriedCoupleHoldersBySoilFertility(long kebele, byte type) {
+    public long getCountOfParcelsUnderMarriedCoupleHoldersBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3640,11 +3640,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleFemaleHoldersBySoilFertility(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleFemaleHoldersBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3658,11 +3658,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleMaleHoldersBySoilFertility(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleMaleHoldersBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3676,11 +3676,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOrphanHoldersBySoilFertility(long kebele, byte type) {
+    public long getCountOfParcelsUnderOrphanHoldersBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + "  and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3694,11 +3694,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderNonNaturalHoldersBySoilFertility(long kebele, byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND  " + stageExpression + "  and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3712,11 +3712,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOtherHoldingTypesBySoilFertility(long kebele, byte type) {
+    public long getCountOfParcelsUnderOtherHoldingTypesBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND soilfertilitytype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3730,11 +3730,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeBySoilFertility(long kebele, byte type) {
+    public long getCountOfParcelsUnderDisputeBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND soilfertilitytype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND soilfertilitytype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3748,11 +3748,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsBySoilFertility(long kebele, byte type) {
+    public long getCountOfAllParcelsBySoilFertility(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND Parcel.status='active' AND Parcel.stage=4";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND soilfertilitytype=? AND Parcel.status='active' AND Parcel." + stageExpression + " ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3768,7 +3768,7 @@ public class MasterRepository {
 
     // By Soil Fertility Status
     /// TODO: Remove
-    public long getCountOfParcelsUnderMarriedCoupleHoldersByHoldingType(long kebele, byte type) {
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3787,7 +3787,7 @@ public class MasterRepository {
     }
 
     /// TODO: Remove
-    public long getCountOfParcelsUnderSingleFemaleHoldersByHoldingType(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleFemaleHoldersByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3806,7 +3806,7 @@ public class MasterRepository {
     }
 
     /// TODO: Remove
-    public long getCountOfParcelsUnderSingleMaleHoldersByHoldingType(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleMaleHoldersByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3825,7 +3825,7 @@ public class MasterRepository {
     }
 
     /// TODO: Remove
-    public long getCountOfParcelsUnderOrphanHoldersByHoldingType(long kebele, byte type) {
+    public long getCountOfParcelsUnderOrphanHoldersByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3843,11 +3843,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderNonNaturalHoldersByHoldingType(long kebele, byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND holdingtype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND holdingtype=? AND  " + stageExpression + "  and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3861,7 +3861,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOtherHoldingTypesByHoldingType(long kebele, byte type) {
+    public long getCountOfParcelsUnderOtherHoldingTypesByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -3879,11 +3879,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByHoldingType(long kebele, byte type) {
+    public long getCountOfParcelsUnderDisputeByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND holdingtype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND holdingtype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3897,11 +3897,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByHoldingType(long kebele, byte type) {
+    public long getCountOfAllParcelsByHoldingType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND holdingtype=? AND Parcel.status='active' AND Parcel.stage=4";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND holdingtype=? AND Parcel.status='active' AND Parcel." + stageExpression + " ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3916,11 +3916,11 @@ public class MasterRepository {
     }
 
     // By Organisation Type
-    public long getCountOfParcelsUnderNonNaturalHoldersByOrganisationType(long kebele, byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersByOrganisationType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.hasDispute='false' AND Parcel.status='active' AND Parcel.stage=4 AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
+            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.hasDispute='false' AND Parcel.status='active' AND Parcel." + stageExpression + "  AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3934,11 +3934,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByOrganisationType(long kebele, byte type) {
+    public long getCountOfParcelsUnderDisputeByOrganisationType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.hasDispute='true' AND Parcel.status='active' AND Parcel.stage=4 AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
+            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.hasDispute='true' AND Parcel.status='active' AND Parcel." + stageExpression + "  AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3952,11 +3952,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByOrganisationType(long kebele, byte type) {
+    public long getCountOfAllParcelsByOrganisationType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.stage=4 AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
+            String query = "SELECT count(distinct Parcel.UPI) as c FROM Parcel, OrganizationHolder WHERE Parcel.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel." + stageExpression + "  AND OrganizationHolder.UPI = Parcel.UPI AND OrganizationHolder.stage=Parcel.stage AND OrganizationHolder.status='active' AND OrganizationHolder.organizationtype= ?";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3971,11 +3971,11 @@ public class MasterRepository {
     }
 
     // By means of acquisition
-    public long getCountOfParcelsUnderMarriedCoupleHoldersByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -3989,11 +3989,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleFemaleHoldersByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleFemaleHoldersByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4007,11 +4007,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleMaleHoldersByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleMaleHoldersByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + " )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4025,11 +4025,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOrphanHoldersByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfParcelsUnderOrphanHoldersByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + "  and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4043,11 +4043,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderNonNaturalHoldersByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND  " + stageExpression + "  and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4061,11 +4061,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOtherHoldingTypesByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfParcelsUnderOtherHoldingTypesByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND acquisitiontype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4079,11 +4079,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfParcelsUnderDisputeByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND acquisitiontype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND acquisitiontype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4097,11 +4097,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByMeansOfAcquisition(long kebele, byte type) {
+    public long getCountOfAllParcelsByMeansOfAcquisition(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND Parcel.status='active' AND Parcel.stage=4";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND acquisitiontype=? AND Parcel.status='active' AND Parcel." + stageExpression + " ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4116,11 +4116,11 @@ public class MasterRepository {
     }
 
     // By encumbrance
-    public long getCountOfParcelsUnderMarriedCoupleHoldersByEncumbrances(long kebele, byte type) {
+    public long getCountOfParcelsUnderMarriedCoupleHoldersByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM MarriedCouple )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4134,11 +4134,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleFemaleHoldersByEncumbrances(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleFemaleHoldersByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4152,11 +4152,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderSingleMaleHoldersByEncumbrances(long kebele, byte type) {
+    public long getCountOfParcelsUnderSingleMaleHoldersByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + " )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4170,11 +4170,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOrphanHoldersByEncumbrances(long kebele, byte type) {
+    public long getCountOfParcelsUnderOrphanHoldersByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and  " + stageExpression + "  and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4188,11 +4188,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderNonNaturalHoldersByEncumbrances(long kebele, byte type) {
+    public long getCountOfParcelsUnderNonNaturalHoldersByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND stage=4 and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND  " + stageExpression + "  and status='active' and holdingtype!=1 and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4206,11 +4206,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderOtherHoldingTypesByEncumbrances(long kebele, byte type) {
+    public long getCountOfParcelsUnderOtherHoldingTypesByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='false' AND encumbrancetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4224,11 +4224,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsUnderDisputeByEncumbrances(long kebele, byte type) {
+    public long getCountOfParcelsUnderDisputeByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND encumbrancetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE hasDispute='true' AND encumbrancetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4242,11 +4242,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsByEncumbrances(long kebele, byte type) {
+    public long getCountOfAllParcelsByEncumbrances(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND Parcel.status='active' AND Parcel.stage=4";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%' AND encumbrancetype=? AND Parcel.status='active' AND Parcel." + stageExpression + " ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -4261,11 +4261,11 @@ public class MasterRepository {
     }
 
     // Physical Impairment
-    public long getCountOfMarriedCoupleHoldersWithPhysicalImpairment(long kebele) {
+    public long getCountOfMarriedCoupleHoldersWithPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND (familyrole=1 OR familyrole=2 ) AND physicalimpairment='true' ";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND (familyrole=1 OR familyrole=2 ) AND physicalimpairment='true' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4278,11 +4278,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMarriedCoupleHoldersWithoutPhysicalImpairment(long kebele) {
+    public long getCountOfMarriedCoupleHoldersWithoutPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND (familyrole=1 OR familyrole=2 ) AND physicalimpairment='false' ";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND (familyrole=1 OR familyrole=2 ) AND physicalimpairment='false' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4295,11 +4295,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfSingleFemaleHoldersWithPhysicalImpairment(long kebele) {
+    public long getCountOfSingleFemaleHoldersWithPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='true' ";
+            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND physicalimpairment='true' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4312,11 +4312,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfSingleFemaleHoldersWithoutPhysicalImpairment(long kebele) {
+    public long getCountOfSingleFemaleHoldersWithoutPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='false' ";
+            String query = "SELECT count(distinct holderId) as c FROM SingleFemaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND physicalimpairment='false' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4329,11 +4329,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfSingleMaleHoldersWithPhysicalImpairment(long kebele) {
+    public long getCountOfSingleMaleHoldersWithPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='true' ";
+            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND physicalimpairment='true' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4346,11 +4346,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfSingleMaleHoldersWithoutPhysicalImpairment(long kebele) {
+    public long getCountOfSingleMaleHoldersWithoutPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='false' ";
+            String query = "SELECT count(distinct holderId) as c FROM SingleMaleHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND physicalimpairment='false' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4363,11 +4363,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfOrphanHoldersWithPhysicalImpairment(long kebele) {
+    public long getCountOfOrphanHoldersWithPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND isOrphan='true' AND physicalimpairment='true' ";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND isOrphan='true' AND physicalimpairment='true' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4380,11 +4380,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfOrphanHoldersWithoutPhysicalImpairment(long kebele) {
+    public long getCountOfOrphanHoldersWithoutPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND isOrphan='true' AND physicalimpairment='false' ";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND isOrphan='true' AND physicalimpairment='false' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4397,11 +4397,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfOtherHoldingTypesWithPhysicalImpairment(long kebele) {
+    public long getCountOfOtherHoldingTypesWithPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE physicalimpairment='true' AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE physicalimpairment='true' AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4414,11 +4414,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfOtherHoldingTypesWithoutPhysicalImpairment(long kebele) {
+    public long getCountOfOtherHoldingTypesWithoutPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE physicalimpairment='false' AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE physicalimpairment='false' AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%' and UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4431,11 +4431,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllHoldersWithPhysicalImpairment(long kebele) {
+    public long getCountOfAllHoldersWithPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='true' ";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND physicalimpairment='true' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4448,11 +4448,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllHoldersWithoutPhysicalImpairment(long kebele) {
+    public long getCountOfAllHoldersWithoutPhysicalImpairment(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage=4 AND physicalimpairment='false' ";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND  " + stageExpression + "  AND physicalimpairment='false' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4465,11 +4465,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithPersonsOfInterestUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfParcelsWithPersonsOfInterestUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM MarriedCouple)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE  " + stageExpression + "  AND status='active' ) AND UPI in (SELECT UPI FROM MarriedCouple)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4482,11 +4482,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithPersonsOfInterestUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfParcelsWithPersonsOfInterestUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE  " + stageExpression + "  AND status='active' ) AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4499,11 +4499,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithPersonsOfInterestUnderSingleMaleHolders(long kebele) {
+    public long getCountOfParcelsWithPersonsOfInterestUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest  WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM singlemaleholder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest  WHERE  " + stageExpression + "  AND status='active' ) AND UPI in (SELECT UPI FROM singlemaleholder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4516,11 +4516,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithPersonsOfInterestUnderOrphanHolders(long kebele) {
+    public long getCountOfParcelsWithPersonsOfInterestUnderOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM PersonWithInterest WHERE  " + stageExpression + "  AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4533,11 +4533,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithPersonsOfInterestUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfParcelsWithPersonsOfInterestUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active' )";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE  " + stageExpression + "  AND status='active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4550,11 +4550,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithPersonsOfInterestUnderDispute(long kebele) {
+    public long getCountOfParcelsWithPersonsOfInterestUnderDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='true' AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active')";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + " AND status='active' AND hasDispute='true' AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE  " + stageExpression + " AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4567,11 +4567,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfAllParcelsWithPersonsOfInterest(long kebele) {
+    public long getCountOfAllParcelsWithPersonsOfInterest(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active')";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM PersonWithInterest WHERE stage=4 AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4584,11 +4584,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfPersonsWithInterestUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4601,11 +4601,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfPersonsWithInterestUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4618,11 +4618,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestUnderSingleMaleHolders(long kebele) {
+    public long getCountOfPersonsWithInterestUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4635,7 +4635,24 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestUnderOrphanHolders(long kebele) {
+    public long getCountOfPersonsWithInterestUnderOrphanHolders(long kebele, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfPersonsWithInterestUnderOphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4652,11 +4669,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestUnderOphanHolders(long kebele) {
+    public long getCountOfPersonsWithInterestUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + " and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4669,11 +4686,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfPersonsWithInterestForParcelsWithDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' and hasDispute='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4686,11 +4703,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestForParcelsWithDispute(long kebele) {
+    public long getCountOfPersonsWithInterestForAllParcels(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + " AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4703,11 +4720,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfPersonsWithInterestForAllParcels(long kebele) {
+    public long getCountOfMalePersonsWithInterestUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4720,11 +4737,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMalePersonsWithInterestUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfMalePersonsWithInterestUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4737,11 +4754,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMalePersonsWithInterestUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfMalePersonsWithInterestUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4754,11 +4771,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMalePersonsWithInterestUnderSingleMaleHolders(long kebele) {
+    public long getCountOfMalePersonsWithInterestUnderOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4771,24 +4788,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMalePersonsWithInterestUnderOrphanHolders(long kebele) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getCountOfMalePersonsWithInterestUnderOphanHolders(long kebele) {
+    public long getCountOfMalePersonsWithInterestUnderOphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4805,11 +4805,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMalePersonsWithInterestUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfMalePersonsWithInterestUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4822,11 +4822,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMalePersonsWithInterestForParcelsWithDispute(long kebele) {
+    public long getCountOfMalePersonsWithInterestForParcelsWithDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' and hasDispute='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4839,11 +4839,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMalePersonsWithInterestForAllParcels(long kebele) {
+    public long getCountOfMalePersonsWithInterestForAllParcels(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4856,11 +4856,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfFemalePersonsWithInterestUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4873,11 +4873,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfFemalePersonsWithInterestUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4890,11 +4890,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestUnderSingleMaleHolders(long kebele) {
+    public long getCountOfFemalePersonsWithInterestUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM singlemaleholder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4907,7 +4907,24 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestUnderOrphanHolders(long kebele) {
+    public long getCountOfFemalePersonsWithInterestUnderOrphanHolders(long kebele, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getCountOfFemalePersonsWithInterestUnderOphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -4924,11 +4941,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestUnderOphanHolders(long kebele) {
+    public long getCountOfFemalePersonsWithInterestUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4941,11 +4958,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfFemalePersonsWithInterestForParcelsWithDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' and hasDispute='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4958,11 +4975,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestForParcelsWithDispute(long kebele) {
+    public long getCountOfFemalePersonsWithInterestForAllParcels(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -4975,28 +4992,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemalePersonsWithInterestForAllParcels(long kebele) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(*) as c FROM PersonWithInterest WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public double getAverageNumberOfPIPerParcelsUnderMarriedCoupleHolders(long kebele) {
+    public double getAverageNumberOfPIPerParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel." + stageExpression + "  and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest." + stageExpression + "  and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5009,11 +5009,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfPIPerParcelsUnderSingleFemaleHolders(long kebele) {
+    public double getAverageNumberOfPIPerParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel." + stageExpression + "  and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest." + stageExpression + "  and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + " and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5026,11 +5026,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfPIPerParcelsUnderSingleMaleHolders(long kebele) {
+    public double getAverageNumberOfPIPerParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel." + stageExpression + "  and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest." + stageExpression + " and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + " and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5043,11 +5043,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfPIPerParcelsUnderOrphanHolders(long kebele) {
+    public double getAverageNumberOfPIPerParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status='active' and isOrphan='true') group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel." + stageExpression + "  and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + " and status='active' and isOrphan='true') group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5060,11 +5060,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfPIPerParcelsUnderOtherHoldingTypes(long kebele) {
+    public double getAverageNumberOfPIPerParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and  Parcel.UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and Parcel.UPI IN (SELECT UPI FROM IndividualHolder WHERE sex='m' and stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel." + stageExpression + "  and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest." + stageExpression + "  and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and  Parcel.UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and Parcel.UPI IN (SELECT UPI FROM IndividualHolder WHERE sex='m' and  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5077,11 +5077,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithGuardianUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfParcelsWithGuardianUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM MarriedCouple)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM guardian WHERE  " + stageExpression + "  AND status='active' ) AND UPI in (SELECT UPI FROM MarriedCouple)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5094,11 +5094,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfGuardiansForParcelsUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfGuardiansForParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5111,11 +5111,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfGuardiansPerParcelsUnderMarriedCoupleHolders(long kebele) {
+    public double getAverageNumberOfGuardiansPerParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel." + stageExpression + "  and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian." + stageExpression + "  and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5128,11 +5128,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMaleGuardiansForParcelsUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfMaleGuardiansForParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5145,11 +5145,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemaleGuardiansForParcelsUnderMarriedCoupleHolders(long kebele) {
+    public long getCountOfFemaleGuardiansForParcelsUnderMarriedCoupleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM MarriedCouple WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5162,7 +5162,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public String getFirstDataEntryDateInKebeleForMarriedHolders(long kebele) {
+    public String getFirstDataEntryDateInKebeleForMarriedHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5179,7 +5179,7 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getLastDataEntryDateInKebeleForMarriedHolders(long kebele) {
+    public String getLastDataEntryDateInKebeleForMarriedHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5196,11 +5196,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public double getAverageNumberOfPIPerParcelForAllParcels(long kebele) {
+    public double getAverageNumberOfPIPerParcelForAllParcels(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' GROUP BY Parcel.UPI) as t ";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel." + stageExpression + " and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest." + stageExpression + " and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' GROUP BY Parcel.UPI) as t ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5214,7 +5214,7 @@ public class MasterRepository {
     }
 
     ////////////////////
-    public int getCountOfParcelsWithPersonsOfInterestForMarriedHolders(long kebele) {
+    public int getCountOfParcelsWithPersonsOfInterestForMarriedHolders(long kebele, String stageExpression) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5231,7 +5231,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public int getCountOfPersonWithInterestForParcelsUnderMarriedHolders(long kebele) {
+    public int getCountOfPersonWithInterestForParcelsUnderMarriedHolders(long kebele, String stageExpression) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5248,7 +5248,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public int getCountOfMalePersonWithInterestForParcelsUnderMarriedHolders(long kebele) {
+    public int getCountOfMalePersonWithInterestForParcelsUnderMarriedHolders(long kebele, String stageExpression) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5265,7 +5265,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public int getCountOfFemalePersonWithInterestForParcelsUnderMarriedHolders(long kebele) {
+    public int getCountOfFemalePersonWithInterestForParcelsUnderMarriedHolders(long kebele, String stageExpression) {
         int returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5282,11 +5282,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithGuardiansUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfParcelsWithGuardiansUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE  " + stageExpression + "  AND status='active' ) AND UPI in (SELECT UPI FROM SingleFemaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5299,11 +5299,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfGuardiansForParcelsUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfGuardiansForParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5316,11 +5316,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfGuardiansPerParcelsUnderSingleFemaleHolders(long kebele) {
+    public double getAverageNumberOfGuardiansPerParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel." + stageExpression + "  and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian." + stageExpression + "  and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + " and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5333,11 +5333,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMaleGuardiansForParcelsUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfMaleGuardiansForParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + " AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + " AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5350,11 +5350,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemaleGuardiansForParcelsUnderSingleFemaleHolders(long kebele) {
+    public long getCountOfFemaleGuardiansForParcelsUnderSingleFemaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + " AND status='active' AND UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + " AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5367,11 +5367,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public String getFirstDataEntryDateInKebeleForSingleFemaleHolders(long kebele) {
+    public String getFirstDataEntryDateInKebeleForSingleFemaleHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT min(registeredon) as d FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  " + stageExpression + " and UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + ")";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5384,11 +5384,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getLastDataEntryDateInKebeleForSingleFemaleHolders(long kebele) {
+    public String getLastDataEntryDateInKebeleForSingleFemaleHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  " + stageExpression + " and UPI in (SELECT UPI FROM SingleFemaleHolder WHERE  " + stageExpression + " )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5401,11 +5401,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public long getCountOfParcelsWithGuardiansUnderSingleMaleHolders(long kebele) {
+    public long getCountOfParcelsWithGuardiansUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND " + stageExpression + " AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE  " + stageExpression + " AND status='active' ) AND UPI in (SELECT UPI FROM SingleMaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5418,11 +5418,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfGuardiansForParcelsUnderSingleMaleHolders(long kebele) {
+    public long getCountOfGuardiansForParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE " + stageExpression + " AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5435,11 +5435,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfGuardiansPerParcelsUnderSingleMaleHolders(long kebele) {
+    public double getAverageNumberOfGuardiansPerParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 and status='active' ) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel." + stageExpression + "  and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian." + stageExpression + "  and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and Parcel.UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + "  and status='active' ) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5452,11 +5452,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMaleGuardiansForParcelsUnderSingleMaleHolders(long kebele) {
+    public long getCountOfMaleGuardiansForParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + " AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5469,11 +5469,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemaleGuardiansForParcelsUnderSingleMaleHolders(long kebele) {
+    public long getCountOfFemaleGuardiansForParcelsUnderSingleMaleHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE stage=4 AND status='active')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + " AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5486,11 +5486,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public String getFirstDataEntryDateInKebeleForSingleMaleHolders(long kebele) {
+    public String getFirstDataEntryDateInKebeleForSingleMaleHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE  " + stageExpression + " AND UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + " )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5503,11 +5503,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getLastDataEntryDateInKebeleForSingleMaleHolders(long kebele) {
+    public String getLastDataEntryDateInKebeleForSingleMaleHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleMaleHolder)";
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE  " + stageExpression + " AND UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM SingleMaleHolder WHERE  " + stageExpression + " )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5520,11 +5520,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public long getCountOfParcelsWithGuardiansUnderOrphanHolders(long kebele) {
+    public long getCountOfParcelsWithGuardiansUnderOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI in (SELECT UPI FROM Guardian WHERE  " + stageExpression + "  AND status='active' ) AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5537,11 +5537,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfGuardiansForParcelsUnderOrphanHolders(long kebele) {
+    public long getCountOfGuardiansForParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5554,7 +5554,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfGuardiansPerParcelsUnderOrphanHolders(long kebele) {
+    public double getAverageNumberOfGuardiansPerParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5571,11 +5571,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMaleGuardiansForParcelsUnderOrphanHolders(long kebele) {
+    public long getCountOfMaleGuardiansForParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE  sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5588,11 +5588,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemaleGuardiansForParcelsUnderOrphanHolders(long kebele) {
+    public long getCountOfFemaleGuardiansForParcelsUnderOrphanHolders(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE  sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE  sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + " AND status='active' AND UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5605,11 +5605,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public String getFirstDataEntryDateInKebeleForOrphanHolders(long kebele) {
+    public String getFirstDataEntryDateInKebeleForOrphanHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5622,11 +5622,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getLastDataEntryDateInKebeleForOrphanHolders(long kebele) {
+    public String getLastDataEntryDateInKebeleForOrphanHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 AND status='active' AND isOrphan='true')";
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  AND status='active' AND isOrphan='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5639,7 +5639,7 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getFirstDataEntryDateInKebeleForNonNaturalHolders(long kebele) {
+    public String getFirstDataEntryDateInKebeleForNonNaturalHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5656,7 +5656,7 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getLastDataEntryDateInKebeleForNonNaturalHolders(long kebele) {
+    public String getLastDataEntryDateInKebeleForNonNaturalHolders(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
@@ -5673,11 +5673,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public long getCountOfParcelsWithGuardiansUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfParcelsWithGuardiansUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='false' AND UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) AND UPI IN (SELECT UPI FROM Guardian WHERE stage=4 AND status='active' )";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND hasDispute='false' AND UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) AND UPI IN (SELECT UPI FROM Guardian WHERE  " + stageExpression + "  AND status='active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5690,11 +5690,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfGuardiansForParcelsUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfGuardiansForParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5708,11 +5708,11 @@ public class MasterRepository {
     }
 
     //TODO: Check
-    public double getAverageNumberOfGuardiansPerParcelsUnderOtherHoldingTypes(long kebele) {
+    public double getAverageNumberOfGuardiansPerParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and  Parcel.UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and Parcel.UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) group by Parcel.upi) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel." + stageExpression + "  and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian." + stageExpression + " and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and  Parcel.UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and " + stageExpression + "  and status = 'active') and Parcel.UPI IN (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) group by Parcel.upi) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5725,11 +5725,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMaleGuardiansForParcelsUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfMaleGuardiansForParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND " + stageExpression + "  AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5742,11 +5742,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemaleGuardiansForParcelsUnderOtherHoldingTypes(long kebele) {
+    public long getCountOfFemaleGuardiansForParcelsUnderOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI NOT IN (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI IN (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5759,11 +5759,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public String getFirstDataEntryDateInKebeleForOtherHoldingTypes(long kebele) {
+    public String getFirstDataEntryDateInKebeleForOtherHoldingTypes(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE  " + stageExpression + " AND UPI LIKE '" + kebele + "/%' and  UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5776,11 +5776,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getLastDataEntryDateInKebeleForOtherHoldingTypes(long kebele) {
+    public String getLastDataEntryDateInKebeleForOtherHoldingTypes(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE  " + stageExpression + " AND UPI LIKE '" + kebele + "/%' and  UPI not in (SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and  " + stageExpression + "  and status = 'active') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5793,11 +5793,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public double getAverageNumberOfPIPerParcelsUnderDispute(long kebele) {
+    public double getAverageNumberOfPIPerParcelsUnderDispute(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel.stage = 4 and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest.stage=4 and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.hasDispute='true' group by Parcel.UPI) as q";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(PersonWithInterest.*) c FROM PersonWithInterest, Parcel WHERE Parcel." + stageExpression + "  and PersonWithInterest.UPI = Parcel.UPI and PersonWithInterest.stage=Parcel.stage and  PersonWithInterest." + stageExpression + "  and PersonWithInterest.status='active' and PersonWithInterest.UPI LIKE '" + kebele + "/%' and Parcel.hasDispute='true' group by Parcel.UPI) as q";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5810,11 +5810,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfParcelsWithGuardiansUnderDispute(long kebele) {
+    public long getCountOfParcelsWithGuardiansUnderDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND hasDispute='true' AND UPI IN (SELECT UPI FROM Guardian WHERE stage=4 AND status='active')";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND hasDispute='true' AND UPI IN (SELECT UPI FROM Guardian WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5827,11 +5827,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfGuardiansForParcelsWithDispute(long kebele) {
+    public long getCountOfGuardiansForParcelsWithDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' and hasDispute='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5844,11 +5844,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfGuardiansPerParcelsUnderDispute(long kebele) {
+    public double getAverageNumberOfGuardiansPerParcelsUnderDispute(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and  Parcel.hasDispute='true' GROUP BY Parcel.UPI) t";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel." + stageExpression + "  and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian." + stageExpression + "  and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' and  Parcel.hasDispute='true' GROUP BY Parcel.UPI) t";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5861,11 +5861,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMaleGuardiansForParcelsWithDispute(long kebele) {
+    public long getCountOfMaleGuardiansForParcelsWithDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + " and status = 'active' and hasDispute='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5878,11 +5878,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemaleGuardiansForParcelsWithDispute(long kebele) {
+    public long getCountOfFemaleGuardiansForParcelsWithDispute(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' and hasDispute='true')";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + " and status = 'active' and hasDispute='true')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5895,11 +5895,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public String getFirstDataEntryDateInKebeleForParcelsWithDispute(long kebele) {
+    public String getFirstDataEntryDateInKebeleForParcelsWithDispute(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  hasDispute='true' ";
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE  " + stageExpression + " AND UPI LIKE '" + kebele + "/%' and  hasDispute='true' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5912,11 +5912,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public String getLastDataEntryDateInKebeleForParcelsWithDispute(long kebele) {
+    public String getLastDataEntryDateInKebeleForParcelsWithDispute(long kebele, String stageExpression) {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' and  hasDispute='true' ";
+            String query = "SELECT max(registeredon) as d  FROM Parcel WHERE " + stageExpression + " AND UPI LIKE '" + kebele + "/%' and  hasDispute='true' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5929,11 +5929,11 @@ public class MasterRepository {
         return returnValue == null ? "" : returnValue.toString();
     }
 
-    public long getCountOfAllParcelsWithGuardians(long kebele) {
+    public long getCountOfAllParcelsWithGuardians(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Guardian WHERE stage=4 AND status='active')";
+            String query = "SELECT count(distinct UPI) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Guardian WHERE  " + stageExpression + "  AND status='active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5946,11 +5946,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfGuardiansForAllParcels(long kebele) {
+    public long getCountOfGuardiansForAllParcels(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            String query = "SELECT count(*) as c FROM Guardian WHERE UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5963,11 +5963,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public double getAverageNumberOfGuardiansPerParcelForAllParcels(long kebele) {
+    public double getAverageNumberOfGuardiansPerParcelForAllParcels(long kebele, String stageExpression) {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel.stage = 4 and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian.stage=4 and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' GROUP BY Parcel.UPI) as t ";
+            String query = "SELECT avg(c) as a FROM (SELECT Parcel.upi,count(Guardian.*) c FROM Guardian, Parcel WHERE Parcel." + stageExpression + "  and Guardian.UPI = Parcel.UPI and Guardian.stage=Parcel.stage and  Guardian." + stageExpression + "  and Guardian.status='active' and Guardian.UPI LIKE '" + kebele + "/%' GROUP BY Parcel.UPI) as t ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5980,11 +5980,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfMaleGuardiansForAllParcels(long kebele) {
+    public long getCountOfMaleGuardiansForAllParcels(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='m' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -5997,11 +5997,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfFemaleGuardiansForAllParcels(long kebele) {
+    public long getCountOfFemaleGuardiansForAllParcels(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND stage=4 AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE stage=4 and status = 'active' )";
+            String query = "SELECT count(*) as c FROM Guardian WHERE sex='f' AND UPI LIKE '" + kebele + "/%' AND  " + stageExpression + "  AND status='active' AND UPI IN (SELECT UPI FROM Parcel WHERE  " + stageExpression + "  and status = 'active' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6018,7 +6018,7 @@ public class MasterRepository {
         Date returnValue = null;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT min(registeredon) as d  FROM Parcel WHERE UPI LIKE '" + kebele + "/%' ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6049,11 +6049,11 @@ public class MasterRepository {
     }
 
     /// Disputes Report
-    public long getNumberOfDisputesByType(long kebele, byte type) {
+    public long getNumberOfDisputesByType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -6067,11 +6067,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfAllDisputes(long kebele) {
+    public long getNumberOfAllDisputes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6084,54 +6084,19 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfPeopleInDisputeByType(long kebele, byte type) {
-        return getNumberOfHoldersInDisputeByType(kebele, type) + getNumberOfDisputantsInDisputeByType(kebele, type);
+    public long getNumberOfPeopleInDisputeByType(long kebele, byte type, String stageExpression) {
+        return getNumberOfHoldersInDisputeByType(kebele, type, stageExpression) + getNumberOfDisputantsInDisputeByType(kebele, type, stageExpression);
     }
 
-    public long getNumberOfPeopleAllDisputes(long kebele) {
-        return getNumberOfHoldersInAllDisputes(kebele) + getNumberOfDisputantsInAllDisputes(kebele);
+    public long getNumberOfPeopleAllDisputes(long kebele, String stageExpression) {
+        return getNumberOfHoldersInAllDisputes(kebele, stageExpression) + getNumberOfDisputantsInAllDisputes(kebele, stageExpression);
     }
 
-    public long getNumberOfDisputantsInDisputeByType(long kebele, byte type) {
+    public long getNumberOfDisputantsInDisputeByType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setByte(1, type);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfDisputantsInAllDisputes(long kebele) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(*) as c FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfHoldersInDisputeByType(long kebele, byte type) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
+            String query = "SELECT count(*) as c FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -6145,11 +6110,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfHoldersInAllDisputes(long kebele) {
+    public long getNumberOfDisputantsInAllDisputes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
+            String query = "SELECT count(*) as c FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6162,46 +6127,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfMarriedCoupleHoldersInDisputeByType(long kebele, byte type) {
+    public long getNumberOfHoldersInDisputeByType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM marriedcouple WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setByte(1, type);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfMarriedCoupleHoldersInAllDisputes(long kebele) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct holderId) as c FROM marriedcouple WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfSingleFemaleHoldersInDisputeByType(long kebele, byte type) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct holderId) as c FROM singlefemaleholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -6215,11 +6145,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfSingleFemaleHoldersInAllDisputes(long kebele) {
+    public long getNumberOfHoldersInAllDisputes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM singlefemaleholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6232,46 +6162,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfSingleMaleHoldersInDisputeByType(long kebele, byte type) {
+    public long getNumberOfMarriedCoupleHoldersInDisputeByType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM singlemaleholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setByte(1, type);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfSingleMaleHoldersInAllDisputes(long kebele) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct holderId) as c FROM singlemaleholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfOrphanHoldersInDisputeByType(long kebele, byte type) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and isorphan = 'true' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
+            String query = "SELECT count(distinct holderId) as c FROM marriedcouple WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -6285,11 +6180,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfOrphanHoldersInAllDisputes(long kebele) {
+    public long getNumberOfMarriedCoupleHoldersInAllDisputes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and isorphan = 'true' and UPI in (SELECT UPI FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
+            String query = "SELECT count(distinct holderId) as c FROM marriedcouple WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6302,46 +6197,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfNonNaturalHoldersInDisputeByType(long kebele, byte type) {
+    public long getNumberOfSingleFemaleHoldersInDisputeByType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(*) as c FROM organizationholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            stmnt.setByte(1, type);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfNonNaturalHoldersInAllDisputes(long kebele) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(*) as c FROM organizationholder WHERE stage=4 and status='active' and UPI in (SELECT UPI FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') ";
-            PreparedStatement stmnt = connection.prepareStatement(query);
-            ResultSet rs = stmnt.executeQuery();
-            if (rs.next()) {
-                returnValue = rs.getLong("c");
-            }
-            connection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
-        }
-        return returnValue;
-    }
-
-    public long getNumberOfOtherHoldingTypesInDisputeByType(long kebele, byte type) {
-        long returnValue = 0;
-        Connection connection = CommonStorage.getConnection();
-        try {
-            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and familyrole!=1 AND familyrole!=2  and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) ";
+            String query = "SELECT count(distinct holderId) as c FROM singlefemaleholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             ResultSet rs = stmnt.executeQuery();
@@ -6355,11 +6215,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfOtherHoldingTypesInAllDisputes(long kebele) {
+    public long getNumberOfSingleFemaleHoldersInAllDisputes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE stage=4 and status='active' and familyrole!=1 AND familyrole!=2  and UPI in (SELECT UPI FROM Dispute WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%') and UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) ";
+            String query = "SELECT count(distinct holderId) as c FROM singlefemaleholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6372,11 +6232,151 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfDisputesByTypeAndStatus(long kebele, byte type, byte status) {
+    public long getNumberOfSingleMaleHoldersInDisputeByType(long kebele, byte type, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE disputetype=? AND disputestatus=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct holderId) as c FROM singlemaleholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND  " + stageExpression + " and status='active' and UPI LIKE '" + kebele + "/%') ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfSingleMaleHoldersInAllDisputes(long kebele, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM singlemaleholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfOrphanHoldersInDisputeByType(long kebele, byte type, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE  " + stageExpression + " and status='active' and isorphan = 'true' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfOrphanHoldersInAllDisputes(long kebele, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE  " + stageExpression + "  and status='active' and isorphan = 'true' and UPI in (SELECT UPI FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfNonNaturalHoldersInDisputeByType(long kebele, byte type, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM organizationholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfNonNaturalHoldersInAllDisputes(long kebele, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(*) as c FROM organizationholder WHERE  " + stageExpression + "  and status='active' and UPI in (SELECT UPI FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfOtherHoldingTypesInDisputeByType(long kebele, byte type, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE  " + stageExpression + "  and status='active' and familyrole!=1 AND familyrole!=2  and UPI in (SELECT UPI FROM Dispute WHERE disputetype=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + "  and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setByte(1, type);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfOtherHoldingTypesInAllDisputes(long kebele, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM individualholder WHERE  " + stageExpression + "  and status='active' and familyrole!=1 AND familyrole!=2  and UPI in (SELECT UPI FROM Dispute WHERE  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%') and UPI in (SELECT UPI FROM IndividualHolder WHERE  " + stageExpression + " and status = 'active' GROUP BY UPI HAVING count(holderId) > 1) ";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+
+    public long getNumberOfDisputesByTypeAndStatus(long kebele, byte type, byte status, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE disputetype=? AND disputestatus=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, type);
             stmnt.setByte(2, status);
@@ -6391,11 +6391,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getNumberOfAllDisputesByStatus(long kebele, byte status) {
+    public long getNumberOfAllDisputesByStatus(long kebele, byte status, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE disputestatus=? AND stage=4 and status='active' and UPI LIKE '" + kebele + "/%'";
+            String query = "SELECT count(distinct UPI) as c FROM Dispute WHERE disputestatus=? AND  " + stageExpression + "  and status='active' and UPI LIKE '" + kebele + "/%'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setByte(1, status);
             ResultSet rs = stmnt.executeQuery();
@@ -6409,11 +6409,11 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public long getCountOfHoldersOfOtherHoldingTypes(long kebele) {
+    public long getCountOfHoldersOfOtherHoldingTypes(long kebele, String stageExpression) {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder,Parcel WHERE Parcel.hasDispute='false' AND Parcel.stage=4 and Parcel.status='active' AND Parcel.UPI =IndividualHolder.UPI AND IndividualHolder.stage=4 and IndividualHolder.status='active' AND IndividualHolder.UPI LIKE '" + kebele + "/%' and IndividualHolder.UPI not in ( SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and stage=4 and status = 'active') and IndividualHolder.UPI in (SELECT UPI FROM IndividualHolder WHERE stage=4 and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder,Parcel WHERE Parcel.hasDispute='false' AND Parcel." + stageExpression + " and Parcel.status='active' AND Parcel.UPI =IndividualHolder.UPI AND IndividualHolder." + stageExpression + " and IndividualHolder.status='active' AND IndividualHolder.UPI LIKE '" + kebele + "/%' and IndividualHolder.UPI not in ( SELECT UPI FROM IndividualHolder WHERE (familyrole=1 or familyrole=2) and " + stageExpression + " and status = 'active') and IndividualHolder.UPI in (SELECT UPI FROM IndividualHolder WHERE " + stageExpression + " and status = 'active' GROUP BY UPI HAVING count(holderId) > 1)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -6607,8 +6607,7 @@ public class MasterRepository {
                         }
                         parcel.hasMissingValue(hasMissingValue);
                         holder.addParcel(parcel);
-                        
-                        
+
                     }
                 }
                 returnValue.add(holder);
@@ -7194,12 +7193,11 @@ public class MasterRepository {
 
     public ArrayList<Parcel> getALLParcelsInCommitted(String kebele) {
         ArrayList<Parcel> returnValue = new ArrayList<>();
-        refreshView("postcommittedparcels");
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT distinct on (upi) * FROM Parcel WHERE stage = 4 and status='active' and upi not in (SELECT upi FROM postcommittedparcels where UPI LIKE '" + kebele + "/%')";
+            String query = "SELECT upi, teamno , parcelid, certificateno, hasdispute, acquisitiontype, surveydate FROM Parcel WHERE stage=4 and status='active' EXCEPT SELECT upi, teamno ,  parcelid, certificateno, hasdispute, acquisitiontype, surveydate FROM Parcel WHERE stage>4 and status='active'";
             if (!kebele.equalsIgnoreCase("all")) {
-                query += " and UPI LIKE '" + kebele + "/%'";
+                query = "SELECT upi, teamno , parcelid, certificateno, hasdispute, acquisitiontype, surveydate FROM Parcel WHERE stage=4 and status='active' and UPI LIKE '" + kebele + "/%' EXCEPT SELECT upi, teamno ,  parcelid, certificateno, hasdispute, acquisitiontype, surveydate FROM Parcel WHERE stage>4 and status='active'  and UPI LIKE '" + kebele + "/%'";
             }
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
@@ -7210,33 +7208,6 @@ public class MasterRepository {
                 parcel.hasDispute(rs.getBoolean("hasdispute"));
                 parcel.setAcquisition(rs.getByte("acquisitiontype"));
                 parcel.setSurveyDate(rs.getString("surveydate"));
-
-                /*parcel.setAcquisitionYear(rs.getInt("acquisitionyear"));
-                 parcel.setCurrentLandUse(rs.getByte("landusetype"));
-                 parcel.setEncumbrance(rs.getByte("encumbrancetype"));
-                 parcel.setHolding(rs.getByte("holdingtype"));
-                 parcel.setHoldingNumber(rs.getString("holdingno"));
-                 parcel.setMapSheetNo(rs.getString("mapsheetno"));
-                 parcel.setOtherEvidence(rs.getByte("otherevidence"));
-                 parcel.setParcelId(rs.getInt("parcelid"));
-                 parcel.setRegisteredBy(rs.getLong("registeredby"));
-                 parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
-                 parcel.setStage(rs.getByte("stage"));
-                 parcel.setStatus(rs.getString("status"));
-                
-                 parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
-                
-                 parcel.setTeamNo(rs.getByte("teamNo"));
-                 if (parcel.hasDispute()) {
-                 parcel.setDisputes(getAllDisputes(parcel.getUpi(), parcel.getStage()));
-                 }
-                 if (parcel.getHolding() == 1) {
-                 parcel.setIndividualHolders(getAllIndividualHolders(parcel.getUpi(), parcel.getStage()));
-                 parcel.setPersonsWithInterest(getAllPersonsWithInterest(parcel.getUpi(), parcel.getStage()));
-                 } else {
-                 parcel.setOrganaizationHolder(getOrganaizationHolder(parcel.getUpi(), parcel.getStage()));
-                 }
-                 */
                 returnValue.add(parcel);
             }
             connection.close();
@@ -8734,32 +8705,18 @@ public class MasterRepository {
 
     public ArrayList<Parcel> getALLParcelsInMinorCorrection() {
         ArrayList<Parcel> returnValue = new ArrayList<>();
-        refreshView("postminorcorrection");
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT * FROM Parcel WHERE stage = " + CommonStorage.getMinorCorrectionStage()
-                    + " and status='active' and upi not in (SELECT upi FROM postminorcorrection) ORDER BY upi LIMIT 10";
+            String query = "SELECT upi, teamno , parcelid, certificateno, hasdispute, acquisitiontype, surveydate FROM Parcel WHERE stage=5 and status='active' EXCEPT SELECT upi, teamno ,  parcelid, certificateno, hasdispute, acquisitiontype, surveydate FROM Parcel WHERE stage>5 and status='active'";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             while (rs.next()) {
                 Parcel parcel = new Parcel();
                 parcel.setAcquisition(rs.getByte("acquisitiontype"));
-                parcel.setAcquisitionYear(rs.getInt("acquisitionyear"));
                 parcel.setCertificateNumber(rs.getString("certificateno"));
-                parcel.setCurrentLandUse(rs.getByte("landusetype"));
-                parcel.setEncumbrance(rs.getByte("encumbrancetype"));
-                parcel.setHolding(rs.getByte("holdingtype"));
-                parcel.setHoldingNumber(rs.getString("holdingno"));
-                parcel.setMapSheetNo(rs.getString("mapsheetno"));
-                parcel.setOtherEvidence(rs.getByte("otherevidence"));
                 parcel.setParcelId(rs.getInt("parcelid"));
-                parcel.setRegisteredBy(rs.getLong("registeredby"));
-                parcel.setSoilFertility(rs.getByte("soilfertilitytype"));
-                parcel.setStage(rs.getByte("stage"));
-                parcel.setStatus(rs.getString("status"));
                 parcel.setSurveyDate(rs.getString("surveydate"));
                 parcel.setUpi(rs.getString("upi"));
-                parcel.setRegisteredOn(rs.getTimestamp("registeredon"));
                 parcel.hasDispute(rs.getBoolean("hasdispute"));
                 parcel.setTeamNo(rs.getByte("teamNo"));
                 if (parcel.hasDispute()) {
@@ -9581,13 +9538,13 @@ public class MasterRepository {
         ArrayList<PrintListDTO> returnValue = new ArrayList<>();
         Connection connection = CommonStorage.getConnection();
         try {
-            
+
             String query = "SELECT DISTINCT parcel.upi, individualholder.firstname, "
                     + "individualholder.fathersname, individualholder.grandfathersname, "
                     + "individualholder.holderid FROM parcel, individualholder "
-                    + "WHERE parcel.upi=individualholder.upi AND parcel.stage=" + CommonStorage.getPrintedStage()+ " AND "
+                    + "WHERE parcel.upi=individualholder.upi AND parcel.stage=" + CommonStorage.getPrintedStage() + " AND "
                     + "parcel.status='active' AND individualholder.status='active' AND parcel.upi LIKE '" + kebele + "/%' ORDER BY  parcel.upi";
-            
+
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet holders = stmnt.executeQuery();
             while (holders.next()) {
@@ -9611,7 +9568,7 @@ public class MasterRepository {
 
             String query = "SELECT DISTINCT parcel.upi, organizationholder.Organizationname "
                     + "FROM parcel, organizationholder WHERE parcel.upi=organizationholder.upi "
-                    + "AND parcel.stage=" + CommonStorage.getPrintedStage()+ " AND parcel.status='active' AND organizationholder.status='active' "
+                    + "AND parcel.stage=" + CommonStorage.getPrintedStage() + " AND parcel.status='active' AND organizationholder.status='active' "
                     + "AND organizationholder.stage>9 AND parcel.upi LIKE '" + kebele + "/%' ORDER BY  parcel.upi ";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet holders = stmnt.executeQuery();

@@ -90,6 +90,7 @@
         });
     }
     function confirmParcel(upi) {
+
         $.ajax({
             type: 'POST',
             url: "<%=confirmURL%>",

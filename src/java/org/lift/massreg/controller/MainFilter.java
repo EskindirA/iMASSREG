@@ -630,6 +630,8 @@ public class MainFilter extends HttpServlet {
             Administrator.timeBoundReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR)) {
             Administrator.kebeleReport(request, response);
+        } else if (action.equalsIgnoreCase(Constants.ACTION_COMPLETION_REPORT_ADMINISTRATOR)) {
+            Administrator.completionReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_APPROVAL_REPORT_ADMINISTRATOR)) {
             Administrator.approvalReport(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_APPROVAL_CHECKLIST_ADMINISTRATOR)) {

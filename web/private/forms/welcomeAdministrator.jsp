@@ -13,6 +13,7 @@
     String updatepasswordurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_UPDATE_PASSWORD_ADMINISTRATOR;
     String periodicalReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERIODICAL_REPORT_ADMINISTRATOR;
     String kebeleReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR;
+    String completionReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_COMPLETION_REPORT_ADMINISTRATOR;
     String publicDisplayurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PUBLIC_DISPLAY;
     String dailyReportURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_DAILY_REPORT_ADMINISTRATOR;
 
@@ -186,6 +187,10 @@
                                                 }
                                             %>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label></label>
+                                        <input type = 'checkbox'  id="completionReport" name="completionReport"/> Completion report
                                     </div>
                                     <div class="form-group ">
                                         <label>&nbsp;</label>
@@ -742,16 +747,17 @@
         return false;
     });
     $("#kebeleReportButton").click(function () {
+        reporturl = $("#kebeleReportForm #completionReport").is(':checked') ? "<%=completionReporturl%>" : "<%=kebeleReporturl%>";
         if ($("#kebeleReportForm #kebele").val().trim() === "") {
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
         } else {
             $("#reportDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
             $.ajax({
                 type: 'POST',
-                url: "<%=kebeleReporturl%>",
+                url: reporturl,
                 data: {
                     kebele: $("#kebeleReportForm #kebele").val()
-                },
+                        },
                 error: showajaxerror,
                 success: function (data) {
                     $("#reportDetail").html(data);
@@ -760,6 +766,7 @@
         }
         return false;
     });
+    
     $("#reportLink").click(function () {
         $("#reportDetail").html("");
     });
@@ -897,7 +904,7 @@
         }
         return false;
     });
-    
+
     $("#holderListButton").click(function () {
         if ($("#holderListForm #holderListKebele").val().trim() === "") {
             showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
@@ -917,7 +924,7 @@
         }
         return false;
     });
-    
+
     function validateApprovalGenerateReport() {
         var returnValue = true;
         $("#approvalReport #approvalReportForm #kebele").toggleClass("error-field", false);
