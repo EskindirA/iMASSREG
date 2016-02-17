@@ -2391,7 +2391,7 @@ public class MasterRepository {
             String query = "UPDATE Parcel SET area = P2.area FROM dblink("
                     + getDBLinkString() + " ,'SELECT parcel_id, "
                     + "round ((ST_Area(the_geom)/10000)::numeric,5) as area FROM " + getKebeleTable(kebele)
-                    + "') as P2(parcel_id integer, area double precision) WHERE Parcel.parcelid = P2.parcel_id";
+                    + "') as P2(parcel_id integer, area double precision) WHERE Parcel.parcelid = P2.parcel_id and UPI LIKE '" + kebele + "/%'";
             Connection connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.executeUpdate();
@@ -3051,7 +3051,7 @@ public class MasterRepository {
         double returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel." + stageExpression + "  and UPI in (SELECT UPI FROM SingleFemaleHolder)";
+            String query = "SELECT sum(area) a FROM Parcel WHERE Parcel.UPI LIKE '" + kebele + "/%'  and  Parcel.hasDispute='false' and Parcel.status='active' and Parcel." + stageExpression + "  and UPI in (SELECT UPI FROM SingleMaleHolder)";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
