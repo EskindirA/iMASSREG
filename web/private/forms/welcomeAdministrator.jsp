@@ -15,6 +15,8 @@
     String kebeleReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_KEBELE_REPORT_ADMINISTRATOR;
     String completionReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_COMPLETION_REPORT_ADMINISTRATOR;
     String publicDisplayurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PUBLIC_DISPLAY;
+    String photoprintouturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PHOTO_PRINTOUT;
+    String createSpatialTableurl = request.getContextPath() + "/Index?action=" + Constants.ACTION_CREATE_SPATIAL_TABLE;
     String dailyReportURL = request.getContextPath() + "/Index?action=" + Constants.ACTION_DAILY_REPORT_ADMINISTRATOR;
 
     String performanceReporturl = request.getContextPath() + "/Index?action=" + Constants.ACTION_PERIODICAL_PERFORMANCE_REPORT_ADMINISTRATOR;;
@@ -39,6 +41,7 @@
             <!--li><a href="#dailyReport" data-toggle="tab" id="reportLink">< %=CommonStorage.getText("performance_report")%></a></li-->
             <li><a href="#performanceReport" data-toggle="tab" id="performanceReportLink"><%=CommonStorage.getText("performance_report")%></a></li>
             <li><a href="#approvalReport" data-toggle="tab" id="approvalReportLink"><%=CommonStorage.getText("approval")%></a></li>
+            <li><a href="#util" data-toggle="tab" id="approvalReportLink"><%=CommonStorage.getText("util")%></a></li>
 
         </ul>
         <div id="myTabContent" class="tab-content">
@@ -385,6 +388,67 @@
                     </div>
                 </div>
                 <div id="approvalReportDetail"></div>
+            </div>
+            <div class="tab-pane fade" id="util">
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-2">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <%=CommonStorage.getText("photo_printout")%>
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="photoPrintoutForm" name="photoPrintoutForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label><%=CommonStorage.getText("kebele")%></label>
+                                        <select class="form-control" id="kebele" name="kebele">
+                                            <%
+                                                //kebeles = MasterRepository.getInstance().getAllKebeles();
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>"
+                                                            + kebeles[i].getValue()
+                                                            + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'photoPrintoutButton' name = 'photoPrintoutButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-lg-offset-2">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <%=CommonStorage.getText("create_spatial_table")%>
+                            </div>
+                            <div class="panel-body" id="panelBody" >
+                                <form role="form" action="#" method="POST" id="createSpatialTableForm" name="createSpatialTableForm" style="padding-left: 1em;padding-right: 1em">
+                                    <div class="form-group">
+                                        <label><%=CommonStorage.getText("kebele")%></label>
+                                        <select class="form-control" id="kebele" name="kebele">
+                                            <%
+                                                //kebeles = MasterRepository.getInstance().getAllKebeles();
+                                                for (int i = 0; i < kebeles.length; i++) {
+                                                    out.println("<option value = '" + kebeles[i].getKey() + "'>"
+                                                            + kebeles[i].getValue()
+                                                            + "</option>");
+                                                }
+                                            %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>&nbsp;</label>
+                                        <button id = 'createSpatialTableButton' name = 'createSpatialTableButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
+                                    </div>
+                                </form>
+                            </div> <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+                <div id="publicDisplayDetail"></div>
             </div>
         </div>
     </div>
@@ -757,7 +821,7 @@
                 url: reporturl,
                 data: {
                     kebele: $("#kebeleReportForm #kebele").val()
-                        },
+                },
                 error: showajaxerror,
                 success: function (data) {
                     $("#reportDetail").html(data);
@@ -766,7 +830,7 @@
         }
         return false;
     });
-    
+
     $("#reportLink").click(function () {
         $("#reportDetail").html("");
     });
@@ -945,4 +1009,54 @@
         return returnValue;
     }
 
+    $("#photoPrintoutButton").click(function () {
+        if ($("#photoPrintoutForm #kebele").val().trim() === "") {
+            showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
+        } else {
+            $("#util #publicDisplayDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
+            $.ajax({
+                type: 'POST',
+                url: "<%=photoprintouturl%>",
+                data: {
+                    kebele: $("#photoPrintoutForm #kebele").val()
+                },
+                error: showajaxerror,
+                success: function (data) {
+                    $("#util #publicDisplayDetail").html("Ready");
+                    var mywindow = window.open('#', 'Public Display');
+                    mywindow.document.write('<html><head>');
+                    mywindow.document.write('<title>Public Display - Printout</title>');
+                    mywindow.document.write('</head>');
+                    mywindow.document.write('<body>');
+                    mywindow.document.write(data);
+                    mywindow.document.write('</body></html>');
+                    mywindow.document.close();
+                    mywindow.focus();
+                    mywindow.print();
+                    //mywindow.close();
+                }
+            });
+        }
+        return false;
+    });
+    
+    $("#createSpatialTableButton").click(function () {
+        if ($("#createSpatialTableForm #kebele").val().trim() === "") {
+            showError("<%=CommonStorage.getText("please_select_a_kebele_first_to_generate_a_report")%>");
+        } else {
+            $("#util #publicDisplayDetail").html("<center><img src='<%=request.getContextPath()%>/assets/images/loading_spinner.gif' style='width: 250px' /></center>");
+            $.ajax({
+                type: 'POST',
+                url: "<%=createSpatialTableurl%>",
+                data: {
+                    kebele: $("#createSpatialTableForm #kebele").val()
+                },
+                error: showajaxerror,
+                success: function (data) {
+                    $("#util #publicDisplayDetail").html(data);
+                }
+            });
+        }
+        return false;
+    });
 </script>

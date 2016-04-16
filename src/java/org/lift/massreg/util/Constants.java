@@ -160,6 +160,8 @@ public interface Constants {
     public static final String ACTION_HOLDER_LIST_ADMINISTRATOR = "HOLDER_LIST_ADMINISTRATOR";
 
     public static final String ACTION_PUBLIC_DISPLAY = "PUBLIC_DISPLAY";
+    public static final String ACTION_PHOTO_PRINTOUT = "PHOTO_PRINTOUT";
+    public static final String ACTION_CREATE_SPATIAL_TABLE = "CREATE_SPATIAL_TABLE";
 
     public static final String ACTION_MINOR_CORRECTION_PDC = "MINOR_CORRECTION_PDC";
     public static final String ACTION_MAJOR_CORRECTION_PDC = "MAJOR_CORRECTION_PDC";
@@ -510,6 +512,9 @@ public interface Constants {
     public static final int INDEX_PRINT_CERTIFCATE_WC = 131;
     public static final int INDEX_CERTIFICATE_PRINTING_CHECKLIST_WC = 132;
     public static final int INDEX_DAILY_REPORT_ADMINISTRATOR = 133;
+    
+    public static final int INDEX_PHOTO_PRINTOUT = 134;
+    
 
     public enum ROLE {
 

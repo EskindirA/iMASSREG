@@ -414,7 +414,7 @@ public class Administrator {
             rd.forward(request, response);
         }
     }
-    
+
     public static void completionReport(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String kebele = request.getParameter("kebele");
@@ -664,6 +664,56 @@ public class Administrator {
             } else {
                 holderBasedPublicDisplay(request, response, kebeleId);
             }
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+
+    }
+
+    public static void photoPrintOut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            String kebele = request.getParameter("kebele");
+            if (kebele.isEmpty()) {
+                response.getOutputStream().println("Please specfiey kebele for the report ");
+                return;
+            }
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            ArrayList<String> holderIds = MasterRepository.getInstance().getHoldersWithoutPhoto(kebeleId);
+            request.setAttribute("holders", holderIds);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_PHOTO_PRINTOUT));
+            rd.forward(request, response);
+
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+            request.getSession().setAttribute("title", "Inrernal Error");
+            request.getSession().setAttribute("message", "Sorry, some internal error has happend");
+            request.getSession().setAttribute("returnTitle", "Go back to Welcome page");
+            request.getSession().setAttribute("returnAction", Constants.ACTION_WELCOME_PART);
+            RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_MESSAGE));
+            rd.forward(request, response);
+        }
+
+    }
+
+    public static void createSpatialTable(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            String kebele = request.getParameter("kebele");
+            if (kebele.isEmpty()) {
+                response.getOutputStream().println("Please specfiey kebele for the report ");
+                return;
+            }
+            long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            MasterRepository.getInstance().createTable(kebeleId);
+            response.getOutputStream().println("Table Created");
+            return;
         } catch (NumberFormatException ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
             request.getSession().setAttribute("title", "Inrernal Error");

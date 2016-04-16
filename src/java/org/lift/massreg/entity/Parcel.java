@@ -837,7 +837,9 @@ public class Parcel implements Entity {
     
     public static ParcelDifference difference(Parcel firstParcel, Parcel secondParcel) {
         ParcelDifference returnValue = new ParcelDifference();
-
+        if(firstParcel==null ||secondParcel==null ){
+            return returnValue;
+        }
         if (firstParcel.getAcquisitionYear() != secondParcel.getAcquisitionYear()) {
             returnValue.setAcquisitionYear(true);
         }
