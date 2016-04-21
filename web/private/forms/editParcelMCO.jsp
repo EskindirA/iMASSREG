@@ -181,43 +181,44 @@
         $("#encumbrance").toggleClass("error-field", false);
         $("#hasDispute").toggleClass("error-field", false);
         $("#holdingLotNumber").toggleClass("error-field", false);
-        if ($("#mapsheetno").val() === "") {
+
+        if ($("#mapsheetno").val() === null || $("#mapsheetno").val() === "") {
             returnValue = false;
             $("#mapsheetno").toggleClass("error-field", true);
         }
-        if ($("#surveyDate").val() === "") {
+        if ($("#surveyDate").val() === null || $("#surveyDate").val() === "") {
             returnValue = false;
             $("#surveyDate").toggleClass("error-field", true);
         }
-        if ($("#otherEvidence").val() === "") {
+        if ($("#otherEvidence").val() === null || $("#otherEvidence").val() === "") {
             returnValue = false;
             $("#otherEvidence").toggleClass("error-field", true);
         }
-        if ($("#meansOfAcquisition").val() === "") {
+        if ($("#meansOfAcquisition").val() === null || $("#meansOfAcquisition").val() === "") {
             returnValue = false;
             $("#meansOfAcquisition").toggleClass("error-field", true);
         }
-        if ($("#acquisitionYear").val() === "") {
+        if ($("#acquisitionYear").val() === null || $("#acquisitionYear").val() === "") {
             returnValue = false;
             $("#acquisitionYear").toggleClass("error-field", true);
         }
-        if ($("#currentLandUse").val() === "") {
+        if ($("#currentLandUse").val() === null || $("#currentLandUse").val() === "") {
             returnValue = false;
             $("#currentLandUse").toggleClass("error-field", true);
         }
-        if ($("#soilFertility").val() === "") {
+        if ($("#soilFertility").val() === null || $("#soilFertility").val() === "") {
             returnValue = false;
             $("#soilFertility").toggleClass("error-field", true);
         }
-        if ($("#holdingType").val() === "") {
+        if ($("#holdingType").val() === null || $("#holdingType").val() === "") {
             returnValue = false;
             $("#holdingType").toggleClass("error-field", true);
         }
-        if ($("#encumbrance").val() === "") {
+        if ($("#encumbrance").val() === null || $("#encumbrance").val() === "") {
             returnValue = false;
             $("#encumbrance").toggleClass("error-field", true);
         }
-        if ($("#hasDispute").val() === "") {
+        if ($("#hasDispute").val() === null || $("#hasDispute").val() === "") {
             returnValue = false;
             $("#hasDispute").toggleClass("error-field", true);
         }

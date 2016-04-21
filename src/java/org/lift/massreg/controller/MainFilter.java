@@ -643,7 +643,7 @@ public class MainFilter extends HttpServlet {
         } else if (action.equalsIgnoreCase(Constants.ACTION_PUBLIC_DISPLAY)) {
             Administrator.publicDisplay2(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_PHOTO_PRINTOUT)) {
-            Administrator.publicDisplay2(request, response);
+            Administrator.photoPrintOut(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_CREATE_SPATIAL_TABLE)) {
             Administrator.createSpatialTable(request, response);
         } else if (action.equalsIgnoreCase(Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR)) {

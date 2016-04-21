@@ -830,16 +830,17 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public boolean updatePhotoId(String upi, String oldHolderId, String newHolderId) {
+    public boolean updatePhotoId(String upi, String firstName, String oldHolderId, String newHolderId) {
         boolean returnValue = true;
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE individualholder SET holderid=? "
-                + " WHERE upi=? and holderid=?";
+                + " WHERE upi=? and holderid=? AND firstName=?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, newHolderId);
             stmnt.setString(2, upi);
             stmnt.setString(3, oldHolderId);
+            stmnt.setString(4, firstName);
 
             int result = stmnt.executeUpdate();
             if (result < 1) {
@@ -8478,8 +8479,8 @@ public class MasterRepository {
         String query = "INSERT INTO Parcel (upi,stage,registeredBy,registeredOn,"
                 + "parcelId,certificateNo,holdingNo, otherEvidence,landUseType,"
                 + "soilFertilityType,holdingType,acquisitionType,acquisitionYear,"
-                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute,teamNo) VALUES (?,?,?,"
-                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?,?)";
+                + "surveyDate,mapSheetNo,status,encumbranceType,hasDispute,teamNo,holding_lot) VALUES (?,?,?,"
+                + "?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, parcel.getUpi());
@@ -8501,6 +8502,7 @@ public class MasterRepository {
             stmnt.setByte(17, parcel.getEncumbrance());
             stmnt.setBoolean(18, parcel.hasDispute());
             stmnt.setByte(19, parcel.getTeamNo());
+            stmnt.setInt(20, parcel.getHoldingLotNumber());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -9376,6 +9378,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         try {
             String query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status, holding_lot FROM parcel WHERE stage=" + CommonStorage.getConfirmedStage() + " and status='active' AND UPI LIKE '" + kebele + "/%'";
+            System.err.println(query);
             PreparedStatement stmnt2 = connection.prepareStatement(query);
             ResultSet parcels = stmnt2.executeQuery();
             while (parcels.next()) {
@@ -9630,9 +9633,17 @@ public class MasterRepository {
         try {
 
             String query = "SELECT dblink(" + getDBLinkString() + ",'CREATE TABLE IF NOT EXISTS " + getKebeleTable(kebele) + "(parcel_id integer,the_geom geometry(Polygon))')";
+            
             connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.executeQuery();
+            
+            query = "select UpdateGeometrySRID('public','"+ getKebeleTable(kebele) + "', 'the_geom', 20137);";
+            connection = CommonStorage.getConnection();
+            stmnt = connection.prepareStatement(query);
+            stmnt.executeQuery();
+            
+            
             connection.close();
         } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());

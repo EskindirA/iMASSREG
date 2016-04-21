@@ -16,11 +16,14 @@
 
             }
             @media print
-            {    
-                .upload
-                {
-                    display: none !important;
-                }
+            {    body{
+                     padding:2mm !important;
+                     margin:2mm !important;
+                 }
+                 .upload
+                 {
+                     display: none !important;
+                 }
             }
             body{
                 width: 100% auto;
@@ -28,7 +31,7 @@
                 padding:0;
             }
             div{
-                width: 4cm;
+                width: 60mm;
                 padding:51mm 0mm 0mm 0mm;
                 float:left; 
                 display:inline; 
@@ -48,8 +51,7 @@
         </style>
     </head>
     <body>  
-        <%            
-            for (int i = 0; i < holders.size(); i++) {
+        <%            for (int i = 0; i < holders.size(); i++) {
                 out.println("<div>" + holders.get(i) + "</div>");
             }
         %>
