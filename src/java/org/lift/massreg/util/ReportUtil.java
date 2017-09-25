@@ -135,8 +135,12 @@ public class ReportUtil {
                         Row row8 = tempSheet.createRow((short) 8);
                         row8.createCell(3).setCellValue(createHelper.createRichTextString("Dispute"));
                         row8.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDispute(fromDate, toDate, kebele.getKey()));
-
+                       
                         Row row9 = tempSheet.createRow((short) 9);
+                        row8.createCell(3).setCellValue(createHelper.createRichTextString("Deceased"));
+                        row8.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfParcelsUnderDeceasedHolders(fromDate, toDate, kebele.getKey()));
+
+                        Row row10 = tempSheet.createRow((short) 10);
                         row9.createCell(3).setCellValue(createHelper.createRichTextString("All"));
                         row9.createCell(4).setCellValue(MasterRepository.getInstance().getCountOfAllNonCommittedParcels(fromDate, toDate, kebele.getKey()));
                         row9.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfAllCommittedParcels(fromDate, toDate, kebele.getKey()));
@@ -190,7 +194,6 @@ public class ReportUtil {
                         hSSFFont.setBold(true);
                         cellStyle.setFont(hSSFFont);
                         row1.setRowStyle(boldCellStyle);
-
                     }
                 }
                 wb.write(fileOut);
@@ -1939,26 +1942,23 @@ public class ReportUtil {
                 alignmentStyleRight.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 
                 titleRow.createCell(0).setCellValue(createHelper.createRichTextString("Kebele"));
-                titleRow.createCell(1).setCellValue(createHelper.createRichTextString("Checked"));
-                titleRow.createCell(2).setCellValue(createHelper.createRichTextString("Not Checked"));
-                titleRow.createCell(3).setCellValue(createHelper.createRichTextString("Approved"));
-                titleRow.createCell(4).setCellValue(createHelper.createRichTextString("Not approved"));
-                titleRow.createCell(5).setCellValue(createHelper.createRichTextString("Printed"));
-                titleRow.createCell(6).setCellValue(createHelper.createRichTextString("Not Printed"));
-                titleRow.createCell(7).setCellValue(createHelper.createRichTextString("Total"));
+                titleRow.createCell(1).setCellValue(createHelper.createRichTextString("Not Checked"));
+                titleRow.createCell(2).setCellValue(createHelper.createRichTextString("Approved"));
+                titleRow.createCell(3).setCellValue(createHelper.createRichTextString("Not Approved"));
+                titleRow.createCell(4).setCellValue(createHelper.createRichTextString("Printed"));
+                titleRow.createCell(5).setCellValue(createHelper.createRichTextString("Not Printed"));
+                titleRow.createCell(6).setCellValue(createHelper.createRichTextString("Total"));
 
                 // level 2 headers  
                 dataRow.createCell(0).setCellValue(createHelper.createRichTextString(kebeleName));
-                dataRow.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfCheckedParcels(kebele));
-                dataRow.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfNotCheckedParcels(kebele));
+                dataRow.createCell(1).setCellValue(MasterRepository.getInstance().getCountOfNotCheckedParcels(kebele));
+                dataRow.createCell(2).setCellValue(MasterRepository.getInstance().getCountOfApprovedParcels(kebele));
 
-                dataRow.createCell(3).setCellValue(MasterRepository.getInstance().getCountOfApprovedParcels(kebele));
-                dataRow.createCell(4).setCellValue(MasterRepository.getInstance().getCountOfNotApprovedParcels(kebele));
+                dataRow.createCell(3).setCellValue(MasterRepository.getInstance().getCountOfNotApprovedParcels(kebele));
+                dataRow.createCell(4).setCellValue(MasterRepository.getInstance().getCountOfPrintedParcels(kebele));
 
-                dataRow.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfPrintedParcels(kebele));
-                dataRow.createCell(6).setCellValue(MasterRepository.getInstance().getCountOfNotPrintedParcels(kebele));
-
-                dataRow.createCell(7).setCellValue(MasterRepository.getInstance().getCountOfAllParcels(kebele));
+                dataRow.createCell(5).setCellValue(MasterRepository.getInstance().getCountOfNotPrintedParcels(kebele));
+                dataRow.createCell(6).setCellValue(MasterRepository.getInstance().getCountOfAllParcels(kebele));
 
                 // Format the sheet
                 CellStyle boldCellStyle = wb.createCellStyle();
@@ -1983,6 +1983,7 @@ public class ReportUtil {
 
     public static Workbook generateApprovalChecklist(long kebele, String kebeleName, String fileName) {
         MasterRepository.getInstance().updateParcelArea(kebele);
+        
         Workbook wb = new XSSFWorkbook();
         try {
             CreationHelper createHelper = wb.getCreationHelper();

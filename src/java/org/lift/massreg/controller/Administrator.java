@@ -359,7 +359,7 @@ public class Administrator {
         String file = request.getParameter("file");
         File f = new File(file);
         try {
-            ReportUtil.sign(file);
+            //ReportUtil.sign(file);
             FileInputStream in = new FileInputStream(f);
             byte[] data = new byte[(int) f.length()];
             in.read(data);
@@ -456,8 +456,8 @@ public class Administrator {
             long kebeleId = Long.parseLong(request.getParameter("kebele"));
             String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
             String fileName = "Approval Checklist " + kebeleName + " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+            MasterRepository.getInstance().copyGISData(kebeleId);
             ReportUtil.generateApprovalChecklist(kebeleId, kebeleName, fileName);
-            MasterRepository.getInstance().copyGISDate(kebeleId);
             request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
             rd.forward(request, response);

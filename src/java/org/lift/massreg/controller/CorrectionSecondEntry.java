@@ -652,6 +652,7 @@ public class CorrectionSecondEntry {
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
                 ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("hasPhysicalImpairment")));
+                 ih.isDeceased(Boolean.parseBoolean(request.getParameter("deceased")));
                 ih.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
                 ih.setStage(CommonStorage.getMajorCorrectionSEStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());
@@ -738,6 +739,7 @@ public class CorrectionSecondEntry {
             newIndividualHolder.setId(request.getParameter("newHolderId"));
             newIndividualHolder.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+             newIndividualHolder.isDeceased(Boolean.parseBoolean(request.getParameter("deceased")));
             newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());

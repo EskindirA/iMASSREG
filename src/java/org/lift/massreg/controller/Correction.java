@@ -28,8 +28,9 @@ public class Correction {
      */
     protected static void welcomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCorrection();
-        request.setAttribute("parcelsInCorrection", parcelsInCorrection);
+//        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCorrection();
+        //request.setAttribute("parcelsInCorrection", parcelsInCorrection);
+        //System.err.println(">>>>>"+parcelsInCorrection.size());
         request.setAttribute("page", IOC.getPage(Constants.INDEX_WELCOME_SUPERVISOR));
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
@@ -45,8 +46,9 @@ public class Correction {
      */
     protected static void welcomeFrom(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCorrection();
-        //request.setAttribute("parcelsInCorrection", parcelsInCorrection);
+        ArrayList<Parcel> parcelsInCorrection = MasterRepository.getInstance().getALLParcelsInCorrection();
+        request.setAttribute("parcelsInCorrection", parcelsInCorrection);
+        System.err.println("1");
         RequestDispatcher rd = request.getRequestDispatcher(IOC.getPage(Constants.INDEX_WELCOME_SUPERVISOR));
         rd.forward(request, response);
     }
@@ -386,6 +388,7 @@ public class Correction {
             newIndividualHolder.setId(request.getParameter("newHolderId"));
             newIndividualHolder.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+            newIndividualHolder.isDeceased(Boolean.parseBoolean(request.getParameter("deceased")));
             newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));
             newIndividualHolder.setUpi(request.getSession().getAttribute("upi").toString());
@@ -469,6 +472,7 @@ public class Correction {
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
                 ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+                 ih.isDeceased(Boolean.parseBoolean(request.getParameter("deceased")));
                 ih.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
                 ih.setStage(CommonStorage.getCorrectionStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());

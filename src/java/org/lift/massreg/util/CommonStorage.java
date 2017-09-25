@@ -113,7 +113,7 @@ public class CommonStorage {
             GISDBUserName = (String) ctx.lookup("resource/GISDBUserName");
             GISDBPassword = (String) ctx.lookup("resource/GISDBPassword");
             keystoreFilePath = (String) ctx.lookup("resource/keystoreFilePath");
-            imageStorePath = (String) ctx.lookup("resource/imageStorePath");
+//            imageStorePath = (String) ctx.lookup("resource/imageStorePath");
 
         } catch (NamingException ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());

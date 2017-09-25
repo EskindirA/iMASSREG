@@ -31,6 +31,7 @@ public class IndividualHolder implements Entity {
     private byte familyRole;
     private String familyRoleText;
     private boolean physicalImpairment;
+    private boolean deceased;
     private boolean orphan;
     private String status;
 
@@ -180,6 +181,17 @@ public class IndividualHolder implements Entity {
     public void hasPhysicalImpairment(boolean physicalImpairment) {
         this.physicalImpairment = physicalImpairment;
     }
+     public boolean isDeceased() {
+        return deceased;
+    }
+
+    public String isDeceasedText() {
+        return isDeceased() ? "Yes" : "No";
+    }
+
+    public void isDeceased(boolean deceased) {
+        this.deceased = deceased;
+    }
 
     public boolean isOrphan() {
         return orphan;
@@ -214,6 +226,12 @@ public class IndividualHolder implements Entity {
     public boolean equalsIndividualHolder(IndividualHolder obj) {
         boolean returnValue = true;
         if (this.getFamilyRole() != obj.getFamilyRole()) {
+            returnValue = false;
+        }
+        if (this.hasPhysicalImpairment() != obj.hasPhysicalImpairment()) {
+            returnValue = false;
+        }
+        if (this.isDeceased() != obj.isDeceased()) {
             returnValue = false;
         }
         if (this.hasPhysicalImpairment() != obj.hasPhysicalImpairment()) {
@@ -287,6 +305,9 @@ public class IndividualHolder implements Entity {
         }
         if (this.hasPhysicalImpairment() != newIndividualHolder.hasPhysicalImpairment()) {
             returnValue.add(new Change("physicalimpairment", this.hasPhysicalImpairment() + "", newIndividualHolder.hasPhysicalImpairment() + ""));
+        }
+        if (this.isDeceased() != newIndividualHolder.isDeceased()) {
+            returnValue.add(new Change("deceased", this.isDeceased() + "", newIndividualHolder.isDeceased() + ""));
         }
         if (this.isOrphan() != newIndividualHolder.isOrphan()) {
             returnValue.add(new Change("isorphan", this.isOrphan() + "", newIndividualHolder.isOrphan() + ""));

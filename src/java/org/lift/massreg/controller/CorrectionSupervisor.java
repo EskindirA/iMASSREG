@@ -374,7 +374,7 @@ public class CorrectionSupervisor {
             newIndividualHolder.setFathersName(request.getParameter("fathersname"));
             newIndividualHolder.setGrandFathersName(request.getParameter("grandfathersname"));
             newIndividualHolder.setId(request.getParameter("newHolderId"));
-
+            newIndividualHolder.isDeceased(Boolean.parseBoolean(request.getParameter("deceased")));
             newIndividualHolder.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
             newIndividualHolder.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
             newIndividualHolder.setSex(request.getParameter("sex"));
@@ -459,6 +459,7 @@ public class CorrectionSupervisor {
                 ih.setRegisteredBy(CommonStorage.getCurrentUser(request).getUserId());
                 ih.setSex(request.getParameter("sex"));
                 ih.hasPhysicalImpairment(Boolean.parseBoolean(request.getParameter("physicalImpairment")));
+                 ih.isDeceased(Boolean.parseBoolean(request.getParameter("deceased")));
                 ih.isOrphan(Boolean.parseBoolean(request.getParameter("isOrphan")));
                 ih.setStage(CommonStorage.getMajorCorrectionSupervisorStage());
                 ih.setUpi(request.getSession().getAttribute("upi").toString());

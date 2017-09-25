@@ -71,7 +71,8 @@
                                     <th><%=CommonStorage.getText("date_of_birth")%></th>
                                     <th><%=CommonStorage.getText("family_role")%></th>
                                     <th><%=CommonStorage.getText("has_physical_impairment")%></th>
-                                    <th></th>
+                                    <th><%=CommonStorage.getText("isDeceased")%></th>
+                                    <th><%=CommonStorage.getText("Action")%></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,6 +89,7 @@
                                         out.println("<td>" + holders.get(i).getDateOfBirth() + "</td>");
                                         out.println("<td>" + holders.get(i).getFamilyRoleText() + "</td>");
                                         out.println("<td>" + holders.get(i).hasPhysicalImpairmentText() + "</td>");
+                                        out.println("<td>" + holders.get(i).isDeceasedText() + "</td>");
                                         out.println("<td>");
                                         out.println("<a href = '#' class = 'viewButton' "
                                                 + "data-registeredOn = '" + holders.get(i).getRegisteredOn() + "' "
@@ -204,6 +206,15 @@
                                     <option value = 'false'><%=CommonStorage.getText("no")%></option>
                                     <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                                     <option value = 'n'><%=CommonStorage.getText("not_available")%></option>
+                                </select>
+                            </div>
+                                <div class="form-group">
+                                <label><%=CommonStorage.getText("isDeceased")%></label>
+                                <select class="form-control" id="deceased" name="deceased"  >
+                                   <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
+                                    <option value = 'false'><%=CommonStorage.getText("no")%></option>
+                                    <option value = 'true'><%=CommonStorage.getText("yes")%></option>
+                                   
                                 </select>
                             </div>
                             <div class="form-group">
@@ -393,6 +404,7 @@
                 "grandfathersname": $("#addHolderForm #grandFathersName").val(),
                 "holderId": $("#addHolderForm #holderId").val(),
                 "physicalImpairment": $("#addHolderForm #physicalImpairment").val(),
+                "deceased": $("#addHolderForm #deceased").val(),
                 "isOrphan": $("#addHolderForm #isOrphan").val(),
                 "sex": $("#addHolderForm #sex").val()
             },

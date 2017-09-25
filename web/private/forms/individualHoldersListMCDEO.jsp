@@ -69,7 +69,8 @@
                                     <th><%=CommonStorage.getText("date_of_birth")%></th>
                                     <th><%=CommonStorage.getText("family_role")%></th>
                                     <th><%=CommonStorage.getText("has_physical_impairment")%></th>
-                                    <th></th>
+                                    <th><%=CommonStorage.getText("isDeceased")%></th>
+                                    <th><%=CommonStorage.getText("Action")%></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,6 +87,7 @@
                                         out.println("<td>" + holders.get(i).getDateOfBirth() + "</td>");
                                         out.println("<td>" + holders.get(i).getFamilyRoleText() + "</td>");
                                         out.println("<td>" + holders.get(i).hasPhysicalImpairmentText() + "</td>");
+                                        out.println("<td>" + holders.get(i).isDeceasedText() + "</td>");
                                         out.println("<td>");
                                         out.println("<a href = '#' class = 'viewButton' "
                                                 + "data-registeredOn = '" + holders.get(i).getRegisteredOn() + "' "
@@ -193,6 +195,15 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label><%=CommonStorage.getText("isDeceased")%></label>
+                                <select class="form-control" id="deceased" name="deceased"  >
+                                    <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
+                                    <option value = 'false'><%=CommonStorage.getText("no")%></option>
+                                    <option value = 'true'><%=CommonStorage.getText("yes")%></option>
+                                   
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label><%=CommonStorage.getText("is_orphan")%></label>
                                 <select class="form-control" id="isOrphan" name="isOrphan" >
                                     <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -233,6 +244,7 @@
         $("#" + formId + " #sex").toggleClass("error-field", false);
         $("#" + formId + " #familyRole").toggleClass("error-field", false);
         $("#" + formId + " #physicalImpairment").toggleClass("error-field", false);
+        $("#" + formId + " #deceased").toggleClass("error-field", false);
         $("#" + formId + " #isOrphan").toggleClass("error-field", false);
 
         if ($("#" + formId + " #holderId").val().trim() === "") {
@@ -262,6 +274,10 @@
         if ($("#" + formId + " #physicalImpairment").val().trim() === "") {
             returnValue = false;
             $("#" + formId + " #physicalImpairment").toggleClass("error-field", true);
+        }
+        if ($("#" + formId + " #deceased").val().trim() === "") {
+            returnValue = false;
+            $("#" + formId + " #deceased").toggleClass("error-field", true);
         }
         if ($("#" + formId + " #isOrphan").val().trim() === "") {
             returnValue = false;
@@ -331,6 +347,7 @@
                 "grandfathersname": $("#addHolderForm #grandFathersName").val(),
                 "holderId": $("#addHolderForm #holderId").val(),
                 "physicalImpairment": $("#addHolderForm #physicalImpairment").val(),
+                "deceased": $("#addHolderForm #deceased").val(),
                 "isOrphan": $("#addHolderForm #isOrphan").val(),
                 "sex": $("#addHolderForm #sex").val()
             },

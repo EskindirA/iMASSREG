@@ -61,6 +61,15 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("has_physical_impairment")%></label>
                             <select class="form-control" id="physicalImpairment" name="physicalImpairment"  value="<%=holder.hasPhysicalImpairment()%>" disabled >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
+                                <option value = 'false'><%=CommonStorage.getText("no")%></option>
+                                <option value = 'true'><%=CommonStorage.getText("yes")%></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><%=CommonStorage.getText("isDeceased")%></label>
+                            <select class="form-control" id="deceased" name="deceased"  value="<%=holder.isDeceased()%>" disabled >
+                                 <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <option value = 'false'><%=CommonStorage.getText("no")%></option>
                                 <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                             </select>
@@ -68,6 +77,7 @@
                         <div class="form-group">
                             <label><%=CommonStorage.getText("is_orphan")%></label>
                             <select class="form-control" id="isOrphan" name="isOrphan" value="<%=holder.isOrphan()%>" disabled >
+                                 <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
                                 <option value = 'false'><%=CommonStorage.getText("no")%></option>
                                 <option value = 'true'><%=CommonStorage.getText("yes")%></option>
                             </select>

@@ -81,6 +81,14 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label><%=CommonStorage.getText("isDeceased")%></label>
+                            <select class="form-control" id="deceased" name="deceased" value="<%=holder.isDeceased()%>" >
+                                <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
+                                <option value = 'false'><%=CommonStorage.getText("no")%></option>
+                                <option value = 'true'><%=CommonStorage.getText("yes")%></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label><%=CommonStorage.getText("is_orphan")%></label>
                             <select class="form-control" id="isOrphan" name="isOrphan" value="<%=holder.isOrphan()%>" >
                                 <option value=""><%=CommonStorage.getText("please_select_a_value")%></option>
@@ -130,6 +138,7 @@
                 "newHolderId": $("#editHolderFrom #holderId").val(),
                 "sex": $("#editHolderFrom #sex").val(),
                 "physicalImpairment": $("#editHolderFrom #physicalImpairment").val(),
+                "deceased": $("#editHolderFrom #isDeceased").val(),
                 "isOrphan": $("#editHolderFrom #isOrphan").val(),
                 "registeredOn": "<%=registeredOn%>",
                 "oldHolderId": "<%=holder.getId()%>"

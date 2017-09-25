@@ -17,5 +17,7 @@ public class IndividualHolderDifference {
     private boolean physicalImpairment;
     private boolean orphan;
     private boolean status;
+    private boolean deceased;
+     
 
 }

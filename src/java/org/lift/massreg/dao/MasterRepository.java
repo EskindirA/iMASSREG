@@ -82,7 +82,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, holder.getUpi());
@@ -98,6 +98,7 @@ public class MasterRepository {
             stmnt.setString(11, holder.getId());
             stmnt.setBoolean(12, holder.hasPhysicalImpairment());
             stmnt.setBoolean(13, holder.isOrphan());
+            stmnt.setBoolean(14, holder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -570,6 +571,8 @@ public class MasterRepository {
                 ih.setSex(rs.getString("sex"));
                 ih.hasPhysicalImpairment(rs.getBoolean("physicalimpairment"));
                 ih.isOrphan(rs.getBoolean("isOrphan"));
+                ih.isDeceased(rs.getBoolean("isDeceased"));
+                
                 ih.setStage(rs.getByte("stage"));
                 ih.setUpi(rs.getString("upi"));
                 returnValue.add(ih);
@@ -783,7 +786,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "UPDATE individualholder SET firstname=?, "
                 + "fathersname=?, grandfathersname=?, sex=?, dateofbirth=?, "
-                + "familyrole=?, holderId=?, physicalimpairment=?, isOrphan=? WHERE upi=? and stage = ? and registeredon = ?";
+                + "familyrole=?, holderId=?, physicalimpairment=?, isOrphan=? ,isDeceased=? WHERE upi=? and stage = ? and registeredon = ?";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, newIndividualHolder.getFirstName());
@@ -795,9 +798,10 @@ public class MasterRepository {
             stmnt.setString(7, newIndividualHolder.getId());
             stmnt.setBoolean(8, newIndividualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(9, newIndividualHolder.isOrphan());
-            stmnt.setString(10, oldIndividualHolder.getUpi());
-            stmnt.setByte(11, oldIndividualHolder.getStage());
-            stmnt.setTimestamp(12, oldIndividualHolder.getRegisteredOn());
+            stmnt.setBoolean(10, newIndividualHolder.isDeceased());
+            stmnt.setString(11, oldIndividualHolder.getUpi());
+            stmnt.setByte(12, oldIndividualHolder.getStage());
+            stmnt.setTimestamp(13, oldIndividualHolder.getRegisteredOn());
 
             int result = stmnt.executeUpdate();
             if (result < 1) {
@@ -1609,7 +1613,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -1625,6 +1629,7 @@ public class MasterRepository {
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(13, individualHolder.isOrphan());
+            stmnt.setBoolean(14, individualHolder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1798,7 +1803,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -1814,6 +1819,7 @@ public class MasterRepository {
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(13, individualHolder.isOrphan());
+            stmnt.setBoolean(14, individualHolder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -1987,7 +1993,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -2003,6 +2009,7 @@ public class MasterRepository {
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(13, individualHolder.isOrphan());
+            stmnt.setBoolean(14, individualHolder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -2382,7 +2389,7 @@ public class MasterRepository {
     }
 
     private String getDBLinkString() {
-        return "'dbname=" + CommonStorage.getGISDBName() + " user="
+        return "'dbname=" + CommonStorage.getGISDBName() + " port=5433 user="
                 + CommonStorage.getGISDBUserName() + " password="
                 + CommonStorage.getGISDBPassword() + "'";
     }
@@ -2492,6 +2499,24 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         try {
             String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isOrphan='true' and stage=4 and status = 'active')";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setDate(1, from);
+            stmnt.setDate(2, to);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+    public long getCountOfParcelsUnderDeceasedHolders(Date from, Date to, String kebele) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct upi) c FROM Parcel WHERE hasDispute='false' and  stage=4 and status='active' and registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "/%' and UPI in (SELECT UPI FROM IndividualHolder WHERE isDeceased='true' and stage=4 and status = 'active')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2636,7 +2661,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels)";
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' and  registeredon::DATE between ? and ? and UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels WHERE UPI LIKE '" + kebele + "%' )";
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setDate(1, from);
             stmnt.setDate(2, to);
@@ -2660,7 +2685,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' AND UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels)";
+            String query = "SELECT count(distinct upi) as c FROM parcel WHERE status = 'active' AND UPI LIKE '" + kebele + "%' and UPI not in ( SELECT upi FROM committedparcels WHERE UPI LIKE '" + kebele + "%')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -2730,6 +2755,22 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         try {
             String query = "SELECT count(distinct holderId) as c FROM IndividualHolder, Parcel WHERE IndividualHolder.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.hasDispute=false AND IndividualHolder.stage=Parcel.stage AND IndividualHolder.UPI=Parcel.UPI AND IndividualHolder." + stageExpression + " AND IndividualHolder.status='active' AND IndividualHolder.isOrphan=true";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            if (rs.next()) {
+                returnValue = rs.getLong("c");
+            }
+            connection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
+        }
+        return returnValue;
+    }
+    public long getCountOfDeceasedHolders(long kebele, String stageExpression) {
+        long returnValue = 0;
+        Connection connection = CommonStorage.getConnection();
+        try {
+            String query = "SELECT count(distinct holderId) as c FROM IndividualHolder, Parcel WHERE IndividualHolder.UPI LIKE '" + kebele + "/%' AND Parcel.status='active' AND Parcel.hasDispute=false AND IndividualHolder.stage=Parcel.stage AND IndividualHolder.UPI=Parcel.UPI AND IndividualHolder." + stageExpression + " AND IndividualHolder.status='active' AND IndividualHolder.isDeceased=true";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -8125,7 +8166,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -8141,6 +8182,7 @@ public class MasterRepository {
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(13, individualHolder.isOrphan());
+            stmnt.setBoolean(14, individualHolder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -8356,7 +8398,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -8372,6 +8414,7 @@ public class MasterRepository {
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(13, individualHolder.isOrphan());
+            stmnt.setBoolean(14, individualHolder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -8588,7 +8631,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -8604,6 +8647,7 @@ public class MasterRepository {
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(13, individualHolder.isOrphan());
+            stmnt.setBoolean(14, individualHolder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -8953,7 +8997,7 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         String query = "INSERT INTO individualholder( upi, stage, registeredby, "
                 + "registeredon, firstname, fathersname, grandfathersname, sex, "
-                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "dateofbirth, familyrole, holderId, physicalImpairment, isOrphan,isDeceased) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.setString(1, individualHolder.getUpi());
@@ -8969,6 +9013,7 @@ public class MasterRepository {
             stmnt.setString(11, individualHolder.getId());
             stmnt.setBoolean(12, individualHolder.hasPhysicalImpairment());
             stmnt.setBoolean(13, individualHolder.isOrphan());
+            stmnt.setBoolean(14, individualHolder.isDeceased());
             int result = stmnt.executeUpdate();
             if (result < 1) {
                 returnValue = false;
@@ -9258,7 +9303,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='actvie' AND stage = " + CommonStorage.getCheckedStage();
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getCheckedStage() + " AND UPI NOT IN (SELECT UPI FROM parcel WHERE stage>" + CommonStorage.getCheckedStage() + " AND  UPI LIKE '" + kebele + "/%')";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9275,7 +9320,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getConfirmedStage() + " UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage = " + CommonStorage.getCheckedStage() + ")";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getConfirmedStage() + " AND UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage > " + CommonStorage.getConfirmedStage() + ")";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9292,7 +9337,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='actvie' AND stage = " + CommonStorage.getApprovedStage();
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getApprovedStage();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9309,7 +9354,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getCheckedStage() + " UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage = " + CommonStorage.getApprovedStage() + ")";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getCheckedStage() + " AND UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage > " + CommonStorage.getCheckedStage() + ")";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9326,7 +9371,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='actvie' AND stage = " + CommonStorage.getPrintedStage();
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getPrintedStage();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9343,7 +9388,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getApprovedStage() + " AND UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage = " + CommonStorage.getPrintedStage() + ")";
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage = " + CommonStorage.getApprovedStage() + " AND UPI NOT IN (SELECT upi FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND status='active' AND stage > " + CommonStorage.getApprovedStage() + ")";
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9360,7 +9405,7 @@ public class MasterRepository {
         long returnValue = 0;
         Connection connection = CommonStorage.getConnection();
         try {
-            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE status='active' AND UPI LIKE '" + kebele + "/%' AND stage > " + CommonStorage.getCommitedStage();
+            String query = "SELECT count(distinct upi) as c FROM Parcel WHERE UPI LIKE '" + kebele + "/%' AND stage > " + CommonStorage.getCommitedStage();
             PreparedStatement stmnt = connection.prepareStatement(query);
             ResultSet rs = stmnt.executeQuery();
             if (rs.next()) {
@@ -9378,7 +9423,6 @@ public class MasterRepository {
         Connection connection = CommonStorage.getConnection();
         try {
             String query = "SELECT distinct upi, stage, teamno, area, parcelid, certificateno, holdingno, hasdispute, otherevidence, landusetype, soilfertilitytype, holdingtype, acquisitiontype, acquisitionyear, surveydate, mapsheetno, encumbrancetype, status, holding_lot FROM parcel WHERE stage=" + CommonStorage.getConfirmedStage() + " and status='active' AND UPI LIKE '" + kebele + "/%'";
-            System.err.println(query);
             PreparedStatement stmnt2 = connection.prepareStatement(query);
             ResultSet parcels = stmnt2.executeQuery();
             while (parcels.next()) {
@@ -9588,7 +9632,7 @@ public class MasterRepository {
         return returnValue;
     }
 
-    public void copyGISDate(long kebele) {
+    public void copyGISData(long kebele) {
         try {
             String query = "INSERT INTO gis(kebele_code,parcel_id,the_geom) SELECT kebele_code,parcel_id,the_geom FROM dblink("
                     + getDBLinkString() + " ,'SELECT parcel_id,max(the_geom) the_geom, " + kebele + " as kebele_code "
@@ -9633,17 +9677,16 @@ public class MasterRepository {
         try {
 
             String query = "SELECT dblink(" + getDBLinkString() + ",'CREATE TABLE IF NOT EXISTS " + getKebeleTable(kebele) + "(parcel_id integer,the_geom geometry(Polygon))')";
-            
+
             connection = CommonStorage.getConnection();
             PreparedStatement stmnt = connection.prepareStatement(query);
             stmnt.executeQuery();
-            
-            query = "select UpdateGeometrySRID('public','"+ getKebeleTable(kebele) + "', 'the_geom', 20137);";
+
+            query = "SELECT dblink(" + getDBLinkString() + ",'select UpdateGeometrySRID(''public'',''" + getKebeleTable(kebele) + "'', ''the_geom'', 20137)')";
             connection = CommonStorage.getConnection();
             stmnt = connection.prepareStatement(query);
             stmnt.executeQuery();
-            
-            
+
             connection.close();
         } catch (Exception ex) {
             ex.printStackTrace(CommonStorage.getLogger().getErrorStream());
