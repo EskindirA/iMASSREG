@@ -195,6 +195,14 @@
                                         <label></label>
                                         <input type = 'checkbox'  id="completionReport" name="completionReport"/> Completion report
                                     </div>
+                                    <div class="form-group">
+                                        <label>Stage</label>
+                                        <select class="form-control" id="stage" name="stage">
+                                            <option value="0">Select</option>
+                                            <option value="10">Stage 10</option>
+                                            <option value="12">Stage 12</option>
+                                        </select>
+                                    </div>
                                     <div class="form-group ">
                                         <label>&nbsp;</label>
                                         <button id = 'kebeleReportButton' name = 'kebeleReportButton' class='btn btn-primary form-control' style="width:8em; float:right"><%=CommonStorage.getText("generate")%></button>
@@ -820,7 +828,8 @@
                 type: 'POST',
                 url: reporturl,
                 data: {
-                    kebele: $("#kebeleReportForm #kebele").val()
+                    kebele: $("#kebeleReportForm #kebele").val(),
+                    stage: $("#kebeleReportForm #stage").val()
                 },
                 error: showajaxerror,
                 success: function (data) {
