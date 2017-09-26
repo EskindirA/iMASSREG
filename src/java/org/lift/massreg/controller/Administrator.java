@@ -422,9 +422,10 @@ public class Administrator {
             response.getOutputStream().println("Please specfiey kebele for the report ");
         } else {
             long kebeleId = Long.parseLong(request.getParameter("kebele"));
+            long stageId = Long.parseLong(request.getParameter("stage"));
             String kebeleName = MasterRepository.getInstance().getKebeleName(kebeleId, "english");
-            String fileName = "Completion Report " + kebeleName + " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
-            ReportUtil.generateCompletionReport(kebeleId, kebeleName, fileName);
+            String fileName = stageId+"_Completion Report " + kebeleName + " " + (new Date(Instant.now().toEpochMilli()).toString()) + ".xlsx";
+            ReportUtil.generateCompletionReport(kebeleId, kebeleName, fileName, stageId);
             request.setAttribute("reportURL", request.getContextPath() + "/Index?action=" + Constants.ACTION_EXPORT_REPORT_ADMINISTRATOR + "&file=" + fileName);
             RequestDispatcher rd = request.getServletContext().getRequestDispatcher(IOC.getPage(Constants.INDEX_DOWNLOAD_REPORT));
             rd.forward(request, response);
